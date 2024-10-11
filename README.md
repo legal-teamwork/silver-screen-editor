@@ -6,5 +6,6 @@
 
 Технологии:
 
-- GUI: Kotlin, Jetbrains Compose
+- GUI: Jetbrains Compose
+- Backend: Kotlin
 - Video processing: OpenCV
