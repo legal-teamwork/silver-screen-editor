@@ -9,3 +9,5 @@
 - GUI: Jetbrains Compose
 - Backend: Kotlin
 - Video processing: OpenCV
+
+Анализ конкурентов: InShot, KineMaster, DaVinci Resolve, Adobe Premiere Pro, Final Cut Pro
