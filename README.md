@@ -11,3 +11,7 @@
 - Video processing: OpenCV
 
 [Анализ конкурентов](analysis.md)
+
+[Task List](https://github.com/orgs/legal-teamwork/projects/3)
+
+[Retrospective](https://docs.google.com/spreadsheets/d/1xqDXDvht4POZUiHmGrPIutCRE7hXpFMqWUFsSu-6_8k/edit?usp=sharing)
