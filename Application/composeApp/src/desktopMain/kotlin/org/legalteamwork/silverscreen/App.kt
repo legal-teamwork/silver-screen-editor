@@ -141,27 +141,49 @@ fun App() {
                             var topBoxOffsetY by remember { mutableStateOf(Offset(0f, 0f)) }
 
                             Box(modifier = Modifier
-                            .offset {
-                                IntOffset(max(0, topBoxOffset.x.toInt()), topBoxOffset.y.toInt())
-                            }
-
-                            .height(height3 * heightCf)
-                            .width(width3 * videoWidthCf)
-                            .background(Color.Magenta, RoundedCornerShape(8.dp))
-                            .pointerInput(Unit) {
-                                detectDragGestures(
-                                    matcher = PointerMatcher.Primary,
-                                    onDragEnd = {
-                                        topBoxOffset = topBoxOffsetY
-                                    }
-                                ) {
-                                    topBoxOffsetY += it.copy(y = 0f)
-                                    topBoxOffset += it
+                                .offset {
+                                    IntOffset(max(0, topBoxOffset.x.toInt()), topBoxOffset.y.toInt())
                                 }
-                            }
+
+                                .height(height3 * heightCf)
+                                .width(width3 * videoWidthCf)
+                                .background(Color.Magenta, RoundedCornerShape(8.dp))
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        matcher = PointerMatcher.Primary,
+                                        onDragEnd = {
+                                            topBoxOffset = topBoxOffsetY
+                                        }
+                                    ) {
+                                        topBoxOffsetY += it.copy(y = 0f)
+                                        topBoxOffset += it
+                                    }
+                                }
                             ) {
                                 Text(text = "Video", modifier = Modifier.align(Alignment.Center))
                             }
+                        }
+                        Column{
+                            var markerOffsetY by remember { mutableStateOf(Offset(0f, 0f)) }
+
+
+
+                            Box(modifier = Modifier
+                                .offset {
+                                    IntOffset(max(0, markerOffsetY.x.toInt()), markerOffsetY.y.toInt())
+                                }
+
+                                .height(height3 * heightCf)
+                                .width(width3 * 0.001f)
+                                .background(Color.White)
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        matcher = PointerMatcher.Primary,
+                                    ) {
+                                        markerOffsetY += it.copy(y = 0f)
+                                    }
+                                }
+                            ) {}
                         }
                     }
                     // Здесь запрятан хитбокс для увеличения и уменьшения размера панели
