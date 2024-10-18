@@ -42,7 +42,7 @@ fun App() {
                             .height(height1)
                             .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                 ) {
-                    resourceModifier.resourceManager()
+                    resourceModifier.compose()
 
                     // Здесь запрятаны хитбоксы для увеличения и уменьшения размера панели
                     Box(
