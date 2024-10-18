@@ -50,11 +50,11 @@ fun App() {
                         initialWidth = layoutCoordinates.size.width.dp
                         initialHeight = layoutCoordinates.size.height.dp
 
-                        width1 = initialWidth / 3
-                        width2 = initialWidth - width1 - 30.dp
+                        width1 = initialWidth * 0.4f
+                        width2 = initialWidth * 0.6f - 30.dp
                         width3 = initialWidth - 20.dp
-                        height1 = initialHeight / 2
-                        height3 = initialHeight - height1 - 30.dp
+                        height1 = initialHeight * 0.7f
+                        height3 = initialHeight * 0.3f - 30.dp
                     },
             contentAlignment = Alignment.Center,
         ) {
@@ -80,13 +80,13 @@ fun App() {
                                     if (dragAmount.x != 1f) {
                                         width1 =
                                             (width1.value.dp + dragAmount.x.dp).coerceIn(
-                                                840.dp,
-                                                1680.dp,
+                                                (initialWidth.value.dp) * 0.4f,
+                                                (initialWidth.value.dp) * 0.6f,
                                             )
                                         width2 =
                                             (width2.value.dp - dragAmount.x.dp).coerceIn(
-                                                850.dp,
-                                                1690.dp,
+                                                (initialWidth.value.dp) * 0.4f - 30.dp,
+                                                (initialWidth.value.dp) * 0.6f - 30.dp,
                                             )
                                     }
                                 }
@@ -109,8 +109,16 @@ fun App() {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 if (dragAmount.y != 1f) {
-                                    height1 = (height1.value.dp + dragAmount.y.dp).coerceIn(500.dp, 740.dp)
-                                    height3 = (height3.value.dp - dragAmount.y.dp).coerceIn(670.dp, 910.dp)
+                                    height1 =
+                                        (height1.value.dp + dragAmount.y.dp).coerceIn(
+                                            (initialHeight.value.dp) * 0.5f,
+                                            (initialHeight.value.dp) * 0.7f,
+                                        )
+                                    height3 =
+                                        (height3.value.dp - dragAmount.y.dp).coerceIn(
+                                            (initialHeight.value.dp) * 0.3f - 30.dp,
+                                            (initialHeight.value.dp) * 0.5f - 31.dp,
+                                        )
                                 }
                             }
                         },
