@@ -9,12 +9,12 @@ import androidx.compose.ui.unit.dp
 
 class ResourceManager {
 
-    val buttonId = mutableStateOf(0)
+    val buttonId = mutableStateOf(INIT_ID)
     val buttons = listOf(
-        MenuButton("Sources", 0),
-        MenuButton("Effects", 1),
-        MenuButton("Presets", 2),
-        MenuButton("Templates", 3),
+        MenuButton(SOURCES_ID, "Sources"),
+        MenuButton(EFFECTS_ID, "Effects"),
+        MenuButton(PRESETS_ID, "Presets"),
+        MenuButton(TEMPLATES_ID, "Templates"),
     )
 
     @Composable
@@ -27,10 +27,21 @@ class ResourceManager {
 
     @Composable
     private fun MainWindow() {
+        val id by remember { buttonId }
+
+        when (id) {
+            SOURCES_ID -> SourcesMenuButton()
+            else -> SimpleMenuButton()
+        }
     }
 
     companion object {
         val MENU_WIDTH = 200.dp
         val MENU_BUTTON_HEIGHT = 35.dp
+        const val INIT_ID = 1
+        const val SOURCES_ID = 1
+        const val EFFECTS_ID = 2
+        const val PRESETS_ID = 3
+        const val TEMPLATES_ID = 4
     }
 }
