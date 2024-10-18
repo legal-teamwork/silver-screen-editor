@@ -2,18 +2,24 @@
 
 package org.legalteamwork.silverscreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.PointerMatcher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.*
+import kotlin.math.max
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
+@OptIn(ExperimentalFoundationApi::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun App() {
@@ -85,7 +91,7 @@ fun App() {
                     // Здесь запрятаны хитбоксы для увеличения и уменьшения размера панели
                     Box(
                         modifier =
-                            Modifier.background(Color.DarkGray).align(Alignment.CenterStart).height(height1.value.dp - 20.dp).width(8.dp)
+                            Modifier.background(Color(0, 0,0, 0)).align(Alignment.CenterStart).height(height1.value.dp - 20.dp).width(8.dp)
                                 .pointerInput(Unit) {
                                     detectDragGestures { change, dragAmount ->
                                         change.consume()
@@ -124,10 +130,70 @@ fun App() {
                             .height(height3)
                             .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                 ) {
+                    val heightCf = 0.16f
+                    val widthCf = 1f
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Gray)
+                            .height(height3.value.dp * heightCf)
+                            .width(width3.value.dp * widthCf)
+                            .align(Alignment.Center)
+                    ) {
+                        var videoWidthCf = 0.05f
+                        Column {
+                            var topBoxOffset by remember { mutableStateOf(Offset(0f, 0f)) }
+                            var topBoxOffsetY by remember { mutableStateOf(Offset(0f, 0f)) }
+
+                            Box(modifier = Modifier
+                                .offset {
+                                    IntOffset(max(0, topBoxOffset.x.toInt()), topBoxOffset.y.toInt())
+                                }
+
+                                .height(height3 * heightCf)
+                                .width(width3 * videoWidthCf)
+                                .background(Color.Magenta, RoundedCornerShape(8.dp))
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        matcher = PointerMatcher.Primary,
+                                        onDragEnd = {
+                                            topBoxOffset = topBoxOffsetY
+                                        }
+                                    ) {
+                                        topBoxOffsetY += it.copy(y = 0f)
+                                        topBoxOffset += it
+                                    }
+                                }
+                            ) {
+                                Text(text = "Video", modifier = Modifier.align(Alignment.Center))
+                            }
+                        }
+                        Column{
+                            var markerOffsetY by remember { mutableStateOf(Offset(0f, 0f)) }
+
+
+
+                            Box(modifier = Modifier
+                                .offset {
+                                    IntOffset(max(0, markerOffsetY.x.toInt()), markerOffsetY.y.toInt())
+                                }
+
+                                .height(height3 * heightCf)
+                                .width(width3 * 0.001f)
+                                .background(Color.White)
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        matcher = PointerMatcher.Primary,
+                                    ) {
+                                        markerOffsetY += it.copy(y = 0f)
+                                    }
+                                }
+                            ) {}
+                        }
+                    }
                     // Здесь запрятан хитбокс для увеличения и уменьшения размера панели
                     Box(
                         modifier =
-                            Modifier.background(Color.DarkGray).align(Alignment.TopCenter).height(10.dp).width(width3.value.dp - 20.dp)
+                            Modifier.background(Color(0, 0,0, 0)).align(Alignment.TopCenter).height(10.dp).width(width3.value.dp - 20.dp)
                                 .pointerInput(Unit) {
                                     detectDragGestures { change, dragAmount ->
                                         change.consume()

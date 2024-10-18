@@ -1,6 +1,7 @@
 # Silver Screen Editor
 
-![image](https://github.com/user-attachments/assets/a29ff776-2f00-48f8-af8b-15cc3e628d8d)
+![image](https://github.com/user-attachments/assets/538d5a72-cd71-4d72-af62-70366cff84b0)
+
 
 [Макет](https://www.figma.com/design/ySFG5GAiNJNX59Y3lJAube/Untitled?node-id=0-1&t=0E2U2U6dK1W6fdVZ-1)
 
