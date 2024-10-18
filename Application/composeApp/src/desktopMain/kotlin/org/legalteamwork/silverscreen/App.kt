@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.*
 import kotlin.math.max
+import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @OptIn(ExperimentalFoundationApi::class)
 @Suppress("ktlint:standard:function-naming")
@@ -27,6 +28,7 @@ fun App() {
     var width2 by remember { mutableStateOf(1630.dp) }
     var width3 by remember { mutableStateOf(2540.dp) }
     var height3 by remember { mutableStateOf(670.dp) }
+    val resourceModifier = ResourceManager()
 
     Box(
         modifier =
@@ -46,6 +48,8 @@ fun App() {
                             .height(height1)
                             .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                 ) {
+                    resourceModifier.compose()
+
                     // Здесь запрятаны хитбоксы для увеличения и уменьшения размера панели
                     Box(
                         modifier =
