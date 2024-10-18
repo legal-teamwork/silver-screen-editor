@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.legalteamwork.silverscreen.rm.window.*
 
 class ResourceManager {
 
@@ -31,7 +32,10 @@ class ResourceManager {
 
         when (id) {
             SOURCES_ID -> SourcesMenuButton()
-            else -> SimpleMenuButton()
+            EFFECTS_ID -> EffectsMenuButton()
+            PRESETS_ID -> PresetsMenuButton()
+            TEMPLATES_ID -> TemplatesMenuButton()
+            else -> ErrorMenuButton()
         }
     }
 
