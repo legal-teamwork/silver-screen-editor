@@ -2,6 +2,7 @@
 
 package org.legalteamwork.silverscreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -14,8 +15,11 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.dp
+import org.legalteamwork.silverscreen.rm.ResourceManager
 
+@OptIn(ExperimentalFoundationApi::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun App() {
@@ -26,6 +30,7 @@ fun App() {
     var width3 by remember { mutableStateOf(1f) }
     var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
+    val resourceModifier = ResourceManager()
 
     Surface(color = Color.Black) {
         Box(
@@ -44,7 +49,11 @@ fun App() {
                 Box(modifier = Modifier.background(Color.Black).height(10.dp).width(panelSize.width.dp))
 
                 Row {
-                    Box(modifier = Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp).width(10.dp))
+                    Box(
+                        modifier =
+                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp)
+                                .width(10.dp),
+                    )
 
                     Box(
                         modifier =
@@ -52,7 +61,9 @@ fun App() {
                                 .width((panelSize.width * width1).dp - 15.dp)
                                 .height((panelSize.height * height1).dp - 15.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
-                    )
+                    ) {
+                        resourceModifier.compose()
+                    }
 
                     Box(
                         modifier =
@@ -80,7 +91,11 @@ fun App() {
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     )
 
-                    Box(modifier = Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp).width(10.dp))
+                    Box(
+                        modifier =
+                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp)
+                                .width(10.dp),
+                    )
                 }
 
                 Box(
@@ -100,7 +115,11 @@ fun App() {
                 )
 
                 Row {
-                    Box(modifier = Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp).width(10.dp))
+                    Box(
+                        modifier =
+                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp)
+                                .width(10.dp),
+                    )
 
                     Box(
                         modifier =
@@ -110,7 +129,11 @@ fun App() {
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     )
 
-                    Box(modifier = Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp).width(10.dp))
+                    Box(
+                        modifier =
+                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp)
+                                .width(10.dp),
+                    )
                 }
 
                 Box(modifier = Modifier.background(Color.Black).height(10.dp).width(panelSize.width.dp))

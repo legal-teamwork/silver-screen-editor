@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen.rm
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
@@ -17,7 +18,7 @@ import org.legalteamwork.silverscreen.rm.ResourceManager.Companion.MENU_WIDTH
 
 @Composable
 fun ResourceManager.Menu() {
-    Box(modifier = Modifier.background(color = Color(0xFF3A3A3A)).fillMaxHeight().width(MENU_WIDTH)) {
+    Box(modifier = Modifier.background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp)).fillMaxHeight().width(MENU_WIDTH)) {
         ButtonList()
     }
 }
@@ -34,12 +35,13 @@ private fun ResourceManager.ButtonList() {
 @Composable
 private fun ResourceManager.MenuButton(button: MenuButton) {
     var chosenButton by remember { buttonId }
-    val buttonColors = ButtonDefaults.buttonColors(
-        backgroundColor = Color(0xFF3A3A3A),
-        contentColor = Color.White,
-        disabledBackgroundColor = Color(0xFF222222),
-        disabledContentColor = Color.White,
-    )
+    val buttonColors =
+        ButtonDefaults.buttonColors(
+            backgroundColor = Color(0xFF3A3A3A),
+            contentColor = Color.White,
+            disabledBackgroundColor = Color(0xFF222222),
+            disabledContentColor = Color.White,
+        )
 
     Button(
         onClick = {
@@ -49,7 +51,7 @@ private fun ResourceManager.MenuButton(button: MenuButton) {
         colors = buttonColors,
         elevation = null,
         border = null,
-        enabled = chosenButton != button.id
+        enabled = chosenButton != button.id,
     ) {
         Text(button.title)
     }
