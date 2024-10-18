@@ -30,7 +30,7 @@ fun App() {
                 .fillMaxSize()
                 .background(Color.Black),
     ) {
-        Column  {
+        Column {
             Box(modifier = Modifier.background(Color.Black).height(10.dp).width(2540.dp))
             Row {
                 Box(modifier = Modifier.background(Color.Black).height(height1.value.dp).width(10.dp))
