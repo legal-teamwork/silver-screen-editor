@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 
 const val COLUMNS_NUMBER = 2
+val IMAGE_HEIGHT = 215.dp
 val resources = listOf(
     SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
     SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
@@ -31,17 +32,21 @@ fun SourcesMenuButton() {
             for (resource in resources) {
                 item {
                     Column(
-                        modifier = Modifier.fillMaxSize().padding(10.dp),
+                        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Image(
                             painter = painterResource(resource.resourcePath),
                             contentDescription = resource.title,
-                            modifier = Modifier.height(275.dp).fillMaxWidth(),
+                            modifier = Modifier.height(IMAGE_HEIGHT).fillMaxWidth(),
                             contentScale = ContentScale.Fit
                         )
-                        BasicText(resource.title, color = { Color.White })
+                        BasicText(
+                            text = resource.title,
+                            color = { Color.White },
+                            modifier = Modifier.padding(top = 3.dp)
+                        )
                     }
                 }
             }
