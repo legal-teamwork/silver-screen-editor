@@ -25,8 +25,8 @@ object ResourceManager {
     private const val EFFECTS_ID = 2
     private const val PRESETS_ID = 3
     private const val TEMPLATES_ID = 4
-    private val MIN_MENU_WIDTH = 150.dp
-    private val MAX_MENU_WIDTH = 300.dp
+    private val MENU_MIN_WIDTH = 150.dp
+    private val MENU_MAX_WIDTH = 300.dp
     private val MENU_BUTTON_HEIGHT = 35.dp
     private val MENU_FONT_FAMILY = FontFamily.Cursive
 
@@ -47,7 +47,7 @@ object ResourceManager {
                 shape = RoundedCornerShape(8.dp),
             ).fillMaxSize()
         ) {
-            val adaptiveMenuWidth = max(min(maxWidth * 0.3f, MAX_MENU_WIDTH), MIN_MENU_WIDTH)
+            val adaptiveMenuWidth = max(min(maxWidth * 0.3f, MENU_MAX_WIDTH), MENU_MIN_WIDTH)
             val adaptiveMainWindowWidth = maxWidth - adaptiveMenuWidth
 
             Row {
