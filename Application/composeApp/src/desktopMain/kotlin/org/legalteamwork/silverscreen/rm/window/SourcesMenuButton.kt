@@ -22,7 +22,11 @@ val IMAGE_MAX_HEIGHT = 215.dp
 val resources = listOf(
     SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
     SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-    SimpleResource("Untitled3.mp4", "tmp-resources/u3.png")
+    SimpleResource("Untitled3.mp4", "tmp-resources/u3.png"),
+    SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
+    SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
+    SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
+    SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
 )
 
 @Composable

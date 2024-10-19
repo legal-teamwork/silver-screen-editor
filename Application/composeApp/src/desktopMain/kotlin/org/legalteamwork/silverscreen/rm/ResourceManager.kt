@@ -26,7 +26,7 @@ object ResourceManager {
     private const val PRESETS_ID = 3
     private const val TEMPLATES_ID = 4
     private val MENU_MIN_WIDTH = 150.dp
-    private val MENU_MAX_WIDTH = 300.dp
+    private val MENU_MAX_WIDTH = 275.dp
     private val MENU_BUTTON_HEIGHT = 35.dp
     private val MENU_FONT_FAMILY = FontFamily.Default
 
