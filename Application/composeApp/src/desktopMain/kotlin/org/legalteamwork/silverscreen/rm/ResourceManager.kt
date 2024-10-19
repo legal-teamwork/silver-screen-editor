@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.rm.window.*
 
 /**
@@ -25,7 +25,8 @@ object ResourceManager {
     private const val EFFECTS_ID = 2
     private const val PRESETS_ID = 3
     private const val TEMPLATES_ID = 4
-    private val MENU_WIDTH = 200.dp
+    private val MIN_MENU_WIDTH = 150.dp
+    private val MAX_MENU_WIDTH = 300.dp
     private val MENU_BUTTON_HEIGHT = 35.dp
     private val MENU_FONT_FAMILY = FontFamily.Cursive
 
@@ -40,9 +41,19 @@ object ResourceManager {
 
     @Composable
     fun compose() {
-        Row(modifier = Modifier.background(color = Color(0xFF444444), RoundedCornerShape(8.dp)).fillMaxSize()) {
-            Menu()
-            MainWindow()
+        BoxWithConstraints(
+            modifier = Modifier.background(
+                color = Color(0xFF444444),
+                shape = RoundedCornerShape(8.dp),
+            ).fillMaxSize()
+        ) {
+            val adaptiveMenuWidth = max(min(maxWidth * 0.3f, MAX_MENU_WIDTH), MIN_MENU_WIDTH)
+            val adaptiveMainWindowWidth = maxWidth - adaptiveMenuWidth
+
+            Row {
+                Menu(adaptiveMenuWidth)
+                MainWindow(adaptiveMainWindowWidth)
+            }
         }
     }
 
@@ -50,10 +61,12 @@ object ResourceManager {
      * Отображение бокового меню
      */
     @Composable
-    private fun Menu() {
+    private fun Menu(menuWidth: Dp) {
         Box(
-            modifier = Modifier.background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp)).fillMaxHeight()
-                .width(MENU_WIDTH)
+            modifier = Modifier
+                .background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp))
+                .width(menuWidth)
+                .fillMaxHeight()
         ) {
             ButtonList()
         }
@@ -108,15 +121,17 @@ object ResourceManager {
      * с которыми можно взаимодействовать
      */
     @Composable
-    private fun MainWindow() {
+    private fun MainWindow(windowWidth: Dp) {
         val id by remember { buttonId }
 
-        when (id) {
-            SOURCES_ID -> SourcesMenuButton()
-            EFFECTS_ID -> EffectsMenuButton()
-            PRESETS_ID -> PresetsMenuButton()
-            TEMPLATES_ID -> TemplatesMenuButton()
-            else -> ErrorMenuButton()
+        Box(modifier = Modifier.width(windowWidth).fillMaxHeight()) {
+            when (id) {
+                SOURCES_ID -> SourcesMenuButton()
+                EFFECTS_ID -> EffectsMenuButton()
+                PRESETS_ID -> PresetsMenuButton()
+                TEMPLATES_ID -> TemplatesMenuButton()
+                else -> ErrorMenuButton()
+            }
         }
     }
 }
