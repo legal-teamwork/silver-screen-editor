@@ -33,22 +33,25 @@ fun SourcesMenuButton() {
         LazyVerticalGrid(columns = GridCells.Fixed(columnsNumber)) {
             for (resource in resources) {
                 item {
-                    Column(
-                        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Image(
-                            painter = painterResource(resource.resourcePath),
-                            contentDescription = resource.title,
-                            modifier = Modifier.height(IMAGE_MAX_HEIGHT).fillMaxWidth(),
-                            contentScale = ContentScale.Fit
-                        )
-                        BasicText(
-                            text = resource.title,
-                            color = { Color.White },
-                            modifier = Modifier.padding(top = 3.dp)
-                        )
+                    BoxWithConstraints {
+                        val boxWithConstraintsState = this
+
+                        Column(
+                            modifier = Modifier.wrapContentHeight().fillMaxWidth().padding(10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Top,
+                        ) {
+                            Image(
+                                painter = painterResource(resource.resourcePath),
+                                contentDescription = resource.title,
+                                modifier = Modifier.heightIn(0.dp, IMAGE_MAX_HEIGHT)
+                                    .widthIn(0.dp, boxWithConstraintsState.maxWidth),
+                                contentScale = ContentScale.Fit
+                            )
+                            BasicText(
+                                text = resource.title, color = { Color.White }, modifier = Modifier.padding(top = 3.dp)
+                            )
+                        }
                     }
                 }
             }
