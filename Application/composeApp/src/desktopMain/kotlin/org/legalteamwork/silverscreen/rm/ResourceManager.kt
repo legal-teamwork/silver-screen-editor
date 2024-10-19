@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.window.*
 
@@ -17,6 +19,7 @@ import org.legalteamwork.silverscreen.rm.window.*
  * Синглтон, потому что вкладка единственна
  */
 object ResourceManager {
+    // Constants
     private const val INIT_ID = 1
     private const val SOURCES_ID = 1
     private const val EFFECTS_ID = 2
@@ -24,6 +27,9 @@ object ResourceManager {
     private const val TEMPLATES_ID = 4
     private val MENU_WIDTH = 200.dp
     private val MENU_BUTTON_HEIGHT = 35.dp
+    private val MENU_FONT_FAMILY = FontFamily.Cursive
+
+    // Fields:
     private val buttonId = mutableStateOf(INIT_ID)
     private val buttons = listOf(
         MenuButton(SOURCES_ID, "Sources"),
@@ -81,16 +87,19 @@ object ResourceManager {
         )
 
         Button(
-            onClick = {
-                chosenButton = button.id
-            },
+            onClick = { chosenButton = button.id },
             modifier = Modifier.fillMaxWidth().height(MENU_BUTTON_HEIGHT),
             colors = buttonColors,
             elevation = null,
             border = null,
             enabled = chosenButton != button.id,
         ) {
-            Text(button.title)
+            Text(
+                text = button.title,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Left,
+                fontFamily = MENU_FONT_FAMILY,
+            )
         }
     }
 
