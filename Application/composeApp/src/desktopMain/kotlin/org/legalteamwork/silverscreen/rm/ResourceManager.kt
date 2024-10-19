@@ -28,7 +28,7 @@ object ResourceManager {
     private val MENU_MIN_WIDTH = 150.dp
     private val MENU_MAX_WIDTH = 300.dp
     private val MENU_BUTTON_HEIGHT = 35.dp
-    private val MENU_FONT_FAMILY = FontFamily.Cursive
+    private val MENU_FONT_FAMILY = FontFamily.Default
 
     // Fields:
     private val buttonId = mutableStateOf(INIT_ID)
