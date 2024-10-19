@@ -40,6 +40,9 @@ object ResourceManager {
         }
     }
 
+    /**
+     * Отображение бокового меню
+     */
     @Composable
     private fun Menu() {
         Box(
@@ -50,6 +53,9 @@ object ResourceManager {
         }
     }
 
+    /**
+     * Отображение конкретно кнопок
+     */
     @Composable
     private fun ButtonList() {
         Column(modifier = Modifier.padding(5.dp)) {
@@ -59,6 +65,11 @@ object ResourceManager {
         }
     }
 
+    /**
+     * Отображение конкретной кнопки
+     *
+     * @param[button] инфомация о кнопке
+     */
     @Composable
     private fun MenuButton(button: MenuButton) {
         var chosenButton by remember { buttonId }
@@ -83,6 +94,10 @@ object ResourceManager {
         }
     }
 
+    /**
+     * Отображенрие основного окна, которое содержит превью ресурсов,
+     * с которыми можно взаимодействовать
+     */
     @Composable
     private fun MainWindow() {
         val id by remember { buttonId }
