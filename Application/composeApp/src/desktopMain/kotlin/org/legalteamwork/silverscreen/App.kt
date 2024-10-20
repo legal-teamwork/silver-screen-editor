@@ -30,7 +30,6 @@ fun App() {
     var width3 by remember { mutableStateOf(1f) }
     var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
-    val resourceModifier = ResourceManager()
 
     Surface(color = Color.Black) {
         Box(
@@ -62,7 +61,7 @@ fun App() {
                                 .height((panelSize.height * height1).dp - 15.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
-                        resourceModifier.compose()
+                        ResourceManager.compose()
                     }
 
                     Box(
