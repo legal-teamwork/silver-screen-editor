@@ -53,7 +53,7 @@ private fun SourcePreviewItem(resource: SimpleResource) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = painterResource(resource.resourcePath),
+                painter = painterResource(resource.previewPath),
                 contentDescription = resource.title,
                 modifier = Modifier.heightIn(0.dp, IMAGE_MAX_HEIGHT).widthIn(0.dp, boxWithConstraintsState.maxWidth),
                 contentScale = ContentScale.Fit
