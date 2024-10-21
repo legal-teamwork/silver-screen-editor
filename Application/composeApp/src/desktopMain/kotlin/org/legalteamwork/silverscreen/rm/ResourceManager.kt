@@ -69,6 +69,39 @@ object ResourceManager {
     }
 
     /**
+     * Temp method. Добавляет временный псевдо-ресурс в список ресурсов
+     */
+    fun addSourcePressed() {
+        val simpleResource = SimpleResource("Untitled2.mp4", "tmp-resources/u2.png")
+        addSource(simpleResource)
+    }
+
+    /**
+     * Триггерит вызов окна с выбором ресурса с последующей обработкой и созранением в [videoResources]
+     */
+    fun addSourceTriggerActivity() {
+        TODO("Затриггерить вызов окна с выбором ресурса с последующей обработкой и созранением в videoResources")
+    }
+
+    /**
+     * Добавление ресурса
+     */
+    fun addSource(simpleResource: SimpleResource) {
+        videoResources.add(simpleResource)
+    }
+
+    /**
+     * Удаление ресурса
+     *
+     * @param[simpleResource] дата ресуса
+     */
+    fun removeSource(simpleResource: SimpleResource) {
+        videoResources.remove(simpleResource)
+    }
+
+    //Private methods:
+
+    /**
      * Отображение бокового меню
      */
     @Composable

@@ -87,7 +87,7 @@ private fun ResourceManager.SourceAddButton() {
             .clickable(
                 onClickLabel = "Add resource",
                 role = Role.Image,
-                onClick = ::addSourcePressed,
+                onClick = ::addSourceTriggerActivity,
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -98,8 +98,4 @@ private fun ResourceManager.SourceAddButton() {
             contentScale = ContentScale.Fit
         )
     }
-}
-
-private fun ResourceManager.addSourcePressed() {
-    videoResources.add(SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"))
 }
