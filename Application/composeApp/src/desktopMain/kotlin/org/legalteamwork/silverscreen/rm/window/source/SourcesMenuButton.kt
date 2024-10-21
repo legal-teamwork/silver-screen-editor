@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.resource.SimpleResource
+import org.legalteamwork.silverscreen.rm.resource.Resource
 import kotlin.math.max
 
 // Constants:
@@ -46,7 +46,7 @@ fun ResourceManager.SourcesMainWindow() {
 }
 
 @Composable
-private fun SourcePreviewItem(resource: SimpleResource) {
+private fun SourcePreviewItem(resource: Resource) {
     BoxWithConstraints(
         modifier = Modifier.height(ROW_HEIGHT).fillMaxSize().border(0.5.dp, Color(0x44000000)).padding(CELL_PADDING)
     ) {
@@ -76,8 +76,6 @@ private fun SourcePreviewItem(resource: SimpleResource) {
 
 @Composable
 private fun ResourceManager.SourceAddButton() {
-    val resources = remember { videoResources }
-
     Box(
         modifier = Modifier
             .height(ROW_HEIGHT)

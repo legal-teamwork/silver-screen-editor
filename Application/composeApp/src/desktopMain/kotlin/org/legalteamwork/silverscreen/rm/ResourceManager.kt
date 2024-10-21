@@ -12,9 +12,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.window.*
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
+import java.awt.FileDialog
+import java.awt.Frame
 
 /**
  * Базовый класс для файлового менеджера, реализующий смену окон (нажатия на вкладки) и содержащий методы отрисовки всего окна.
@@ -40,14 +44,10 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val videoResources = mutableStateListOf(
+    val videoResources = mutableStateListOf<Resource>(
         SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
         SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
         SimpleResource("Untitled3.mp4", "tmp-resources/u3.png"),
-        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
     )
 
     @Composable
@@ -69,25 +69,50 @@ object ResourceManager {
     }
 
     /**
-     * Temp method. Добавляет временный псевдо-ресурс в список ресурсов
-     */
-    fun addSourcePressed() {
-        val simpleResource = SimpleResource("Untitled2.mp4", "tmp-resources/u2.png")
-        addSource(simpleResource)
-    }
-
-    /**
      * Триггерит вызов окна с выбором ресурса с последующей обработкой и созранением в [videoResources]
      */
     fun addSourceTriggerActivity() {
-        TODO("Затриггерить вызов окна с выбором ресурса с последующей обработкой и созранением в videoResources")
+        val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
+
+        for (loadFile in loadFiles) {
+            val resource = VideoResource(loadFile.name, "tmp-resources/flower.jpeg", loadFile.path)
+            addSource(resource)
+        }
     }
+
+    /**
+     * Открывает диалоговое окно для выбора файлов
+     *
+     * @param[parent] parent window frame
+     * @param[title] window title
+     * @param[allowedExtensions] allowed extensions to pick, examples: ".jpg", ".mp4" etc.
+     * @param[allowMultiSelection] true if user can pick multiple selections
+     *
+     * @return [Set] of chosen files
+     */
+    private fun openFileDialog(
+        parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
+    ) = FileDialog(parent, title, FileDialog.LOAD).apply {
+        isMultipleMode = allowMultiSelection
+
+        // windows
+        file = allowedExtensions.joinToString(";") { "*$it" } // e.g. '*.jpg'
+
+        // linux
+        setFilenameFilter { _, name ->
+            allowedExtensions.any {
+                name.endsWith(it)
+            }
+        }
+
+        isVisible = true
+    }.files.toSet()
 
     /**
      * Добавление ресурса
      */
-    fun addSource(simpleResource: SimpleResource) {
-        videoResources.add(simpleResource)
+    fun addSource(resource: Resource) {
+        videoResources.add(resource)
     }
 
     /**
