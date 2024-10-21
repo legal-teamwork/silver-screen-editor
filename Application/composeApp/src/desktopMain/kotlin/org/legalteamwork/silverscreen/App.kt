@@ -32,7 +32,7 @@ fun App() {
     var width1 by remember { mutableStateOf(0.4f) }
     var width2 by remember { mutableStateOf(0.6f) }
     var width3 by remember { mutableStateOf(1f) }
-    var height1 by remember { mutableStateOf(0.7f) }
+    var height1 by remember { mutableStateOf(0.5f) }
     var height3 by remember { mutableStateOf(0.3f) }
 
     Surface(color = Color.Black) {
@@ -115,6 +115,7 @@ fun App() {
                                     )
                                 height1 = newHeight1 / panelSize.height
                                 height3 = 1 - height1
+
                             }
                         },
                 )
@@ -133,6 +134,9 @@ fun App() {
                                 .height((panelSize.height * height3).dp - 15.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     )
+                    {
+                        VideoEditor.compose()
+                    }
 
                     Box(
                         modifier =
