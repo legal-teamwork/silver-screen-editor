@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun EffectsMenuButton() {
-    BasicText(text = "EFFECTS WINDOW", color = { Color.White })
+fun ErrorMainWindow() {
+    BasicText(text = "ERROR WINDOW", color = { Color.Red })
 }

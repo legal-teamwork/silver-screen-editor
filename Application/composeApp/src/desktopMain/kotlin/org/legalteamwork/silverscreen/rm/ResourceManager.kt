@@ -126,11 +126,11 @@ object ResourceManager {
 
         Box(modifier = Modifier.width(windowWidth).fillMaxHeight()) {
             when (id) {
-                SOURCES_ID -> SourcesMenuButton()
-                EFFECTS_ID -> EffectsMenuButton()
-                PRESETS_ID -> PresetsMenuButton()
-                TEMPLATES_ID -> TemplatesMenuButton()
-                else -> ErrorMenuButton()
+                SOURCES_ID -> SourcesMainWindow()
+                EFFECTS_ID -> EffectsMainWindow()
+                PRESETS_ID -> PresetsMainWindow()
+                TEMPLATES_ID -> TemplatesMainWindow()
+                else -> ErrorMainWindow()
             }
         }
     }

@@ -30,7 +30,7 @@ val resources = listOf(
 )
 
 @Composable
-fun SourcesMenuButton() {
+fun SourcesMainWindow() {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val columnsNumber = max((maxWidth / COLUMN_MIN_WIDTH).toInt(), 1)
 

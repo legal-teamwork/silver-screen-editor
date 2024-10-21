@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun PresetsMenuButton() {
-    BasicText(text = "PRESETS WINDOW", color = { Color.White })
+fun EffectsMainWindow() {
+    BasicText(text = "EFFECTS WINDOW", color = { Color.White })
 }
