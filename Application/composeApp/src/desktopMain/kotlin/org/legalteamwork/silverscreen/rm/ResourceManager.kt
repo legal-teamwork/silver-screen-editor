@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.window.*
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 
@@ -38,6 +39,15 @@ object ResourceManager {
         MenuButton(EFFECTS_ID, "Effects"),
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
+    )
+    val videoResources = mutableStateListOf(
+        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
+        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
+        SimpleResource("Untitled3.mp4", "tmp-resources/u3.png"),
+        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
+        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
+        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
+        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
     )
 
     @Composable

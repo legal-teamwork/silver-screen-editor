@@ -4,12 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import kotlin.math.max
 
@@ -26,18 +27,8 @@ val ROW_HEIGHT = 200.dp
 val CELL_PADDING = 10.dp
 
 @Composable
-fun SourcesMainWindow() {
-    val resources = remember {
-        mutableStateListOf(
-            SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-            SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-            SimpleResource("Untitled3.mp4", "tmp-resources/u3.png"),
-            SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-            SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-            SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-            SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-        )
-    }
+fun ResourceManager.SourcesMainWindow() {
+    val resources = remember { videoResources }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val columnsNumber = max((maxWidth / COLUMN_MIN_WIDTH).toInt(), 1)
@@ -48,7 +39,7 @@ fun SourcesMainWindow() {
             }
 
             item {
-                SourceAddButton(resources)
+                SourceAddButton()
             }
         }
     }
@@ -60,7 +51,9 @@ private fun SourcePreviewItem(resource: SimpleResource) {
         modifier = Modifier.height(ROW_HEIGHT).fillMaxSize().border(0.5.dp, Color(0x44000000)).padding(CELL_PADDING)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             val textHeight = 20.dp
             val spaceBetween = 3.dp
@@ -72,17 +65,19 @@ private fun SourcePreviewItem(resource: SimpleResource) {
                 modifier = Modifier.height(imageHeight).fillMaxWidth(),
                 contentScale = ContentScale.Fit,
             )
-            BasicText(
+            Text(
                 text = resource.title,
-                color = { Color.White },
-                modifier = Modifier.height(textHeight),
+                modifier = Modifier.height(textHeight).wrapContentSize(align = Alignment.BottomCenter),
+                color = Color.White,
             )
         }
     }
 }
 
 @Composable
-private fun SourceAddButton(resources: SnapshotStateList<SimpleResource>) {
+private fun ResourceManager.SourceAddButton() {
+    val resources = remember { videoResources }
+
     Box(
         modifier = Modifier
             .height(ROW_HEIGHT)
