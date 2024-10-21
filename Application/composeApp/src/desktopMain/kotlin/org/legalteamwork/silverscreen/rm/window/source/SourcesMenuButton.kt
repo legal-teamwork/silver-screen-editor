@@ -1,9 +1,10 @@
-package org.legalteamwork.silverscreen.rm.window
+package org.legalteamwork.silverscreen.rm.window.source
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,10 +36,8 @@ fun SourcesMainWindow() {
         val columnsNumber = max((maxWidth / COLUMN_MIN_WIDTH).toInt(), 1)
 
         LazyVerticalGrid(columns = GridCells.Fixed(columnsNumber)) {
-            for (resource in resources) {
-                item {
-                    SourcePreviewItem(resource)
-                }
+            items(resources) { resource ->
+                SourcePreviewItem(resource)
             }
         }
     }

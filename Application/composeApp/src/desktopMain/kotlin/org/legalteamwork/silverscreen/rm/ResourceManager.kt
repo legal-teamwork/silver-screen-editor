@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.rm.window.*
+import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 
 /**
  * Базовый класс для файлового менеджера, реализующий смену окон (нажатия на вкладки) и содержащий методы отрисовки всего окна.
@@ -63,9 +64,7 @@ object ResourceManager {
     @Composable
     private fun Menu(menuWidth: Dp) {
         Box(
-            modifier = Modifier
-                .background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp))
-                .width(menuWidth)
+            modifier = Modifier.background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp)).width(menuWidth)
                 .fillMaxHeight()
         ) {
             ButtonList()
