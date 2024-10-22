@@ -85,7 +85,7 @@ object ResourceManager {
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
         for (loadFile in loadFiles) {
-            val resource = VideoResource(loadFile.name, "tmp-resources/flower.jpeg", loadFile.path)
+            val resource = VideoResource(loadFile.name, loadFile.path)
             addSource(resource)
         }
     }
