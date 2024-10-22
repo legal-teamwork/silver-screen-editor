@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.VideoEditor
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -32,7 +33,7 @@ fun App() {
     var width1 by remember { mutableStateOf(0.4f) }
     var width2 by remember { mutableStateOf(0.6f) }
     var width3 by remember { mutableStateOf(1f) }
-    var height1 by remember { mutableStateOf(0.5f) }
+    var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
 
     Surface(color = Color.Black) {
