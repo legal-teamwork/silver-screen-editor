@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,20 +52,30 @@ fun App() {
             contentAlignment = Alignment.Center,
         ) {
             Column {
-                Box(modifier = Modifier.background(Color.Black).height(10.dp).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
+                Box(
+                    modifier =
+                        Modifier.padding(
+                            start = 7.dp,
+                            end = 7.dp,
+                        ).background(Color.DarkGray, RoundedCornerShape(8.dp)).height(40.dp).width(panelSize.width.dp),
+                ) {
+                    MainButtons()
+                }
+                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
 
                 Row {
                     Box(
                         modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp)
-                                .width(10.dp),
+                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
+                                .width(7.dp),
                     )
 
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width1).dp - 15.dp)
-                                .height((panelSize.height * height1).dp - 15.dp)
+                                .width((panelSize.width * width1).dp - 11.dp)
+                                .height((panelSize.height * height1).dp - 32.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
                         ResourceManager.compose()
@@ -73,7 +85,7 @@ fun App() {
                         modifier =
                             Modifier.background(
                                 Color.Black,
-                            ).height((panelSize.height * height1).dp - 15.dp).width(10.dp).pointerInput(Unit) {
+                            ).height((panelSize.height * height1).dp - 33.dp).width(8.dp).pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
                                     val newWidth1 =
@@ -90,8 +102,8 @@ fun App() {
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width2).dp - 15.dp)
-                                .height((panelSize.height * height1).dp - 15.dp)
+                                .width((panelSize.width * width2).dp - 11.dp)
+                                .height((panelSize.height * height1).dp - 32.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
                         VideoPanel()
@@ -99,14 +111,14 @@ fun App() {
 
                     Box(
                         modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 15.dp)
-                                .width(10.dp),
+                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
+                                .width(7.dp),
                     )
                 }
 
                 Box(
                     modifier =
-                        Modifier.background(Color.Black).height(10.dp).width(panelSize.width.dp).pointerInput(Unit) {
+                        Modifier.background(Color.Black).height(8.dp).width(panelSize.width.dp).pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 val newHeight1 =
@@ -116,7 +128,6 @@ fun App() {
                                     )
                                 height1 = newHeight1 / panelSize.height
                                 height3 = 1 - height1
-
                             }
                         },
                 )
@@ -124,30 +135,74 @@ fun App() {
                 Row {
                     Box(
                         modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp)
-                                .width(10.dp),
+                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
+                                .width(7.dp),
                     )
 
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width3).dp - 20.dp)
-                                .height((panelSize.height * height3).dp - 15.dp)
+                                .width((panelSize.width * width3).dp - 14.dp)
+                                .height((panelSize.height * height3).dp - 32.dp)
                                 .background(Color.DarkGray, RoundedCornerShape(8.dp)),
-                    )
-                    {
+                    ) {
                         VideoEditor.compose()
                     }
 
                     Box(
                         modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 15.dp)
-                                .width(10.dp),
+                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
+                                .width(7.dp),
                     )
                 }
 
-                Box(modifier = Modifier.background(Color.Black).height(10.dp).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(Color.Black).height(6.dp).width(panelSize.width.dp))
             }
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
+fun MainButtons() {
+    Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val buttonColors =
+            ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFF3A3A3A),
+                contentColor = Color.White,
+                disabledBackgroundColor = Color(0xFF222222),
+                disabledContentColor = Color.White,
+            )
+
+        Button(
+            onClick = {},
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Import File",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {},
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Export File",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
