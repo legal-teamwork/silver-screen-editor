@@ -1,53 +1,44 @@
 package org.legalteamwork.silverscreen.rm.resource
 
-import org.bytedeco.opencv.global.opencv_imgcodecs.imwrite
 import org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FRAME_COUNT
-import org.bytedeco.opencv.opencv_core.Mat
 import org.bytedeco.opencv.opencv_videoio.VideoCapture
-import java.io.File
 
-class VideoResource(_title: String, val resourcePath: String) : Resource {
-    override val title = "$_title, $size frames"
+class VideoResource(override val title: String, val resourcePath: String) : Resource {
+
+
+    /**
+     * Path to the resource preview, currently - path in the project resource folder
+     * TODO: write better preview support
+     */
     override val previewPath: String
         get() {
-            val videoCapture = VideoCapture()
+            // TODO: write better preview making
 
-            if (!videoCapture.open(resourcePath)) {
-                // Not opened, something happened
-                throw RuntimeException("Cannot open resource $resourcePath")
-            }
-
-            val frame = Mat()
-
-            if (videoCapture.read(frame)) {
-                val tempDirectory = File("previews/")
-                val outputFile = File(tempDirectory, "output.png")
-                tempDirectory.mkdirs()
-
-                imwrite(outputFile.absolutePath, frame)
-
-                videoCapture.release()
-
-                return outputFile.absolutePath
-            } else {
-                videoCapture.release()
-
-                throw RuntimeException("Cannot get the first video frame")
-            }
+            return "tmp-resources/flower.jpeg"
         }
 
-    val size: Int
+    /**
+     * Number of frames in the video resource
+     *
+     * @see CAP_PROP_FRAME_COUNT
+     */
+    val numberOfFrames: Int
         get() {
             val videoCapture = VideoCapture()
 
             if (!videoCapture.open(resourcePath)) {
                 // Not opened, something happened
-                throw RuntimeException("Cannot open resource $resourcePath")
-            }
+                // TODO: make pop up window with error description
 
-            return videoCapture.get(CAP_PROP_FRAME_COUNT).toInt()
+                throw RuntimeException("Cannot open resource $resourcePath")
+            } else {
+                return videoCapture.get(CAP_PROP_FRAME_COUNT).toInt()
+            }
         }
 
+    /**
+     * Gets a frame from the current video resource with the provided index
+     */
     fun getFrame(index: Int): Frame = TODO()
 
 }
