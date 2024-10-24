@@ -26,7 +26,7 @@ class VideoResource(
             frameGrabber.start()
 
             val frame = frameGrabber.grabImage() ?: throw Exception("Frame is NULL!")
-            if (frame.image == null) throw Exception("Frame Image is NULL!");
+            if (frame.image == null) throw Exception("Frame Image is NULL!")
 
             val converter = Java2DFrameConverter()
             val bufferedImage = converter.convert(frame)

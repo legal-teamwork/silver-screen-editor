@@ -14,13 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import java.io.FileInputStream
 import kotlin.math.max
 
 // Constants:
@@ -61,23 +59,12 @@ private fun SourcePreviewItem(resource: Resource) {
             val spaceBetween = 3.dp
             val imageHeight = this@BoxWithConstraints.maxHeight - textHeight - spaceBetween
 
-            if (resource.previewPath.startsWith("tmp")) {
-                Image(
-                    painter = painterResource(resource.previewPath),
-                    contentDescription = resource.title,
-                    modifier = Modifier.height(imageHeight).fillMaxWidth(),
-                    contentScale = ContentScale.Fit,
-                )
-            } else {
-                FileInputStream(resource.previewPath).use { inputStream ->
-                    Image(
-                        bitmap = loadImageBitmap(inputStream),
-                        contentDescription = resource.title,
-                        modifier = Modifier.height(imageHeight).fillMaxWidth(),
-                        contentScale = ContentScale.Fit,
-                    )
-                }
-            }
+            Image(
+                painter = painterResource(resource.previewPath),
+                contentDescription = resource.title,
+                modifier = Modifier.height(imageHeight).fillMaxWidth(),
+                contentScale = ContentScale.Fit,
+            )
             Text(
                 text = resource.title,
                 modifier = Modifier.height(textHeight).wrapContentSize(align = Alignment.BottomCenter),
