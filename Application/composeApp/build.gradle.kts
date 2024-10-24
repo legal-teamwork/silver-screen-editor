@@ -26,8 +26,6 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.javacv.platform)
-            implementation("org.bytedeco:opencv-platform:4.9.0-1.5.10")
-            implementation("org.bytedeco:ffmpeg-platform:6.1.1-1.5.10")
         }
     }
 }
