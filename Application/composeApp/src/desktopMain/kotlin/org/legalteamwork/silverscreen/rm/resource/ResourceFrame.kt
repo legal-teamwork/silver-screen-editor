@@ -1,5 +1,5 @@
 package org.legalteamwork.silverscreen.rm.resource
 
-interface ResourceFrame {
-    // TODO
-}
+import java.awt.image.BufferedImage
+
+data class ResourceFrame(val bufferedImage: BufferedImage)

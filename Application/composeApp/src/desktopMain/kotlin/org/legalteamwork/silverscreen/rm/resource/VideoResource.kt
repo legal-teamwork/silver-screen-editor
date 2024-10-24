@@ -34,7 +34,7 @@ class VideoResource(
             frameGrabber.stop()
             frameGrabber.close()
 
-            return SimpleResourceFrame(bufferedImage)
+            return ResourceFrame(bufferedImage)
         } catch (e: FFmpegFrameGrabber.Exception) {
             throw BuildException()
         }

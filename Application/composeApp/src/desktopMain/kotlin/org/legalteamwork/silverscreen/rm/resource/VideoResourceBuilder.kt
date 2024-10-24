@@ -17,8 +17,8 @@ object VideoResourceBuilder {
         )
 
         // TODO: remove this code, what is used to test if frame image can be save to the file:
-        // val bufferedImage = (videoResource.getFrame(5) as SimpleResourceFrame).bufferedImage
-        // ImageIO.write(bufferedImage, "png", File("output.png"));
+         val bufferedImage = videoResource.getFrame(5).bufferedImage
+         ImageIO.write(bufferedImage, "png", File("output.png"));
 
         return videoResource
     }
