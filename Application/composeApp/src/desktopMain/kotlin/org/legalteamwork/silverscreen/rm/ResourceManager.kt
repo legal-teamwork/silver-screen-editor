@@ -1,13 +1,18 @@
 package org.legalteamwork.silverscreen.rm
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -19,6 +24,11 @@ import org.legalteamwork.silverscreen.rm.window.*
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 import java.awt.FileDialog
 import java.awt.Frame
+import androidx.compose.ui.draganddrop.awtTransferable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.awt.datatransfer.DataFlavor
+import java.io.File
 
 /**
  * Базовый класс для файлового менеджера, реализующий смену окон (нажатия на вкладки) и содержащий методы отрисовки всего окна.
@@ -187,11 +197,34 @@ object ResourceManager {
      * Отображенрие основного окна, которое содержит превью ресурсов,
      * с которыми можно взаимодействовать
      */
+    @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
     @Composable
     private fun MainWindow(windowWidth: Dp) {
         val id by remember { buttonId }
 
-        Box(modifier = Modifier.width(windowWidth).fillMaxHeight()) {
+        Box(modifier = Modifier.width(windowWidth).fillMaxHeight()
+            .dragAndDropTarget(shouldStartDragAndDrop = { event ->
+            var b : Boolean
+            b = true
+            if (!event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+                b = false
+            }
+            b},
+            target = remember {
+                object : DragAndDropTarget {
+
+                    override fun onDrop(event: DragAndDropEvent): Boolean {
+
+                        val files = (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
+
+                        for (file in files) {
+                            addSource(VideoResource(file.name, "tmp-resources/flower.jpeg", file.path))
+                        }
+
+                        return true
+                    }
+                }
+            })) {
             when (id) {
                 SOURCES_ID -> SourcesMainWindow()
                 EFFECTS_ID -> EffectsMainWindow()
