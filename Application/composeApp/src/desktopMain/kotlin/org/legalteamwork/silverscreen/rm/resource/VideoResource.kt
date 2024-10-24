@@ -2,20 +2,7 @@ package org.legalteamwork.silverscreen.rm.resource
 
 import org.bytedeco.javacv.FFmpegFrameGrabber
 
-class VideoResource(_title: String, val resourcePath: String) : Resource {
-
-    override val title: String = "$_title : $numberOfFrames"
-
-    /**
-     * Path to the resource preview, currently - path in the project resource folder
-     * TODO: write better preview support
-     */
-    override val previewPath: String
-        get() {
-            // TODO: write better preview making
-
-            return "tmp-resources/flower.jpeg"
-        }
+class VideoResource(override val title: String, override val previewPath: String, val resourcePath: String) : Resource {
 
     /**
      * Number of frames in the video resource

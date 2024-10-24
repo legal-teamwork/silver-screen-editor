@@ -13,20 +13,24 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.awtTransferable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.min
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
-import org.legalteamwork.silverscreen.rm.window.*
+import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
+import org.legalteamwork.silverscreen.rm.window.ErrorMainWindow
+import org.legalteamwork.silverscreen.rm.window.PresetsMainWindow
+import org.legalteamwork.silverscreen.rm.window.TemplatesMainWindow
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 import java.awt.FileDialog
 import java.awt.Frame
-import androidx.compose.ui.draganddrop.awtTransferable
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.awt.datatransfer.DataFlavor
 import java.io.File
 
@@ -85,7 +89,7 @@ object ResourceManager {
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
         for (loadFile in loadFiles) {
-            val resource = VideoResource(loadFile.name, loadFile.path)
+            val resource = VideoResource(loadFile.name, "tmp-resources/flower.jpeg", loadFile.path)
             addSource(resource)
         }
     }
