@@ -1,5 +1,5 @@
 package org.legalteamwork.silverscreen.rm.resource
 
-interface Frame {
+interface ResourceFrame {
     // TODO
 }
