@@ -7,22 +7,28 @@ import java.io.File
 import javax.imageio.ImageIO
 import kotlin.io.path.pathString
 
-class VideoResource : Resource {
+class VideoResource(val resourcePath: String, override val title: String = File(resourcePath).name) : Resource {
+    override val previewPath: String by lazy {
+        val result = kotlin.io.path.createTempFile().pathString
+        val bufferedImage = getFrame().bufferedImage
+        val previewFile = File(result)
 
-    override val title: String
-    val resourcePath: String
-    override val previewPath: String
-    val length : Int
+        // Scale to size with width = 256
+        val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
+        val scaledBufferedImage = BufferedImage(
+            scaledInstance.getWidth(null),
+            scaledInstance.getHeight(null),
+            BufferedImage.TYPE_INT_ARGB
+        )
+        val graphics = scaledBufferedImage.createGraphics()
+        graphics.drawImage(scaledInstance, 0, 0, null)
+        graphics.dispose()
+        ImageIO.write(scaledBufferedImage, "png", previewFile)
 
-    constructor(resourcePath_ : String, title_ : String = File(resourcePath_).name) {
-        resourcePath = resourcePath_
-        title = title_
-        val bufferredImage : BufferedImage = getFrame().bufferedImage
-        previewPath = kotlin.io.path.createTempFile().pathString
-        val previewFile : File = File(previewPath)
-        ImageIO.write(bufferredImage, "png", previewFile)
-        length = grabLengthInFrames(File(resourcePath))
+        result
     }
+    val numberOfFrames : Int
+        get() = grabLengthInFrames(File(resourcePath))
 
     /**
      * Gets a frame from the current video resource with the provided index
