@@ -8,27 +8,8 @@ import javax.imageio.ImageIO
 import kotlin.io.path.pathString
 
 class VideoResource(val resourcePath: String, override val title: String = File(resourcePath).name) : Resource {
-    override val previewPath: String by lazy {
-        val result = kotlin.io.path.createTempFile().pathString
-        val bufferedImage = getFrame().bufferedImage
-        val previewFile = File(result)
-
-        // Scale to size with width = 256
-        val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
-        val scaledBufferedImage = BufferedImage(
-            scaledInstance.getWidth(null),
-            scaledInstance.getHeight(null),
-            BufferedImage.TYPE_INT_ARGB
-        )
-        val graphics = scaledBufferedImage.createGraphics()
-        graphics.drawImage(scaledInstance, 0, 0, null)
-        graphics.dispose()
-        ImageIO.write(scaledBufferedImage, "png", previewFile)
-
-        result
-    }
-    val numberOfFrames : Int
-        get() = grabLengthInFrames(File(resourcePath))
+    override val previewPath: String by lazy { buildPreviewFile() }
+    val numberOfFrames : Int by lazy { grabLengthInFrames(File(resourcePath)) }
 
     /**
      * Gets a frame from the current video resource with the provided index
@@ -56,6 +37,11 @@ class VideoResource(val resourcePath: String, override val title: String = File(
         }
     }
 
+    /**
+     * Returns amount of frames in the provided resource file
+     *
+     * @see FFmpegFrameGrabber.getLengthInVideoFrames
+     */
     fun grabLengthInFrames(resourceFile: File): Int {
         val frameGrabber = FFmpegFrameGrabber(resourceFile)
 
@@ -69,6 +55,31 @@ class VideoResource(val resourcePath: String, override val title: String = File(
         } catch (e: FFmpegFrameGrabber.Exception) {
             throw BuildException()
         }
+    }
+
+    /**
+     * Creates preview for the current video resource
+     *
+     * @return preview file path
+     */
+    fun buildPreviewFile(): String {
+        val result = kotlin.io.path.createTempFile().pathString
+        val bufferedImage = getFrame().bufferedImage
+        val previewFile = File(result)
+
+        // Scale to size with width = 256
+        val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
+        val scaledBufferedImage = BufferedImage(
+            scaledInstance.getWidth(null),
+            scaledInstance.getHeight(null),
+            BufferedImage.TYPE_INT_ARGB
+        )
+        val graphics = scaledBufferedImage.createGraphics()
+        graphics.drawImage(scaledInstance, 0, 0, null)
+        graphics.dispose()
+        ImageIO.write(scaledBufferedImage, "png", previewFile)
+
+        return result
     }
 
     class BuildException : Exception()
