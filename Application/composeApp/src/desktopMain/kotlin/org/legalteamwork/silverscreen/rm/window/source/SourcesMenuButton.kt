@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,6 +55,15 @@ fun ResourceManager.SourcesMainWindow() {
 @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun SourcePreviewItem(resource: Resource) {
+    val contextMenusState = mutableStateOf<(@Composable () -> Unit)?>(null)
+    var contextMenu by remember { contextMenusState }
+    val closeContextMenu: () -> Unit = {
+        contextMenu = null
+    }
+    val openContextMenu: (@Composable () -> Unit) -> Unit = {
+        contextMenu = it
+    }
+
     BoxWithConstraints(
         modifier = Modifier.fillMaxWidth().padding(CELL_PADDING)
     ) {
@@ -64,7 +74,7 @@ private fun SourcePreviewItem(resource: Resource) {
                     enabled = true,
                     matcher = PointerMatcher.mouse(PointerButton.Secondary),
                     onClick = {
-                        // Open resource menu
+                        openContextMenu { ResourceActionsMenu(resource, openContextMenu, closeContextMenu) }
                     }
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -96,6 +106,8 @@ private fun SourcePreviewItem(resource: Resource) {
             )
         }
     }
+
+    contextMenu?.invoke()
 }
 
 @Composable
@@ -121,5 +133,64 @@ private fun ResourceManager.SourceAddButton() {
                 alignment = Alignment.Center,
             )
         }
+    }
+}
+
+@Composable
+private fun ResourceActionsMenu(
+    resource: Resource,
+    openContextMenu: (@Composable () -> Unit) -> Unit = {},
+    closeContextMenuAction: () -> Unit = {},
+) {
+    Surface(
+        modifier = Modifier.width(200.dp).wrapContentHeight().offset(y = 50.dp, x = 80.dp),
+        shape = RoundedCornerShape(10.dp, 10.dp),
+        color = Color.Black,
+        elevation = 5.dp,
+    ) {
+        Column {
+            // Drag line:
+            Box(modifier = Modifier.height(20.dp).fillMaxWidth().background(Color.Blue))
+
+            // Main part
+            Column(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
+                ResourceAction("Clone") {
+                    ResourceManager.addSource(resource.clone())
+                    closeContextMenuAction()
+                }
+                ResourceAction("Delete") {
+                    ResourceManager.removeSource(resource)
+                    closeContextMenuAction()
+                }
+                ResourceAction("Properties") {
+                    openContextMenu {
+                        ResourcePropertiesMenu(resource)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ResourcePropertiesMenu(
+    resource: Resource
+) {
+    Surface(
+        modifier = Modifier.width(200.dp).wrapContentHeight().offset(y = 50.dp, x = 80.dp),
+        shape = RoundedCornerShape(10.dp, 10.dp),
+        color = Color.Black,
+        elevation = 5.dp,
+    ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Properties for the ${resource.title} resource", modifier = Modifier.padding(5.dp))
+        }
+    }
+}
+
+@Composable
+private fun ResourceAction(text: String, onClick: () -> Unit) {
+    Box(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
+        Text(text = text, modifier = Modifier.padding(5.dp))
     }
 }

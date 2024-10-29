@@ -9,6 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
@@ -58,7 +59,7 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val videoResources = mutableStateListOf<Resource>(
+    val videoResources: SnapshotStateList<Resource> = mutableStateListOf<Resource>(
         SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
         SimpleResource(mutableStateOf("Untitled2.mp4"), "src/desktopMain/resources/tmp-resources/u2.png"),
         SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
@@ -132,10 +133,10 @@ object ResourceManager {
     /**
      * Удаление ресурса
      *
-     * @param[simpleResource] дата ресуса
+     * @param[resource] дата ресуса
      */
-    fun removeSource(simpleResource: SimpleResource) {
-        videoResources.remove(simpleResource)
+    fun removeSource(resource: Resource) {
+        videoResources.remove(resource)
     }
 
     //Private methods:
