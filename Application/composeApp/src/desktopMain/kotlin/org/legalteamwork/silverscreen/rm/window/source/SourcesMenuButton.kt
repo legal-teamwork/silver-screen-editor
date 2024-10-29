@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.resource.Resource
 
 // Constants:
 val IMAGE_WIDTH = 250.dp
@@ -23,7 +24,7 @@ fun ResourceManager.SourcesMainWindow() {
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
-            items(items = resources) { resource ->
+            items(items = resources, key = Resource::hashCode) { resource ->
                 SourcePreviewItem(resource)
             }
 
