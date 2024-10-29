@@ -4,8 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -85,10 +84,9 @@ fun SourcePreviewItem(resource: Resource) {
 }
 
 @Composable
-private fun ResourceActionsMenu(
-    resource: Resource,
-    openContextMenu: (@Composable () -> Unit) -> Unit = {},
-    closeContextMenuAction: () -> Unit = {},
+private fun ResourceContextMenuCompose(
+    dragLineColor: Color = Color.Blue,
+    content: @Composable () -> Unit
 ) {
     Surface(
         modifier = Modifier.wrapContentSize().zIndex(1f),
@@ -97,41 +95,36 @@ private fun ResourceActionsMenu(
         elevation = 5.dp,
     ) {
         Column(Modifier.width(200.dp)) {
-            // Drag line:
-            Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(Color.Blue))
+            Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(dragLineColor))
 
-            // Main part
-            Column(modifier = Modifier.background(Color.DarkGray)) {
-                ResourceAction("Clone") {
-                    ResourceManager.addSource(resource.clone())
-                    closeContextMenuAction()
-                }
-                ResourceAction("Delete") {
-                    ResourceManager.removeSource(resource)
-                    closeContextMenuAction()
-                }
-                ResourceAction("Properties") {
-                    openContextMenu {
-                        ResourcePropertiesMenu(resource)
-                    }
-                }
+            Box(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
+                content()
             }
         }
     }
 }
 
 @Composable
-private fun ResourcePropertiesMenu(
-    resource: Resource
+private fun ResourceActionsMenu(
+    resource: Resource,
+    openContextMenu: (@Composable () -> Unit) -> Unit = {},
+    closeContextMenuAction: () -> Unit = {},
 ) {
-    Surface(
-        modifier = Modifier.width(200.dp).wrapContentHeight().offset(y = 50.dp, x = 80.dp),
-        shape = RoundedCornerShape(10.dp, 10.dp),
-        color = Color.Black,
-        elevation = 5.dp,
-    ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Properties for the ${resource.title} resource", modifier = Modifier.padding(5.dp))
+    ResourceContextMenuCompose {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            ResourceAction("Clone") {
+                ResourceManager.addSource(resource.clone())
+                closeContextMenuAction()
+            }
+            ResourceAction("Delete") {
+                ResourceManager.removeSource(resource)
+                closeContextMenuAction()
+            }
+            ResourceAction("Properties") {
+                openContextMenu {
+                    ResourcePropertiesMenu(resource)
+                }
+            }
         }
     }
 }
@@ -140,5 +133,16 @@ private fun ResourcePropertiesMenu(
 private fun ResourceAction(text: String, onClick: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Text(text = text, modifier = Modifier.padding(5.dp))
+    }
+}
+
+@Composable
+private fun ResourcePropertiesMenu(
+    resource: Resource
+) {
+    ResourceContextMenuCompose {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(text = "Properties for the ${resource.title} resource", modifier = Modifier.padding(5.dp))
+        }
     }
 }
