@@ -206,30 +206,33 @@ object ResourceManager {
     private fun MainWindow(windowWidth: Dp) {
         val id by remember { buttonId }
 
-        Box(modifier = Modifier.width(windowWidth).fillMaxHeight()
-            .dragAndDropTarget(shouldStartDragAndDrop = { event ->
-            var b : Boolean
-            b = true
-            if (!event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-                b = false
-            }
-            b},
-            target = remember {
-                object : DragAndDropTarget {
+        Box(
+            modifier = Modifier
+                .width(windowWidth)
+                .fillMaxHeight()
+                .dragAndDropTarget(
+                    shouldStartDragAndDrop = { event ->
+                        event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+                    },
+                    target = remember {
+                        object : DragAndDropTarget {
 
-                    override fun onDrop(event: DragAndDropEvent): Boolean {
+                            override fun onDrop(event: DragAndDropEvent): Boolean {
 
-                        val files = (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
+                                val files =
+                                    (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
 
-                        for (file in files) {
-                            val resource = VideoResource(file.path)
-                            addSource(resource)
+                                for (file in files) {
+                                    val resource = VideoResource(file.path)
+                                    addSource(resource)
+                                }
+
+                                return true
+                            }
                         }
-
-                        return true
                     }
-                }
-            })) {
+                )
+        ) {
             when (id) {
                 SOURCES_ID -> SourcesMainWindow()
                 EFFECTS_ID -> EffectsMainWindow()
