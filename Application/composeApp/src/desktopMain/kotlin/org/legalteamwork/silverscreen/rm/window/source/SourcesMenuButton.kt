@@ -13,12 +13,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
+import java.io.File
 import kotlin.math.max
 
 // Constants:
@@ -45,6 +50,7 @@ fun ResourceManager.SourcesMainWindow() {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun SourcePreviewItem(resource: Resource) {
     BoxWithConstraints(
@@ -60,7 +66,9 @@ private fun SourcePreviewItem(resource: Resource) {
             val imageHeight = this@BoxWithConstraints.maxHeight - textHeight - spaceBetween
 
             Image(
-                painter = painterResource(resource.previewPath),
+                painter = BitmapPainter(remember {
+                    File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
+                }),
                 contentDescription = resource.title,
                 modifier = Modifier.height(imageHeight).fillMaxWidth(),
                 contentScale = ContentScale.Fit,

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
-import org.legalteamwork.silverscreen.rm.resource.VideoResourceBuilder
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.ErrorMainWindow
 import org.legalteamwork.silverscreen.rm.window.PresetsMainWindow
@@ -59,9 +59,9 @@ object ResourceManager {
         MenuButton(TEMPLATES_ID, "Templates"),
     )
     val videoResources = mutableStateListOf<Resource>(
-        SimpleResource("Untitled1.mp4", "tmp-resources/u1.png"),
-        SimpleResource("Untitled2.mp4", "tmp-resources/u2.png"),
-        SimpleResource("Untitled3.mp4", "tmp-resources/u3.png"),
+        SimpleResource("Untitled1.mp4", "src/desktopMain/resources/tmp-resources/u1.png"),
+        SimpleResource("Untitled2.mp4", "src/desktopMain/resources/tmp-resources/u2.png"),
+        SimpleResource("Untitled3.mp4", "src/desktopMain/resources/tmp-resources/u3.png"),
     )
 
     @Composable
@@ -89,7 +89,7 @@ object ResourceManager {
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
         for (loadFile in loadFiles) {
-            val resource = VideoResourceBuilder.buildFromFile(loadFile)
+            val resource = VideoResource(loadFile.path)
             addSource(resource)
         }
     }
@@ -222,7 +222,8 @@ object ResourceManager {
                         val files = (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
 
                         for (file in files) {
-                            addSource(VideoResourceBuilder.buildFromFile(file))
+                            val resource = VideoResource(file.path)
+                            addSource(resource)
                         }
 
                         return true
