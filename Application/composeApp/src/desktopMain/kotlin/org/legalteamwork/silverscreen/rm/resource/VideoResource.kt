@@ -7,9 +7,16 @@ import java.io.File
 import javax.imageio.ImageIO
 import kotlin.io.path.pathString
 
-class VideoResource(val resourcePath: String, override val title: String = File(resourcePath).name) : Resource {
+class VideoResource(
+    val resourcePath: String,
+    override val title: String = File(resourcePath).name,
+    /**
+     * Pre-calculated number of frames in the provided video resource
+     */
+    private val framesCount: Int? = null
+) : Resource {
     override val previewPath: String by lazy { buildPreviewFile() }
-    val numberOfFrames : Int by lazy { grabLengthInFrames(File(resourcePath)) }
+    val numberOfFrames: Int by lazy { framesCount ?: grabLengthInFrames(File(resourcePath)) }
 
     /**
      * Gets a frame from the current video resource with the provided index
@@ -83,5 +90,4 @@ class VideoResource(val resourcePath: String, override val title: String = File(
     }
 
     class BuildException : Exception()
-
 }
