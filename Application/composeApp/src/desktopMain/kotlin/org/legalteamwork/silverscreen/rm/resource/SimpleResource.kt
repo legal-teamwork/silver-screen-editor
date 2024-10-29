@@ -1,3 +1,5 @@
 package org.legalteamwork.silverscreen.rm.resource
 
-data class SimpleResource(override val title: String, override val previewPath: String) : Resource
+import androidx.compose.runtime.MutableState
+
+data class SimpleResource(override val title: MutableState<String>, override val previewPath: String) : Resource

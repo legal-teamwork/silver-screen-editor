@@ -59,9 +59,9 @@ object ResourceManager {
         MenuButton(TEMPLATES_ID, "Templates"),
     )
     val videoResources = mutableStateListOf<Resource>(
-        SimpleResource("Untitled1.mp4", "src/desktopMain/resources/tmp-resources/u1.png"),
-        SimpleResource("Untitled2.mp4", "src/desktopMain/resources/tmp-resources/u2.png"),
-        SimpleResource("Untitled3.mp4", "src/desktopMain/resources/tmp-resources/u3.png"),
+        SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
+        SimpleResource(mutableStateOf("Untitled2.mp4"), "src/desktopMain/resources/tmp-resources/u2.png"),
+        SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
     )
 
     @Composable

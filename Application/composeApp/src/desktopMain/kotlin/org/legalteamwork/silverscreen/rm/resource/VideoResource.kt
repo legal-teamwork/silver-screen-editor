@@ -1,5 +1,7 @@
 package org.legalteamwork.silverscreen.rm.resource
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.Java2DFrameConverter
 import java.awt.image.BufferedImage
@@ -9,7 +11,7 @@ import kotlin.io.path.pathString
 
 class VideoResource(
     val resourcePath: String,
-    override val title: String = File(resourcePath).name,
+    override val title: MutableState<String> = mutableStateOf(File(resourcePath).name),
     /**
      * Pre-calculated number of frames in the provided video resource
      */
@@ -17,6 +19,18 @@ class VideoResource(
 ) : Resource {
     override val previewPath: String by lazy { buildPreviewFile() }
     val numberOfFrames: Int by lazy { framesCount ?: grabLengthInFrames(File(resourcePath)) }
+
+    constructor(resourceFile: File, framesCount: Int? = null) : this(
+        resourceFile.absolutePath,
+        resourceFile.name,
+        framesCount
+    )
+
+    constructor(resourcePath: String, stringTitle: String, framesCount: Int? = null) : this(
+        resourcePath,
+        mutableStateOf(stringTitle),
+        framesCount
+    )
 
     /**
      * Gets a frame from the current video resource with the provided index
