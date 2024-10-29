@@ -16,35 +16,41 @@ import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import java.io.File
 
+@Composable
+fun WithContextMenu(content: @Composable ContextMenuScope.() -> Unit) {
+    ContextMenuScope().apply {
+        Box(modifier = Modifier.fillMaxSize()) {
+            content()
+
+            val contextMenu by remember { contextMenuState }
+            contextMenu?.invoke()
+        }
+    }
+
+}
+
 @OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun SourcePreviewItem(resource: Resource) {
-    val contextMenusState = mutableStateOf<(@Composable () -> Unit)?>(null)
-    var contextMenu by remember { contextMenusState }
-    val closeContextMenu: () -> Unit = {
-        contextMenu = null
-    }
-    val openContextMenu: (@Composable () -> Unit) -> Unit = {
-        contextMenu = it
-    }
+    WithContextMenu {
+        var contextMenu by remember { contextMenuState }
 
-    BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth().padding(CELL_PADDING)
-    ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(CELL_PADDING)
                 .onClick(
                     enabled = true,
                     matcher = PointerMatcher.mouse(PointerButton.Secondary),
                     onClick = {
-                        openContextMenu { ResourceActionsMenu(resource, openContextMenu, closeContextMenu) }
+                        contextMenu = { ResourceActionsMenu(resource, { contextMenu = it }, { contextMenu = null }) }
                     }
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,8 +82,6 @@ fun SourcePreviewItem(resource: Resource) {
             )
         }
     }
-
-    contextMenu?.invoke()
 }
 
 @Composable
@@ -87,17 +91,17 @@ private fun ResourceActionsMenu(
     closeContextMenuAction: () -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier.width(200.dp).wrapContentHeight().offset(y = 50.dp, x = 80.dp),
-        shape = RoundedCornerShape(10.dp, 10.dp),
-        color = Color.Black,
+        modifier = Modifier.wrapContentSize().zIndex(1f),
+        color = Color.Transparent,
+        shape = RoundedCornerShape(5.dp),
         elevation = 5.dp,
     ) {
-        Column {
+        Column(Modifier.width(200.dp)) {
             // Drag line:
-            Box(modifier = Modifier.height(20.dp).fillMaxWidth().background(Color.Blue))
+            Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(Color.Blue))
 
             // Main part
-            Column(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
+            Column(modifier = Modifier.background(Color.DarkGray)) {
                 ResourceAction("Clone") {
                     ResourceManager.addSource(resource.clone())
                     closeContextMenuAction()
