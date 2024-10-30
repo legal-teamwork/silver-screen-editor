@@ -19,8 +19,6 @@ fun ResourceActionsContextWindow(
     
     ResourceContextWindowPattern(position) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Text(resource.title.value)
-
             ResourceAction("Clone") {
                 ResourceManager.addSource(resource.clone())
                 onContextWindowClose()
