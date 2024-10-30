@@ -1,32 +1,19 @@
 package org.legalteamwork.silverscreen.rm
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.TabPosition
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
-import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.JdkConstants.TitledBorderTitlePosition
-import org.legalteamwork.silverscreen.rm.resource.Frame
+import org.legalteamwork.silverscreen.rm.resource.ResourceFrame
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
-import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.window.*
-import javax.lang.model.type.NullType
-import kotlin.math.roundToInt
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * Базовый класс для панели редактирования видео.
@@ -46,14 +33,14 @@ object VideoEditor {
      * Класс дорожки.
      */
     class Track {
-        inner class ResourceOnTrack(val resource: Resource, var position: Int) {
+        inner class ResourceOnTrack(val resource: VideoResource, var position: Int) {
 
             fun getLeftBorder(): Int {
                 return position
             }
 
             fun getRightBorder(): Int {
-                return position + resource.numOfFrames - 1
+                return position + resource.numberOfFrames - 1
             }
 
             fun isPosInside(pos: Int): Boolean {
@@ -68,13 +55,13 @@ object VideoEditor {
                     modifier = Modifier
                         .offset { IntOffset(offsetX.roundToInt(), 0) }
                         .fillMaxHeight()
-                        .width((resource.numOfFrames * DpInFrame).dp)
+                        .width((resource.numberOfFrames * DpInFrame).dp)
                         .background(color = Color.Magenta, RoundedCornerShape(10.dp))
                         .border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp))
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDragEnd = {
-                                    position = changePosition(position, resource.numOfFrames, (offsetX / DpInFrame).roundToInt())
+                                    position = changePosition(position, resource.numberOfFrames, (offsetX / DpInFrame).roundToInt())
                                     offsetX = position * DpInFrame
                                 },
                                 onDrag = { change, dragAmount ->
@@ -107,7 +94,7 @@ object VideoEditor {
             return newPos
         }
 
-        fun addResource(res: Resource) {
+        fun addResource(res: VideoResource) {
             var pos = 0
             if (resources.isNotEmpty())
                 pos = resources.last().getRightBorder() + 1
@@ -138,7 +125,7 @@ object VideoEditor {
         }
     }
 
-    fun addResource(res: Resource, trackId: Int = 0) {
+    fun addResource(res: VideoResource, trackId: Int = 0) {
         if (tracks.size > trackId)
             tracks[trackId].addResource(res)
     }
@@ -147,7 +134,7 @@ object VideoEditor {
         tracks.add(Track())
     }
 
-    fun getFrame(position: Int) : Frame? {
+    fun getFrame(position: Int) : ResourceFrame? {
         for (track in tracks) {
             val res = track.getResourceOnPos(position)
             if (res != null && res.resource is VideoResource)
