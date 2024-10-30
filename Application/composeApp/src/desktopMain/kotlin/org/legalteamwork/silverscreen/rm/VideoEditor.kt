@@ -190,7 +190,7 @@ object VideoEditor {
                         detectDragGestures(
                             onDrag = { change, dragAmount ->
                                 change.consume()
-                                markerPosition += dragAmount.x.roundToInt()
+                                markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
                             }
                         )
                     }
