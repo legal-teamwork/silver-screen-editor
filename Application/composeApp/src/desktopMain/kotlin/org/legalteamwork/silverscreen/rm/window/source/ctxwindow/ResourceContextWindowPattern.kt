@@ -24,7 +24,7 @@ fun ResourceContextWindowPattern(
         shape = RoundedCornerShape(5.dp),
         elevation = 5.dp,
     ) {
-        Column(Modifier.width(200.dp)) {
+        Column(Modifier.width(300.dp)) {
             Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(dragLineColor))
 
             Box(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {

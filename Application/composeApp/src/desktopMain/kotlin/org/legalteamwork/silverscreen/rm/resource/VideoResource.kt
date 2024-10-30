@@ -19,6 +19,16 @@ class VideoResource(
 ) : Resource {
     override val previewPath: String by lazy { buildPreviewFile() }
     val numberOfFrames: Int by lazy { framesCount ?: grabLengthInFrames(File(resourcePath)) }
+    override val properties: ResourceProperties
+        get() = ResourceProperties(
+            listOf(
+                ResourceProperty("Description", "Resource type", "Video"),
+                ResourceProperty("Description", "Title", title.value),
+                ResourceProperty("Description", "Preview path", previewPath),
+                ResourceProperty("Video", "Resource path", resourcePath),
+                ResourceProperty("Video", "Number of frames", numberOfFrames.toString()),
+            )
+        )
 
     constructor(resourceFile: File, framesCount: Int? = null) : this(
         resourceFile.absolutePath,
