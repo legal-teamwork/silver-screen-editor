@@ -1,6 +1,7 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -11,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -42,7 +44,7 @@ fun SourcePreviewItem(
                     val pointerInputChange = pointerEvent.changes[0]
                     val offset = pointerInputChange.position
 
-                    onContextWindowOpen(ContextWindow(ContextWindow.CONTEXT_MENU, ContextWindowData(resource, offset)))
+                    onContextWindowOpen(ContextWindow(ContextWindow.CONTEXT_MENU, ContextWindowData(resource, Offset(100F, 100F))))
                 }
             },
         horizontalAlignment = Alignment.CenterHorizontally,
