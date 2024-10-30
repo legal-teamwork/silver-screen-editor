@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
+import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
 import java.io.File
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class)

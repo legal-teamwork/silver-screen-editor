@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.legalteamwork.silverscreen.rm.window.source.ContextWindowData
 
 @Composable
 fun ResourcePropertiesContextWindow(contextWindowData: ContextWindowData) {

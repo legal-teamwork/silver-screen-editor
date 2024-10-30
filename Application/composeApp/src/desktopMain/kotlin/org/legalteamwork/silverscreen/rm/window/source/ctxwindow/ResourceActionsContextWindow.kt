@@ -5,11 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.window.source.ContextWindow
-import org.legalteamwork.silverscreen.rm.window.source.ContextWindowData
 
 @Composable
 fun ResourceActionsContextWindow(

@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.rm.window.source
+package org.legalteamwork.silverscreen.rm.window.source.ctxwindow
 
 data class ContextWindow(
     val id: Int,
