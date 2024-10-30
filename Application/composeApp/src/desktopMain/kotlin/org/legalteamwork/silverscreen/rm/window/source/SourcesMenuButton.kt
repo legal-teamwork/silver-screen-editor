@@ -43,11 +43,11 @@ fun SourcesMainWindow() {
     contextWindow?.apply {
         when (id) {
             ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(
-                data as Resource,
+                data,
                 onContextWindowOpen = { contextWindow = it }
             )
 
-            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data as Resource)
+            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data)
         }
     }
 }

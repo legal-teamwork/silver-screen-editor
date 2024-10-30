@@ -5,18 +5,22 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ContextWindow
+import org.legalteamwork.silverscreen.rm.window.source.ContextWindowData
 
 @Composable
 fun ResourceActionsContextWindow(
-    resource: Resource,
+    contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit = { onContextWindowOpen(null) }
 ) {
-    ResourceContextWindowPattern {
+    val resource = contextWindowData.resource
+    val position = contextWindowData.position
+    
+    ResourceContextWindowPattern(position) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(resource.title.value)
 
@@ -29,7 +33,7 @@ fun ResourceActionsContextWindow(
                 onContextWindowClose()
             }
             ResourceAction("Properties") {
-                onContextWindowOpen(ContextWindow(ContextWindow.PROPERTIES, resource))
+                onContextWindowOpen(ContextWindow(ContextWindow.PROPERTIES, contextWindowData))
             }
         }
     }

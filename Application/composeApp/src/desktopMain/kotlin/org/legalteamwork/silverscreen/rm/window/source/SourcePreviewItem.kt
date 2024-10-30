@@ -9,11 +9,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.PointerButton
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -22,7 +25,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import java.io.File
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SourcePreviewItem(
     resource: Resource,
@@ -33,13 +36,15 @@ fun SourcePreviewItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(CELL_PADDING)
-            .onClick(
-                enabled = true,
-                matcher = PointerMatcher.mouse(PointerButton.Secondary),
-                onClick = {
-                    onContextWindowOpen(ContextWindow(ContextWindow.CONTEXT_MENU, resource))
+            .onPointerEvent(PointerEventType.Release) { pointerEvent ->
+                if (pointerEvent.button == PointerButton.Secondary) {
+                    // Right click event
+                    val pointerInputChange = pointerEvent.changes[0]
+                    val offset = pointerInputChange.position
+
+                    onContextWindowOpen(ContextWindow(ContextWindow.CONTEXT_MENU, ContextWindowData(resource, offset)))
                 }
-            ),
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
