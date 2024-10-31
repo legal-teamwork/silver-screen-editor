@@ -178,7 +178,7 @@ fun MainButtons() {
             )
 
         Button(
-            onClick = {},
+            onClick = ResourceManager::addSourceTriggerActivity,
             modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
             colors = buttonColors,
             elevation = null,

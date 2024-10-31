@@ -14,14 +14,9 @@ fun main() {
     VideoEditor.addTrack()
     VideoEditor.addTrack()
 
-    val testResource1 = VideoResource("title", "path")
-    testResource1.framesCount = 100
-
-    val testResource2 = VideoResource("title", "path")
-    testResource2.framesCount = 200
-
-    val testResource3 = VideoResource("title", "path")
-    testResource3.framesCount = 150
+    val testResource1 = VideoResource("path", "title", 100)
+    val testResource2 = VideoResource("path", "title", 200)
+    val testResource3 = VideoResource("path", "title", 150)
 
     VideoEditor.addResource(testResource1)
     VideoEditor.addResource(testResource2)
