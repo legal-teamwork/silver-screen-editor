@@ -127,6 +127,7 @@ object ResourceManager {
      */
     fun addSource(resource: Resource) {
         videoResources.add(resource)
+        VideoEditor.addResource(resource as VideoResource)
     }
 
     /**

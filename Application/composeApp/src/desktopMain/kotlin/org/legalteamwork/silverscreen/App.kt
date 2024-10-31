@@ -26,6 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

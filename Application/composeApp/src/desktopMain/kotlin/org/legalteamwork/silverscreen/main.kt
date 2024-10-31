@@ -9,24 +9,6 @@ import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 fun main() {
-    //Test
-
-    VideoEditor.addTrack()
-    VideoEditor.addTrack()
-
-    val testResource1 = VideoResource("path", "title", 100)
-    val testResource2 = VideoResource("path", "title", 200)
-    val testResource3 = VideoResource("path", "title", 150)
-
-    VideoEditor.addResource(testResource1)
-    VideoEditor.addResource(testResource2)
-    VideoEditor.addResource(testResource3)
-    VideoEditor.addResource(testResource3, 1)
-
-
-    //End test
-
-
 
     application {
         val icon = painterResource("icon.ico")
