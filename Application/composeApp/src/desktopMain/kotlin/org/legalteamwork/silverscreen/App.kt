@@ -329,5 +329,5 @@ fun formatTime(elapsedTime: Long): String {
     val seconds = (elapsedTime / 1000) % 60
     val milliseconds = (elapsedTime % 1000) / 10
 
-    return String.format("%02d:%02d:%02d:%02d", hours, minutes, seconds, milliseconds)
+    return String.format("%02d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds)
 }
