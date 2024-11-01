@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.*
+import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.resource.ResourceFrame
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import kotlin.math.max
@@ -18,6 +19,7 @@ import kotlin.math.roundToInt
 /**
  * Базовый класс для панели редактирования видео.
  */
+@Serializable
 object VideoEditor {
     // Constants
     private val TRACK_MAX_HEIGHT = 500.dp
