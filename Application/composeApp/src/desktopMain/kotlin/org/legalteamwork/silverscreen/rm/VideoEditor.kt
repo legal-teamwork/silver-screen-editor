@@ -34,6 +34,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import java.io.File
 
 /**
@@ -253,8 +255,9 @@ object VideoEditor {
         }
     }
 
-    fun addResource(res: VideoResource) {
-        VideoTrack.addResource(res)
+    fun addResource(resource: Resource) {
+        if (resource is VideoResource)
+            VideoTrack.addResource(resource)
     }
 
 

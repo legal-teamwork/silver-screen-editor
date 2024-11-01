@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.io.File
 import kotlin.math.max
 
@@ -70,7 +72,12 @@ private fun SourcePreviewItem(resource: Resource) {
                     File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
                 }),
                 contentDescription = resource.title,
-                modifier = Modifier.height(imageHeight).fillMaxWidth(),
+                modifier = Modifier
+                    .height(imageHeight)
+                    .fillMaxWidth()
+                    .clickable(
+                        onClick = {VideoEditor.addResource(resource)}  // Временное решение
+                    ),
                 contentScale = ContentScale.Fit,
             )
             Text(
