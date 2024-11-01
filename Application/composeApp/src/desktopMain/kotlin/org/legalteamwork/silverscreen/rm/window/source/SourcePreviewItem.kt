@@ -34,7 +34,7 @@ import java.io.File
 fun SourcePreviewItem(
     resource: Resource,
     onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) }
+    onContextWindowClose: () -> Unit
 ) {
     Column(
         modifier = Modifier

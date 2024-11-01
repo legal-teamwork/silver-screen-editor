@@ -1,6 +1,6 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -22,16 +22,24 @@ val COLUMN_MIN_WIDTH = IMAGE_WIDTH + CELL_PADDING * 2
 
 @Composable
 fun SourcesMainWindow() {
-    val resources = remember { ResourceManager.videoResources }
-    val contextWindowState = mutableStateOf<ContextWindow?>(null)
-    var contextWindow by remember { contextWindowState }
+    var contextWindow by remember { mutableStateOf<ContextWindow?>(null) }
+    val onContextWindowOpen: (ContextWindow?) -> Unit = { contextWindow = it }
+    val onContextWindowClose: () -> Unit = { contextWindow = null }
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+    ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
+}
+
+@Composable
+private fun SourcesPreviews(
+    onContextWindowOpen: (ContextWindow?) -> Unit,
+    onContextWindowClose: () -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
-            items(items = resources, key = Resource::hashCode) { resource ->
+            items(items = ResourceManager.videoResources.toList(), key = Resource::hashCode) { resource ->
                 SourcePreviewItem(
-                    resource = resource,
-                    onContextWindowOpen = { contextWindow = it }
+                    resource = resource, onContextWindowOpen, onContextWindowClose
                 )
             }
 
@@ -40,14 +48,17 @@ fun SourcesMainWindow() {
             }
         }
     }
+}
 
+@Composable
+private fun ContextWindow(
+    contextWindow: ContextWindow?,
+    onContextWindowOpen: (ContextWindow?) -> Unit,
+    onContextWindowClose: () -> Unit
+) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(
-                data,
-                onContextWindowOpen = { contextWindow = it }
-            )
-
+            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
             ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data)
         }
     }
