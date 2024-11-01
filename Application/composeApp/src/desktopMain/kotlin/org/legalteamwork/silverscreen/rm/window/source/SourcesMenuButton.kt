@@ -1,12 +1,14 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -26,8 +28,10 @@ fun SourcesMainWindow() {
     val onContextWindowOpen: (ContextWindow?) -> Unit = { contextWindow = it }
     val onContextWindowClose: () -> Unit = { contextWindow = null }
 
-    SourcesPreviews(onContextWindowOpen, onContextWindowClose)
-    ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
+    BoxWithConstraints {
+        SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+        ContextWindow(contextWindow, constraints, onContextWindowOpen, onContextWindowClose)
+    }
 }
 
 @Composable
@@ -53,13 +57,14 @@ private fun SourcesPreviews(
 @Composable
 private fun ContextWindow(
     contextWindow: ContextWindow?,
+    parentConstraints: Constraints,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data)
+            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, parentConstraints, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data, parentConstraints)
         }
     }
 }
