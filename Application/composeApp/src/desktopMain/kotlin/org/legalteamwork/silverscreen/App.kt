@@ -24,8 +24,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.legalteamwork.silverscreen.rm.Data
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.rm.openFileDialog
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -200,6 +202,42 @@ fun MainButtons() {
         ) {
             Text(
                 text = "Export File",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty())
+                    Data.generateAllResources(filenameSet.first().path)
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Open Proj.",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty())
+                    Data.saveVideoResourceData(filenameSet.first().path)
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Save Proj.",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )

@@ -9,15 +9,16 @@ import java.io.File
 
 object Data {
 
-    val jsonPath : String = "data.json"
-    val jsonFile = File(jsonPath)
-
-    fun generateVideoResourceData() : List<VideoResource> {
+    fun generateVideoResourceData(jsonPath: String = "data.json"): List<VideoResource> {
+        val jsonFile = File(jsonPath)
+        if (!jsonFile.exists()) return listOf()
         val str = jsonFile.readText()
-        return Json.decodeFromString<List<VideoResource>>(str)
+
+        val data = Json.decodeFromString<List<VideoResource>>(str)
+        return data
     }
 
-    fun saveVideoResourceData() : String {
+    fun saveVideoResourceData(jsonPath: String = "data.json") : String {
         val videoOnly = mutableListOf<VideoResource>()
         for (resource in ResourceManager.videoResources) {
             if (resource is VideoResource) {
@@ -26,13 +27,14 @@ object Data {
             }
         }
         val str = Json.encodeToString(videoOnly)
+        val jsonFile = File(jsonPath)
         jsonFile.writeText(str)
         println(str)
         return str
     }
 
-    fun generateAllResources() {
-        val videoResources = generateVideoResourceData()
+    fun generateAllResources(jsonPath: String = "data.json") {
+        val videoResources = generateVideoResourceData(jsonPath)
         ResourceManager.videoResources.clear()
         ResourceManager.videoResources.addAll(videoResources)
     }
