@@ -9,7 +9,9 @@ import java.io.File
 
 object Data {
 
-    fun generateVideoResourceData(jsonPath: String = "data.json"): List<VideoResource> {
+    val autosavePath: String = "data.json"
+
+    fun generateVideoResourceData(jsonPath: String = autosavePath): List<VideoResource> {
         val jsonFile = File(jsonPath)
         if (!jsonFile.exists()) return listOf()
         val str = jsonFile.readText()
@@ -18,7 +20,7 @@ object Data {
         return data
     }
 
-    fun saveVideoResourceData(jsonPath: String = "data.json") : String {
+    fun saveVideoResourceData(jsonPath: String = autosavePath) : String {
         val videoOnly = mutableListOf<VideoResource>()
         for (resource in ResourceManager.videoResources) {
             if (resource is VideoResource) {
@@ -33,7 +35,7 @@ object Data {
         return str
     }
 
-    fun generateAllResources(jsonPath: String = "data.json") {
+    fun generateAllResources(jsonPath: String = autosavePath) {
         val videoResources = generateVideoResourceData(jsonPath)
         ResourceManager.videoResources.clear()
         ResourceManager.videoResources.addAll(videoResources)
