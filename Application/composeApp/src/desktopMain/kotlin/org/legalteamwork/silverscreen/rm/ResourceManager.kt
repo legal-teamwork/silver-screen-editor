@@ -92,8 +92,8 @@ object ResourceManager {
                     )
                 )
             }
-
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
+    val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
     @Composable
     fun compose() {

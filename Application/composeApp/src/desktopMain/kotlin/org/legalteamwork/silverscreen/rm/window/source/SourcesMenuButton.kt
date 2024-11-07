@@ -110,7 +110,7 @@ fun NavWindow(
                     .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
                     .clickable {
                         val contextWindowId = ContextWindowId.NEW_FOLDER
-                        val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
+                        val contextWindowData = ContextWindowData(Offset.Zero)
                         val contextWindow = ContextWindow(contextWindowId, contextWindowData)
                         onContextWindowOpen(contextWindow)
                     }

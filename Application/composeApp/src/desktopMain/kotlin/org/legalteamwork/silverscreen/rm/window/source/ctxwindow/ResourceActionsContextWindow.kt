@@ -16,7 +16,7 @@ fun ResourceActionsContextWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
 ) {
-    val resource = contextWindowData.resource
+    val resource = ResourceManager.activeResource.value ?: return
     val position = contextWindowData.position
     
     ResourceContextWindowPattern(position, onContextWindowOpen, onContextWindowClose) {

@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
 fun ResourcePropertiesContextWindow(
@@ -17,7 +18,7 @@ fun ResourcePropertiesContextWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
 ) {
-    val resource = contextWindowData.resource
+    val resource = ResourceManager.activeResource.value ?: return
     val position = contextWindowData.position
     val properties = resource.properties
 

@@ -42,7 +42,7 @@ fun MoveToWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
 ) {
-    val resource = contextWindowData.resource
+    val resource = ResourceManager.activeResource.value ?: return
     val position = contextWindowData.position
     val width = 250.dp
     val height = 400.dp
