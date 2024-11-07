@@ -1,13 +1,14 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,16 +16,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.painterResource
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
+import silverscreeneditor.composeapp.generated.resources.Res
+import silverscreeneditor.composeapp.generated.resources.add_folder
+import silverscreeneditor.composeapp.generated.resources.up
 
 // Constants:
 val IMAGE_WIDTH = 250.dp
 val IMAGE_HEIGHT = 140.dp
 val CELL_PADDING = 5.dp
 val COLUMN_MIN_WIDTH = IMAGE_WIDTH + CELL_PADDING * 2
+val NAV_ICON_SIZE = 40.dp
 
 @Composable
 fun SourcesMainWindow() {
@@ -35,6 +41,7 @@ fun SourcesMainWindow() {
     BoxWithConstraints {
         Column {
             NavWindow(onContextWindowOpen, onContextWindowClose)
+            PathWindow()
             SourcesPreviews(onContextWindowOpen, onContextWindowClose)
         }
 
@@ -43,42 +50,72 @@ fun SourcesMainWindow() {
 }
 
 @Composable
+fun PathWindow() {
+    Box(Modifier.fillMaxWidth().wrapContentHeight().background(Color(0xFF3A3A3A))) {
+        Box(
+            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(5.dp),
+        ) {
+            val path = mutableListOf<FolderResource>()
+            var current: FolderResource? = ResourceManager.videoResources.value
+
+            while (current != null) {
+                path.add(current)
+                current = current.parent
+            }
+
+            val pathText = path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
+
+            Text(
+                text = pathText,
+                modifier = Modifier.padding(5.dp),
+                color = Color.White
+            )
+        }
+    }
+}
+
+@Composable
 fun NavWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(10.dp)
-            .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
-            .padding(10.dp)
-    ) {
+    Box(Modifier.fillMaxWidth().wrapContentHeight().background(Color(0xFF3A3A3A))) {
         Row(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Button(
-                onClick = ResourceManager::onFolderUp
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
+                    .clickable {
+                        ResourceManager.onFolderUp()
+                    }
             ) {
-                Text("Up")
+                Image(
+                    painter = painterResource(Res.drawable.up),
+                    contentDescription = "Up",
+                    modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
+                )
             }
 
-            Button(
-                onClick = {
-                    val contextWindowId = ContextWindow.ContextWindowId.NEW_FOLDER
-                    val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
-                    val contextWindow = ContextWindow(contextWindowId, contextWindowData)
-                    onContextWindowOpen(contextWindow)
-                }
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
+                    .clickable {
+                        val contextWindowId = ContextWindow.ContextWindowId.NEW_FOLDER
+                        val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
+                        val contextWindow = ContextWindow(contextWindowId, contextWindowData)
+                        onContextWindowOpen(contextWindow)
+                    }
             ) {
-                Text("New folder")
-            }
-
-            Box(modifier = Modifier.wrapContentSize().background(Color.Magenta, shape = RoundedCornerShape(5.dp))) {
-                Text(text = "Current folder: ${ResourceManager.videoResources.value.title.value}", modifier = Modifier.padding(10.dp))
+                Image(
+                    painter = painterResource(Res.drawable.add_folder),
+                    contentDescription = "Add folder",
+                    modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
+                )
             }
         }
     }

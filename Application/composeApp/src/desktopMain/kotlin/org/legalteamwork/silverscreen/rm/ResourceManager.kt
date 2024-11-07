@@ -60,7 +60,7 @@ object ResourceManager {
         MenuButton(TEMPLATES_ID, "Templates"),
     )
     val rootFolder: FolderResource =
-        FolderResource(mutableStateOf("~"), parent = null, resources = mutableStateListOf())
+        FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
             .also { rootFolder ->
                 rootFolder.resources.addAll(
                     listOf(
