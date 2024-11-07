@@ -29,10 +29,8 @@ private fun collectPossibleFolders(
     folder.folderResources
         .map { it as FolderResource }
         .flatMap {
-            collectPossibleFolders(
-                it,
-                except
-            ).map { (folder, innerPath) -> folder to "${folder.title.value}/$innerPath" }
+            collectPossibleFolders(it, except)
+                .map { (innerFolder, innerPath) -> innerFolder to "${folder.title.value}/$innerPath" }
         }
         .plus(folder to "${folder.title.value}/")
 }

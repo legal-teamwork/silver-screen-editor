@@ -25,7 +25,7 @@ private fun collectPossibleFolders(
     folder: FolderResource = ResourceManager.rootFolder
 ): List<Pair<FolderResource, String>> = folder.folderResources
     .map { it as FolderResource }
-    .flatMap { collectPossibleFolders(it).map { (folder, innerPath) -> folder to "${folder.title.value}/$innerPath" } }
+    .flatMap { collectPossibleFolders(it).map { (innerFolder, innerPath) -> innerFolder to "${folder.title.value}/$innerPath" } }
     .plus(folder to "${folder.title.value}/")
 
 @OptIn(ExperimentalComposeUiApi::class)
