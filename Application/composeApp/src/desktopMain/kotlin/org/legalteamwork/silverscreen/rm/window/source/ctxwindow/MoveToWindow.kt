@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,10 +21,19 @@ import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
-fun collectPossibleFolders(folder: FolderResource = ResourceManager.rootFolder): List<Pair<FolderResource, String>> {
-    return folder.folderResources
+private fun collectPossibleFolders(
+    folder: FolderResource = ResourceManager.rootFolder, except: FolderResource? = null
+): List<Pair<FolderResource, String>> = if (folder == except) {
+    emptyList()
+} else {
+    folder.folderResources
         .map { it as FolderResource }
-        .flatMap { collectPossibleFolders(it).map { (folder, innerPath) -> folder to "${folder.title.value}/$innerPath" } }
+        .flatMap {
+            collectPossibleFolders(
+                it,
+                except
+            ).map { (folder, innerPath) -> folder to "${folder.title.value}/$innerPath" }
+        }
         .plus(folder to "${folder.title.value}/")
 }
 
@@ -41,38 +49,31 @@ fun MoveToWindow(
     val width = 250.dp
     val height = 400.dp
     val shape = RoundedCornerShape(5.dp)
-    val possibleFolders: List<Pair<FolderResource, String>> = collectPossibleFolders()
+    val possibleFolders: List<Pair<FolderResource, String>> = if (resource is FolderResource) {
+        collectPossibleFolders(except = resource)
+    } else {
+        collectPossibleFolders()
+    }
 
     Popup(
         popupPositionProvider = PopupPositionProviderAtPosition(position, true, Offset.Zero, Alignment.BottomEnd, 4),
         onDismissRequest = onContextWindowClose,
     ) {
         Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .width(width)
-                .heightIn(min = 0.dp, max = height)
-                .wrapContentSize()
-                .shadow(5.dp, shape = shape)
-                .background(Color.DarkGray, shape = shape)
+            modifier = Modifier.wrapContentSize().width(width).heightIn(min = 0.dp, max = height).wrapContentSize()
+                .shadow(5.dp, shape = shape).background(Color.DarkGray, shape = shape)
                 .border(1.dp, Color.LightGray, shape = shape)
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
                     items(possibleFolders, { it }) { (folder, folderPath) ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .clickable {
-                                    folder.resources.add(resource.clone())
-                                    onContextWindowClose()
-                                }
-                        ) {
+                        Box(modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
+                            resource.parent?.resources?.remove(resource)
+                            folder.resources.add(resource)
+                            onContextWindowClose()
+                        }) {
                             Text(
-                                text = folderPath,
-                                modifier = Modifier.padding(10.dp, 2.dp),
-                                color = Color.White
+                                text = folderPath, modifier = Modifier.padding(10.dp, 2.dp), color = Color.White
                             )
                         }
                     }

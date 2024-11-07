@@ -18,7 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
+import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
+
+private fun collectPossibleFolders(
+    folder: FolderResource = ResourceManager.rootFolder
+): List<Pair<FolderResource, String>> = folder.folderResources
+    .map { it as FolderResource }
+    .flatMap { collectPossibleFolders(it).map { (folder, innerPath) -> folder to "${folder.title.value}/$innerPath" } }
+    .plus(folder to "${folder.title.value}/")
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -39,31 +47,19 @@ fun CopyToWindow(
         onDismissRequest = onContextWindowClose,
     ) {
         Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .width(width)
-                .heightIn(min = 0.dp, max = height)
-                .wrapContentSize()
-                .shadow(5.dp, shape = shape)
-                .background(Color.DarkGray, shape = shape)
+            modifier = Modifier.wrapContentSize().width(width).heightIn(min = 0.dp, max = height).wrapContentSize()
+                .shadow(5.dp, shape = shape).background(Color.DarkGray, shape = shape)
                 .border(1.dp, Color.LightGray, shape = shape)
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
                     items(possibleFolders, { it }) { (folder, folderPath) ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .clickable {
-                                    folder.resources.add(resource.clone())
-                                    onContextWindowClose()
-                                }
-                        ) {
+                        Box(modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
+                            folder.resources.add(resource.clone())
+                            onContextWindowClose()
+                        }) {
                             Text(
-                                text = folderPath,
-                                modifier = Modifier.padding(10.dp, 2.dp),
-                                color = Color.White
+                                text = folderPath, modifier = Modifier.padding(10.dp, 2.dp), color = Color.White
                             )
                         }
                     }

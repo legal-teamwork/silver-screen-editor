@@ -59,17 +59,40 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val rootFolder: FolderResource = FolderResource(
-            mutableStateOf("~"),
-            mutableStateListOf(
-                FolderResource(mutableStateOf("tmp"), mutableStateListOf(
-                    SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
-                )),
-                SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
-                SimpleResource(mutableStateOf("Untitled2.mp4"), "src/desktopMain/resources/tmp-resources/u2.png"),
-                SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
-            )
-        )
+    val rootFolder: FolderResource =
+        FolderResource(mutableStateOf("~"), parent = null, resources = mutableStateListOf())
+            .also { rootFolder ->
+                rootFolder.resources.addAll(
+                    listOf(
+                        FolderResource(mutableStateOf("tmp"), rootFolder, mutableStateListOf())
+                            .also { innerFolder ->
+                                innerFolder.resources.add(
+                                    SimpleResource(
+                                        mutableStateOf("Untitled1.mp4"),
+                                        innerFolder,
+                                        "src/desktopMain/resources/tmp-resources/u1.png"
+                                    )
+                                )
+                            },
+                        SimpleResource(
+                            mutableStateOf("Untitled1.mp4"),
+                            rootFolder,
+                            "src/desktopMain/resources/tmp-resources/u1.png"
+                        ),
+                        SimpleResource(
+                            mutableStateOf("Untitled2.mp4"),
+                            rootFolder,
+                            "src/desktopMain/resources/tmp-resources/u2.png"
+                        ),
+                        SimpleResource(
+                            mutableStateOf("Untitled3.mp4"),
+                            rootFolder,
+                            "src/desktopMain/resources/tmp-resources/u3.png"
+                        ),
+                    )
+                )
+            }
+
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
 
     @Composable
@@ -97,7 +120,7 @@ object ResourceManager {
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
         for (loadFile in loadFiles) {
-            val resource = VideoResource(loadFile.path)
+            val resource = VideoResource(loadFile.path, videoResources.value)
             addSource(resource)
         }
     }
@@ -214,33 +237,25 @@ object ResourceManager {
     private fun MainWindow(windowWidth: Dp) {
         val id by remember { buttonId }
 
-        Box(
-            modifier = Modifier
-                .width(windowWidth)
-                .fillMaxHeight()
-                .dragAndDropTarget(
-                    shouldStartDragAndDrop = { event ->
-                        event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
-                    },
-                    target = remember {
-                        object : DragAndDropTarget {
+        Box(modifier = Modifier.width(windowWidth).fillMaxHeight().dragAndDropTarget(shouldStartDragAndDrop = { event ->
+            event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+        }, target = remember {
+            object : DragAndDropTarget {
 
-                            override fun onDrop(event: DragAndDropEvent): Boolean {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
 
-                                val files =
-                                    (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
+                    val files =
+                        (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
 
-                                for (file in files) {
-                                    val resource = VideoResource(file.path)
-                                    addSource(resource)
-                                }
-
-                                return true
-                            }
-                        }
+                    for (file in files) {
+                        val resource = VideoResource(file.path, videoResources.value)
+                        addSource(resource)
                     }
-                )
-        ) {
+
+                    return true
+                }
+            }
+        })) {
             when (id) {
                 SOURCES_ID -> SourcesMainWindow()
                 EFFECTS_ID -> EffectsMainWindow()

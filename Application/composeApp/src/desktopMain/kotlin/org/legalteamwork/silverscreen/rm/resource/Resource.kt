@@ -6,6 +6,7 @@ interface Resource {
     val title: MutableState<String>
     val previewPath: String
     val properties: ResourceProperties
+    val parent: FolderResource?
 
     fun clone(): Resource
     fun action()

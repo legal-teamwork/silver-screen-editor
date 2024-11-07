@@ -10,7 +10,8 @@ import javax.imageio.ImageIO
 import kotlin.io.path.pathString
 
 class VideoResource(
-    val resourcePath: String,
+    private val resourcePath: String,
+    override val parent: FolderResource?,
     override val title: MutableState<String> = mutableStateOf(File(resourcePath).name),
     /**
      * Pre-calculated number of frames in the provided video resource
@@ -30,14 +31,16 @@ class VideoResource(
             )
         )
 
-    constructor(resourceFile: File, framesCount: Int? = null) : this(
+    constructor(resourceFile: File, parent: FolderResource?, framesCount: Int? = null) : this(
         resourceFile.absolutePath,
         resourceFile.name,
+        parent,
         framesCount
     )
 
-    constructor(resourcePath: String, stringTitle: String, framesCount: Int? = null) : this(
+    constructor(resourcePath: String, stringTitle: String, parent: FolderResource?, framesCount: Int? = null) : this(
         resourcePath,
+        parent,
         mutableStateOf(stringTitle),
         framesCount
     )
@@ -113,7 +116,7 @@ class VideoResource(
         return result
     }
 
-    override fun clone() = VideoResource(resourcePath, "$title (clone)")
+    override fun clone() = VideoResource(resourcePath, "$title (clone)", parent)
     override fun action() {}
 
     class BuildException : Exception()
