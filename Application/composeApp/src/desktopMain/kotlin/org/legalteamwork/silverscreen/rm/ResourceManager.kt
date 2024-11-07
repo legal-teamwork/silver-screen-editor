@@ -34,6 +34,24 @@ import java.awt.Frame
 import java.awt.datatransfer.DataFlavor
 import java.io.File
 
+fun openFileDialog(
+    parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
+) = FileDialog(parent, title, FileDialog.LOAD).apply {
+    isMultipleMode = allowMultiSelection
+
+    // windows
+    file = allowedExtensions.joinToString(";") { "*.$it" } // e.g. '*.jpg'
+
+    // linux
+    setFilenameFilter { _, name ->
+        allowedExtensions.any {
+            name.endsWith(it)
+        }
+    }
+
+    isVisible = true
+}.files.toSet()
+
 /**
  * Базовый класс для файлового менеджера, реализующий смену окон (нажатия на вкладки) и содержащий методы отрисовки всего окна.
  * Синглтон, потому что вкладка единственна
@@ -104,23 +122,6 @@ object ResourceManager {
      *
      * @return [Set] of chosen files
      */
-    private fun openFileDialog(
-        parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
-    ) = FileDialog(parent, title, FileDialog.LOAD).apply {
-        isMultipleMode = allowMultiSelection
-
-        // windows
-        file = allowedExtensions.joinToString(";") { "*$it" } // e.g. '*.jpg'
-
-        // linux
-        setFilenameFilter { _, name ->
-            allowedExtensions.any {
-                name.endsWith(it)
-            }
-        }
-
-        isVisible = true
-    }.files.toSet()
 
     /**
      * Добавление ресурса

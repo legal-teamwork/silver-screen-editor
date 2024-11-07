@@ -6,7 +6,10 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 import kotlin.io.path.pathString
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 
+@Serializable
 class VideoResource(
     val resourcePath: String,
     override val title: String = File(resourcePath).name,
