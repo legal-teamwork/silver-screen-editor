@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,6 +32,7 @@ val IMAGE_HEIGHT = 140.dp
 val CELL_PADDING = 5.dp
 val COLUMN_MIN_WIDTH = IMAGE_WIDTH + CELL_PADDING * 2
 val NAV_ICON_SIZE = 40.dp
+val NAV_MENU_HEIGHT = 50.dp
 
 @Composable
 fun SourcesMainWindow() {
@@ -41,7 +43,9 @@ fun SourcesMainWindow() {
     BoxWithConstraints {
         Column {
             NavWindow(onContextWindowOpen, onContextWindowClose)
+            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
             PathWindow()
+            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
             SourcesPreviews(onContextWindowOpen, onContextWindowClose)
         }
 
@@ -51,26 +55,26 @@ fun SourcesMainWindow() {
 
 @Composable
 fun PathWindow() {
-    Box(Modifier.fillMaxWidth().wrapContentHeight().background(Color(0xFF3A3A3A))) {
-        Box(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(5.dp),
-        ) {
-            val path = mutableListOf<FolderResource>()
-            var current: FolderResource? = ResourceManager.videoResources.value
+    Box(
+        Modifier.fillMaxWidth()
+            .height(NAV_MENU_HEIGHT)
+            .background(Color(0xFF3A3A3A)),
+        contentAlignment = Alignment.CenterStart) {
+        val path = mutableListOf<FolderResource>()
+        var current: FolderResource? = ResourceManager.videoResources.value
 
-            while (current != null) {
-                path.add(current)
-                current = current.parent
-            }
-
-            val pathText = path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
-
-            Text(
-                text = pathText,
-                modifier = Modifier.padding(5.dp),
-                color = Color.White
-            )
+        while (current != null) {
+            path.add(current)
+            current = current.parent
         }
+
+        val pathText = path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
+
+        Text(
+            text = pathText,
+            color = Color.White,
+            modifier = Modifier.padding(5.dp)
+        )
     }
 }
 
@@ -79,9 +83,9 @@ fun NavWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
-    Box(Modifier.fillMaxWidth().wrapContentHeight().background(Color(0xFF3A3A3A))) {
+    Box(Modifier.fillMaxWidth().height(NAV_MENU_HEIGHT).background(Color(0xFF3A3A3A))) {
         Row(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(5.dp),
+            modifier = Modifier.fillMaxSize().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
