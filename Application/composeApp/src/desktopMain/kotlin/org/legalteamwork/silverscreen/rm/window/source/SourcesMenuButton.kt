@@ -1,5 +1,6 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -9,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -46,13 +48,20 @@ fun NavWindow(
     onContextWindowClose: () -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(10.dp)
             .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
+            .padding(10.dp)
     ) {
-        Row(Modifier.fillMaxWidth().wrapContentHeight()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             Button(
-                onClick = ResourceManager::onFolderUp,
-                modifier = Modifier.padding(10.dp)
+                onClick = ResourceManager::onFolderUp
             ) {
                 Text("Up")
             }
@@ -63,10 +72,13 @@ fun NavWindow(
                     val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
                     val contextWindow = ContextWindow(contextWindowId, contextWindowData)
                     onContextWindowOpen(contextWindow)
-                },
-                modifier = Modifier.padding(10.dp)
+                }
             ) {
                 Text("New folder")
+            }
+
+            Box(modifier = Modifier.wrapContentSize().background(Color.Magenta, shape = RoundedCornerShape(5.dp))) {
+                Text(text = "Current folder: ${ResourceManager.videoResources.value.title.value}", modifier = Modifier.padding(10.dp))
             }
         }
     }
