@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 
 data class SimpleResource(
     override val title: MutableState<String>,
-    override val parent: FolderResource?,
+    override var parent: FolderResource?,
     override val previewPath: String,
 ) : Resource {
     override val properties: ResourceProperties

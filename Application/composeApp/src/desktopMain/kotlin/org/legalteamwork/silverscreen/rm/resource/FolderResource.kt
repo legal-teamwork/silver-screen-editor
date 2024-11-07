@@ -6,7 +6,7 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 
 class FolderResource(
     override val title: MutableState<String>,
-    override val parent: FolderResource?,
+    override var parent: FolderResource?,
     val resources: SnapshotStateList<Resource> = mutableStateListOf(),
 ) : Resource {
     override val previewPath: String = "src/desktopMain/resources/svg/folder.svg"
@@ -21,6 +21,11 @@ class FolderResource(
         get() = resources.filterIsInstance<FolderResource>()
     val dataResources: List<Resource>
         get() = resources.filterNot { it is FolderResource }
+
+    fun addResource(resource: Resource) {
+        resources.add(resource)
+        resource.parent = this
+    }
 
     override fun clone(): Resource {
         return FolderResource(

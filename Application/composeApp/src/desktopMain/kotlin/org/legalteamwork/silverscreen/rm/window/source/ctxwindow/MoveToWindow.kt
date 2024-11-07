@@ -69,7 +69,7 @@ fun MoveToWindow(
                     items(possibleFolders, { it }) { (folder, folderPath) ->
                         Box(modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
                             resource.parent?.resources?.remove(resource)
-                            folder.resources.add(resource)
+                            folder.addResource(resource)
                             onContextWindowClose()
                         }) {
                             Text(

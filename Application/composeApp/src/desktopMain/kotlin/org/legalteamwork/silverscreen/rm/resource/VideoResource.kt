@@ -11,7 +11,7 @@ import kotlin.io.path.pathString
 
 class VideoResource(
     private val resourcePath: String,
-    override val parent: FolderResource?,
+    override var parent: FolderResource?,
     override val title: MutableState<String> = mutableStateOf(File(resourcePath).name),
     /**
      * Pre-calculated number of frames in the provided video resource
