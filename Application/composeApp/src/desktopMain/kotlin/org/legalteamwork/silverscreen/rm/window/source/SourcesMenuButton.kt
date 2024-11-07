@@ -1,14 +1,16 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -27,8 +29,27 @@ fun SourcesMainWindow() {
     val onContextWindowClose: () -> Unit = { contextWindow = null }
 
     BoxWithConstraints {
-        SourcesPreviews(onContextWindowOpen, onContextWindowClose)
-        ContextWindow(contextWindow, constraints, onContextWindowOpen, onContextWindowClose)
+        Column {
+            NavWindow()
+            SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+        }
+        ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
+    }
+}
+
+@Composable
+fun NavWindow() {
+    Box(
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp).border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
+    ) {
+        Row(Modifier.fillMaxWidth().wrapContentHeight()) {
+            Button(
+                onClick = ResourceManager::onFolderUp,
+                modifier = Modifier.padding(10.dp)
+            ) {
+                Text("Up")
+            }
+        }
     }
 }
 
@@ -55,7 +76,6 @@ private fun SourcesPreviews(
 @Composable
 private fun ContextWindow(
     contextWindow: ContextWindow?,
-    parentConstraints: Constraints,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {

@@ -169,6 +169,17 @@ object ResourceManager {
         videoResources.value.resources.remove(resource)
     }
 
+    /**
+     * Changes current showing folder to the parent one if it is possible
+     */
+    fun onFolderUp() {
+        val parent = videoResources.value.parent
+
+        if (videoResources.value != rootFolder && parent != null) {
+            videoResources.component2().invoke(parent)
+        }
+    }
+
     //Private methods:
 
     /**
