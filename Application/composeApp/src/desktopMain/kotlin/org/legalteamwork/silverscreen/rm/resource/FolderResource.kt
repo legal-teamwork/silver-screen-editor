@@ -1,10 +1,8 @@
 package org.legalteamwork.silverscreen.rm.resource
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
+import org.legalteamwork.silverscreen.rm.ResourceManager
 
 class FolderResource(
     override val title: MutableState<String>,
@@ -26,5 +24,9 @@ class FolderResource(
 
     override fun clone(): Resource {
         return FolderResource(mutableStateOf("${title.value} (clone)"), resources.map(Resource::clone).toMutableStateList())
+    }
+
+    override fun action() {
+        ResourceManager.videoResources.component2().invoke(this)
     }
 }

@@ -1,11 +1,16 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -19,7 +24,6 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -31,7 +35,7 @@ import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
 import java.io.File
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun SourcePreviewItem(
     resource: Resource,
@@ -47,6 +51,17 @@ fun SourcePreviewItem(
             .onGloballyPositioned { layoutCoordinates ->
                 globalPosition = layoutCoordinates.positionInParent()
             }
+            .combinedClickable(
+                enabled = true,
+                onClickLabel = resource.title.value,
+                onLongClickLabel = resource.title.value,
+                role = null,
+                onLongClick = null,
+                onDoubleClick = {
+                    resource.action()
+                },
+                onClick = { },
+            )
             .onPointerEvent(PointerEventType.Press) { pointerEvent ->
                 if (pointerEvent.button == PointerButton.Secondary) {
                     // Right click event

@@ -17,4 +17,5 @@ data class SimpleResource(
         )
 
     override fun clone(): Resource = SimpleResource(mutableStateOf("${title.value} (clone)"), previewPath)
+    override fun action() {}
 }

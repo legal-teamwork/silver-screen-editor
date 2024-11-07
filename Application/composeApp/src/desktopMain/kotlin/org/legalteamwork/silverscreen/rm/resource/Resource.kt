@@ -8,4 +8,5 @@ interface Resource {
     val properties: ResourceProperties
 
     fun clone(): Resource
+    fun action()
 }
