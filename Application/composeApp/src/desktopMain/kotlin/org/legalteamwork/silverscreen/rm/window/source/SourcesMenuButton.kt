@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
 
@@ -45,7 +46,8 @@ fun NavWindow(
     onContextWindowClose: () -> Unit
 ) {
     Box(
-        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp).border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
     ) {
         Row(Modifier.fillMaxWidth().wrapContentHeight()) {
             Button(
@@ -77,7 +79,16 @@ private fun SourcesPreviews(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
-            items(items = ResourceManager.videoResources.value.resources.toList(), key = Resource::hashCode) { resource ->
+            items(
+                items = ResourceManager.videoResources.value.resources.toList().sortedBy {
+                    if (it is FolderResource) {
+                        "0 ${it.title.value}"
+                    } else {
+                        "1 ${it.title.value}"
+                    }
+                },
+                key = Resource::hashCode
+            ) { resource ->
                 SourcePreviewItem(
                     resource = resource, onContextWindowOpen, onContextWindowClose
                 )
@@ -98,8 +109,18 @@ private fun ContextWindow(
 ) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(
+                data,
+                onContextWindowOpen,
+                onContextWindowClose
+            )
+
+            ContextWindow.ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(
+                data,
+                onContextWindowOpen,
+                onContextWindowClose
+            )
+
             ContextWindow.ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
             ContextWindow.ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
             ContextWindow.ContextWindowId.NEW_FOLDER -> NewFolderWindow(data, onContextWindowOpen, onContextWindowClose)
