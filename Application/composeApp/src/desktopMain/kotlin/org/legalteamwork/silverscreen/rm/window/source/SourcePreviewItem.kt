@@ -33,6 +33,7 @@ import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
+import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId
 import java.io.File
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
@@ -68,7 +69,7 @@ fun SourcePreviewItem(
                     val pointerInputChange = pointerEvent.changes[0]
                     val offset = pointerInputChange.position
                     val contextWindowData = ContextWindowData(resource, globalPosition + offset)
-                    val contextWindow = ContextWindow(ContextWindow.ContextWindowId.CONTEXT_MENU, contextWindowData)
+                    val contextWindow = ContextWindow(ContextWindowId.CONTEXT_MENU, contextWindowData)
                     onContextWindowOpen(contextWindow)
                 }
             },

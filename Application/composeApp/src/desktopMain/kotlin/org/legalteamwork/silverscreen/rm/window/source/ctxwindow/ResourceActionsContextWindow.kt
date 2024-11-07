@@ -33,16 +33,16 @@ fun ResourceActionsContextWindow(
             Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
 
             ResourceAction("Move to") {
-                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.MOVE_TO, contextWindowData))
+                onContextWindowOpen(ContextWindow(ContextWindowId.MOVE_TO, contextWindowData))
             }
             ResourceAction("Copy to") {
-                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.COPY_TO, contextWindowData))
+                onContextWindowOpen(ContextWindow(ContextWindowId.COPY_TO, contextWindowData))
             }
 
             Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
 
             ResourceAction("Properties") {
-                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.PROPERTIES, contextWindowData))
+                onContextWindowOpen(ContextWindow(ContextWindowId.PROPERTIES, contextWindowData))
             }
         }
     }

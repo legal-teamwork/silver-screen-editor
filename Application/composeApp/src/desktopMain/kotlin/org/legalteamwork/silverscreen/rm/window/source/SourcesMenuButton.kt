@@ -109,7 +109,7 @@ fun NavWindow(
                     .wrapContentSize()
                     .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
                     .clickable {
-                        val contextWindowId = ContextWindow.ContextWindowId.NEW_FOLDER
+                        val contextWindowId = ContextWindowId.NEW_FOLDER
                         val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
                         val contextWindow = ContextWindow(contextWindowId, contextWindowData)
                         onContextWindowOpen(contextWindow)
@@ -162,21 +162,21 @@ private fun ContextWindow(
 ) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(
+            ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(
                 data,
                 onContextWindowOpen,
                 onContextWindowClose
             )
 
-            ContextWindow.ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(
+            ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(
                 data,
                 onContextWindowOpen,
                 onContextWindowClose
             )
 
-            ContextWindow.ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.ContextWindowId.NEW_FOLDER -> NewFolderWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindowId.NEW_FOLDER -> NewFolderWindow(data, onContextWindowOpen, onContextWindowClose)
         }
     }
 }
