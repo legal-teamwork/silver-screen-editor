@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.legalteamwork.silverscreen.rm.resource.ResourceFrame
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import kotlin.math.max
@@ -30,58 +31,61 @@ object VideoEditor {
     // Количество Dp в кадре.
     private var DpInFrame = 1f
 
+    @Serializable
+    class ResourceOnTrack(@Transient val track: Track? = null, val resource: VideoResource, var position: Int) {
+
+        fun getLeftBorder(): Int {
+            return position
+        }
+
+        fun getRightBorder(): Int {
+            return position + resource.numberOfFrames - 1
+        }
+
+        fun isPosInside(pos: Int): Boolean {
+            return getLeftBorder() <= pos && pos <= getRightBorder()
+        }
+
+        @Composable
+        fun compose() {
+            var offsetX by remember { mutableStateOf(position * DpInFrame) }
+
+            Box(
+                modifier = Modifier
+                    .offset { IntOffset(offsetX.roundToInt(), 0) }
+                    .fillMaxHeight()
+                    .width((resource.numberOfFrames * DpInFrame).dp)
+                    .background(color = Color.Magenta, RoundedCornerShape(10.dp))
+                    .border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp))
+                    .pointerInput(Unit) {
+                        detectDragGestures(
+                            onDragEnd = {
+                                position = track!!.changePosition(position, resource.numberOfFrames, (offsetX / DpInFrame).roundToInt())
+                                offsetX = position * DpInFrame
+                            },
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                offsetX += dragAmount.x
+                            }
+                        )
+                    }
+            )
+        }
+    }
+
 
     /**
      * Класс дорожки.
      */
+    @Serializable
     class Track {
-        inner class ResourceOnTrack(val resource: VideoResource, var position: Int) {
-
-            fun getLeftBorder(): Int {
-                return position
-            }
-
-            fun getRightBorder(): Int {
-                return position + resource.numberOfFrames - 1
-            }
-
-            fun isPosInside(pos: Int): Boolean {
-                return getLeftBorder() <= pos && pos <= getRightBorder()
-            }
-
-            @Composable
-            fun compose() {
-                var offsetX by remember { mutableStateOf(position * DpInFrame) }
-
-                Box(
-                    modifier = Modifier
-                        .offset { IntOffset(offsetX.roundToInt(), 0) }
-                        .fillMaxHeight()
-                        .width((resource.numberOfFrames * DpInFrame).dp)
-                        .background(color = Color.Magenta, RoundedCornerShape(10.dp))
-                        .border(3.dp, color = Color.Black, shape = RoundedCornerShape(10.dp))
-                        .pointerInput(Unit) {
-                            detectDragGestures(
-                                onDragEnd = {
-                                    position = changePosition(position, resource.numberOfFrames, (offsetX / DpInFrame).roundToInt())
-                                    offsetX = position * DpInFrame
-                                },
-                                onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    offsetX += dragAmount.x
-                                }
-                            )
-                        }
-                )
-            }
-        }
-
-
         private val resources = mutableListOf<ResourceOnTrack>()
 
         fun deleteByPosition(position: Int) {
             resources.removeIf {it.position == position}
         }
+
+        fun getResources() = resources
 
         fun changePosition(position: Int, size: Int, offset: Int) : Int {
             var newPos = max(offset, 0)
@@ -100,7 +104,7 @@ object VideoEditor {
             var pos = 0
             if (resources.isNotEmpty())
                 pos = resources.last().getRightBorder() + 1
-            resources.add(ResourceOnTrack(res, pos))
+            resources.add(ResourceOnTrack(this, res, pos))
         }
 
         fun getResourceOnPos(position: Int) : ResourceOnTrack? {
@@ -136,6 +140,8 @@ object VideoEditor {
         tracks.add(Track())
     }
 
+    fun getTracks() = tracks
+
     fun getFrame(position: Int) : ResourceFrame? {
         for (track in tracks) {
             val res = track.getResourceOnPos(position)
@@ -143,6 +149,11 @@ object VideoEditor {
                 return res.resource.getFrame(position - res.position)
         }
         return null
+    }
+
+    fun restore(savedTracks: List<Track>) {
+        tracks.clear()
+        tracks.addAll(savedTracks)
     }
 
 
