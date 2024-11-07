@@ -44,7 +44,7 @@ fun SourcePreviewItem(
             .onGloballyPositioned { layoutCoordinates ->
                 globalPosition = layoutCoordinates.positionInParent()
             }
-            .onPointerEvent(PointerEventType.Release) { pointerEvent ->
+            .onPointerEvent(PointerEventType.Press) { pointerEvent ->
                 if (pointerEvent.button == PointerButton.Secondary) {
                     // Right click event
                     val pointerInputChange = pointerEvent.changes[0]
