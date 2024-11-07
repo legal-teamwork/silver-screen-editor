@@ -19,10 +19,13 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
@@ -50,7 +53,7 @@ fun SourcePreviewItem(
                     val pointerInputChange = pointerEvent.changes[0]
                     val offset = pointerInputChange.position
                     val contextWindowData = ContextWindowData(resource, globalPosition + offset)
-                    val contextWindow = ContextWindow(ContextWindow.CONTEXT_MENU, contextWindowData)
+                    val contextWindow = ContextWindow(ContextWindow.ContextWindowId.CONTEXT_MENU, contextWindowData)
                     onContextWindowOpen(contextWindow)
                 }
             },
@@ -59,15 +62,25 @@ fun SourcePreviewItem(
     ) {
         var rememberedTitle by remember { resource.title }
 
-        Image(
-            painter = BitmapPainter(remember {
-                File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
-            }),
-            contentDescription = rememberedTitle,
-            modifier = Modifier.size(IMAGE_WIDTH, IMAGE_HEIGHT),
-            contentScale = ContentScale.FillBounds,
-            alignment = Alignment.TopCenter
-        )
+        if (File(resource.previewPath).extension == "svg") {
+            Image(
+                painter = File(resource.previewPath).inputStream().readAllBytes().decodeToSvgPainter(Density(1f)),
+                contentDescription = rememberedTitle,
+                modifier = Modifier.size(IMAGE_WIDTH, IMAGE_HEIGHT),
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.TopCenter
+            )
+        } else {
+            Image(
+                painter = BitmapPainter(remember {
+                    File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
+                }),
+                contentDescription = rememberedTitle,
+                modifier = Modifier.size(IMAGE_WIDTH, IMAGE_HEIGHT),
+                contentScale = ContentScale.FillBounds,
+                alignment = Alignment.TopCenter
+            )
+        }
 
         BasicTextField(
             value = rememberedTitle,

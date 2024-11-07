@@ -12,9 +12,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
-import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ResourceActionsContextWindow
-import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ResourcePropertiesContextWindow
+import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
 
 // Constants:
 val IMAGE_WIDTH = 250.dp
@@ -41,7 +39,7 @@ private fun SourcesPreviews(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
-            items(items = ResourceManager.videoResources.toList(), key = Resource::hashCode) { resource ->
+            items(items = ResourceManager.videoResources.value.resources.toList(), key = Resource::hashCode) { resource ->
                 SourcePreviewItem(
                     resource = resource, onContextWindowOpen, onContextWindowClose
                 )
@@ -63,8 +61,10 @@ private fun ContextWindow(
 ) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
         }
     }
 }

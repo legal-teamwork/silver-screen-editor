@@ -9,7 +9,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
+import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
@@ -59,10 +59,16 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val videoResources: SnapshotStateList<Resource> = mutableStateListOf<Resource>(
-        SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
-        SimpleResource(mutableStateOf("Untitled2.mp4"), "src/desktopMain/resources/tmp-resources/u2.png"),
-        SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
+    val videoResources = mutableStateOf<FolderResource>(
+        FolderResource(
+            mutableStateOf("~"),
+            mutableStateListOf(
+                FolderResource(mutableStateOf("tmp"), mutableStateListOf()),
+                SimpleResource(mutableStateOf("Untitled1.mp4"), "src/desktopMain/resources/tmp-resources/u1.png"),
+                SimpleResource(mutableStateOf("Untitled2.mp4"), "src/desktopMain/resources/tmp-resources/u2.png"),
+                SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
+            )
+        )
     )
 
     @Composable
@@ -127,7 +133,7 @@ object ResourceManager {
      * Добавление ресурса
      */
     fun addSource(resource: Resource) {
-        videoResources.add(resource)
+        videoResources.value.resources.add(resource)
     }
 
     /**
@@ -136,7 +142,7 @@ object ResourceManager {
      * @param[resource] дата ресуса
      */
     fun removeSource(resource: Resource) {
-        videoResources.remove(resource)
+        videoResources.value.resources.remove(resource)
     }
 
     //Private methods:

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 fun ResourcePropertiesContextWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) }
+    onContextWindowClose: () -> Unit,
 ) {
     val resource = contextWindowData.resource
     val position = contextWindowData.position

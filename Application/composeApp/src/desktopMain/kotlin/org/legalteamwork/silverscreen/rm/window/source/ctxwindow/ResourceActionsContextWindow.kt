@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen.rm.window.source.ctxwindow
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +14,7 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 fun ResourceActionsContextWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) }
+    onContextWindowClose: () -> Unit,
 ) {
     val resource = contextWindowData.resource
     val position = contextWindowData.position
@@ -28,8 +29,20 @@ fun ResourceActionsContextWindow(
                 ResourceManager.removeSource(resource)
                 onContextWindowClose()
             }
+
+            Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
+
+            ResourceAction("Move to") {
+                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.MOVE_TO, contextWindowData))
+            }
+            ResourceAction("Copy to") {
+                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.COPY_TO, contextWindowData))
+            }
+
+            Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
+
             ResourceAction("Properties") {
-                onContextWindowOpen(ContextWindow(ContextWindow.PROPERTIES, contextWindowData))
+                onContextWindowOpen(ContextWindow(ContextWindow.ContextWindowId.PROPERTIES, contextWindowData))
             }
         }
     }
