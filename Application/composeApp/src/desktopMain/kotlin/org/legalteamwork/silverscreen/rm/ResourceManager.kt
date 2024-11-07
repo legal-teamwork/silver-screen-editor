@@ -59,8 +59,7 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val videoResources = mutableStateOf<FolderResource>(
-        FolderResource(
+    val rootFolder: FolderResource = FolderResource(
             mutableStateOf("~"),
             mutableStateListOf(
                 FolderResource(mutableStateOf("tmp"), mutableStateListOf(
@@ -71,7 +70,7 @@ object ResourceManager {
                 SimpleResource(mutableStateOf("Untitled3.mp4"), "src/desktopMain/resources/tmp-resources/u3.png"),
             )
         )
-    )
+    val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
 
     @Composable
     fun compose() {
