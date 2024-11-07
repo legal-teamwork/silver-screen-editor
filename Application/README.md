@@ -9,3 +9,12 @@ This is a Kotlin Multiplatform project targeting Desktop.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+
+
+чтобы собрать приложение:
+
+* нажать на иконку Gradle в правой панели IDEA
+* выбрать SilverScreenEditor > Tasks > compose desktop > runDistributable
+
+соберется exeшник в папку `composeApp\build\compose\binaries\main\app\org.legalteamwork.silverscreen`, который сразу же запустится

@@ -8,6 +8,8 @@ import androidx.compose.ui.window.application
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import java.awt.Dimension
+import java.awt.Toolkit
 
 fun main() {
     //Test
@@ -40,6 +42,8 @@ fun main() {
             title = "Silver Screen Editor",
             icon = icon
         ) {
+            val screenSize = Toolkit.getDefaultToolkit().screenSize
+            window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
             App()
         }
     }
