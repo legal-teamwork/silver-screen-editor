@@ -9,5 +9,6 @@ data class ContextWindow(
         PROPERTIES,
         MOVE_TO,
         COPY_TO,
+        NEW_FOLDER,
     }
 }

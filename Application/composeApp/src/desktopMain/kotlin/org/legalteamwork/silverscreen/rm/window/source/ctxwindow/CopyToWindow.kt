@@ -63,31 +63,6 @@ fun CopyToWindow(
                             )
                         }
                     }
-
-//                    item {
-//                        Divider(
-//                            modifier = Modifier.fillMaxWidth(),
-//                            color = Color.Gray,
-//                            thickness = 1.dp,
-//                        )
-//                    }
-//
-//                    item {
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .wrapContentHeight()
-//                                .clickable {
-//                                    // TODO
-//                                }
-//                        ) {
-//                            Text(
-//                                text = "New folder...",
-//                                modifier = Modifier.padding(10.dp, 2.dp),
-//                                color = Color.White
-//                            )
-//                        }
-//                    }
                 }
             }
         }

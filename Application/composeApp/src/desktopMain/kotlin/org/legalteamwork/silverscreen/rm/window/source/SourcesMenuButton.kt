@@ -10,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -30,15 +31,19 @@ fun SourcesMainWindow() {
 
     BoxWithConstraints {
         Column {
-            NavWindow()
+            NavWindow(onContextWindowOpen, onContextWindowClose)
             SourcesPreviews(onContextWindowOpen, onContextWindowClose)
         }
+
         ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
     }
 }
 
 @Composable
-fun NavWindow() {
+fun NavWindow(
+    onContextWindowOpen: (ContextWindow?) -> Unit,
+    onContextWindowClose: () -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp).border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
     ) {
@@ -48,6 +53,18 @@ fun NavWindow() {
                 modifier = Modifier.padding(10.dp)
             ) {
                 Text("Up")
+            }
+
+            Button(
+                onClick = {
+                    val contextWindowId = ContextWindow.ContextWindowId.NEW_FOLDER
+                    val contextWindowData = ContextWindowData(ResourceManager.videoResources.value, Offset.Zero)
+                    val contextWindow = ContextWindow(contextWindowId, contextWindowData)
+                    onContextWindowOpen(contextWindow)
+                },
+                modifier = Modifier.padding(10.dp)
+            ) {
+                Text("New folder")
             }
         }
     }
@@ -85,6 +102,7 @@ private fun ContextWindow(
             ContextWindow.ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(data, onContextWindowOpen, onContextWindowClose)
             ContextWindow.ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
             ContextWindow.ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.ContextWindowId.NEW_FOLDER -> NewFolderWindow(data, onContextWindowOpen, onContextWindowClose)
         }
     }
 }
