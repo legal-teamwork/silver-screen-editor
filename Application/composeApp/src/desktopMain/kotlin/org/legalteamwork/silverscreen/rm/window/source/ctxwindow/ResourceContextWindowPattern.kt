@@ -1,5 +1,6 @@
 package org.legalteamwork.silverscreen.rm.window.source.ctxwindow
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +18,6 @@ import androidx.compose.ui.zIndex
 fun ResourceContextWindowPattern(
     position: Offset,
     parentConstraints: Constraints,
-    dragLineColor: Color = Color.Blue,
     content: @Composable () -> Unit
 ) {
     val widthDp = 300F
@@ -32,11 +32,10 @@ fun ResourceContextWindowPattern(
         modifier = Modifier.wrapContentSize().zIndex(1f).offset(modifiedPosition.x.dp, modifiedPosition.y.dp),
         color = Color.Transparent,
         shape = RoundedCornerShape(5.dp),
+        border = BorderStroke(1.dp, Color.LightGray),
         elevation = 5.dp,
     ) {
         Column(Modifier.width(widthDp.dp)) {
-            Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(dragLineColor))
-
             Box(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
                 content()
             }
