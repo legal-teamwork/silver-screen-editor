@@ -14,7 +14,6 @@ class FolderResource(
             listOf(
                 ResourceProperty("Description", "Resource type", "Folder"),
                 ResourceProperty("Description", "Title", title.value),
-                ResourceProperty("Description", "Title", title.value),
             )
         )
     val folderResources: List<Resource>
