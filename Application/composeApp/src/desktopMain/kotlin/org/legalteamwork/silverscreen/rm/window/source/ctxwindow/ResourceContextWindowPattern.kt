@@ -1,43 +1,38 @@
 package org.legalteamwork.silverscreen.rm.window.source.ctxwindow
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
 import androidx.compose.ui.zIndex
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ResourceContextWindowPattern(
     position: Offset,
-    parentConstraints: Constraints,
-    content: @Composable () -> Unit
+    onContextWindowOpen: (ContextWindow?) -> Unit,
+    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) },
+    content: @Composable () -> Unit,
 ) {
-    val widthDp = 300F
-    val rightPosition = position + Offset(widthDp, 0F)
-    val modifiedPosition = if (rightPosition.x > parentConstraints.maxWidth) {
-        Offset(parentConstraints.maxWidth - widthDp, position.y)
-    } else {
-        position
-    }
+    val widthDp = 200F
+    val popupPositionProvider = rememberPopupPositionProviderAtPosition(position)
 
-    Surface(
-        modifier = Modifier.wrapContentSize().zIndex(1f).offset(modifiedPosition.x.dp, modifiedPosition.y.dp),
-        color = Color.Transparent,
-        shape = RoundedCornerShape(5.dp),
-        border = BorderStroke(1.dp, Color.LightGray),
-        elevation = 5.dp,
+    Popup(
+        popupPositionProvider = popupPositionProvider,
+        onDismissRequest = onContextWindowClose,
     ) {
-        Column(Modifier.width(widthDp.dp)) {
-            Box(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
-                content()
+        Box(modifier = Modifier.wrapContentSize().zIndex(1f)) {
+            Column(Modifier.width(widthDp.dp)) {
+                Box(modifier = Modifier.fillMaxWidth().background(Color.DarkGray)) {
+                    content()
+                }
             }
         }
     }

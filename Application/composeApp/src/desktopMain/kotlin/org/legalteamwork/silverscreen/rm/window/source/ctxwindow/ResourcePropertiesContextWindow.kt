@@ -8,20 +8,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun ResourcePropertiesContextWindow(
     contextWindowData: ContextWindowData,
-    parentConstraints: Constraints
+    onContextWindowOpen: (ContextWindow?) -> Unit,
+    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) }
 ) {
     val resource = contextWindowData.resource
     val position = contextWindowData.position
     val properties = resource.properties
 
-    ResourceContextWindowPattern(position, parentConstraints) {
+    ResourceContextWindowPattern(position, onContextWindowOpen, onContextWindowClose) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column {
                 properties.properties

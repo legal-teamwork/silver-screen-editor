@@ -63,8 +63,8 @@ private fun ContextWindow(
 ) {
     contextWindow?.apply {
         when (id) {
-            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, parentConstraints, onContextWindowOpen, onContextWindowClose)
-            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data, parentConstraints)
+            ContextWindow.CONTEXT_MENU -> ResourceActionsContextWindow(data, onContextWindowOpen, onContextWindowClose)
+            ContextWindow.PROPERTIES -> ResourcePropertiesContextWindow(data, onContextWindowOpen, onContextWindowClose)
         }
     }
 }
