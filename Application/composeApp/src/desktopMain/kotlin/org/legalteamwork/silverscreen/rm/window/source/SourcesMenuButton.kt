@@ -19,6 +19,9 @@ import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -35,18 +38,105 @@ val CELL_PADDING = 10.dp
 fun ResourceManager.SourcesMainWindow() {
     val resources = remember { videoResources }
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val columnsNumber = max((maxWidth / COLUMN_MIN_WIDTH).toInt(), 1)
+    Column {
+        // Кнопка переключения режима
+        Button(
+            onClick = { toggleViewMode() },
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Text(if (isListView.value) "Switch to Icons" else "Switch to List")
+        }
 
-        LazyVerticalGrid(columns = GridCells.Fixed(columnsNumber)) {
-            items(items = resources) { resource ->
-                SourcePreviewItem(resource)
-            }
-
-            item {
-                SourceAddButton()
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            if (isListView.value) {
+                // Режим списка
+                LazyColumn {
+                    items(resources) { resource ->
+                        ListViewItem(resource)
+                    }
+                    item {
+                        ListAddButton()
+                    }
+                }
+            } else {
+                // Режим сетки (существующий код)
+                val columnsNumber = max((maxWidth / COLUMN_MIN_WIDTH).toInt(), 1)
+                LazyVerticalGrid(columns = GridCells.Fixed(columnsNumber)) {
+                    items(items = resources) { resource ->
+                        SourcePreviewItem(resource)
+                    }
+                    item {
+                        SourceAddButton()
+                    }
+                }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ListViewItem(resource: Resource) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .border(0.5.dp, Color(0x44000000))
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Миниатюра
+        Image(
+            painter = BitmapPainter(remember {
+                File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
+            }),
+            contentDescription = resource.title,
+            modifier = Modifier.size(40.dp),
+            contentScale = ContentScale.Fit
+        )
+
+        // Название файла
+        Text(
+            text = resource.title,
+            color = Color.White,
+            modifier = Modifier.weight(1f).padding(horizontal = 8.dp)
+        )
+
+        // Можно добавить дополнительную информацию
+        Text(
+            text = "Size: ${File(resource.previewPath).length() / 1024} KB",
+            color = Color.Gray
+        )
+    }
+}
+
+@Composable
+private fun ResourceManager.ListAddButton() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .border(0.5.dp, Color(0x44000000))
+            .padding(8.dp)
+            .clickable(
+                onClickLabel = "Add resource",
+                role = Role.Button,
+                onClick = ::addSourceTriggerActivity
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource("svg/add-resource.svg"),
+            contentDescription = "Add resource button",
+            modifier = Modifier.size(40.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            text = "Add New Resource",
+            color = Color.White,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }
 
