@@ -82,6 +82,13 @@ object ResourceManager {
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
+    //Режимы отображения: список
+    val isListView = mutableStateOf(false)
+
+    fun toggleViewMode() {
+        isListView.value = !isListView.value
+    }
+
     @Composable
     fun compose() {
         BoxWithConstraints(

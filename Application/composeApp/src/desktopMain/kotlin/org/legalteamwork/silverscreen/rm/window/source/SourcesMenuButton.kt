@@ -16,15 +16,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.ResourceManager.isListView
+import org.legalteamwork.silverscreen.rm.ResourceManager.toggleViewMode
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
 import silverscreeneditor.composeapp.generated.resources.Res
 import silverscreeneditor.composeapp.generated.resources.add_folder
 import silverscreeneditor.composeapp.generated.resources.up
+import java.io.File
 
 // Constants:
 val IMAGE_WIDTH = 250.dp
@@ -46,7 +57,27 @@ fun SourcesMainWindow() {
             Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
             PathWindow()
             Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
-            SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (isListView.value) {
+                    // Режим списка
+                    LazyColumn {
+                        items(
+                            items = ResourceManager.videoResources.value.resources.toList(),
+                            key = Resource::hashCode
+                        ) { resource ->
+                            ListViewItem(resource)
+                        }
+
+                        item {
+                            ListAddButton()
+                        }
+                    }
+                } else {
+                    // Режим сетки (существующий код)
+                    SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+                }
+            }
         }
 
         ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
@@ -121,6 +152,14 @@ fun NavWindow(
                     modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
                 )
             }
+
+            // Кнопка переключения режима
+            Button(
+                onClick = { toggleViewMode() },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(if (isListView.value) "Switch to Icons" else "Switch to List")
+            }
         }
     }
 }
@@ -133,13 +172,7 @@ private fun SourcesPreviews(
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
             items(
-                items = ResourceManager.videoResources.value.resources.toList().sortedBy {
-                    if (it is FolderResource) {
-                        "0 ${it.title.value}"
-                    } else {
-                        "1 ${it.title.value}"
-                    }
-                },
+                items = ResourceManager.videoResources.value.resources.toList(),
                 key = Resource::hashCode
             ) { resource ->
                 SourcePreviewItem(
@@ -151,6 +184,72 @@ private fun SourcesPreviews(
                 SourceAddButton()
             }
         }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ListViewItem(resource: Resource) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .border(0.5.dp, Color(0x44000000))
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Миниатюра
+        Image(
+            painter = BitmapPainter(remember {
+                File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
+            }),
+            contentDescription = resource.title.value,
+            modifier = Modifier.size(40.dp),
+            contentScale = ContentScale.Fit
+        )
+
+        // Название файла
+        Text(
+            text = resource.title.value,
+            modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
+            color = Color.White,
+        )
+
+        // Можно добавить дополнительную информацию
+        Text(
+            text = "Size: ${File(resource.previewPath).length() / 1024} KB",
+            color = Color.Gray
+        )
+    }
+}
+
+@Composable
+private fun ListAddButton() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(60.dp)
+            .border(0.5.dp, Color(0x44000000))
+            .padding(8.dp)
+            .clickable(
+                onClickLabel = "Add resource",
+                role = Role.Button,
+                onClick = ResourceManager::addSourceTriggerActivity
+            ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = androidx.compose.ui.res.painterResource("svg/add-resource.svg"),
+            contentDescription = "Add resource button",
+            modifier = Modifier.size(40.dp),
+            contentScale = ContentScale.Fit
+        )
+        Text(
+            text = "Add New Resource",
+            color = Color.White,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }
 
