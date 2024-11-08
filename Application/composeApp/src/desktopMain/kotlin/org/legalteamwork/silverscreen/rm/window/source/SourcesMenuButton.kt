@@ -24,8 +24,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.unit.Density
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.ResourceManager.isListView
 import org.legalteamwork.silverscreen.rm.ResourceManager.toggleViewMode
@@ -200,14 +202,23 @@ private fun ListViewItem(resource: Resource) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Миниатюра
-        Image(
-            painter = BitmapPainter(remember {
-                File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
-            }),
-            contentDescription = resource.title.value,
-            modifier = Modifier.size(40.dp),
-            contentScale = ContentScale.Fit
-        )
+        if (File(resource.previewPath).extension == "svg") {
+            Image(
+                painter = File(resource.previewPath).inputStream().readAllBytes().decodeToSvgPainter(Density(1f)),
+                contentDescription = resource.title.value,
+                modifier = Modifier.size(40.dp),
+                contentScale = ContentScale.Fit
+            )
+        } else {
+            Image(
+                painter = BitmapPainter(remember {
+                    File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
+                }),
+                contentDescription = resource.title.value,
+                modifier = Modifier.size(40.dp),
+                contentScale = ContentScale.Fit
+            )
+        }
 
         // Название файла
         Text(
