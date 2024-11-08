@@ -158,7 +158,6 @@ fun NavWindow(
             // Кнопка переключения режима
             Button(
                 onClick = { toggleViewMode() },
-                modifier = Modifier.padding(8.dp)
             ) {
                 Text(if (isListView.value) "Switch to Icons" else "Switch to List")
             }
