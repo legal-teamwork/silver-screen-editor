@@ -41,7 +41,7 @@ fun ResourceContextWindowPattern(
                 .width(widthDp.dp)
                 .wrapContentHeight()
                 .shadow(5.dp, shape = shape)
-                .background(Color.DarkGray, shape = shape)
+                .background(Color(0xFF222222), shape = shape)
                 .border(1.dp, Color.LightGray, shape = shape)
         ) {
             content()

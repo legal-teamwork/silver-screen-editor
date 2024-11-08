@@ -58,8 +58,13 @@ fun MoveToWindow(
         onDismissRequest = onContextWindowClose,
     ) {
         Box(
-            modifier = Modifier.wrapContentSize().width(width).heightIn(min = 0.dp, max = height).wrapContentSize()
-                .shadow(5.dp, shape = shape).background(Color.DarkGray, shape = shape)
+            modifier = Modifier
+                .wrapContentSize()
+                .width(width)
+                .heightIn(min = 0.dp, max = height)
+                .wrapContentSize()
+                .shadow(5.dp, shape = shape)
+                .background(Color(0xFF222222), shape = shape)
                 .border(1.dp, Color.LightGray, shape = shape)
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -71,35 +76,10 @@ fun MoveToWindow(
                             onContextWindowClose()
                         }) {
                             Text(
-                                text = folderPath, modifier = Modifier.padding(10.dp, 2.dp), color = Color.White
+                                text = "/$folderPath", modifier = Modifier.padding(10.dp, 2.dp), color = Color.White
                             )
                         }
                     }
-
-//                    item {
-//                        Divider(
-//                            modifier = Modifier.fillMaxWidth(),
-//                            color = Color.Gray,
-//                            thickness = 1.dp,
-//                        )
-//                    }
-//
-//                    item {
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .wrapContentHeight()
-//                                .clickable {
-//                                    // TODO
-//                                }
-//                        ) {
-//                            Text(
-//                                text = "New folder...",
-//                                modifier = Modifier.padding(10.dp, 2.dp),
-//                                color = Color.White
-//                            )
-//                        }
-//                    }
                 }
             }
         }
