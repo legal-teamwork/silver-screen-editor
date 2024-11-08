@@ -24,8 +24,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.rm.openFileDialog
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -204,6 +206,42 @@ fun MainButtons() {
                 textAlign = TextAlign.Center,
             )
         }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty())
+                    SaveManager.load(filenameSet.first().path)
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Open Proj.",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty())
+                    SaveManager.save(filenameSet.first().path)
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Save Proj.",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
@@ -258,7 +296,7 @@ fun VideoPanel() {
                         .padding(end = 20.dp),
             ) {
                 Image(
-                    painter = painterResource("buttons/rewind_backwards_button.png"),
+                    painter = painterResource("buttons/rewind_backwards_button.svg"),
                     contentDescription = "Перемотка назад",
                     modifier = Modifier.size(70.dp),
                 )
@@ -274,13 +312,13 @@ fun VideoPanel() {
             ) {
                 if (isPlaying) {
                     Image(
-                        painter = painterResource("buttons/pause_button.png"),
+                        painter = painterResource("buttons/pause_button.svg"),
                         contentDescription = "Пауза",
                         modifier = Modifier.size(70.dp),
                     )
                 } else {
                     Image(
-                        painter = painterResource("buttons/play_button.png"),
+                        painter = painterResource("buttons/play_button.svg"),
                         contentDescription = "Запуск",
                         modifier = Modifier.size(70.dp),
                     )
@@ -299,7 +337,7 @@ fun VideoPanel() {
                         .padding(end = 20.dp),
             ) {
                 Image(
-                    painter = painterResource("buttons/stop_button.png"),
+                    painter = painterResource("buttons/stop_button.svg"),
                     contentDescription = "Стоп",
                     modifier = Modifier.size(70.dp),
                 )
@@ -314,7 +352,7 @@ fun VideoPanel() {
                         .padding(end = 20.dp),
             ) {
                 Image(
-                    painter = painterResource("buttons/rewind_forward_button.png"),
+                    painter = painterResource("buttons/rewind_forward_button.svg"),
                     contentDescription = "Перемотка вперед",
                     modifier = Modifier.size(70.dp),
                 )
