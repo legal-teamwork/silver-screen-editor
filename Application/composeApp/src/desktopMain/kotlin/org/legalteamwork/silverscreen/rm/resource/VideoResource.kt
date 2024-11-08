@@ -114,7 +114,7 @@ class VideoResource(
         return result
     }
 
-    override fun clone() = VideoResource(resourcePath, "$title (clone)", parent)
+    override fun clone() = VideoResource(resourcePath, "${title.value} (clone)", parent)
     override fun action() {}
 
     class BuildException : Exception()
