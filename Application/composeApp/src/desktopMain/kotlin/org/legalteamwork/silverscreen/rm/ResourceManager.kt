@@ -79,37 +79,6 @@ object ResourceManager {
     )
     val rootFolder: FolderResource =
         FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
-            .also { rootFolder ->
-                rootFolder.resources.addAll(
-                    listOf(
-                        FolderResource(mutableStateOf("tmp"), rootFolder, mutableStateListOf())
-                            .also { innerFolder ->
-                                innerFolder.resources.add(
-                                    SimpleResource(
-                                        mutableStateOf("Untitled1.mp4"),
-                                        innerFolder,
-                                        "src/desktopMain/resources/tmp-resources/u1.png"
-                                    )
-                                )
-                            },
-                        SimpleResource(
-                            mutableStateOf("Untitled1.mp4"),
-                            rootFolder,
-                            "src/desktopMain/resources/tmp-resources/u1.png"
-                        ),
-                        SimpleResource(
-                            mutableStateOf("Untitled2.mp4"),
-                            rootFolder,
-                            "src/desktopMain/resources/tmp-resources/u2.png"
-                        ),
-                        SimpleResource(
-                            mutableStateOf("Untitled3.mp4"),
-                            rootFolder,
-                            "src/desktopMain/resources/tmp-resources/u3.png"
-                        ),
-                    )
-                )
-            }
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 

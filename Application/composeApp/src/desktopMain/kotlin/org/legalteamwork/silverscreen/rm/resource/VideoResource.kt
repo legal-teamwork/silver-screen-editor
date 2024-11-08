@@ -2,19 +2,22 @@ package org.legalteamwork.silverscreen.rm.resource
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.Java2DFrameConverter
+import org.legalteamwork.silverscreen.rm.ResourceManager
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 import kotlin.io.path.pathString
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
 
 @Serializable
 class VideoResource(
     private val resourcePath: String,
-    override var parent: FolderResource?,
+    @Transient
+    override var parent: FolderResource? = ResourceManager.rootFolder,
+    @Serializable(with = MutableStateStringSerializer::class)
     override val title: MutableState<String> = mutableStateOf(File(resourcePath).name),
     /**
      * Pre-calculated number of frames in the provided video resource
@@ -35,17 +38,11 @@ class VideoResource(
         )
 
     constructor(resourceFile: File, parent: FolderResource?, framesCount: Int? = null) : this(
-        resourceFile.absolutePath,
-        resourceFile.name,
-        parent,
-        framesCount
+        resourceFile.absolutePath, resourceFile.name, parent, framesCount
     )
 
     constructor(resourcePath: String, stringTitle: String, parent: FolderResource?, framesCount: Int? = null) : this(
-        resourcePath,
-        parent,
-        mutableStateOf(stringTitle),
-        framesCount
+        resourcePath, parent, mutableStateOf(stringTitle), framesCount
     )
 
     /**
@@ -107,9 +104,7 @@ class VideoResource(
         // Scale to size with width = 256
         val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
         val scaledBufferedImage = BufferedImage(
-            scaledInstance.getWidth(null),
-            scaledInstance.getHeight(null),
-            BufferedImage.TYPE_INT_ARGB
+            scaledInstance.getWidth(null), scaledInstance.getHeight(null), BufferedImage.TYPE_INT_ARGB
         )
         val graphics = scaledBufferedImage.createGraphics()
         graphics.drawImage(scaledInstance, 0, 0, null)

@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen.rm.resource
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 class FolderResource(
