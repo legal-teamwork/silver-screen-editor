@@ -82,6 +82,13 @@ object ResourceManager {
         //SimpleResource("Untitled3.mp4", "src/desktopMain/resources/tmp-resources/u3.png"),
     )
 
+    //Режимы отображения: список
+    val isListView = mutableStateOf(false)
+
+    fun toggleViewMode() {
+        isListView.value = !isListView.value
+    }
+
     @Composable
     fun compose() {
         BoxWithConstraints(
