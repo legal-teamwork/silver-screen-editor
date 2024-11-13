@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,14 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.openFileDialog
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -54,18 +50,6 @@ fun App() {
             contentAlignment = Alignment.Center,
         ) {
             Column {
-//                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
-//                Box(
-//                    modifier =
-//                        Modifier.padding(
-//                            start = 7.dp,
-//                            end = 7.dp,
-//                        ).background(Color.DarkGray, RoundedCornerShape(8.dp)).height(40.dp).width(panelSize.width.dp),
-//                ) {
-//                    MainButtons()
-//                }
-//                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
-
                 Row {
                     Box(
                         modifier =
@@ -160,87 +144,6 @@ fun App() {
 
                 Box(modifier = Modifier.background(Color.Black).height(6.dp).width(panelSize.width.dp))
             }
-        }
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun MainButtons() {
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        val buttonColors =
-            ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF3A3A3A),
-                contentColor = Color.White,
-                disabledBackgroundColor = Color(0xFF222222),
-                disabledContentColor = Color.White,
-            )
-
-        Button(
-            onClick = ResourceManager::addSourceTriggerActivity,
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Import File",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {},
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Export File",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty())
-                    SaveManager.load(filenameSet.first().path)
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Open Proj.",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty())
-                    SaveManager.save(filenameSet.first().path)
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Save Proj.",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
         }
     }
 }

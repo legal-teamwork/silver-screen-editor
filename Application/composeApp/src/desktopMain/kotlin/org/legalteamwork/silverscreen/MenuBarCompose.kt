@@ -5,6 +5,9 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyShortcut
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
+import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.SaveManager
+import org.legalteamwork.silverscreen.rm.openFileDialog
 import javax.swing.UIManager
 
 @Composable
@@ -39,22 +42,58 @@ fun FrameWindowScope.MenuBarCompose() {
     // Menu bar compose:
     MenuBar {
         Menu("File", mnemonic = 'F') {
-            Item(text = "New", shortcut = KeyShortcut(Key.N, ctrl = true)) { println("[Triggered] New") }
-            Item(text = "Open", shortcut = KeyShortcut(Key.O, ctrl = true)) { println("[Triggered] Open") }
-            Item(text = "Import", shortcut = KeyShortcut(Key.I, ctrl = true)) { println("[Triggered] Import") }
+            Item(text = "New", shortcut = KeyShortcut(Key.N, ctrl = true)) {
+                println("[Triggered] New")
+                // TODO
+            }
+            Item(text = "Open", shortcut = KeyShortcut(Key.O, ctrl = true)) {
+                println("[Triggered] Open")
+                val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
+
+                if (filenameSet.isNotEmpty()) {
+                    SaveManager.load(filenameSet.first().path)
+                }
+            }
+            Item(
+                text = "Import",
+                shortcut = KeyShortcut(Key.I, ctrl = true)
+            ) {
+                println("[Triggered] Import")
+                ResourceManager.addSourceTriggerActivity()
+            }
             Item(
                 text = "Export",
                 shortcut = KeyShortcut(Key.R, ctrl = true, shift = true)
-            ) { println("[Triggered] Export") }
-            Item(text = "Save", shortcut = KeyShortcut(Key.S, ctrl = true)) { println("[Triggered] Save") }
+            ) {
+                println("[Triggered] Export")
+                // TODO
+            }
+            Item(text = "Save", shortcut = KeyShortcut(Key.S, ctrl = true)) {
+                println("[Triggered] Save")
+                val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
+
+                if (filenameSet.isNotEmpty()) {
+                    SaveManager.save(filenameSet.first().path)
+                }
+            }
             Item(
                 text = "Save as",
                 shortcut = KeyShortcut(Key.S, ctrl = true, shift = true)
-            ) { println("[Triggered] Save as") }
+            ) {
+                println("[Triggered] Save as")
+                val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
+
+                if (filenameSet.isNotEmpty()) {
+                    SaveManager.save(filenameSet.first().path)
+                }
+            }
             Item(
                 text = "Enable/Disable auto save",
                 shortcut = KeyShortcut(Key.E, ctrl = true, shift = true)
-            ) { println("[Triggered] Enable/Disable auto save") }
+            ) {
+                println("[Triggered] Enable/Disable auto save")
+                // TODO
+            }
         }
     }
 }
