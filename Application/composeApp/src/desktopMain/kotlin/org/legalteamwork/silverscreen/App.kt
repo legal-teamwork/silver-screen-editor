@@ -54,17 +54,17 @@ fun App() {
             contentAlignment = Alignment.Center,
         ) {
             Column {
-                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
-                Box(
-                    modifier =
-                        Modifier.padding(
-                            start = 7.dp,
-                            end = 7.dp,
-                        ).background(Color.DarkGray, RoundedCornerShape(8.dp)).height(40.dp).width(panelSize.width.dp),
-                ) {
-                    MainButtons()
-                }
-                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
+//                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
+//                Box(
+//                    modifier =
+//                        Modifier.padding(
+//                            start = 7.dp,
+//                            end = 7.dp,
+//                        ).background(Color.DarkGray, RoundedCornerShape(8.dp)).height(40.dp).width(panelSize.width.dp),
+//                ) {
+//                    MainButtons()
+//                }
+//                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
 
                 Row {
                     Box(
