@@ -50,6 +50,8 @@ fun FrameWindowScope.MenuBarCompose() {
             }
             Item(text = "Open", shortcut = KeyShortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
+
+                // FIXME:
                 val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
@@ -72,6 +74,8 @@ fun FrameWindowScope.MenuBarCompose() {
             }
             Item(text = "Save", shortcut = KeyShortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
+
+                // FIXME:
                 val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
@@ -83,6 +87,8 @@ fun FrameWindowScope.MenuBarCompose() {
                 shortcut = KeyShortcut(Key.S, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
+
+                // FIXME:
                 val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
