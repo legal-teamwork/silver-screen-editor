@@ -5,6 +5,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyShortcut
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.MenuBar
+import mu.KotlinLogging
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
@@ -13,6 +14,7 @@ import javax.swing.UIManager
 @Composable
 fun FrameWindowScope.MenuBarCompose() {
     // Color definitions:
+    val logger = KotlinLogging.logger {}
     val appBackground = java.awt.Color(0x000000)
     val menuBackground = java.awt.Color(0x000000)
     val selectedMenuBackground = java.awt.Color(0x666666)
@@ -43,11 +45,11 @@ fun FrameWindowScope.MenuBarCompose() {
     MenuBar {
         Menu("File", mnemonic = 'F') {
             Item(text = "New", shortcut = KeyShortcut(Key.N, ctrl = true)) {
-                println("[Triggered] New")
+                logger.debug { "MenuBar Action: New" }
                 // TODO
             }
             Item(text = "Open", shortcut = KeyShortcut(Key.O, ctrl = true)) {
-                println("[Triggered] Open")
+                logger.debug { "MenuBar Action: Open" }
                 val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
@@ -58,18 +60,18 @@ fun FrameWindowScope.MenuBarCompose() {
                 text = "Import",
                 shortcut = KeyShortcut(Key.I, ctrl = true)
             ) {
-                println("[Triggered] Import")
+                logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
             Item(
                 text = "Export",
                 shortcut = KeyShortcut(Key.R, ctrl = true, shift = true)
             ) {
-                println("[Triggered] Export")
+                logger.debug { "MenuBar Action: Export" }
                 // TODO
             }
             Item(text = "Save", shortcut = KeyShortcut(Key.S, ctrl = true)) {
-                println("[Triggered] Save")
+                logger.debug { "MenuBar Action: Save" }
                 val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
@@ -80,7 +82,7 @@ fun FrameWindowScope.MenuBarCompose() {
                 text = "Save as",
                 shortcut = KeyShortcut(Key.S, ctrl = true, shift = true)
             ) {
-                println("[Triggered] Save as")
+                logger.debug { "MenuBar Action: Save as" }
                 val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
@@ -91,7 +93,7 @@ fun FrameWindowScope.MenuBarCompose() {
                 text = "Enable/Disable auto save",
                 shortcut = KeyShortcut(Key.E, ctrl = true, shift = true)
             ) {
-                println("[Triggered] Enable/Disable auto save")
+                logger.debug { "MenuBar Action: Enable/Disable auto save" }
                 // TODO
             }
         }
