@@ -177,11 +177,11 @@ fun VideoPanel() {
     ) {
         Box(
             modifier =
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(Color.Black)
-                .padding(16.dp),
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(Color.Black)
+                    .padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(text = "Ваше видео здесь", color = Color.White)
@@ -199,8 +199,8 @@ fun VideoPanel() {
                     elapsedTime = maxOf(elapsedTime - 10000, 0)
                 },
                 modifier =
-                Modifier
-                    .padding(end = 20.dp),
+                    Modifier
+                        .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
@@ -214,8 +214,8 @@ fun VideoPanel() {
                     isPlaying = !isPlaying
                 },
                 modifier =
-                Modifier
-                    .padding(end = 20.dp),
+                    Modifier
+                        .padding(end = 20.dp),
             ) {
                 if (isPlaying) {
                     Image(
@@ -240,8 +240,8 @@ fun VideoPanel() {
                     elapsedTime = 0L
                 },
                 modifier =
-                Modifier
-                    .padding(end = 20.dp),
+                    Modifier
+                        .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
@@ -255,8 +255,8 @@ fun VideoPanel() {
                     elapsedTime += 10000
                 },
                 modifier =
-                Modifier
-                    .padding(end = 20.dp),
+                    Modifier
+                        .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
