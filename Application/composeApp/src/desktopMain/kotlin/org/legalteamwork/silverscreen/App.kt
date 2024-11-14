@@ -39,39 +39,42 @@ fun App() {
     Surface(color = Color.Black) {
         Box(
             modifier =
-                Modifier.fillMaxSize()
-                    .onGloballyPositioned { layoutCoordinates ->
-                        panelSize =
-                            Size(
-                                layoutCoordinates.size.width.toFloat(),
-                                layoutCoordinates.size.height.toFloat(),
-                            )
-                    },
+            Modifier.fillMaxSize()
+                .onGloballyPositioned { layoutCoordinates ->
+                    panelSize =
+                        Size(
+                            layoutCoordinates.size.width.toFloat(),
+                            layoutCoordinates.size.height.toFloat(),
+                        )
+                },
             contentAlignment = Alignment.Center,
         ) {
             Column {
-                Row {
+                // Horizontal divider
+                Box(modifier = Modifier.background(Color.Black).height(6.dp).width(panelSize.width.dp))
+
+                Row(modifier = Modifier.height((panelSize.height * height1).dp - 10.dp)) {
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(6.dp).fillMaxHeight().background(Color.Black),
                     )
 
+                    // Resource manager box:
                     Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width1).dp - 11.dp)
-                                .height((panelSize.height * height1).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        modifier = Modifier
+                            .width((panelSize.width * width1).dp - 10.dp)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
                         ResourceManager.compose()
                     }
 
+                    // Vertical divider:
                     Box(
                         modifier =
                             Modifier.background(
                                 Color.Black,
-                            ).height((panelSize.height * height1).dp - 33.dp).width(8.dp).pointerInput(Unit) {
+                            ).fillMaxHeight().width(8.dp).pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
                                     val newWidth1 =
@@ -85,60 +88,59 @@ fun App() {
                             },
                     )
 
+                    // Video panel box:
                     Box(
                         modifier =
-                            Modifier
-                                .width((panelSize.width * width2).dp - 11.dp)
-                                .height((panelSize.height * height1).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        Modifier
+                            .width((panelSize.width * width2).dp - 10.dp)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
                         VideoPanel()
                     }
 
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(6.dp).fillMaxHeight().background(Color.Black),
                     )
                 }
 
+                // Horizontal divider:
                 Box(
-                    modifier =
-                        Modifier.background(Color.Black).height(8.dp).width(panelSize.width.dp).pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consume()
-                                val newHeight1 =
-                                    (height1 * panelSize.height + dragAmount.y).coerceIn(
-                                        panelSize.height * 0.5f,
-                                        panelSize.height * 0.7f,
-                                    )
-                                height1 = newHeight1 / panelSize.height
-                                height3 = 1 - height1
-                            }
-                        },
+                    modifier = Modifier.background(Color.Black).height(8.dp).fillMaxWidth().pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consume()
+                            val newHeight1 =
+                                (height1 * panelSize.height + dragAmount.y).coerceIn(
+                                    panelSize.height * 0.5f,
+                                    panelSize.height * 0.7f,
+                                )
+                            height1 = newHeight1 / panelSize.height
+                            height3 = 1 - height1
+                        }
+                    },
                 )
 
-                Row {
+                Row(modifier = Modifier.height((panelSize.height * height3).dp - 20.dp)) {
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(6.dp).fillMaxHeight().background(Color.Black),
                     )
 
+                    // Video editor box:
                     Box(
                         modifier =
-                            Modifier
-                                .width((panelSize.width * width3).dp - 14.dp)
-                                .height((panelSize.height * height3).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        Modifier
+                            .width((panelSize.width * width3).dp - 12.dp)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(8.dp)),
                     ) {
                         VideoEditor.compose()
                     }
 
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(6.dp).fillMaxHeight().background(Color.Black),
                     )
                 }
 
@@ -173,11 +175,11 @@ fun VideoPanel() {
     ) {
         Box(
             modifier =
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .background(Color.Black)
-                    .padding(16.dp),
+            Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
             Text(text = "Ваше видео здесь", color = Color.White)
@@ -195,8 +197,8 @@ fun VideoPanel() {
                     elapsedTime = maxOf(elapsedTime - 10000, 0)
                 },
                 modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                Modifier
+                    .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
@@ -210,8 +212,8 @@ fun VideoPanel() {
                     isPlaying = !isPlaying
                 },
                 modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                Modifier
+                    .padding(end = 20.dp),
             ) {
                 if (isPlaying) {
                     Image(
@@ -236,8 +238,8 @@ fun VideoPanel() {
                     elapsedTime = 0L
                 },
                 modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                Modifier
+                    .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
@@ -251,8 +253,8 @@ fun VideoPanel() {
                     elapsedTime += 10000
                 },
                 modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                Modifier
+                    .padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
