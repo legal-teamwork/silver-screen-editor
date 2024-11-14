@@ -41,15 +41,15 @@ fun App() {
 
     Surface(color = Color.Black) {
         Box(
-            modifier =
-                Modifier.fillMaxSize()
-                    .onGloballyPositioned { layoutCoordinates ->
-                        panelSize =
-                            Size(
-                                layoutCoordinates.size.width.toFloat(),
-                                layoutCoordinates.size.height.toFloat(),
-                            )
-                    },
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { layoutCoordinates ->
+                    panelSize =
+                        Size(
+                            layoutCoordinates.size.width.toFloat(),
+                            layoutCoordinates.size.height.toFloat(),
+                        )
+                },
             contentAlignment = Alignment.Center,
         ) {
             Column {
@@ -74,17 +74,17 @@ fun App() {
 
                     // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(
-                                Color.Black,
-                            ).fillMaxHeight().width(dividerSize).pointerInput(Unit) {
+                        modifier = Modifier
+                            .background(Color.Black)
+                            .fillMaxHeight()
+                            .width(dividerSize)
+                            .pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
-                                    val newWidth1 =
-                                        (width1 * panelSize.width + dragAmount.x).coerceIn(
-                                            panelSize.width * 0.4f,
-                                            panelSize.width * 0.6f,
-                                        )
+                                    val newWidth1 = (width1 * panelSize.width + dragAmount.x).coerceIn(
+                                        panelSize.width * 0.4f,
+                                        panelSize.width * 0.6f,
+                                    )
                                     width1 = newWidth1 / panelSize.width
                                     width2 = 1 - width1
                                 }
@@ -131,8 +131,7 @@ fun App() {
 
                     // Video editor box:
                     Box(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .width((panelSize.width * width3).dp - 2 * dividerSize)
                             .fillMaxHeight()
                             .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
