@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
+import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
@@ -76,11 +77,17 @@ object ResourceManager {
         MenuButton(PRESETS_ID, "Presets"),
         MenuButton(TEMPLATES_ID, "Templates"),
     )
-    val videoResources = mutableStateListOf<Resource>(
-        //SimpleResource("Untitled1.mp4", "src/desktopMain/resources/tmp-resources/u1.png"),
-        //SimpleResource("Untitled2.mp4", "src/desktopMain/resources/tmp-resources/u2.png"),
-        //SimpleResource("Untitled3.mp4", "src/desktopMain/resources/tmp-resources/u3.png"),
-    )
+    val rootFolder: FolderResource =
+        FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+    val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
+    val activeResource: MutableState<Resource?> = mutableStateOf(null)
+
+    //Режимы отображения: список
+    val isListView = mutableStateOf(false)
+
+    fun toggleViewMode() {
+        isListView.value = !isListView.value
+    }
 
     @Composable
     fun compose() {
@@ -107,7 +114,7 @@ object ResourceManager {
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
         for (loadFile in loadFiles) {
-            val resource = VideoResource(loadFile.path)
+            val resource = VideoResource(loadFile.path, videoResources.value)
             addSource(resource)
         }
     }
@@ -127,16 +134,27 @@ object ResourceManager {
      * Добавление ресурса
      */
     fun addSource(resource: Resource) {
-        videoResources.add(resource)
+        videoResources.value.resources.add(resource)
     }
 
     /**
      * Удаление ресурса
      *
-     * @param[simpleResource] дата ресуса
+     * @param[resource] дата ресуса
      */
-    fun removeSource(simpleResource: SimpleResource) {
-        videoResources.remove(simpleResource)
+    fun removeSource(resource: Resource) {
+        videoResources.value.resources.remove(resource)
+    }
+
+    /**
+     * Changes current showing folder to the parent one if it is possible
+     */
+    fun onFolderUp() {
+        val parent = videoResources.value.parent
+
+        if (videoResources.value != rootFolder && parent != null) {
+            videoResources.component2().invoke(parent)
+        }
     }
 
     //Private methods:
@@ -207,33 +225,25 @@ object ResourceManager {
     private fun MainWindow(windowWidth: Dp) {
         val id by remember { buttonId }
 
-        Box(
-            modifier = Modifier
-                .width(windowWidth)
-                .fillMaxHeight()
-                .dragAndDropTarget(
-                    shouldStartDragAndDrop = { event ->
-                        event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
-                    },
-                    target = remember {
-                        object : DragAndDropTarget {
+        Box(modifier = Modifier.width(windowWidth).fillMaxHeight().dragAndDropTarget(shouldStartDragAndDrop = { event ->
+            event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
+        }, target = remember {
+            object : DragAndDropTarget {
 
-                            override fun onDrop(event: DragAndDropEvent): Boolean {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
 
-                                val files =
-                                    (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
+                    val files =
+                        (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
 
-                                for (file in files) {
-                                    val resource = VideoResource(file.path)
-                                    addSource(resource)
-                                }
-
-                                return true
-                            }
-                        }
+                    for (file in files) {
+                        val resource = VideoResource(file.path, videoResources.value)
+                        addSource(resource)
                     }
-                )
-        ) {
+
+                    return true
+                }
+            }
+        })) {
             when (id) {
                 SOURCES_ID -> SourcesMainWindow()
                 EFFECTS_ID -> EffectsMainWindow()

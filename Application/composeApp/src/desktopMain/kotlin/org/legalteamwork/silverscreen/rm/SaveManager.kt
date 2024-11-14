@@ -16,7 +16,7 @@ object SaveManager {
     private const val autosavePath: String = "data.json"
 
     fun save(jsonPath: String = autosavePath) : String {
-        val videoOnly = ResourceManager.videoResources.filterIsInstance<VideoResource>()
+        val videoOnly = ResourceManager.videoResources.value.resources.filterIsInstance<VideoResource>()
         val tracks = VideoEditor.getTracks()
 
         val project = Project(videoOnly, tracks)
@@ -33,8 +33,8 @@ object SaveManager {
         val str = jsonFile.readText()
         val data = Json.decodeFromString<Project>(str)
 
-        ResourceManager.videoResources.clear()
-        ResourceManager.videoResources.addAll(data.resources)
+        ResourceManager.videoResources.value.resources.clear()
+        ResourceManager.videoResources.value.resources.addAll(data.resources)
         VideoEditor.restore(data.tracks)
     }
 }
