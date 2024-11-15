@@ -40,7 +40,6 @@ fun FrameWindowScope.App() {
     val dividerSize = 8.dp
     val windowCornerRadius = 8.dp
 
-    MenuBarCompose()
     Surface(color = Color.Black) {
         Box(
             modifier = Modifier
@@ -55,6 +54,8 @@ fun FrameWindowScope.App() {
             contentAlignment = Alignment.Center,
         ) {
             Column {
+                MenuBarCompose()
+
                 // Horizontal divider
                 Box(modifier = Modifier.background(Color.Black).height(marginSize).width(panelSize.width.dp))
 
