@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen
+package org.legalteamwork.silverscreen.shortcut
 
 import androidx.compose.ui.input.key.*
 

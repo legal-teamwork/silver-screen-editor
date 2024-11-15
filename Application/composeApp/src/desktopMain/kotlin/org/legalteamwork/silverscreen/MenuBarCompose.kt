@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -25,6 +24,8 @@ import mu.KotlinLogging
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
+import org.legalteamwork.silverscreen.shortcut.Shortcut
+import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 
 val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
