@@ -2,50 +2,49 @@
 
 package org.legalteamwork.silverscreen.rm
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.*
-import org.legalteamwork.silverscreen.rm.resource.ResourceFrame
-import org.legalteamwork.silverscreen.rm.resource.VideoResource
-import kotlin.math.max
-import kotlin.math.roundToInt
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Button
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.IntArraySerializer
-import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.encoding.encodeCollection
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.resource.SimpleResource
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import sun.swing.SwingUtilities2.drawRect
 import java.io.File
-
+import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * Базовый класс для панели редактирования видео.
@@ -72,8 +71,10 @@ object VideoEditor {
         @OptIn(ExperimentalSerializationApi::class)
         @Serializer(forClass = ResourceOnTrack::class)
         class ResourceOnTrackSerializer : KSerializer<ResourceOnTrack> {
-
-            override fun serialize(encoder: Encoder, value: ResourceOnTrack) {
+            override fun serialize(
+                encoder: Encoder,
+                value: ResourceOnTrack,
+            ) {
                 encoder.encodeSerializableValue(IntArraySerializer(), intArrayOf(value.id, value.position, value.framesCount))
             }
 
@@ -87,14 +88,20 @@ object VideoEditor {
          * Класс ресурса на дорожке. Позиция и размер в кадрах.
          */
         @Serializable(with = ResourceOnTrackSerializer::class)
-        class ResourceOnTrack(@Transient val track: VideoTrack? = null, val id: Int, var position: Int, val framesCount: Int) {
-            //private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
+        class ResourceOnTrack(
+            @Transient val track: VideoTrack? = null,
+            val id: Int,
+            var position: Int,
+            val framesCount: Int,
+        ) {
+            // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
             private var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
+
             fun getRightBorder(): Int {
                 return position + framesCount - 1
             }
 
-            fun getLeftBorder() : Int {
+            fun getLeftBorder(): Int {
                 return position
             }
 
@@ -115,35 +122,37 @@ object VideoEditor {
             fun <T> dragTarget(
                 modifier: Modifier,
                 dataToDrop: T,
-                content: @Composable (() -> Unit)
+                content: @Composable (() -> Unit),
             ) {
-
                 var currentPosition by remember { mutableStateOf(Offset.Zero) }
                 val currentState = localDragTargetInfo.component1()
 
-                Box(modifier = modifier
-                    .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0)}
-                    .onGloballyPositioned {
-                        currentPosition = it.localToWindow(Offset.Zero)
-                    }
-                    .pointerInput(Unit) {
-                        detectDragGestures(onDragStart = {
-                            currentState.dataToDrop = dataToDrop
-                            currentState.isDragging = true
-                            currentState.dragPosition = currentPosition + it
-                            currentState.draggableComposable = content
-                        }, onDrag = { change, dragAmount ->
-                            change.consume()
-                            currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
-                        }, onDragEnd = {
-                            currentState.isDragging = false
-                            position = (currentState.dragOffset.x / DpInFrame).roundToInt()
-                            chooseNewPositionAndMoveResources(id, position, framesCount)
-                        }, onDragCancel = {
-                            currentState.dragOffset = Offset.Zero
-                            currentState.isDragging = false
-                        })
-                    }) {
+                Box(
+                    modifier =
+                        modifier
+                            .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
+                            .onGloballyPositioned {
+                                currentPosition = it.localToWindow(Offset.Zero)
+                            }
+                            .pointerInput(Unit) {
+                                detectDragGestures(onDragStart = {
+                                    currentState.dataToDrop = dataToDrop
+                                    currentState.isDragging = true
+                                    currentState.dragPosition = currentPosition + it
+                                    currentState.draggableComposable = content
+                                }, onDrag = { change, dragAmount ->
+                                    change.consume()
+                                    currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
+                                }, onDragEnd = {
+                                    currentState.isDragging = false
+                                    position = (currentState.dragOffset.x / DpInFrame).roundToInt()
+                                    chooseNewPositionAndMoveResources(id, position, framesCount)
+                                }, onDragCancel = {
+                                    currentState.dragOffset = Offset.Zero
+                                    currentState.isDragging = false
+                                })
+                            },
+                ) {
                     content()
                 }
             }
@@ -151,44 +160,47 @@ object VideoEditor {
             @OptIn(ExperimentalResourceApi::class)
             @Composable
             fun compose() {
-
                 dragTarget(
                     modifier = Modifier.fillMaxHeight().width((framesCount * DpInFrame).dp),
-                    dataToDrop = ""
+                    dataToDrop = "",
                 ) {
-                    BoxWithConstraints (
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width((framesCount * DpInFrame).dp)
-                            .background(color = Color(0xFF93C47D), RoundedCornerShape(20.dp))
+                    BoxWithConstraints(
+                        modifier =
+                            Modifier
+                                .fillMaxHeight()
+                                .width((framesCount * DpInFrame).dp)
+                                .background(color = Color(0xFF93C47D), RoundedCornerShape(20.dp)),
                     ) {
-
                         val textHeight = min(20.dp, maxHeight)
                         val previewHeight = min(75.dp, maxHeight - textHeight)
                         val previewWidth = min(150.dp, minWidth)
 
-
-                        Column (
-                            modifier = Modifier
-                                .padding(vertical = 10.dp)
-
+                        Column(
+                            modifier =
+                                Modifier
+                                    .padding(vertical = 10.dp),
                         ) {
                             Text(
                                 text = videoResources[id].title.value,
-                                modifier = Modifier
-                                    .offset(x = 10.dp)
-                                    .height(textHeight),
+                                modifier =
+                                    Modifier
+                                        .offset(x = 10.dp)
+                                        .height(textHeight),
                                 color = Color.Black,
                             )
                             Image(
-                                painter = BitmapPainter(remember {
-                                    File(videoResources[id].previewPath).inputStream().readAllBytes()
-                                        .decodeToImageBitmap()
-                                }),
+                                painter =
+                                    BitmapPainter(
+                                        remember {
+                                            File(videoResources[id].previewPath).inputStream().readAllBytes()
+                                                .decodeToImageBitmap()
+                                        },
+                                    ),
                                 contentDescription = videoResources[id].title.value,
-                                modifier = Modifier
-                                    .width(previewWidth)
-                                    .height(previewHeight)
+                                modifier =
+                                    Modifier
+                                        .width(previewWidth)
+                                        .height(previewHeight),
                             )
                         }
                     }
@@ -196,30 +208,34 @@ object VideoEditor {
             }
         }
 
-
         fun addResource(resource: VideoResource) {
             var pos = 0
-            if (resourcesOnTrack.isNotEmpty())
+            if (resourcesOnTrack.isNotEmpty()) {
                 pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
+            }
             resourcesOnTrack.add(
                 ResourceOnTrack(
                     null,
                     videoResources.size,
                     pos,
-                    resource.numberOfFrames
-                )
+                    resource.numberOfFrames,
+                ),
             )
             videoResources.add(resource)
         }
 
-        fun chooseNewPositionAndMoveResources(id: Int, position: Int, framesCount: Int) : Int {
+        fun chooseNewPositionAndMoveResources(
+            id: Int,
+            position: Int,
+            framesCount: Int,
+        ): Int {
             var leftBorder = position
             var rightBorder = leftBorder + framesCount - 1
 
             val changes = mutableListOf<Pair<Int, Int>>()
 
             var fl = false
-            for (resource in resourcesOnTrack.sortedBy{it.position}) {
+            for (resource in resourcesOnTrack.sortedBy { it.position }) {
                 if (resource.id == id) {
                     changes.add(Pair(id, leftBorder))
                     fl = true
@@ -230,15 +246,14 @@ object VideoEditor {
                         changes.add(Pair(resource.id, rightBorder + 1))
                         rightBorder += resource.framesCount
                     }
-                }
-                else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
+                } else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
                     leftBorder = resource.getRightBorder() + 1
                     rightBorder = leftBorder + framesCount - 1
                     fl = true
                 }
             }
             for (change in changes)
-                resourcesOnTrack[resourcesOnTrack.indexOfFirst{it.id == change.first}].updatePosition(change.second)
+                resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
             for (res in resourcesOnTrack) {
                 print(res.position)
                 print(" ")
@@ -252,27 +267,32 @@ object VideoEditor {
         }
 
         @Composable
-        fun compose(trackHeight: Dp, maxWidth: Dp) {
+        fun compose(
+            trackHeight: Dp,
+            maxWidth: Dp,
+        ) {
             val resources = remember { resourcesOnTrack }
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(trackHeight)
-                    .background(color = Color(0xFF545454), RoundedCornerShape(6.dp))
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(trackHeight)
+                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)),
             ) {
-                markup(maxWidth, trackHeight, 50.dp)
+                markup(maxWidth, trackHeight, 1f)
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
             }
         }
 
-
         @OptIn(ExperimentalSerializationApi::class)
         @Serializer(forClass = DragTargetInfo::class)
         class LocalDateSerializer : KSerializer<DragTargetInfo> {
-
-            override fun serialize(encoder: Encoder, value: DragTargetInfo) {
+            override fun serialize(
+                encoder: Encoder,
+                value: DragTargetInfo,
+            ) {
                 encoder.encodeInt(value.position)
             }
 
@@ -309,58 +329,115 @@ object VideoEditor {
         tracks.addAll(savedTracks)
         println(tracks[0].resourcesOnTrack)
     }*/
-    fun restore(savedResourcesOnTrack: List<VideoTrack.ResourceOnTrack>, savedVideoResource: List<VideoResource>) {
+    fun restore(
+        savedResourcesOnTrack: List<VideoTrack.ResourceOnTrack>,
+        savedVideoResource: List<VideoResource>,
+    ) {
         tracks[0].resourcesOnTrack.clear()
         tracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
         tracks[0].videoResources.clear()
         tracks[0].videoResources.addAll(savedVideoResource)
     }
 
+    /*
+
     /**
      * Разметка дорожки
      */
     @Composable
-    fun markup(maxWidth: Dp, trackHeight: Dp, step: Dp) {
-
+    fun markup(
+        maxWidth: Dp,
+        trackHeight: Dp,
+        step: Dp,
+    ) {
         var position = step * DpInFrame
         while (position < maxWidth) {
-            Box (
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .offset(x = position, y = -trackHeight * 0.05f)
-                    .width(1.dp)
-                    .background(color = Color(0xFFCDD3DB))
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxHeight()
+                        .offset(x = position, y = -trackHeight * 0.05f)
+                        .width(1.dp)
+                        .background(color = Color(0xFFCDD3DB)),
             )
-            Box (
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .offset(x = position, y = trackHeight * 0.05f)
-                    .width(1.dp)
-                    .background(color = Color(0xFFCDD3DB))
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxHeight()
+                        .offset(x = position, y = trackHeight * 0.05f)
+                        .width(1.dp)
+                        .background(color = Color(0xFFCDD3DB)),
             )
             position += step * DpInFrame
         }
     }
 
+     */
+
+    @Composable
+    fun markup(
+        maxWidth: Dp,
+        trackHeight: Dp,
+        zoom: Float,
+    ) {
+        val shortMarkInterval = 10f * DpInFrame
+        val longMarkInterval = 100f * DpInFrame
+
+        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val width = size.width
+                val height = size.height
+
+                drawRect(color = Color(0xFFCDD3DB), size = size)
+
+                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
+                    val xPosition = i * shortMarkInterval - 1
+
+                    drawLine(
+                        color = Color.Gray,
+                        start = Offset(xPosition, height * 0.25f),
+                        end = Offset(xPosition, height * 0.75f),
+                        strokeWidth = 1f,
+                    )
+                }
+
+                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
+                    val xPosition = i * longMarkInterval - 1
+
+                    drawLine(
+                        color = Color.Black,
+                        start = Offset(xPosition, height * 0.15f),
+                        end = Offset(xPosition, height * 0.85f),
+                        strokeWidth = 1f,
+                    )
+                }
+            }
+        }
+    }
+
     @Composable
     fun compose() {
-        Row (
+        Row(
             horizontalArrangement = Arrangement.spacedBy(8.5.dp),
-            modifier = Modifier
-                .background(
-                    color = Color.Black)
-        ){
+            modifier =
+                Modifier
+                    .background(
+                        color = Color.Black,
+                    ),
+        ) {
             /**
              * Панель с инструментами.
              */
             BoxWithConstraints(
-                modifier = Modifier
-                    .background(
-                        color = Color(0xFF444444),
-                        shape = RoundedCornerShape(8.dp))
-                    .fillMaxHeight()
-                    .width(55.dp)
-                    .padding(3.5.dp)
+                modifier =
+                    Modifier
+                        .background(
+                            color = Color(0xFF444444),
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                        .fillMaxHeight()
+                        .width(80.dp)
+                        .padding(3.5.dp),
             ) {
                 val buttonColors =
                     ButtonDefaults.buttonColors(
@@ -369,23 +446,37 @@ object VideoEditor {
                         disabledBackgroundColor = Color(0xFF222222),
                         disabledContentColor = Color.White,
                     )
+
                 Button(
+                    modifier =
+                        Modifier
+                            .width(80.dp)
+                            .height(50.dp)
+                            .padding(0.dp),
                     onClick = {
                         DpInFrame += 0.5f
-                        if (DpInFrame > 3)
+                        if (DpInFrame > 3) {
                             DpInFrame = 0.5f
+                        }
                         tracks[0].updateResourcesOnTrack()
                     },
                     colors = buttonColors,
-
-                    modifier = Modifier
-                        .size(45.dp)
                 ) {
+                    Text(
+                        text = String.format("%.1fx", DpInFrame),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                    /*
                     Image(
                         painter = painterResource("buttons/lens.png"),
                         contentDescription = "Приблизить/Отдалить дорожку",
                         contentScale = ContentScale.FillWidth
                     )
+                     */
                 }
             }
 
@@ -393,42 +484,43 @@ object VideoEditor {
              * Панель с дорожками.
              */
             BoxWithConstraints(
-                modifier = Modifier
-                    .background(
-                        color = Color(0xFF444444),
-                        shape = RoundedCornerShape(8.dp))
-                    .fillMaxSize()
+                modifier =
+                    Modifier
+                        .background(
+                            color = Color(0xFF444444),
+                            shape = RoundedCornerShape(8.dp),
+                        )
+                        .fillMaxSize(),
             ) {
-
-
                 val adaptiveTrackHeight = max(min(maxHeight * 0.45f, TRACK_MAX_HEIGHT), TRACK_MIN_WIDTH)
 
                 Column(
-                    modifier = Modifier
-                        .padding(vertical = maxHeight * 0.05f),
-                    verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f)
+                    modifier =
+                        Modifier
+                            .padding(vertical = maxHeight * 0.05f),
+                    verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
                 ) {
                     tracks[0].compose(adaptiveTrackHeight, this@BoxWithConstraints.maxWidth)
                 }
-
 
                 // Позиция ползунка.
                 var markerPosition by remember { mutableStateOf(0) }
 
                 Box(
-                    modifier = Modifier
-                        .offset { IntOffset(markerPosition, 0) }
-                        .fillMaxHeight()
-                        .width(3.dp)
-                        .background(color = Color.White, RoundedCornerShape(3.dp))
-                        .pointerInput(Unit) {
-                            detectDragGestures(
-                                onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
-                                }
-                            )
-                        }
+                    modifier =
+                        Modifier
+                            .offset { IntOffset(markerPosition, 0) }
+                            .fillMaxHeight()
+                            .width(3.dp)
+                            .background(color = Color.White, RoundedCornerShape(3.dp))
+                            .pointerInput(Unit) {
+                                detectDragGestures(
+                                    onDrag = { change, dragAmount ->
+                                        change.consume()
+                                        markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
+                                    },
+                                )
+                            },
                 )
             }
         }
