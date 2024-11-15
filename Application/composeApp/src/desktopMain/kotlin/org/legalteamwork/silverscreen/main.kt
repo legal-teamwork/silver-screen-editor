@@ -46,7 +46,6 @@ fun main() {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
 
-            MenuBarCompose()
             App()
         }
     }
