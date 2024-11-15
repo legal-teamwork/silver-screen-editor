@@ -1,28 +1,32 @@
 package org.legalteamwork.silverscreen
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyShortcut
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.*
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
 import mu.KotlinLogging
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
-import javax.swing.UIManager
 
+val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
-val selectedMenuBackground = Color(0xFF666666)
+val selectedMenuBackground = Color(0xFF444444)
 
 val menuTextColor = Color(0xFFFFFFFF)
 val menuActiveTextColor = Color(0xFFFFFFFF)
@@ -30,37 +34,18 @@ val menuActiveTextColor = Color(0xFFFFFFFF)
 val menuItemBackground = Color(0xFF222222)
 val menuItemBorder = Color(0xFFAAAAAA)
 val menuAcceleratorColor = Color(0xFFAAAAAA)
-val menuItemSelectedBackground = Color(0xFF444444)
+
 val logger = KotlinLogging.logger {}
 
 @Composable
-fun FrameWindowScope.MenuBarCompose() {
-    // Color definitions:
-    // Edit menu bar colors:
-//    UIManager.put("MenuBar.background", appBackground)
-//    UIManager.put("MenuBar.border", appBackground)
-//    UIManager.put("Menu.background", menuBackground)
-//    UIManager.put("Menu.foreground", menuTextColor)
-//    UIManager.put("Menu.selectionBackground", selectedMenuBackground)
-//    UIManager.put("Menu.selectionForeground", menuTextColor)
-//    UIManager.put("Menu.borderPainted", false)
-//    UIManager.put("MenuItem.background", menuItemBackground)
-//    UIManager.put("MenuItem.borderPainted", false)
-//    UIManager.put("MenuItem.foreground", menuTextColor)
-//    UIManager.put("MenuItem.acceleratorForeground", menuAcceleratorColor)
-//    UIManager.put("MenuItem.acceleratorSelectionForeground", menuAcceleratorColor)
-//    UIManager.put("MenuItem.selectionBackground", menuItemSelectedBackground)
-//    UIManager.put("MenuItem.selectionForeground", menuTextColor)
-//    UIManager.put("PopupMenu.border", popupWindowBorderColor)
-
-    // Menu bar compose:
+fun MenuBarCompose() {
     CustomMenuBar {
         CustomMenu("File", mnemonic = 'F') {
-            CustomItem(text = "New", shortcut = KeyShortcut(Key.N, ctrl = true)) {
+            CustomItem(text = "New", shortcut = CustomKeyShortcut("N", ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
                 // TODO
             }
-            CustomItem(text = "Open", shortcut = KeyShortcut(Key.O, ctrl = true)) {
+            CustomItem(text = "Open", shortcut = CustomKeyShortcut("O", ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
                 // FIXME:
@@ -70,21 +55,27 @@ fun FrameWindowScope.MenuBarCompose() {
                     SaveManager.load(filenameSet.first().path)
                 }
             }
+
+            Divider(color = menuItemBorder, thickness = 1.dp)
+
             CustomItem(
                 text = "Import",
-                shortcut = KeyShortcut(Key.I, ctrl = true)
+                shortcut = CustomKeyShortcut("I", ctrl = true)
             ) {
                 logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
             CustomItem(
                 text = "Export",
-                shortcut = KeyShortcut(Key.R, ctrl = true, shift = true)
+                shortcut = CustomKeyShortcut("R", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Export" }
                 // TODO
             }
-            CustomItem(text = "Save", shortcut = KeyShortcut(Key.S, ctrl = true)) {
+
+            Divider(color = menuItemBorder, thickness = 1.dp)
+
+            CustomItem(text = "Save", shortcut = CustomKeyShortcut("S", ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
                 // FIXME:
@@ -96,7 +87,7 @@ fun FrameWindowScope.MenuBarCompose() {
             }
             CustomItem(
                 text = "Save as",
-                shortcut = KeyShortcut(Key.S, ctrl = true, shift = true)
+                shortcut = CustomKeyShortcut("S", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
 
@@ -109,7 +100,7 @@ fun FrameWindowScope.MenuBarCompose() {
             }
             CustomItem(
                 text = "Enable/Disable auto save",
-                shortcut = KeyShortcut(Key.E, ctrl = true, shift = true)
+                shortcut = CustomKeyShortcut("E", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
                 // TODO
@@ -121,7 +112,7 @@ fun FrameWindowScope.MenuBarCompose() {
 @Composable
 fun CustomMenuBar(content: @Composable () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth().background(Color.Red)
+        modifier = Modifier.fillMaxWidth().background(menuBarBackground)
     ) {
         Row {
             content()
@@ -135,14 +126,14 @@ fun CustomMenu(
     text: String,
     mnemonic: Char? = null,
     enabled: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable ColumnScope.() -> Unit
 ) {
     var isActive by remember { mutableStateOf(false) }
 
-    BoxWithConstraints(
+    Box(
         modifier = Modifier
             .background(if (isActive) selectedMenuBackground else menuBackground)
-            .onClick {
+            .clickable(enabled = enabled) {
                 logger.debug { "Activating $text" }
                 isActive = true
             }
@@ -150,7 +141,7 @@ fun CustomMenu(
         Text(
             text = text,
             color = if (isActive) menuActiveTextColor else menuTextColor,
-            modifier = Modifier.padding(3.dp)
+            modifier = Modifier.padding(5.dp)
         )
 
         if (isActive) {
@@ -169,39 +160,52 @@ fun CustomMenu(
             ) {
                 Box(
                     modifier = Modifier
-                        .width(250.dp)
+                        .width(300.dp)
                         .wrapContentHeight()
-                        .background(menuItemBackground)
-                        .border(1.dp, menuItemBorder)
+                        .background(menuItemBackground, RoundedCornerShape(5.dp))
+                        .border(1.dp, menuItemBorder, RoundedCornerShape(5.dp))
+                        .shadow(5.dp, RoundedCornerShape(5.dp))
                 ) {
-                    Column {
-                        content()
-                    }
+                    Column(content = content)
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomItem(
     text: String,
-    icon: Painter? = null,
     enabled: Boolean = true,
-    mnemonic: Char? = null,
-    shortcut: KeyShortcut? = null,
+    shortcut: CustomKeyShortcut? = null,
     onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable { onClick() }
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            )
     ) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text, color = menuTextColor, modifier = Modifier.padding(3.dp))
-            Text("Ctrl+N", color = menuTextColor, modifier = Modifier.padding(3.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = text,
+                color = menuTextColor,
+                modifier = Modifier.padding(5.dp)
+            )
+
+            if (shortcut != null) {
+                Text(
+                    text = shortcut.toString(),
+                    color = menuAcceleratorColor,
+                    modifier = Modifier.padding(5.dp)
+                )
+            }
         }
     }
 }
