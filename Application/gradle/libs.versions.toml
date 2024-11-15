@@ -15,6 +15,8 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 javacv-platform = { group = "org.bytedeco", name = "javacv-platform", version.ref = "javacv-platform" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.7.3" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.2.6" }
+kotlin-logging-jvm = { group = "io.github.microutils", name = "kotlin-logging-jvm", version = "2.0.11" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
