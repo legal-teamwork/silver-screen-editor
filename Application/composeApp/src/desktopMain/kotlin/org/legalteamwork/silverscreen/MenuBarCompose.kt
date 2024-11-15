@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -40,12 +42,12 @@ val logger = KotlinLogging.logger {}
 @Composable
 fun MenuBarCompose() {
     CustomMenuBar {
-        CustomMenu("File", mnemonic = 'F') {
-            CustomItem(text = "New", shortcut = CustomKeyShortcut("N", ctrl = true)) {
+        CustomMenu("File", mnemonic = Key.F, mnemonicChar = 'F') {
+            CustomItem(text = "New", shortcut = Shortcut(Key.N, "N", ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
                 // TODO
             }
-            CustomItem(text = "Open", shortcut = CustomKeyShortcut("O", ctrl = true)) {
+            CustomItem(text = "Open", shortcut = Shortcut(Key.O, "O", ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
                 // FIXME:
@@ -60,14 +62,14 @@ fun MenuBarCompose() {
 
             CustomItem(
                 text = "Import",
-                shortcut = CustomKeyShortcut("I", ctrl = true)
+                shortcut = Shortcut(Key.I, "I", ctrl = true)
             ) {
                 logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
             CustomItem(
                 text = "Export",
-                shortcut = CustomKeyShortcut("R", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.R, "R", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Export" }
                 // TODO
@@ -75,7 +77,7 @@ fun MenuBarCompose() {
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
-            CustomItem(text = "Save", shortcut = CustomKeyShortcut("S", ctrl = true)) {
+            CustomItem(text = "Save", shortcut = Shortcut(Key.S, "S", ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
                 // FIXME:
@@ -87,7 +89,7 @@ fun MenuBarCompose() {
             }
             CustomItem(
                 text = "Save as",
-                shortcut = CustomKeyShortcut("S", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.S, "S", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
 
@@ -100,7 +102,7 @@ fun MenuBarCompose() {
             }
             CustomItem(
                 text = "Enable/Disable auto save",
-                shortcut = CustomKeyShortcut("E", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.E, "E", ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
                 // TODO
@@ -124,11 +126,24 @@ fun CustomMenuBar(content: @Composable () -> Unit) {
 @Composable
 fun CustomMenu(
     text: String,
-    mnemonic: Char? = null,
+    mnemonic: Key? = null,
+    mnemonicChar: Char? = null,
     enabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
     var isActive by remember { mutableStateOf(false) }
+
+    if (mnemonic != null) {
+        val shortcut = Shortcut(
+            key = mnemonic,
+            keyAsString = mnemonicChar?.toString() ?: mnemonic.toString(),
+            alt = true
+        )
+        ShortcutManager.addShortcut(shortcut) {
+            isActive = !isActive
+            true
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -177,9 +192,16 @@ fun CustomMenu(
 fun CustomItem(
     text: String,
     enabled: Boolean = true,
-    shortcut: CustomKeyShortcut? = null,
+    shortcut: Shortcut? = null,
     onClick: () -> Unit
 ) {
+    if (shortcut != null) {
+        ShortcutManager.addShortcut(shortcut) {
+            onClick()
+            true
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()

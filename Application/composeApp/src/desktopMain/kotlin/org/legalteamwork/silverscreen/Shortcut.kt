@@ -1,15 +1,14 @@
 package org.legalteamwork.silverscreen
 
-import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.*
 
-/**
- * Represents a key combination which should be pressed on a keyboard to trigger some action.
- */
-data class CustomKeyShortcut(
+class Shortcut(
     /**
      * Key that should be pressed to trigger an action
      */
-    val key: String,
+    val key: Key,
+
+    val keyAsString: String = key.toString(),
 
     /**
      * true if Ctrl modifier key should be pressed to trigger an action
@@ -30,13 +29,23 @@ data class CustomKeyShortcut(
     /**
      * true if Shift modifier key should be pressed to trigger an action
      */
-    val shift: Boolean = false,
+    val shift: Boolean = false
 ) {
+
+    fun accepts(keyEvent: KeyEvent): Boolean =
+        key == keyEvent.key
+                && ctrl == keyEvent.isCtrlPressed
+                && alt == keyEvent.isAltPressed
+                && alt == keyEvent.isAltPressed
+                && shift == keyEvent.isShiftPressed
+                && meta == keyEvent.isMetaPressed
+                && KeyEventType.KeyDown == keyEvent.type
+
     override fun toString() = buildString {
         if (ctrl) append("Ctrl+")
         if (meta) append("Meta+")
         if (alt) append("Alt+")
         if (shift) append("Shift+")
-        append(key)
+        append(keyAsString)
     }
 }

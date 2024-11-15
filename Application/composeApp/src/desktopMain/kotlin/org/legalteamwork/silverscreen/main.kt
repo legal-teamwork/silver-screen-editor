@@ -1,5 +1,9 @@
 package org.legalteamwork.silverscreen
 
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
@@ -41,7 +45,8 @@ fun main() {
                 SaveManager.save()
                 exitApplication() },
             title = "Silver Screen Editor",
-            icon = icon
+            icon = icon,
+            onKeyEvent = ShortcutManager::onKeyEvent
         ) {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
