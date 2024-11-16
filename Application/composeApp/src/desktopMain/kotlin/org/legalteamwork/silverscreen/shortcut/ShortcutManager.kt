@@ -5,19 +5,25 @@ import mu.KotlinLogging
 
 object ShortcutManager {
 
-    private val shortcuts: MutableList<Pair<Shortcut, (keyEvent: KeyEvent) -> Boolean>> = mutableListOf()
+    private val shortcuts: MutableMap<Shortcut, (keyEvent: KeyEvent) -> Boolean> = mutableMapOf()
     private val logger = KotlinLogging.logger {}
 
-    fun addShortcut(shortcut: Shortcut, onKeyEvent: (keyEvent: KeyEvent) -> Boolean) {
-        shortcuts.add(shortcut to onKeyEvent)
+    fun addShortcut(shortcut: Shortcut, onKeyEvent: (keyEvent: KeyEvent) -> Boolean): Boolean {
+        if (shortcuts.containsKey(shortcut)) {
+            return false
+        } else {
+            shortcuts[shortcut] = onKeyEvent
+
+            return true
+        }
     }
 
     fun onKeyEvent(keyEvent: KeyEvent): Boolean {
-        for (shortcut in shortcuts) {
-            if (shortcut.first.accepts(keyEvent)) {
-                logger.info { "Triggered ${shortcut.first} shortcut" }
+        for ((shortcut, onShortcutEvent) in shortcuts) {
+            if (shortcut.accepts(keyEvent)) {
+                logger.info { "Triggered $shortcut shortcut" }
 
-                return shortcut.second(keyEvent)
+                return onShortcutEvent.invoke(keyEvent)
             }
         }
 

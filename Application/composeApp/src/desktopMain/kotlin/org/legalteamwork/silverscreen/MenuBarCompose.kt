@@ -1,6 +1,5 @@
 package org.legalteamwork.silverscreen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -43,12 +42,12 @@ val logger = KotlinLogging.logger {}
 @Composable
 fun MenuBarCompose() {
     CustomMenuBar {
-        CustomMenu("File", mnemonic = Key.F, mnemonicChar = 'F') {
-            CustomItem(text = "New", shortcut = Shortcut(Key.N, "N", ctrl = true)) {
+        CustomMenu("File", mnemonic = Key.F) {
+            CustomItem(text = "New", shortcut = Shortcut(Key.N, ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
                 // TODO
             }
-            CustomItem(text = "Open", shortcut = Shortcut(Key.O, "O", ctrl = true)) {
+            CustomItem(text = "Open", shortcut = Shortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
                 // FIXME:
@@ -63,14 +62,14 @@ fun MenuBarCompose() {
 
             CustomItem(
                 text = "Import",
-                shortcut = Shortcut(Key.I, "I", ctrl = true)
+                shortcut = Shortcut(Key.I, ctrl = true)
             ) {
                 logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
             CustomItem(
                 text = "Export",
-                shortcut = Shortcut(Key.R, "R", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Export" }
                 // TODO
@@ -78,7 +77,7 @@ fun MenuBarCompose() {
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
-            CustomItem(text = "Save", shortcut = Shortcut(Key.S, "S", ctrl = true)) {
+            CustomItem(text = "Save", shortcut = Shortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
                 // FIXME:
@@ -90,7 +89,7 @@ fun MenuBarCompose() {
             }
             CustomItem(
                 text = "Save as",
-                shortcut = Shortcut(Key.S, "S", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
 
@@ -103,7 +102,7 @@ fun MenuBarCompose() {
             }
             CustomItem(
                 text = "Enable/Disable auto save",
-                shortcut = Shortcut(Key.E, "E", ctrl = true, shift = true)
+                shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
                 // TODO
@@ -123,12 +122,11 @@ fun CustomMenuBar(content: @Composable () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CustomMenu(
     text: String,
     mnemonic: Key? = null,
-    mnemonicChar: Char? = null,
     enabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -137,12 +135,14 @@ fun CustomMenu(
     if (mnemonic != null) {
         val shortcut = Shortcut(
             key = mnemonic,
-            keyAsString = mnemonicChar?.toString() ?: mnemonic.toString(),
             alt = true
         )
-        ShortcutManager.addShortcut(shortcut) {
-            isActive = !isActive
-            true
+
+        remember {
+            ShortcutManager.addShortcut(shortcut) {
+                isActive = !isActive
+                true
+            }
         }
     }
 
@@ -197,9 +197,11 @@ fun CustomItem(
     onClick: () -> Unit
 ) {
     if (shortcut != null) {
-        ShortcutManager.addShortcut(shortcut) {
-            onClick()
-            true
+        remember {
+            ShortcutManager.addShortcut(shortcut) {
+                onClick()
+                true
+            }
         }
     }
 

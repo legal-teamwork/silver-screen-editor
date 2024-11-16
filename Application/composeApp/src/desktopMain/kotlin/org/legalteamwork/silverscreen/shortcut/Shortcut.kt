@@ -2,13 +2,11 @@ package org.legalteamwork.silverscreen.shortcut
 
 import androidx.compose.ui.input.key.*
 
-class Shortcut(
+data class Shortcut(
     /**
      * Key that should be pressed to trigger an action
      */
     val key: Key,
-
-    val keyAsString: String = key.toString(),
 
     /**
      * true if Ctrl modifier key should be pressed to trigger an action
@@ -46,6 +44,37 @@ class Shortcut(
         if (meta) append("Meta+")
         if (alt) append("Alt+")
         if (shift) append("Shift+")
-        append(keyAsString)
+        append(KEY_AS_STRING[key] ?: key.toString())
+    }
+
+    companion object {
+        private val KEY_AS_STRING = mapOf(
+            Key.A to 'A',
+            Key.B to 'B',
+            Key.C to 'C',
+            Key.D to 'D',
+            Key.E to 'E',
+            Key.F to 'F',
+            Key.G to 'G',
+            Key.H to 'H',
+            Key.I to 'I',
+            Key.J to 'J',
+            Key.K to 'K',
+            Key.L to 'L',
+            Key.M to 'M',
+            Key.N to 'N',
+            Key.O to 'O',
+            Key.P to 'P',
+            Key.Q to 'Q',
+            Key.R to 'R',
+            Key.S to 'S',
+            Key.T to 'T',
+            Key.U to 'U',
+            Key.V to 'V',
+            Key.W to 'W',
+            Key.X to 'X',
+            Key.Y to 'Y',
+            Key.Z to 'Z',
+        )
     }
 }
