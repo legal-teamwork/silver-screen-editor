@@ -12,6 +12,7 @@ object ShortcutManager {
         if (shortcuts.containsKey(shortcut)) {
             return false
         } else {
+            logger.info { "Initialising shortcut $shortcut" }
             shortcuts[shortcut] = onKeyEvent
 
             return true
