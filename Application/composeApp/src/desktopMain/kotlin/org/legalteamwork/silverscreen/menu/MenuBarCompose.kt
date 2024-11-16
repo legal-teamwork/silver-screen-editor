@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen
+package org.legalteamwork.silverscreen.menu
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -128,7 +128,7 @@ fun CustomMenu(
     text: String,
     mnemonic: Key? = null,
     enabled: Boolean = true,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable MenuScope.() -> Unit
 ) {
     var isActive by remember { mutableStateOf(false) }
 
@@ -182,7 +182,16 @@ fun CustomMenu(
                         .border(1.dp, menuItemBorder, RoundedCornerShape(5.dp))
                         .shadow(5.dp, RoundedCornerShape(5.dp))
                 ) {
-                    Column(content = content)
+                    Column {
+                        val scope = object : MenuScope {
+                            override fun onMenuClose() {
+                                isActive = false
+                            }
+
+                        }
+
+                        scope.content()
+                    }
                 }
             }
         }
@@ -190,7 +199,7 @@ fun CustomMenu(
 }
 
 @Composable
-fun CustomItem(
+fun MenuScope.CustomItem(
     text: String,
     enabled: Boolean = true,
     shortcut: Shortcut? = null,
@@ -211,8 +220,10 @@ fun CustomItem(
             .wrapContentHeight()
             .clickable(
                 enabled = enabled,
-                onClick = onClick
-            )
+            ) {
+                onClick()
+                onMenuClose()
+            }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

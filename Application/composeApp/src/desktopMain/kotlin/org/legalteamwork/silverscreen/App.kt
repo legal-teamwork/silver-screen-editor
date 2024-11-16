@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.FrameWindowScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 
