@@ -22,7 +22,7 @@ object ShortcutManager {
     fun onKeyEvent(keyEvent: KeyEvent): Boolean {
         for ((shortcut, onShortcutEvent) in shortcuts) {
             if (shortcut.accepts(keyEvent)) {
-                logger.info { "Triggered $shortcut shortcut" }
+                logger.debug { "Triggered $shortcut shortcut" }
 
                 return onShortcutEvent.invoke(keyEvent)
             }
