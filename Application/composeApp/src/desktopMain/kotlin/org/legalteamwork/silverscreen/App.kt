@@ -20,7 +20,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.window.FrameWindowScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
@@ -29,7 +28,7 @@ import org.legalteamwork.silverscreen.rm.VideoEditor
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun FrameWindowScope.App() {
+fun App() {
     var panelSize by remember { mutableStateOf(Size.Zero) }
 
     var width1 by remember { mutableStateOf(0.4f) }
