@@ -8,30 +8,29 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
+import androidx.compose.ui.window.rememberCursorPositionProvider
 
-
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ResourceContextWindowPattern(
-    position: Offset,
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit = { onContextWindowOpen(null) },
+fun ContextWindowScope.ResourceContextWindowPattern(
     content: @Composable () -> Unit,
 ) {
     val widthDp = 200F
-    val popupPositionProvider = rememberPopupPositionProviderAtPosition(position)
+
+    val popupPositionProvider = rememberCursorPositionProvider(
+        offset = DpOffset(5.dp, 5.dp),
+        alignment = Alignment.TopStart
+    )
 
     Popup(
         popupPositionProvider = popupPositionProvider,
-        onDismissRequest = onContextWindowClose,
+        onDismissRequest = { onContextWindowClose() },
     ) {
         val shape = RoundedCornerShape(5.dp)
 

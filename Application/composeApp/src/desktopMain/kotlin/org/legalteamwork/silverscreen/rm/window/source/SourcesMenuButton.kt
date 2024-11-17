@@ -14,7 +14,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
@@ -49,13 +48,9 @@ val NAV_MENU_HEIGHT = 50.dp
 
 @Composable
 fun SourcesMainWindow() {
-    var contextWindow by remember { mutableStateOf<ContextWindow?>(null) }
-    val onContextWindowOpen: (ContextWindow?) -> Unit = { contextWindow = it }
-    val onContextWindowClose: () -> Unit = { contextWindow = null }
-
     BoxWithConstraints {
         Column {
-            NavWindow(onContextWindowOpen, onContextWindowClose)
+            NavWindow()
             Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
             PathWindow()
             Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
@@ -77,12 +72,10 @@ fun SourcesMainWindow() {
                     }
                 } else {
                     // Режим сетки (существующий код)
-                    SourcesPreviews(onContextWindowOpen, onContextWindowClose)
+                    SourcesPreviews()
                 }
             }
         }
-
-        ContextWindow(contextWindow, onContextWindowOpen, onContextWindowClose)
     }
 }
 
@@ -112,16 +105,14 @@ fun PathWindow() {
 }
 
 @Composable
-fun NavWindow(
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit
-) {
+fun NavWindow() {
     Box(Modifier.fillMaxWidth().height(NAV_MENU_HEIGHT).background(Color(0xFF3A3A3A))) {
         Row(
             modifier = Modifier.fillMaxSize().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            // Up button
             Box(
                 modifier = Modifier
                     .wrapContentSize()
@@ -137,22 +128,22 @@ fun NavWindow(
                 )
             }
 
-            Box(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
-                    .clickable {
-                        val contextWindowId = ContextWindowId.NEW_FOLDER
-                        val contextWindowData = ContextWindowData(Offset.Zero)
-                        val contextWindow = ContextWindow(contextWindowId, contextWindowData)
-                        onContextWindowOpen(contextWindow)
-                    }
-            ) {
-                Image(
-                    painter = painterResource(Res.drawable.add_folder),
-                    contentDescription = "Add folder",
-                    modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
-                )
+            // New folder button:
+            WithContextWindow {
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
+                        .clickable {
+                            onContextWindowOpen { NewFolderWindow() }
+                        }
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.add_folder),
+                        contentDescription = "Add folder",
+                        modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
+                    )
+                }
             }
 
             // Кнопка переключения режима
@@ -166,19 +157,14 @@ fun NavWindow(
 }
 
 @Composable
-private fun SourcesPreviews(
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit
-) {
+private fun SourcesPreviews() {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
             items(
                 items = ResourceManager.videoResources.value.resources.toList(),
                 key = Resource::hashCode
             ) { resource ->
-                SourcePreviewItem(
-                    resource = resource, onContextWindowOpen, onContextWindowClose
-                )
+                SourcePreviewItem(resource)
             }
 
             item {
@@ -260,32 +246,5 @@ private fun ListAddButton() {
             color = Color.White,
             modifier = Modifier.padding(start = 8.dp)
         )
-    }
-}
-
-@Composable
-private fun ContextWindow(
-    contextWindow: ContextWindow?,
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit
-) {
-    contextWindow?.apply {
-        when (id) {
-            ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(
-                data,
-                onContextWindowOpen,
-                onContextWindowClose
-            )
-
-            ContextWindowId.PROPERTIES -> ResourcePropertiesContextWindow(
-                data,
-                onContextWindowOpen,
-                onContextWindowClose
-            )
-
-            ContextWindowId.MOVE_TO -> MoveToWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindowId.COPY_TO -> CopyToWindow(data, onContextWindowOpen, onContextWindowClose)
-            ContextWindowId.NEW_FOLDER -> NewFolderWindow(data, onContextWindowOpen, onContextWindowClose)
-        }
     }
 }

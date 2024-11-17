@@ -13,16 +13,11 @@ import androidx.compose.ui.unit.sp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
-fun ResourcePropertiesContextWindow(
-    contextWindowData: ContextWindowData,
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit,
-) {
+fun ContextWindowScope.ResourcePropertiesContextWindow() {
     val resource = ResourceManager.activeResource.value ?: return
-    val position = contextWindowData.position
     val properties = resource.properties
 
-    ResourceContextWindowPattern(position, onContextWindowOpen, onContextWindowClose) {
+    ResourceContextWindowPattern {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column {
                 properties.properties

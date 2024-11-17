@@ -7,38 +7,34 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.findComposeDefaultViewModelStoreOwner
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.rememberCursorPositionProvider
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun NewFolderWindow(
-    contextWindowData: ContextWindowData,
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit
-) {
-    val position = contextWindowData.position
+fun ContextWindowScope.NewFolderWindow() {
     val width = 250.dp
     val shape = RoundedCornerShape(5.dp)
 
+    val popupPositionProvider = rememberCursorPositionProvider(
+        offset = DpOffset(5.dp, 5.dp),
+        alignment = Alignment.TopStart
+    )
+
     Popup(
-        popupPositionProvider = PopupPositionProviderAtPosition(position, true, Offset.Zero, Alignment.BottomEnd, 4),
-        onDismissRequest = onContextWindowClose,
+        popupPositionProvider = popupPositionProvider,
+        onDismissRequest = { onContextWindowClose() },
         properties = PopupProperties(focusable = true)
     ) {
         Box(

@@ -11,15 +11,10 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
-fun ResourceActionsContextWindow(
-    contextWindowData: ContextWindowData,
-    onContextWindowOpen: (ContextWindow?) -> Unit,
-    onContextWindowClose: () -> Unit,
-) {
+fun ContextWindowScope.ResourceActionsContextWindow() {
     val resource = ResourceManager.activeResource.value ?: return
-    val position = contextWindowData.position
     
-    ResourceContextWindowPattern(position, onContextWindowOpen, onContextWindowClose) {
+    ResourceContextWindowPattern {
         Column(modifier = Modifier.fillMaxWidth()) {
             ResourceAction("Clone") {
                 ResourceManager.addSource(resource.clone())
@@ -33,16 +28,16 @@ fun ResourceActionsContextWindow(
             Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
 
             ResourceAction("Move to") {
-                onContextWindowOpen(ContextWindow(ContextWindowId.MOVE_TO, contextWindowData))
+                onContextWindowOpen { MoveToWindow() }
             }
             ResourceAction("Copy to") {
-                onContextWindowOpen(ContextWindow(ContextWindowId.COPY_TO, contextWindowData))
+                onContextWindowOpen { CopyToWindow() }
             }
 
             Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
 
             ResourceAction("Properties") {
-                onContextWindowOpen(ContextWindow(ContextWindowId.PROPERTIES, contextWindowData))
+                onContextWindowOpen { ResourcePropertiesContextWindow() }
             }
         }
     }
