@@ -7,6 +7,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
+/**
+ * Создание системного меню бара
+ *
+ * @param[content] Контент бара
+ */
 @Composable
 fun CustomMenuBar(content: @Composable () -> Unit) {
     Box(

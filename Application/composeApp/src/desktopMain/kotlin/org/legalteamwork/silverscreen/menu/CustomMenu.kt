@@ -8,21 +8,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.window.rememberComponentRectPositionProvider
-import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 
-@OptIn(ExperimentalComposeUiApi::class)
+/**
+ * Создание вкладки в системном меню
+ *
+ * @param[text] Текст вкладки (File, Edit, etc)
+ * @param[mnemonic] Добавляет шорткат 'Alt+mnemonic', открывающий меню по данной вкладке
+ * @param[enabled] Включена ли данная вкладка
+ * @param[content] Контент меню
+ */
 @Composable
 fun CustomMenu(
     text: String,

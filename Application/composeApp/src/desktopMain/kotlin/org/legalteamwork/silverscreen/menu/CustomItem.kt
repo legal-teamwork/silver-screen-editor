@@ -10,6 +10,14 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 
+/**
+ * Создание айтема в системном меню
+ *
+ * @param[text] Текст айтема
+ * @param[enabled] Включен ли он
+ * @param[shortcut] Шорткат, который триггерит активность айтема
+ * @param[onClick] Активность айтема
+ */
 @Composable
 fun MenuScope.CustomItem(
     text: String,

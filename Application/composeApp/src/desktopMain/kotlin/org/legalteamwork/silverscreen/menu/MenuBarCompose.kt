@@ -24,6 +24,9 @@ val menuAcceleratorColor = Color(0xFFAAAAAA)
 
 val logger = KotlinLogging.logger {}
 
+/**
+ * Компоуз, ответственный за добавление системного меню
+ */
 @Composable
 fun MenuBarCompose() {
     CustomMenuBar {
