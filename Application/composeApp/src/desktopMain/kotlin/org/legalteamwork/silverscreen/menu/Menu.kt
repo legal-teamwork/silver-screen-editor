@@ -28,7 +28,7 @@ import org.legalteamwork.silverscreen.shortcut.ShortcutManager
  * @param[content] Контент меню
  */
 @Composable
-fun CustomMenu(
+fun Menu(
     text: String,
     mnemonic: Key? = null,
     enabled: Boolean = true,

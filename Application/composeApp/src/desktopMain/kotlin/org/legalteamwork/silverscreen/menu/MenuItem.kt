@@ -19,7 +19,7 @@ import org.legalteamwork.silverscreen.shortcut.ShortcutManager
  * @param[onClick] Активность айтема
  */
 @Composable
-fun MenuScope.CustomItem(
+fun MenuScope.MenuItem(
     text: String,
     enabled: Boolean = true,
     shortcut: Shortcut? = null,

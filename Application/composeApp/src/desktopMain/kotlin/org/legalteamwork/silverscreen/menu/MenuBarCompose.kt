@@ -29,13 +29,13 @@ val logger = KotlinLogging.logger {}
  */
 @Composable
 fun MenuBarCompose() {
-    CustomMenuBar {
-        CustomMenu("File", mnemonic = Key.F) {
-            CustomItem(text = "New", shortcut = Shortcut(Key.N, ctrl = true)) {
+    MenuBar {
+        Menu("File", mnemonic = Key.F) {
+            MenuItem(text = "New", shortcut = Shortcut(Key.N, ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
                 // TODO
             }
-            CustomItem(text = "Open", shortcut = Shortcut(Key.O, ctrl = true)) {
+            MenuItem(text = "Open", shortcut = Shortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
                 // FIXME:
@@ -48,14 +48,14 @@ fun MenuBarCompose() {
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
-            CustomItem(
+            MenuItem(
                 text = "Import",
                 shortcut = Shortcut(Key.I, ctrl = true)
             ) {
                 logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
-            CustomItem(
+            MenuItem(
                 text = "Export",
                 shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
@@ -65,7 +65,7 @@ fun MenuBarCompose() {
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
-            CustomItem(text = "Save", shortcut = Shortcut(Key.S, ctrl = true)) {
+            MenuItem(text = "Save", shortcut = Shortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
                 // FIXME:
@@ -75,7 +75,7 @@ fun MenuBarCompose() {
                     SaveManager.save(filenameSet.first().path)
                 }
             }
-            CustomItem(
+            MenuItem(
                 text = "Save as",
                 shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
@@ -88,7 +88,7 @@ fun MenuBarCompose() {
                     SaveManager.save(filenameSet.first().path)
                 }
             }
-            CustomItem(
+            MenuItem(
                 text = "Enable/Disable auto save",
                 shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {

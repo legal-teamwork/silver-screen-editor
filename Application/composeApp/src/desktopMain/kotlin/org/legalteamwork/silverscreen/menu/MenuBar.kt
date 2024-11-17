@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
  * @param[content] Контент бара
  */
 @Composable
-fun CustomMenuBar(content: @Composable () -> Unit) {
+fun MenuBar(content: @Composable () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth().background(menuBarBackground)
     ) {
