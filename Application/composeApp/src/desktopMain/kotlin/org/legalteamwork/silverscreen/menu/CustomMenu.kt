@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.window.rememberComponentRectPositionProvider
 import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
@@ -59,11 +61,14 @@ fun CustomMenu(
         )
 
         if (isActive) {
+            val popupPositionProvider = rememberComponentRectPositionProvider(
+                anchor = Alignment.BottomStart,
+                alignment = Alignment.BottomEnd,
+                offset = DpOffset(5.dp, 5.dp),
+            )
+
             Popup(
-                popupPositionProvider = rememberPopupPositionProviderAtPosition(
-                    positionPx = Offset.Zero,
-                    offset = DpOffset(50.dp, 50.dp),
-                ),
+                popupPositionProvider = popupPositionProvider,
                 onDismissRequest = { isActive = false },
                 properties = PopupProperties(
                     focusable = true,
