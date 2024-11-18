@@ -24,8 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.openFileDialog
 
@@ -210,8 +210,9 @@ fun MainButtons() {
         Button(
             onClick = {
                 val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty())
+                if (filenameSet.isNotEmpty()) {
                     SaveManager.load(filenameSet.first().path)
+                }
             },
             modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
             colors = buttonColors,
@@ -228,8 +229,9 @@ fun MainButtons() {
         Button(
             onClick = {
                 val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty())
+                if (filenameSet.isNotEmpty()) {
                     SaveManager.save(filenameSet.first().path)
+                }
             },
             modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
             colors = buttonColors,
@@ -249,17 +251,19 @@ fun MainButtons() {
 @Composable
 fun VideoPanel() {
     var isPlaying by remember { mutableStateOf(false) }
-    var elapsedTime by remember { mutableStateOf(0 * 0L) }
+    var elapsedTime by remember { mutableStateOf(0L) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
             scope.launch {
                 while (isPlaying) {
-                    delay(10)
-                    elapsedTime += 10
+                    delay(90)
+                    elapsedTime += 90
                 }
             }
+        } else {
+            elapsedTime = 0L
         }
     }
 
@@ -277,7 +281,7 @@ fun VideoPanel() {
                     .padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = "Ваше видео здесь", color = Color.White)
+            Text(text = "Your lovely masterpiece", color = Color.White)
         }
 
         BasicText(text = formatTime(elapsedTime), modifier = Modifier.align(Alignment.Start))
@@ -328,8 +332,6 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     isPlaying = false
-                    elapsedTime = 0L
-                    elapsedTime -= 1
                     elapsedTime = 0L
                 },
                 modifier =

@@ -29,10 +29,12 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.ResourceManager.isListView
 import org.legalteamwork.silverscreen.rm.ResourceManager.toggleViewMode
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
-import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
 import silverscreeneditor.composeapp.generated.resources.Res
 import silverscreeneditor.composeapp.generated.resources.add_folder
@@ -214,7 +216,8 @@ private fun ListViewItem(resource: Resource) {
                     File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
                 }),
                 contentDescription = resource.title.value,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier
+                    .size(40.dp),
                 contentScale = ContentScale.Fit
             )
         }

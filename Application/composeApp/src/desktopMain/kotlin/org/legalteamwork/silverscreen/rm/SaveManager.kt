@@ -9,7 +9,9 @@ import java.io.File
 @Serializable
 private data class Project(
     val resources: List<VideoResource>,
-    val tracks: List<VideoEditor.Track>
+    //val tracks: List<VideoEditor.VideoTrack>
+    val resourcesOnTrack: List<VideoEditor.VideoTrack.ResourceOnTrack>,
+    val trackResources: List<VideoResource>
 )
 
 object SaveManager {
@@ -17,9 +19,11 @@ object SaveManager {
 
     fun save(jsonPath: String = autosavePath) : String {
         val videoOnly = ResourceManager.videoResources.value.resources.filterIsInstance<VideoResource>()
-        val tracks = VideoEditor.getTracks()
+        //val tracks = VideoEditor.getTracks()
+        val resourcesOnTrack = VideoEditor.getResourcesOnTrack()
+        val trackResources = VideoEditor.getVideoResources()
 
-        val project = Project(videoOnly, tracks)
+        val project = Project(videoOnly, resourcesOnTrack, trackResources)
         val str = Json.encodeToString(project)
         val jsonFile = File(jsonPath)
         jsonFile.writeText(str)
@@ -35,6 +39,7 @@ object SaveManager {
 
         ResourceManager.videoResources.value.resources.clear()
         ResourceManager.videoResources.value.resources.addAll(data.resources)
-        VideoEditor.restore(data.tracks)
+
+        VideoEditor.restore(data.resourcesOnTrack, data.trackResources)
     }
 }

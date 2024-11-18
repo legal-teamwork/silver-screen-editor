@@ -13,23 +13,6 @@ import java.awt.Dimension
 import java.awt.Toolkit
 
 fun main() {
-    //Test
-
-    VideoEditor.addTrack()
-    VideoEditor.addTrack()
-
-    val testResource1 = VideoResource("path", "title", ResourceManager.rootFolder, 100)
-    val testResource2 = VideoResource("path", "title", ResourceManager.rootFolder, 200)
-    val testResource3 = VideoResource("path", "title", ResourceManager.rootFolder, 150)
-
-    VideoEditor.addResource(testResource1)
-    VideoEditor.addResource(testResource2)
-    VideoEditor.addResource(testResource3)
-    VideoEditor.addResource(testResource3, 1)
-
-
-    //End test
-
 
     SaveManager.load()
 
