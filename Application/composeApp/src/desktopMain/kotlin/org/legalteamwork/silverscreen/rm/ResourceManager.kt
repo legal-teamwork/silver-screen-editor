@@ -34,6 +34,7 @@ import java.awt.FileDialog
 import java.awt.Frame
 import java.awt.datatransfer.DataFlavor
 import java.io.File
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
@@ -58,6 +59,9 @@ fun openFileDialog(
  * Синглтон, потому что вкладка единственна
  */
 object ResourceManager {
+    // Logger
+    private val logger = KotlinLogging.logger {}
+
     // Constants
     private const val INIT_ID = 1
     private const val SOURCES_ID = 1
@@ -111,11 +115,19 @@ object ResourceManager {
      * Триггерит вызов окна с выбором ресурса с последующей обработкой и созранением в [videoResources]
      */
     fun addSourceTriggerActivity() {
+        logger.info { "Triggering file picker function openFileDialog for video resources" }
         val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
 
-        for (loadFile in loadFiles) {
-            val resource = VideoResource(loadFile.path, videoResources.value)
-            addSource(resource)
+        if (loadFiles.isEmpty()) {
+            logger.warn { "No files selected in file picker" }
+        }
+        else {
+            logger.info { "Files selected: ${loadFiles.joinToString { it.path }}" }
+            for (loadFile in loadFiles) {
+                val resource = VideoResource(loadFile.path, videoResources.value)
+                addSource(resource)
+                logger.info { "Added video resource: ${resource.title.value}" }
+            }
         }
     }
 
@@ -134,7 +146,9 @@ object ResourceManager {
      * Добавление ресурса
      */
     fun addSource(resource: Resource) {
+        logger.info { "Adding resource: ${resource.title.value}" }
         videoResources.value.resources.add(resource)
+        logger.info { "Resource ${resource.title.value} added successfully" }
     }
 
     /**
@@ -143,7 +157,14 @@ object ResourceManager {
      * @param[resource] дата ресуса
      */
     fun removeSource(resource: Resource) {
+        logger.info { "Removing resource: ${resource.title.value}" }
         videoResources.value.resources.remove(resource)
+        if (!videoResources.value.resources.remove(resource)) {
+            logger.info { "Resource ${resource.title.value} removed successfully" }
+        }
+        else {
+            logger.warn { "Failed to remove resource: ${resource.title.value}" }
+        }
     }
 
     /**
@@ -154,6 +175,10 @@ object ResourceManager {
 
         if (videoResources.value != rootFolder && parent != null) {
             videoResources.component2().invoke(parent)
+            logger.info { "Navigated up to folder: ${parent.title.value}" }
+        }
+        else {
+            logger.warn { "Cannot navigate up: already at the root folder or no parent." }
         }
     }
 
