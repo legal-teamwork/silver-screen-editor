@@ -1,9 +1,6 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -31,6 +28,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
@@ -57,7 +55,9 @@ fun SourcePreviewItem(
                 onClickLabel = resource.title.value,
                 onLongClickLabel = resource.title.value,
                 role = null,
-                onLongClick = null,
+                onLongClick = {
+                    VideoEditor.addResource(resource)  // Временное решение
+                },
                 onDoubleClick = {
                     ResourceManager.activeResource.component2().invoke(resource)
                     resource.action()
