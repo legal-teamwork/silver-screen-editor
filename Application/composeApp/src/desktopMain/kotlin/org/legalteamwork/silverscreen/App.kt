@@ -262,8 +262,6 @@ fun VideoPanel() {
                     elapsedTime += 90
                 }
             }
-        } else {
-            elapsedTime = 0L
         }
     }
 
