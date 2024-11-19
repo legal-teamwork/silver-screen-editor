@@ -1,19 +1,26 @@
 package org.legalteamwork.silverscreen.vp
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.rm.VideoEditor
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
+
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -40,17 +47,7 @@ fun VideoPanel() {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            modifier =
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .background(Color.Black)
-                    .padding(16.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(text = "Your lovely masterpiece", color = Color.White)
-        }
+        VideoPreview()
 
         BasicText(text = formatTime(elapsedTime), modifier = Modifier.align(Alignment.Start))
 
@@ -63,9 +60,7 @@ fun VideoPanel() {
                 onClick = {
                     elapsedTime = maxOf(elapsedTime - 10000, 0)
                 },
-                modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                modifier = Modifier.padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
@@ -78,9 +73,7 @@ fun VideoPanel() {
                 onClick = {
                     isPlaying = !isPlaying
                 },
-                modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                modifier = Modifier.padding(end = 20.dp),
             ) {
                 if (isPlaying) {
                     Image(
@@ -102,9 +95,7 @@ fun VideoPanel() {
                     isPlaying = false
                     elapsedTime = 0L
                 },
-                modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                modifier = Modifier.padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
@@ -117,9 +108,7 @@ fun VideoPanel() {
                 onClick = {
                     elapsedTime += 10000
                 },
-                modifier =
-                    Modifier
-                        .padding(end = 20.dp),
+                modifier = Modifier.padding(end = 20.dp),
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
@@ -129,6 +118,41 @@ fun VideoPanel() {
             }
         }
     }
+}
+
+@Composable
+private fun ColumnScope.VideoPreview() {
+    Box(Modifier.Companion.weight(1f).fillMaxWidth()) {
+        Canvas(Modifier.fillMaxSize()) {
+            drawRect(Color.Black)
+
+            if (VideoEditor.VideoTrack.videoResources.isNotEmpty()) {
+                val videoResource = VideoEditor.VideoTrack.videoResources[0]
+                val resourceFrame = videoResource.getFrame(5)
+                val bufferedImage = resourceFrame.bufferedImage
+                // Scale to size with width = 256
+                val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
+                val scaledBufferedImage = BufferedImage(
+                    scaledInstance.getWidth(null), scaledInstance.getHeight(null), BufferedImage.TYPE_INT_ARGB
+                )
+                val graphics = scaledBufferedImage.createGraphics()
+                graphics.drawImage(scaledInstance, 0, 0, null)
+                graphics.dispose()
+                val imageBitmap = scaledBufferedImage.toImageBitmap()
+
+                drawImage(image = imageBitmap)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+private fun BufferedImage.toImageBitmap(): ImageBitmap {
+    val bufferedImage = this
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    ImageIO.write(bufferedImage, "png", byteArrayOutputStream)
+
+    return byteArrayOutputStream.toByteArray().decodeToImageBitmap()
 }
 
 private fun formatTime(elapsedTime: Long): String {
