@@ -1,7 +1,7 @@
 package org.legalteamwork.silverscreen.shortcut
 
 import androidx.compose.ui.input.key.KeyEvent
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 /**
  * Данный класс отвечает за глобальные шорткаты окна

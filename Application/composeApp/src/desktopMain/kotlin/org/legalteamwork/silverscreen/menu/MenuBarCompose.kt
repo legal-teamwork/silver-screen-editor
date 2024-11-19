@@ -1,11 +1,11 @@
 package org.legalteamwork.silverscreen.menu
 
 import androidx.compose.material.Divider
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
