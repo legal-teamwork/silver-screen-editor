@@ -5,6 +5,8 @@ junit = "4.13.2"
 kotlin = "2.0.20"
 kotlinx-coroutines = "1.9.0"
 javacv-platform = "1.5.10"
+kotlin-logging = "7.0.0"
+logback-classic = "1.5.12"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -15,8 +17,8 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 javacv-platform = { group = "org.bytedeco", name = "javacv-platform", version.ref = "javacv-platform" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.7.3" }
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.2.6" }
-kotlin-logging-jvm = { group = "io.github.microutils", name = "kotlin-logging-jvm", version = "2.0.11" }
+kotlin-logging = { group = "io.github.oshai", name = "kotlin-logging-jvm", version.ref = "kotlin-logging" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback-classic" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

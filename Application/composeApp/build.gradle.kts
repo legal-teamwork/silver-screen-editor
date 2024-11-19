@@ -22,6 +22,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.kotlin.logging)
+            implementation(libs.logback.classic)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -29,7 +31,7 @@ kotlin {
             implementation(libs.javacv.platform)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.logback.classic)
-            implementation(libs.kotlin.logging.jvm)
+            implementation(libs.kotlin.logging)
         }
     }
 }

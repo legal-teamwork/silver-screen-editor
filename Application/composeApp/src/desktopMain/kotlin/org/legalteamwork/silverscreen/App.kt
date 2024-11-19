@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 
 @Suppress("ktlint:standard:function-naming")
@@ -156,19 +157,104 @@ fun App() {
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
+fun MainButtons() {
+    Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val buttonColors =
+            ButtonDefaults.buttonColors(
+                backgroundColor = Color(0xFF3A3A3A),
+                contentColor = Color.White,
+                disabledBackgroundColor = Color(0xFF222222),
+                disabledContentColor = Color.White,
+            )
+
+        Button(
+            onClick = ResourceManager::addSourceTriggerActivity,
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Import File",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {},
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Export File",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty()) {
+                    SaveManager.load(filenameSet.first().path)
+                }
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Open Proj.",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Button(
+            onClick = {
+                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                if (filenameSet.isNotEmpty()) {
+                    SaveManager.save(filenameSet.first().path)
+                }
+            },
+            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
+            colors = buttonColors,
+            elevation = null,
+            border = null,
+        ) {
+            Text(
+                text = "Save Proj.",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+@Suppress("ktlint:standard:function-naming")
+@Composable
 fun VideoPanel() {
     var isPlaying by remember { mutableStateOf(false) }
-    var elapsedTime by remember { mutableStateOf(0 * 0L) }
+    var elapsedTime by remember { mutableStateOf(0L) }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(isPlaying) {
         if (isPlaying) {
             scope.launch {
                 while (isPlaying) {
-                    delay(10)
-                    elapsedTime += 10
+                    delay(90)
+                    elapsedTime += 90
                 }
             }
+        } else {
+            elapsedTime = 0L
         }
     }
 
@@ -186,7 +272,7 @@ fun VideoPanel() {
                     .padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = "Ваше видео здесь", color = Color.White)
+            Text(text = "Your lovely masterpiece", color = Color.White)
         }
 
         BasicText(text = formatTime(elapsedTime), modifier = Modifier.align(Alignment.Start))
@@ -238,8 +324,6 @@ fun VideoPanel() {
                 onClick = {
                     isPlaying = false
                     elapsedTime = 0L
-                    elapsedTime -= 1
-                    elapsedTime = 0L
                 },
                 modifier =
                     Modifier
@@ -276,5 +360,5 @@ fun formatTime(elapsedTime: Long): String {
     val seconds = (elapsedTime / 1000) % 60
     val milliseconds = (elapsedTime % 1000) / 10
 
-    return String.format("%02d:%02d:%02d:%02d", hours, minutes, seconds, milliseconds)
+    return String.format("%02d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds)
 }
