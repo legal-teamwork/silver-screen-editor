@@ -14,6 +14,7 @@ class OnlineVideoRenderer : Closeable {
         private set
     private var frameGrabber: FFmpegFrameGrabber? = null
     private val logger = KotlinLogging.logger {}
+    private var cachedPreviousFrame: Frame? = null
 
     fun setVideoResource(resource: VideoResource) {
         logger.debug { "Changing renderer video resource to: ${resource.title}" }
@@ -46,10 +47,7 @@ class OnlineVideoRenderer : Closeable {
         }
     }
 
-    fun grabImage(): Frame =
-        frameGrabber?.grabImage() ?: throw Exception("Frame is NULL")
-
-    fun grabVideoFrame(frameNumber: Int): Frame = frameGrabber?.let { frameGrabber ->
+    fun grabVideoFrame(frameNumber: Int): Frame? = frameGrabber?.let { frameGrabber ->
         if (frameGrabber.frameNumber <= frameNumber) {
             while (frameGrabber.frameNumber < frameNumber) {
                 logger.debug { "Moving forwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
@@ -57,35 +55,42 @@ class OnlineVideoRenderer : Closeable {
                 frameGrabber.grabImage()
             }
 
-            frameGrabber.grabImage()
+            cachedPreviousFrame = frameGrabber.grabImage()
+            cachedPreviousFrame
+        } else if (frameGrabber.frameNumber == frameNumber + 1) {
+            if (cachedPreviousFrame != null) {
+                logger.debug { "Using cached frame" }
+
+                cachedPreviousFrame
+            } else {
+                logger.debug { "Moving backwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
+
+                frameGrabber.frameNumber = frameNumber
+                cachedPreviousFrame = frameGrabber.grabImage()
+                cachedPreviousFrame
+            }
         } else {
             logger.debug { "Moving backwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
 
             frameGrabber.frameNumber = frameNumber
-            frameGrabber.grabImage()
+            cachedPreviousFrame = frameGrabber.grabImage()
+            cachedPreviousFrame
         }
-    } ?: throw Exception("Frame is NULL")
+    }
 
-    fun grabVideoFrameByTimestamp(timestamp: Long): Frame =
+    fun grabVideoFrameByTimestamp(timestamp: Long): Frame? =
         grabVideoFrame(getFrameNumberByTimestamp(timestamp))
 
-    fun grabBufferedImage(): BufferedImage =
-        grabImage().let { frame ->
-            if (frame.image == null) throw Exception("Frame Image is NULL!")
-            val converter = Java2DFrameConverter()
-            converter.convert(frame)
-        }
-
-    fun grabBufferedVideoFrame(frameNumber: Int): BufferedImage =
+    fun grabBufferedVideoFrame(frameNumber: Int): BufferedImage? =
         grabVideoFrame(frameNumber).let { frame ->
-            if (frame.image == null) throw Exception("Frame Image is NULL!")
+            if (frame?.image == null) return@let null
             val converter = Java2DFrameConverter()
             converter.convert(frame)
         }
 
-    fun grabBufferedVideoFrameByTimestamp(timestamp: Long): BufferedImage =
+    fun grabBufferedVideoFrameByTimestamp(timestamp: Long): BufferedImage? =
         grabVideoFrameByTimestamp(timestamp).let { frame ->
-            if (frame.image == null) throw Exception("Frame Image is NULL!")
+            if (frame?.image == null) return@let null
             val converter = Java2DFrameConverter()
             converter.convert(frame)
         }

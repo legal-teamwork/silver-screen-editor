@@ -138,24 +138,28 @@ fun VideoPanel() {
 private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
     val onlineVideoRenderer = remember { OnlineVideoRenderer() }
     val currentTimestamp by playbackManager.currentTimestamp
+    val timeState = VideoEditorTimeState(currentTimestamp)
 
     Box(Modifier.Companion.weight(1f).fillMaxWidth()) {
-        val timeState = VideoEditorTimeState(currentTimestamp)
-        timeState.videoResource?.let { videoResource ->
-            val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
+        // Draw canvas
+        Canvas(Modifier.fillMaxSize()) {
+            drawRect(Color.Black)
 
-            if (videoResource != onlineVideoRenderer.videoResource) {
-                onlineVideoRenderer.setVideoResource(videoResource)
-            }
+            timeState.videoResource?.let { videoResource ->
+                val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
 
-            val bufferedImage = onlineVideoRenderer.grabBufferedVideoFrameByTimestamp(videoResourceTimestamp)
-            val scaledBufferedImage = OnlineVideoRenderer.scale(bufferedImage = bufferedImage, width = 256)
-            val imageBitmap = scaledBufferedImage.toImageBitmap()
+                if (videoResource != onlineVideoRenderer.videoResource) {
+                    onlineVideoRenderer.setVideoResource(videoResource)
+                }
 
-            // Draw canvas
-            Canvas(Modifier.fillMaxSize()) {
-                drawRect(Color.Black)
-                drawImage(image = imageBitmap)
+                val bufferedImage = onlineVideoRenderer.grabBufferedVideoFrameByTimestamp(videoResourceTimestamp)
+
+                bufferedImage?.let {
+                    val scaledBufferedImage = OnlineVideoRenderer.scale(it, width = 256)
+                    val imageBitmap = scaledBufferedImage.toImageBitmap()
+
+                    drawImage(image = imageBitmap)
+                }
             }
         }
     }
