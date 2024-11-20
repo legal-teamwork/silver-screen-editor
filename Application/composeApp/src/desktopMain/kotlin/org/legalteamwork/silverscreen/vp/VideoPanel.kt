@@ -10,19 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
-import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import javax.imageio.ImageIO
 import kotlin.math.min
 
 
@@ -127,17 +122,16 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
             drawRect(Color.Black)
 
             timeState.videoResource?.let { videoResource ->
+                // Get drawing frame:
                 val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
-
-                if (videoResource != onlineVideoRenderer.videoResource) {
+                if (videoResource != onlineVideoRenderer.videoResource)
                     onlineVideoRenderer.setVideoResource(videoResource)
-                }
 
                 val bufferedImage = onlineVideoRenderer.grabBufferedVideoFrameByTimestamp(videoResourceTimestamp)
+                val imageBitmap = bufferedImage?.toComposeImageBitmap()
 
-                bufferedImage?.let {
-                    val scaledBufferedImage = OnlineVideoRenderer.scale(it, width = 256)
-                    val imageBitmap = scaledBufferedImage.toImageBitmap()
+                // Draw frame:
+                if (imageBitmap != null) {
                     val imageWidth = imageBitmap.width
                     val imageHeight = imageBitmap.height
                     val scale = min(drawScope.size.width / imageWidth, drawScope.size.height / imageHeight)
@@ -160,15 +154,6 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
     }
 
     BasicText(text = formatTime(currentTimestamp), modifier = Modifier.align(Alignment.Start))
-}
-
-@OptIn(ExperimentalResourceApi::class)
-private fun BufferedImage.toImageBitmap(): ImageBitmap {
-    val bufferedImage = this
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    ImageIO.write(bufferedImage, "png", byteArrayOutputStream)
-
-    return byteArrayOutputStream.toByteArray().decodeToImageBitmap()
 }
 
 private fun formatTime(elapsedTime: Long): String {

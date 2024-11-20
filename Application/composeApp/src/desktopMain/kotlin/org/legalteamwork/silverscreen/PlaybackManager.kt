@@ -67,7 +67,7 @@ class PlaybackManager {
     }
 
     companion object {
-        private const val PLAYBACK_FPS = 20
+        private const val PLAYBACK_FPS = 25
     }
 
 }
