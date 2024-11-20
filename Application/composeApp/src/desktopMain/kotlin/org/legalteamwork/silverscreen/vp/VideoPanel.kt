@@ -17,7 +17,6 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
-import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
@@ -27,24 +26,9 @@ import javax.imageio.ImageIO
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun VideoPanel() {
-    var isPlaying by remember { mutableStateOf(false) }
-    var elapsedTime by remember { mutableStateOf(0L) }
     val scope = rememberCoroutineScope()
 
-//    LaunchedEffect(isPlaying) {
-//        if (isPlaying) {
-//            scope.launch {
-//                while (isPlaying) {
-//                    delay(90)
-//                    elapsedTime += 90
-//                }
-//            }
-//        } else {
-//            elapsedTime = 0L
-//        }
-//    }
-
-    val playbackManager = PlaybackManager()
+    val playbackManager = remember { PlaybackManager() }
     playbackManager.stop()
     LaunchedEffect(Unit) {
         scope.launch {
@@ -59,8 +43,6 @@ fun VideoPanel() {
     ) {
         VideoPreview(playbackManager)
 
-        BasicText(text = formatTime(elapsedTime), modifier = Modifier.align(Alignment.Start))
-
         Row(
             modifier = Modifier.fillMaxWidth().padding(50.dp),
             horizontalArrangement = Arrangement.Center,
@@ -68,7 +50,6 @@ fun VideoPanel() {
         ) {
             Button(
                 onClick = {
-                    elapsedTime = maxOf(elapsedTime - 10000, 0)
                     playbackManager.seek(-10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -82,12 +63,11 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
-                    isPlaying = !isPlaying
                     playbackManager.playOrPause()
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
-                if (isPlaying) {
+                if (playbackManager.isPlaying.value) {
                     Image(
                         painter = painterResource("buttons/pause_button.svg"),
                         contentDescription = "Пауза",
@@ -104,8 +84,6 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
-                    isPlaying = false
-                    elapsedTime = 0L
                     playbackManager.stop()
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -119,7 +97,6 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
-                    elapsedTime += 10000
                     playbackManager.seek(10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -163,6 +140,8 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
             }
         }
     }
+
+    BasicText(text = formatTime(currentTimestamp), modifier = Modifier.align(Alignment.Start))
 }
 
 @OptIn(ExperimentalResourceApi::class)

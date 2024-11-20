@@ -7,30 +7,27 @@ import kotlin.math.max
 class PlaybackManager {
 
     // Playback timings:
-    private var isPlaying: Boolean = false
-    private var playStartTimestamp: Long = 0
-    private var playStartFromTimestamp: Long = 0
+    var isPlaying = mutableStateOf(false)
+        private set
     var currentTimestamp = mutableStateOf(0L)
         private set
+    private var playStartTimestamp: Long = 0
+    private var playStartFromTimestamp: Long = 0
 
     fun play() {
-        assert(!isPlaying)
-
         playStartTimestamp = System.currentTimeMillis()
-        isPlaying = true
+        isPlaying.component2().invoke(true)
     }
 
     fun pause() {
-        assert(isPlaying)
-
         val currentTimeMillis = System.currentTimeMillis()
         playStartFromTimestamp += currentTimeMillis - playStartTimestamp
         playStartTimestamp = currentTimeMillis
-        isPlaying = false
+        isPlaying.component2().invoke(false)
     }
 
     fun playOrPause() {
-        if (isPlaying) {
+        if (isPlaying.value) {
             pause()
         } else {
             play()
@@ -40,13 +37,13 @@ class PlaybackManager {
     fun stop() {
         playStartTimestamp = System.currentTimeMillis()
         playStartFromTimestamp = 0
-        isPlaying = false
+        isPlaying.component2().invoke(false)
     }
 
     fun stopAndPlay() {
         playStartTimestamp = System.currentTimeMillis()
         playStartFromTimestamp = 0
-        isPlaying = true
+        isPlaying.component2().invoke(true)
     }
 
     fun seek(delta: Long) {
@@ -63,7 +60,7 @@ class PlaybackManager {
         }
     }
 
-    private fun calculateCurrentTimestamp() = if (isPlaying) {
+    private fun calculateCurrentTimestamp() = if (isPlaying.value) {
         playStartFromTimestamp + (System.currentTimeMillis() - playStartTimestamp)
     } else {
         playStartFromTimestamp
