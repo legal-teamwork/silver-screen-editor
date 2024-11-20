@@ -4,14 +4,31 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
 import kotlin.math.max
 
+/**
+ * Менеджер воспроизведения видео панели
+ */
 class PlaybackManager {
 
-    // Playback timings:
+    /**
+     * Публичное(только на чтение) состояние паузы плеера
+     */
     var isPlaying = mutableStateOf(false)
         private set
+
+    /**
+     * Публичное(только на чтение) состояние времени в видео, которое мы делаем
+     */
     var currentTimestamp = mutableStateOf(0L)
         private set
+
+    /**
+     * Приватное время, когда пользователь последний раз нажал воспроизвести
+     */
     private var playStartTimestamp: Long = 0
+
+    /**
+     * Приватное время, которое рано [currentTimestamp] при последнем запуске пользователем воспроизведения
+     */
     private var playStartFromTimestamp: Long = 0
 
     fun play() {
@@ -40,18 +57,16 @@ class PlaybackManager {
         isPlaying.component2().invoke(false)
     }
 
-    fun stopAndPlay() {
-        playStartTimestamp = System.currentTimeMillis()
-        playStartFromTimestamp = 0
-        isPlaying.component2().invoke(true)
-    }
-
     fun seek(delta: Long) {
         val currentTimeMillis = System.currentTimeMillis()
         playStartFromTimestamp = max(playStartFromTimestamp + (currentTimeMillis - playStartTimestamp) + delta, 0)
         playStartTimestamp = currentTimeMillis
     }
 
+    /**
+     * Асинхронный запуск бесконечного цикла, сдвигающий ползунок воспроизведения,
+     * то есть обновляющий [currentTimestamp]
+     */
     suspend fun updateCycle() {
         while (true) {
             currentTimestamp.component2().invoke(calculateCurrentTimestamp())
