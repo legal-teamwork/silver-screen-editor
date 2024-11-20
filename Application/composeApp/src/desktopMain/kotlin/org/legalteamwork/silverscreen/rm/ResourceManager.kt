@@ -35,6 +35,7 @@ import java.awt.Frame
 import java.awt.datatransfer.DataFlavor
 import java.io.File
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.resources.Strings
 
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
@@ -76,10 +77,10 @@ object ResourceManager {
     // Fields:
     private val buttonId = mutableStateOf(INIT_ID)
     private val buttons = listOf(
-        MenuButton(SOURCES_ID, "Sources"),
-        MenuButton(EFFECTS_ID, "Effects"),
-        MenuButton(PRESETS_ID, "Presets"),
-        MenuButton(TEMPLATES_ID, "Templates"),
+        MenuButton(SOURCES_ID, Strings.SOURCES),
+        MenuButton(EFFECTS_ID, Strings.EFFECTS),
+        MenuButton(PRESETS_ID, Strings.PRESETS),
+        MenuButton(TEMPLATES_ID, Strings.TEMPLATES),
     )
     val rootFolder: FolderResource =
         FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
@@ -158,8 +159,7 @@ object ResourceManager {
      */
     fun removeSource(resource: Resource) {
         logger.info { "Removing resource: ${resource.title.value}" }
-        videoResources.value.resources.remove(resource)
-        if (!videoResources.value.resources.remove(resource)) {
+        if ((videoResources.value.resources.remove(resource))) {
             logger.info { "Resource ${resource.title.value} removed successfully" }
         }
         else {
@@ -257,18 +257,29 @@ object ResourceManager {
 
                 override fun onDrop(event: DragAndDropEvent): Boolean {
 
+                    logger.info { "Files started dropping in the window" }
                     val files =
                         (event.awtTransferable.getTransferData(DataFlavor.javaFileListFlavor) as List<File>).filter { it.extension == "mp4" }
+
+                    if (files.isEmpty()) {
+                        logger.warn { "No MP4 files were dropped." }
+                    }
+                    else {
+                        logger.info { "Dropped MP4 files: ${files.joinToString { it.name }}" }
+                    }
 
                     for (file in files) {
                         val resource = VideoResource(file.path, videoResources.value)
                         addSource(resource)
+
+                        logger.info { "Successfully added resource: ${resource.title.value}" }
                     }
 
                     return true
                 }
             }
         })) {
+            logger.info { "Displaying window with id: $id" }
             when (id) {
                 SOURCES_ID -> SourcesMainWindow()
                 EFFECTS_ID -> EffectsMainWindow()

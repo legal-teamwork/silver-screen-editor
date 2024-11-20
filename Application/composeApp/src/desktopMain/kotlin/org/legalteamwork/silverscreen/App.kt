@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,15 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
+import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.openFileDialog
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -160,89 +157,6 @@ fun App() {
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun MainButtons() {
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        val buttonColors =
-            ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF3A3A3A),
-                contentColor = Color.White,
-                disabledBackgroundColor = Color(0xFF222222),
-                disabledContentColor = Color.White,
-            )
-
-        Button(
-            onClick = ResourceManager::addSourceTriggerActivity,
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Import File",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {},
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Export File",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.load(filenameSet.first().path)
-                }
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Open Proj.",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.save(filenameSet.first().path)
-                }
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = "Save Proj.",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Composable
 fun VideoPanel() {
     var isPlaying by remember { mutableStateOf(false) }
     var elapsedTime by remember { mutableStateOf(0L) }
@@ -295,7 +209,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
-                    contentDescription = "Перемотка назад",
+                    contentDescription = Strings.REWINDBACKWARDS,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -311,13 +225,13 @@ fun VideoPanel() {
                 if (isPlaying) {
                     Image(
                         painter = painterResource("buttons/pause_button.svg"),
-                        contentDescription = "Пауза",
+                        contentDescription = Strings.PAUSE,
                         modifier = Modifier.size(70.dp),
                     )
                 } else {
                     Image(
                         painter = painterResource("buttons/play_button.svg"),
-                        contentDescription = "Запуск",
+                        contentDescription = Strings.PLAY,
                         modifier = Modifier.size(70.dp),
                     )
                 }
@@ -334,7 +248,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
-                    contentDescription = "Стоп",
+                    contentDescription = Strings.STOP,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -349,7 +263,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
-                    contentDescription = "Перемотка вперед",
+                    contentDescription = Strings.REWINDFORWARD,
                     modifier = Modifier.size(70.dp),
                 )
             }

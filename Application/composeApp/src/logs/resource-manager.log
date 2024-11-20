@@ -22,3 +22,31 @@
 2024-11-19 21:43:23 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - MenuBar Action: New
 2024-11-19 21:43:23 [AWT-EventQueue-0] DEBUG o.l.s.shortcut.ShortcutManager - Triggered Ctrl+N shortcut
 2024-11-19 21:43:23 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - MenuBar Action: New
+2024-11-20 17:00:46 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-11-20 17:00:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:00:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:00:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:00:49 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+N
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+O
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+I
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+R
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+S
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+S
+2024-11-20 17:00:49 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+E
+2024-11-20 17:00:50 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
+2024-11-20 17:00:52 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
+2024-11-20 17:00:54 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
+2024-11-20 17:01:18 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-11-20 17:01:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:01:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:01:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-11-20 17:01:19 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+N
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+O
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+I
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+R
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+S
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+S
+2024-11-20 17:01:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Ctrl+Shift+E
+2024-11-20 17:01:21 [AWT-EventQueue-0] DEBUG o.l.silverscreen.menu.MenuBarCompose - Activating File
