@@ -8,8 +8,10 @@ import androidx.compose.material.Button
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
+import kotlin.math.min
 
 
 @Suppress("ktlint:standard:function-naming")
@@ -120,6 +123,7 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
     Box(Modifier.Companion.weight(1f).fillMaxWidth()) {
         // Draw canvas
         Canvas(Modifier.fillMaxSize()) {
+            val drawScope = this
             drawRect(Color.Black)
 
             timeState.videoResource?.let { videoResource ->
@@ -134,8 +138,22 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
                 bufferedImage?.let {
                     val scaledBufferedImage = OnlineVideoRenderer.scale(it, width = 256)
                     val imageBitmap = scaledBufferedImage.toImageBitmap()
+                    val imageWidth = imageBitmap.width
+                    val imageHeight = imageBitmap.height
+                    val scale = min(drawScope.size.width / imageWidth, drawScope.size.height / imageHeight)
+                    val scaledImageWidth = scale * imageWidth
+                    val scaledImageHeight = scale * imageHeight
+                    val left = (drawScope.size.width - scaledImageWidth) / 2 / scale
+                    val top = (drawScope.size.height - scaledImageHeight) / 2 / scale
 
-                    drawImage(image = imageBitmap)
+                    withTransform(
+                        {
+                            scale(scale, scale, Offset.Zero)
+                            translate(left, top)
+                        }
+                    ) {
+                        drawImage(image = imageBitmap)
+                    }
                 }
             }
         }
