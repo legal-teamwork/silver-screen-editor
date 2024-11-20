@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import java.awt.image.BufferedImage
@@ -60,6 +61,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     elapsedTime = maxOf(elapsedTime - 10000, 0)
+                    PlaybackManager.seek(-10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -73,6 +75,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     isPlaying = !isPlaying
+                    PlaybackManager.playOrPause()
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -95,6 +98,7 @@ fun VideoPanel() {
                 onClick = {
                     isPlaying = false
                     elapsedTime = 0L
+                    PlaybackManager.stop()
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -108,6 +112,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     elapsedTime += 10000
+                    PlaybackManager.seek(10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -137,7 +142,7 @@ private fun ColumnScope.VideoPreview() {
 }
 
 private fun makeVideoPreview(): ImageBitmap? {
-    val resourceFrame = OnlineVideoRenderer.getVideoFrame(5000) ?: return null
+    val resourceFrame = OnlineVideoRenderer.getVideoFrame(PlaybackManager.currentTimestamp) ?: return null
     val bufferedImage = resourceFrame.bufferedImage
 
     // Scale to size with width = 256
