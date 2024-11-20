@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
@@ -187,7 +188,7 @@ fun MainButtons() {
             border = null,
         ) {
             Text(
-                text = "Import File",
+                text = Strings.IMPORTFILE,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -201,7 +202,7 @@ fun MainButtons() {
             border = null,
         ) {
             Text(
-                text = "Export File",
+                text = Strings.EXPORTFILE,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -209,7 +210,7 @@ fun MainButtons() {
 
         Button(
             onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                val filenameSet = openFileDialog(null, Strings.SELECTFILE, listOf("json"), false)
                 if (filenameSet.isNotEmpty()) {
                     SaveManager.load(filenameSet.first().path)
                 }
@@ -220,7 +221,7 @@ fun MainButtons() {
             border = null,
         ) {
             Text(
-                text = "Open Proj.",
+                text = Strings.OPENPROJ,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -228,7 +229,7 @@ fun MainButtons() {
 
         Button(
             onClick = {
-                val filenameSet = openFileDialog(null, "Select File", listOf("json"), false)
+                val filenameSet = openFileDialog(null, Strings.SELECTFILE, listOf("json"), false)
                 if (filenameSet.isNotEmpty()) {
                     SaveManager.save(filenameSet.first().path)
                 }
@@ -239,7 +240,7 @@ fun MainButtons() {
             border = null,
         ) {
             Text(
-                text = "Save Proj.",
+                text = Strings.SAVEPROJ,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
             )
@@ -301,7 +302,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
-                    contentDescription = "Перемотка назад",
+                    contentDescription = Strings.REWINDBACKWARDS,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -317,13 +318,13 @@ fun VideoPanel() {
                 if (isPlaying) {
                     Image(
                         painter = painterResource("buttons/pause_button.svg"),
-                        contentDescription = "Пауза",
+                        contentDescription = Strings.PAUSE,
                         modifier = Modifier.size(70.dp),
                     )
                 } else {
                     Image(
                         painter = painterResource("buttons/play_button.svg"),
-                        contentDescription = "Запуск",
+                        contentDescription = Strings.PLAY,
                         modifier = Modifier.size(70.dp),
                     )
                 }
@@ -340,7 +341,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
-                    contentDescription = "Стоп",
+                    contentDescription = Strings.STOP,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -355,7 +356,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
-                    contentDescription = "Перемотка вперед",
+                    contentDescription = Strings.REWINDFORWARD,
                     modifier = Modifier.size(70.dp),
                 )
             }

@@ -35,6 +35,7 @@ import java.awt.Frame
 import java.awt.datatransfer.DataFlavor
 import java.io.File
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.resources.Strings
 
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
@@ -76,10 +77,10 @@ object ResourceManager {
     // Fields:
     private val buttonId = mutableStateOf(INIT_ID)
     private val buttons = listOf(
-        MenuButton(SOURCES_ID, "Sources"),
-        MenuButton(EFFECTS_ID, "Effects"),
-        MenuButton(PRESETS_ID, "Presets"),
-        MenuButton(TEMPLATES_ID, "Templates"),
+        MenuButton(SOURCES_ID, Strings.SOURCES),
+        MenuButton(EFFECTS_ID, Strings.EFFECTS),
+        MenuButton(PRESETS_ID, Strings.PRESETS),
+        MenuButton(TEMPLATES_ID, Strings.TEMPLATES),
     )
     val rootFolder: FolderResource =
         FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())

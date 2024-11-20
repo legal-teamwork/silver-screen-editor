@@ -5,6 +5,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
@@ -23,7 +24,7 @@ fun main() {
             onCloseRequest = {
                 SaveManager.save()
                 exitApplication() },
-            title = "Silver Screen Editor",
+            title = Strings.TITLE,
             icon = icon
         ) {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
