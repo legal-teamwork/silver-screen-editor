@@ -12,13 +12,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.bytedeco.javacv.Java2DFrameConverter
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
@@ -31,16 +32,24 @@ fun VideoPanel() {
     var elapsedTime by remember { mutableStateOf(0L) }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(isPlaying) {
-        if (isPlaying) {
-            scope.launch {
-                while (isPlaying) {
-                    delay(90)
-                    elapsedTime += 90
-                }
-            }
-        } else {
-            elapsedTime = 0L
+//    LaunchedEffect(isPlaying) {
+//        if (isPlaying) {
+//            scope.launch {
+//                while (isPlaying) {
+//                    delay(90)
+//                    elapsedTime += 90
+//                }
+//            }
+//        } else {
+//            elapsedTime = 0L
+//        }
+//    }
+
+    val playbackManager = PlaybackManager()
+    playbackManager.stop()
+    LaunchedEffect(Unit) {
+        scope.launch {
+            playbackManager.updateCycle()
         }
     }
 
@@ -49,7 +58,7 @@ fun VideoPanel() {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        VideoPreview()
+        VideoPreview(playbackManager)
 
         BasicText(text = formatTime(elapsedTime), modifier = Modifier.align(Alignment.Start))
 
@@ -61,7 +70,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     elapsedTime = maxOf(elapsedTime - 10000, 0)
-                    PlaybackManager.seek(-10_000)
+                    playbackManager.seek(-10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -75,7 +84,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     isPlaying = !isPlaying
-                    PlaybackManager.playOrPause()
+                    playbackManager.playOrPause()
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -98,7 +107,7 @@ fun VideoPanel() {
                 onClick = {
                     isPlaying = false
                     elapsedTime = 0L
-                    PlaybackManager.stop()
+                    playbackManager.stop()
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -112,7 +121,7 @@ fun VideoPanel() {
             Button(
                 onClick = {
                     elapsedTime += 10000
-                    PlaybackManager.seek(10_000)
+                    playbackManager.seek(10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
             ) {
@@ -127,34 +136,60 @@ fun VideoPanel() {
 }
 
 @Composable
-private fun ColumnScope.VideoPreview() {
+private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
+    val onlineVideoRenderer = remember { OnlineVideoRenderer() }
+    val currentTimestamp by playbackManager.currentTimestamp
+
     Box(Modifier.Companion.weight(1f).fillMaxWidth()) {
-        Canvas(Modifier.fillMaxSize()) {
-            drawRect(Color.Black)
 
-            if (VideoEditor.VideoTrack.videoResources.isNotEmpty()) {
-                val imageBitmap = makeVideoPreview()
+        val timeState = VideoEditorTimeState(currentTimestamp)
 
-                if (imageBitmap != null) { drawImage(image = imageBitmap) }
+        if (timeState.resourceOnTrack != null) {
+            // Get video resource timestamp
+            val videoResource = VideoEditor.getVideoResources()[timeState.resourceOnTrack.id]
+            val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
+
+            if (videoResource != onlineVideoRenderer.videoResource) {
+                onlineVideoRenderer.setVideoResource(videoResource)
+            }
+
+            // Grab video frame image
+            var timer = System.currentTimeMillis()
+
+            val frame = onlineVideoRenderer.grabVideoFrameByTimestamp(videoResourceTimestamp)
+            if (frame.image == null) throw Exception("Frame Image is NULL!")
+            val converter = Java2DFrameConverter()
+            val bufferedImage = converter.convert(frame)
+
+            var takenTime = System.currentTimeMillis() - timer
+            var fps = 1000F / takenTime
+            timer += takenTime
+            println("Grab : $takenTime, fps: $fps")
+
+            // Scale to size with width = 256
+            val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
+            val scaledBufferedImage = BufferedImage(
+                scaledInstance.getWidth(null),
+                scaledInstance.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB
+            )
+            val graphics = scaledBufferedImage.createGraphics()
+            graphics.drawImage(scaledInstance, 0, 0, null)
+            graphics.dispose()
+            val imageBitmap = scaledBufferedImage.toImageBitmap()
+
+            takenTime = System.currentTimeMillis() - timer
+            fps = 1000F / takenTime
+            timer += takenTime
+            println("Scale: $takenTime, fps: $fps")
+
+            // Draw canvas
+            Canvas(Modifier.fillMaxSize()) {
+                drawRect(Color.Black)
+                drawImage(image = imageBitmap)
             }
         }
     }
-}
-
-private fun makeVideoPreview(): ImageBitmap? {
-    val resourceFrame = OnlineVideoRenderer.getVideoFrame(PlaybackManager.currentTimestamp) ?: return null
-    val bufferedImage = resourceFrame.bufferedImage
-
-    // Scale to size with width = 256
-    val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
-    val scaledBufferedImage = BufferedImage(
-        scaledInstance.getWidth(null), scaledInstance.getHeight(null), BufferedImage.TYPE_INT_ARGB
-    )
-    val graphics = scaledBufferedImage.createGraphics()
-    graphics.drawImage(scaledInstance, 0, 0, null)
-    graphics.dispose()
-
-    return scaledBufferedImage.toImageBitmap()
 }
 
 @OptIn(ExperimentalResourceApi::class)

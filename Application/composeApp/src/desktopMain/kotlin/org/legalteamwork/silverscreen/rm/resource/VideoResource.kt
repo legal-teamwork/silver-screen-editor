@@ -14,7 +14,7 @@ import kotlin.io.path.pathString
 
 @Serializable
 class VideoResource(
-    private val resourcePath: String,
+    val resourcePath: String,
     @Transient
     override var parent: FolderResource? = ResourceManager.rootFolder,
     @Serializable(with = MutableStateStringSerializer::class)
@@ -46,7 +46,8 @@ class VideoResource(
     )
 
     /**
-     * Gets a frame from the current video resource with the provided index
+     * Gets a frame from the current video resource with the provided index.
+     * Too slow because of the line `frameGrabber.frameNumber = index`
      */
     fun getFrame(index: Int = 5): ResourceFrame {
         try {
@@ -72,7 +73,8 @@ class VideoResource(
     }
 
     /**
-     * Gets a frame from the current video resource with the provided timestamp
+     * Gets a frame from the current video resource with the provided timestamp.
+     * Too slow because of the line `frameGrabber.frameNumber = (timestamp * frameGrabber.frameRate / 1000).toInt()`
      */
     fun getFrameByTimestamp(timestamp: Long): ResourceFrame {
         try {
