@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -20,15 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.openFileDialog
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -40,210 +37,120 @@ fun App() {
     var width3 by remember { mutableStateOf(1f) }
     var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
+    val marginSize = 6.dp
+    val dividerSize = 8.dp
+    val windowCornerRadius = 8.dp
 
     Surface(color = Color.Black) {
         Box(
-            modifier =
-                Modifier.fillMaxSize()
-                    .onGloballyPositioned { layoutCoordinates ->
-                        panelSize =
-                            Size(
-                                layoutCoordinates.size.width.toFloat(),
-                                layoutCoordinates.size.height.toFloat(),
-                            )
-                    },
+            modifier = Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { layoutCoordinates ->
+                    panelSize =
+                        Size(
+                            layoutCoordinates.size.width.toFloat(),
+                            layoutCoordinates.size.height.toFloat(),
+                        )
+                },
             contentAlignment = Alignment.Center,
         ) {
             Column {
-                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
-                Box(
-                    modifier =
-                        Modifier.padding(
-                            start = 7.dp,
-                            end = 7.dp,
-                        ).background(Color.DarkGray, RoundedCornerShape(8.dp)).height(40.dp).width(panelSize.width.dp),
-                ) {
-                    MainButtons()
-                }
-                Box(modifier = Modifier.background(Color.Black).height(5.dp).width(panelSize.width.dp))
+                MenuBarCompose()
 
-                Row {
+                // Horizontal divider
+                Box(modifier = Modifier.background(Color.Black).height(marginSize).width(panelSize.width.dp))
+
+                Row(modifier = Modifier.height((panelSize.height * height1).dp - (2 * marginSize + dividerSize) / 2)) {
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
                     )
 
+                    // Resource manager box:
                     Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width1).dp - 11.dp)
-                                .height((panelSize.height * height1).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        modifier = Modifier
+                            .width((panelSize.width * width1).dp - (2 * marginSize + dividerSize) / 2)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
                     ) {
                         ResourceManager.compose()
                     }
 
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(
-                                Color.Black,
-                            ).height((panelSize.height * height1).dp - 33.dp).width(8.dp).pointerInput(Unit) {
+                        modifier = Modifier
+                            .background(Color.Black)
+                            .fillMaxHeight()
+                            .width(dividerSize)
+                            .pointerInput(Unit) {
                                 detectDragGestures { change, dragAmount ->
                                     change.consume()
-                                    val newWidth1 =
-                                        (width1 * panelSize.width + dragAmount.x).coerceIn(
-                                            panelSize.width * 0.4f,
-                                            panelSize.width * 0.6f,
-                                        )
+                                    val newWidth1 = (width1 * panelSize.width + dragAmount.x).coerceIn(
+                                        panelSize.width * 0.4f,
+                                        panelSize.width * 0.6f,
+                                    )
                                     width1 = newWidth1 / panelSize.width
                                     width2 = 1 - width1
                                 }
                             },
                     )
 
+                    // Video panel box:
                     Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width2).dp - 11.dp)
-                                .height((panelSize.height * height1).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        modifier = Modifier
+                            .width((panelSize.width * width2).dp - (2 * marginSize + dividerSize) / 2)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
                     ) {
                         VideoPanel()
                     }
 
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height1).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
                     )
                 }
 
+                // Horizontal divider:
                 Box(
-                    modifier =
-                        Modifier.background(Color.Black).height(8.dp).width(panelSize.width.dp).pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consume()
-                                val newHeight1 =
-                                    (height1 * panelSize.height + dragAmount.y).coerceIn(
-                                        panelSize.height * 0.5f,
-                                        panelSize.height * 0.7f,
-                                    )
-                                height1 = newHeight1 / panelSize.height
-                                height3 = 1 - height1
-                            }
-                        },
+                    modifier = Modifier.background(Color.Black).height(dividerSize).fillMaxWidth().pointerInput(Unit) {
+                        detectDragGestures { change, dragAmount ->
+                            change.consume()
+                            val newHeight1 =
+                                (height1 * panelSize.height + dragAmount.y).coerceIn(
+                                    panelSize.height * 0.5f,
+                                    panelSize.height * 0.7f,
+                                )
+                            height1 = newHeight1 / panelSize.height
+                            height3 = 1 - height1
+                        }
+                    },
                 )
 
-                Row {
+                Row(modifier = Modifier.height((panelSize.height * height3).dp - 20.dp)) {
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
                     )
 
+                    // Video editor box:
                     Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width3).dp - 14.dp)
-                                .height((panelSize.height * height3).dp - 32.dp)
-                                .background(Color.DarkGray, RoundedCornerShape(8.dp)),
+                        modifier = Modifier
+                            .width((panelSize.width * width3).dp - 2 * dividerSize)
+                            .fillMaxHeight()
+                            .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
                     ) {
                         VideoEditor.compose()
                     }
 
+                    // Vertical divider:
                     Box(
-                        modifier =
-                            Modifier.background(Color.Black).height((panelSize.height * height3).dp - 33.dp)
-                                .width(7.dp),
+                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
                     )
                 }
 
-                Box(modifier = Modifier.background(Color.Black).height(6.dp).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(Color.Black).height(marginSize).width(panelSize.width.dp))
             }
-        }
-    }
-}
-
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun MainButtons() {
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        val buttonColors =
-            ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF3A3A3A),
-                contentColor = Color.White,
-                disabledBackgroundColor = Color(0xFF222222),
-                disabledContentColor = Color.White,
-            )
-
-        Button(
-            onClick = ResourceManager::addSourceTriggerActivity,
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = Strings.IMPORTFILE,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {},
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = Strings.EXPORTFILE,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, Strings.SELECTFILE, listOf("json"), false)
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.load(filenameSet.first().path)
-                }
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = Strings.OPENPROJ,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
-        }
-
-        Button(
-            onClick = {
-                val filenameSet = openFileDialog(null, Strings.SELECTFILE, listOf("json"), false)
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.save(filenameSet.first().path)
-                }
-            },
-            modifier = Modifier.width(120.dp).height(36.dp).padding(start = 4.dp, top = (2.5).dp),
-            colors = buttonColors,
-            elevation = null,
-            border = null,
-        ) {
-            Text(
-                text = Strings.SAVEPROJ,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
         }
     }
 }

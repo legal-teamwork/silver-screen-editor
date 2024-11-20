@@ -30,6 +30,8 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.javacv.platform)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.logback.classic)
+            implementation(libs.kotlin.logging)
         }
     }
 }

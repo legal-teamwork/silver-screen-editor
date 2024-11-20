@@ -10,6 +10,7 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit
 
@@ -25,10 +26,12 @@ fun main() {
                 SaveManager.save()
                 exitApplication() },
             title = Strings.TITLE,
-            icon = icon
+            icon = icon,
+            onKeyEvent = ShortcutManager::onKeyEvent
         ) {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
+
             App()
         }
     }
