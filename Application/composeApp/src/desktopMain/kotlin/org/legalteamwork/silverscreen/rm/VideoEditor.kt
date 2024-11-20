@@ -42,6 +42,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import sun.swing.SwingUtilities2.drawRect
+import java.awt.SystemColor.text
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -463,14 +464,26 @@ object VideoEditor {
                     },
                     colors = buttonColors,
                 ) {
-                    Text(
-                        text = String.format("%.1fx", DpInFrame),
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center),
-                        textAlign = TextAlign.Center,
-                    )
+                    if (DpInFrame == 3f) {
+                        DpInFrame = 0.5f
+                        Text(
+                            text = String.format("%.1fx", DpInFrame),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center),
+                            textAlign = TextAlign.Center,
+                        )
+                    } else {
+                        Text(
+                            text = String.format("%.1fx", (DpInFrame + 0.5f)),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.Center),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                     /*
                     Image(
                         painter = painterResource("buttons/lens.png"),
