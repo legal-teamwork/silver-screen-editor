@@ -1,6 +1,7 @@
 package org.legalteamwork.silverscreen.ve
 
 import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 /**
  * Состояние видео-эдитора в заданный момент времени
@@ -12,7 +13,7 @@ data class VideoEditorTimeState(val timestamp: Long) {
     /**
      * Находит ресурс, который находится в заданном моменте времени
      */
-    val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack? = run {
+    private val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack? = run {
         val frame = timestamp * VideoEditor.FRAME_RATE / 1000
 
         VideoEditor.VideoTrack.resourcesOnTrack.find {
@@ -30,6 +31,13 @@ data class VideoEditorTimeState(val timestamp: Long) {
         } else {
             0
         }
+    }
+
+    /**
+     * Вытаскивает из [VideoEditor] видео ресурс по данному времени
+     */
+    val videoResource: VideoResource? = resourceOnTrack?.let {
+        VideoEditor.getVideoResources()[it.id]
     }
 
 }
