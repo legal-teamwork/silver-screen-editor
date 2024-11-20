@@ -10,6 +10,7 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.shortcut.Shortcut
+import org.legalteamwork.silverscreen.resources.Strings
 
 val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
@@ -30,12 +31,12 @@ val logger = KotlinLogging.logger {}
 @Composable
 fun MenuBarCompose() {
     MenuBar {
-        Menu("File", mnemonic = Key.F) {
-            MenuItem(text = "New", shortcut = Shortcut(Key.N, ctrl = true)) {
+        Menu(Strings.FILE_MENU_TAG, mnemonic = Key.F) {
+            MenuItem(text = Strings.FILE_NEW_ITEM, shortcut = Shortcut(Key.N, ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
                 // TODO
             }
-            MenuItem(text = "Open", shortcut = Shortcut(Key.O, ctrl = true)) {
+            MenuItem(text = Strings.FILE_OPEN_ITEM, shortcut = Shortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
                 // FIXME:
@@ -49,15 +50,13 @@ fun MenuBarCompose() {
             Divider(color = menuItemBorder, thickness = 1.dp)
 
             MenuItem(
-                text = "Import",
-                shortcut = Shortcut(Key.I, ctrl = true)
+                text = Strings.FILE_IMPORT_ITEM, shortcut = Shortcut(Key.I, ctrl = true)
             ) {
                 logger.debug { "MenuBar Action: Import" }
                 ResourceManager.addSourceTriggerActivity()
             }
             MenuItem(
-                text = "Export",
-                shortcut = Shortcut(Key.R, ctrl = true, shift = true)
+                text = Strings.FILE_EXPORT_ITEM, shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Export" }
                 // TODO
@@ -65,7 +64,7 @@ fun MenuBarCompose() {
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
-            MenuItem(text = "Save", shortcut = Shortcut(Key.S, ctrl = true)) {
+            MenuItem(text = Strings.FILE_SAVE_ITEM, shortcut = Shortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
                 // FIXME:
@@ -76,8 +75,7 @@ fun MenuBarCompose() {
                 }
             }
             MenuItem(
-                text = "Save as",
-                shortcut = Shortcut(Key.S, ctrl = true, shift = true)
+                text = Strings.FILE_SAVE_AS_ITEM, shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
 
@@ -89,8 +87,7 @@ fun MenuBarCompose() {
                 }
             }
             MenuItem(
-                text = "Enable/Disable auto save",
-                shortcut = Shortcut(Key.E, ctrl = true, shift = true)
+                text = Strings.FILE_AUTO_SAVE_ITEM, shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
                 // TODO
