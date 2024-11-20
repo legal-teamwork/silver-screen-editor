@@ -1,6 +1,5 @@
 package org.legalteamwork.silverscreen.ve
 
-import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 /**

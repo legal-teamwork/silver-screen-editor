@@ -3,6 +3,7 @@ package org.legalteamwork.silverscreen
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
 import kotlin.math.max
+import org.legalteamwork.silverscreen.ve.Slider
 
 /**
  * Менеджер воспроизведения видео панели
@@ -54,6 +55,7 @@ class PlaybackManager {
     fun stop() {
         playStartTimestamp = System.currentTimeMillis()
         playStartFromTimestamp = 0
+        Slider.updatePosition(0)
         isPlaying.component2().invoke(false)
     }
 
@@ -68,6 +70,7 @@ class PlaybackManager {
         }
     }
 
+
     /**
      * Асинхронный запуск бесконечного цикла, сдвигающий ползунок воспроизведения,
      * то есть обновляющий [currentTimestamp]
@@ -75,6 +78,8 @@ class PlaybackManager {
     suspend fun updateCycle() {
         while (true) {
             currentTimestamp.component2().invoke(calculateCurrentTimestamp())
+
+            Slider.updatePosition(currentTimestamp.value)
 
             delay(1000L / PLAYBACK_FPS)
         }
@@ -89,5 +94,4 @@ class PlaybackManager {
     companion object {
         private const val PLAYBACK_FPS = 25
     }
-
 }

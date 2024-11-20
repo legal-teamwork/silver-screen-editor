@@ -18,7 +18,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.*
 import kotlinx.coroutines.delay
@@ -26,8 +25,7 @@ import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.openFileDialog
+import org.legalteamwork.silverscreen.ve.VideoEditor
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
 @Suppress("ktlint:standard:function-naming")
@@ -105,7 +103,7 @@ fun App() {
                             .fillMaxHeight()
                             .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
                     ) {
-                        VideoPanel()
+                        VideoPanel.compose()
                     }
 
                     // Vertical divider:

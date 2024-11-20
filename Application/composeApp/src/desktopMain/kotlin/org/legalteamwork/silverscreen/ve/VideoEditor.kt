@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package org.legalteamwork.silverscreen.rm
+package org.legalteamwork.silverscreen.ve
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -28,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.Dp
@@ -41,8 +40,6 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
-import sun.swing.SwingUtilities2.drawRect
-import java.awt.SystemColor.text
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -58,7 +55,7 @@ object VideoEditor {
     private val TRACK_MIN_WIDTH = 30.dp
 
     // Количество Dp в кадре.
-    private var DpInFrame by mutableStateOf(1f)
+    var DpInFrame by mutableStateOf(1f)
 
     private var tracks = mutableStateListOf(VideoTrack)
 
@@ -316,13 +313,13 @@ object VideoEditor {
     fun addResource(resource: Resource) {
         println(resource.title)
         if (resource is VideoResource) {
-            tracks[0].addResource(resource)
+            VideoTrack.addResource(resource)
         }
     }
 
-    fun getResourcesOnTrack() = tracks[0].resourcesOnTrack
+    fun getResourcesOnTrack() = VideoTrack.resourcesOnTrack
 
-    fun getVideoResources() = tracks[0].videoResources
+    fun getVideoResources() = VideoTrack.videoResources
 
     fun getTracks() = tracks
 
@@ -335,46 +332,11 @@ object VideoEditor {
         savedResourcesOnTrack: List<VideoTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        tracks[0].resourcesOnTrack.clear()
-        tracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
-        tracks[0].videoResources.clear()
-        tracks[0].videoResources.addAll(savedVideoResource)
+        VideoTrack.resourcesOnTrack.clear()
+        VideoTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
+        VideoTrack.videoResources.clear()
+        VideoTrack.videoResources.addAll(savedVideoResource)
     }
-
-    /*
-
-    /**
-     * Разметка дорожки
-     */
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-        step: Dp,
-    ) {
-        var position = step * DpInFrame
-        while (position < maxWidth) {
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxHeight()
-                        .offset(x = position, y = -trackHeight * 0.05f)
-                        .width(1.dp)
-                        .background(color = Color(0xFFCDD3DB)),
-            )
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxHeight()
-                        .offset(x = position, y = trackHeight * 0.05f)
-                        .width(1.dp)
-                        .background(color = Color(0xFFCDD3DB)),
-            )
-            position += step * DpInFrame
-        }
-    }
-
-     */
 
     @Composable
     fun markup(
@@ -460,37 +422,18 @@ object VideoEditor {
                         if (DpInFrame > 3) {
                             DpInFrame = 0.5f
                         }
-                        tracks[0].updateResourcesOnTrack()
+                        VideoTrack.updateResourcesOnTrack()
                     },
                     colors = buttonColors,
                 ) {
-                    if (DpInFrame == 3f) {
-                        DpInFrame = 0.5f
-                        Text(
-                            text = String.format("%.1fx", DpInFrame),
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .wrapContentSize(Alignment.Center),
-                            textAlign = TextAlign.Center,
-                        )
-                    } else {
-                        Text(
-                            text = String.format("%.1fx", (DpInFrame + 0.5f)),
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .wrapContentSize(Alignment.Center),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    /*
-                    Image(
-                        painter = painterResource("buttons/lens.png"),
-                        contentDescription = "Приблизить/Отдалить дорожку",
-                        contentScale = ContentScale.FillWidth
+                    Text(
+                        text = String.format("%.1fx", DpInFrame),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
                     )
-                     */
                 }
             }
 
@@ -514,28 +457,10 @@ object VideoEditor {
                             .padding(vertical = maxHeight * 0.05f),
                     verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
                 ) {
-                    tracks[0].compose(adaptiveTrackHeight, this@BoxWithConstraints.maxWidth)
+                    VideoTrack.compose(adaptiveTrackHeight, this@BoxWithConstraints.maxWidth)
                 }
 
-                // Позиция ползунка.
-                var markerPosition by remember { mutableStateOf(0) }
-
-                Box(
-                    modifier =
-                        Modifier
-                            .offset { IntOffset(markerPosition, 0) }
-                            .fillMaxHeight()
-                            .width(3.dp)
-                            .background(color = Color.White, RoundedCornerShape(3.dp))
-                            .pointerInput(Unit) {
-                                detectDragGestures(
-                                    onDrag = { change, dragAmount ->
-                                        change.consume()
-                                        markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
-                                    },
-                                )
-                            },
-                )
+                Slider.compose()
             }
         }
     }
