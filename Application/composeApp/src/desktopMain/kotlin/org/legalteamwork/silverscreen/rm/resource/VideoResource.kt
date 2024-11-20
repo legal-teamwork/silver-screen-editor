@@ -72,6 +72,31 @@ class VideoResource(
     }
 
     /**
+     * Gets a frame from the current video resource with the provided timestamp
+     */
+    fun getFrameByTimestamp(timestamp: Long): ResourceFrame {
+        try {
+            val frameGrabber = FFmpegFrameGrabber(resourcePath)
+            frameGrabber.format = "mp4"
+            frameGrabber.start()
+            frameGrabber.frameNumber = (timestamp * frameGrabber.frameRate / 1000).toInt()
+
+            val frame = frameGrabber.grabImage() ?: throw Exception("Frame is NULL!")
+            if (frame.image == null) throw Exception("Frame Image is NULL!")
+
+            val converter = Java2DFrameConverter()
+            val bufferedImage = converter.convert(frame)
+
+            frameGrabber.stop()
+            frameGrabber.close()
+
+            return ResourceFrame(bufferedImage)
+        } catch (e: FFmpegFrameGrabber.Exception) {
+            throw BuildException()
+        }
+    }
+
+    /**
      * Returns amount of frames in the provided resource file
      *
      * @see FFmpegFrameGrabber.getLengthInVideoFrames

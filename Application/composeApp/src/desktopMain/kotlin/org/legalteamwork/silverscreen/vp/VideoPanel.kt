@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
@@ -127,23 +128,28 @@ private fun ColumnScope.VideoPreview() {
             drawRect(Color.Black)
 
             if (VideoEditor.VideoTrack.videoResources.isNotEmpty()) {
-                val videoResource = VideoEditor.VideoTrack.videoResources[0]
-                val resourceFrame = videoResource.getFrame(5)
-                val bufferedImage = resourceFrame.bufferedImage
-                // Scale to size with width = 256
-                val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
-                val scaledBufferedImage = BufferedImage(
-                    scaledInstance.getWidth(null), scaledInstance.getHeight(null), BufferedImage.TYPE_INT_ARGB
-                )
-                val graphics = scaledBufferedImage.createGraphics()
-                graphics.drawImage(scaledInstance, 0, 0, null)
-                graphics.dispose()
-                val imageBitmap = scaledBufferedImage.toImageBitmap()
+                val imageBitmap = makeVideoPreview()
 
-                drawImage(image = imageBitmap)
+                if (imageBitmap != null) { drawImage(image = imageBitmap) }
             }
         }
     }
+}
+
+private fun makeVideoPreview(): ImageBitmap? {
+    val resourceFrame = OnlineVideoRenderer.getVideoFrame(5000) ?: return null
+    val bufferedImage = resourceFrame.bufferedImage
+
+    // Scale to size with width = 256
+    val scaledInstance = bufferedImage.getScaledInstance(256, -1, java.awt.Image.SCALE_FAST)
+    val scaledBufferedImage = BufferedImage(
+        scaledInstance.getWidth(null), scaledInstance.getHeight(null), BufferedImage.TYPE_INT_ARGB
+    )
+    val graphics = scaledBufferedImage.createGraphics()
+    graphics.drawImage(scaledInstance, 0, 0, null)
+    graphics.dispose()
+
+    return scaledBufferedImage.toImageBitmap()
 }
 
 @OptIn(ExperimentalResourceApi::class)

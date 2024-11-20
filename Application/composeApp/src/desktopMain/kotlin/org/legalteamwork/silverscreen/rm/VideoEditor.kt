@@ -52,6 +52,7 @@ import kotlin.math.roundToInt
 @Serializable
 object VideoEditor {
     // Constants
+    const val FRAME_RATE = 25f
     private val TRACK_MAX_HEIGHT = 500.dp
     private val TRACK_MIN_WIDTH = 30.dp
 
