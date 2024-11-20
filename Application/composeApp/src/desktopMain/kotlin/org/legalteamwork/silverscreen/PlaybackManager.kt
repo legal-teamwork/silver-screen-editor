@@ -59,8 +59,13 @@ class PlaybackManager {
 
     fun seek(delta: Long) {
         val currentTimeMillis = System.currentTimeMillis()
-        playStartFromTimestamp = max(playStartFromTimestamp + (currentTimeMillis - playStartTimestamp) + delta, 0)
-        playStartTimestamp = currentTimeMillis
+
+        if (isPlaying.value) {
+            playStartFromTimestamp = max(playStartFromTimestamp + (currentTimeMillis - playStartTimestamp) + delta, 0)
+            playStartTimestamp = currentTimeMillis
+        } else {
+            playStartFromTimestamp = max(playStartFromTimestamp + delta, 0)
+        }
     }
 
     /**
