@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package org.legalteamwork.silverscreen.rm
+package org.legalteamwork.silverscreen.ve
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -39,8 +39,6 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.rm.AudioEditor.audiotracks
-import org.legalteamwork.silverscreen.rm.VideoEditor.videotracks
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.io.File
@@ -313,13 +311,13 @@ object VideoEditor {
     fun addResource(resource: Resource) {
         println(resource.title)
         if (resource is VideoResource) {
-            videotracks[0].addResource(resource)
+            VideoTrack.addResource(resource)
         }
     }
 
-    fun getResourcesOnTrack() = videotracks[0].resourcesOnTrack
+    fun getResourcesOnTrack() = VideoTrack.resourcesOnTrack
 
-    fun getVideoResources() = videotracks[0].videoResources
+    fun getVideoResources() = VideoTrack.videoResources
 
     fun getTracks() = videotracks
 
@@ -327,10 +325,10 @@ object VideoEditor {
         savedResourcesOnTrack: List<VideoTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        videotracks[0].resourcesOnTrack.clear()
-        videotracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
-        videotracks[0].videoResources.clear()
-        videotracks[0].videoResources.addAll(savedVideoResource)
+        VideoTrack.resourcesOnTrack.clear()
+        VideoTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
+        VideoTrack.videoResources.clear()
+        VideoTrack.videoResources.addAll(savedVideoResource)
     }
 
     @Composable
@@ -637,13 +635,13 @@ object AudioEditor {
     fun addResource(resource: Resource) {
         println(resource.title)
         if (resource is VideoResource) {
-            audiotracks[0].addResource(resource)
+            AudioTrack.addResource(resource)
         }
     }
 
-    fun getResourcesOnTrack() = audiotracks[0].resourcesOnTrack
+    fun getResourcesOnTrack() = AudioTrack.resourcesOnTrack
 
-    fun getVideoResources() = audiotracks[0].audioResources
+    fun getVideoResources() = AudioTrack.audioResources
 
     fun getTracks() = audiotracks
 
@@ -651,10 +649,10 @@ object AudioEditor {
         savedResourcesOnTrack: List<AudioTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        audiotracks[0].resourcesOnTrack.clear()
-        audiotracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
-        audiotracks[0].audioResources.clear()
-        audiotracks[0].audioResources.addAll(savedVideoResource)
+        AudioTrack.resourcesOnTrack.clear()
+        AudioTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
+        AudioTrack.audioResources.clear()
+        AudioTrack.audioResources.addAll(savedVideoResource)
     }
 
     @Composable
@@ -743,37 +741,19 @@ fun EditingPanel() {
                     if (DpInFrame > 3) {
                         DpInFrame = 0.5f
                     }
-                    videotracks[0].updateResourcesOnTrack()
-                    audiotracks[0].updateResourcesOnTrack()
+                    VideoEditor.VideoTrack.updateResourcesOnTrack()
+                    AudioEditor.AudioTrack.updateResourcesOnTrack()
                 },
                 colors = buttonColors,
             ) {
-                if (DpInFrame == 3f) {
-                    Text(
-                        text = String.format("%.1fx", (DpInFrame - 2.5f)),
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center),
-                        textAlign = TextAlign.Center,
-                    )
-                } else {
-                    Text(
-                        text = String.format("%.1fx", (DpInFrame + 0.5f)),
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .wrapContentSize(Alignment.Center),
-                        textAlign = TextAlign.Center,
-                    )
-                }
-                    /*
-                    Image(
-                        painter = painterResource("buttons/lens.png"),
-                        contentDescription = "Приблизить/Отдалить дорожку",
-                        contentScale = ContentScale.FillWidth
-                    )
-                     */
+                Text(
+                    text = String.format("%.1fx", (DpInFrame)),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                )
             }
         }
 
@@ -798,28 +778,11 @@ fun EditingPanel() {
                         .padding(vertical = maxHeight * 0.05f),
                 verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
             ) {
-                videotracks[0].compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
-                audiotracks[0].compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
+                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
 
-            var markerPosition by remember { mutableStateOf(0) }
-
-            Box(
-                modifier =
-                    Modifier
-                        .offset { IntOffset(markerPosition, 0) }
-                        .fillMaxHeight()
-                        .width(3.dp)
-                        .background(color = Color.White, RoundedCornerShape(3.dp))
-                        .pointerInput(Unit) {
-                            detectDragGestures(
-                                onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
-                                },
-                            )
-                        },
-            )
+            Slider.compose()
         }
     }
 }

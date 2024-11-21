@@ -24,93 +24,93 @@ import org.legalteamwork.silverscreen.resources.Strings
 
 val logger = KotlinLogging.logger {}
 
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun VideoPanel() {
-    val scope = rememberCoroutineScope()
+object VideoPanel {
+    val playbackManager by mutableStateOf(PlaybackManager())
 
-    val playbackManager = remember { PlaybackManager() }
-    playbackManager.stop()
-    LaunchedEffect(Unit) {
-        scope.launch {
-            playbackManager.updateCycle()
-        }
-    }
+    @Suppress("ktlint:standard:function-naming")
+    @Composable
+    fun compose() {
+        val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        VideoPreview(playbackManager)
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(50.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Button(
-                onClick = {
-                    logger.info { " -10s button clicked" }
-                    playbackManager.seek(-10_000)
-                },
-                modifier = Modifier.padding(end = 20.dp),
-            ) {
-                Image(
-                    painter = painterResource("buttons/rewind_backwards_button.svg"),
-                    contentDescription = Strings.REWINDBACKWARDS,
-                    modifier = Modifier.size(70.dp),
-                )
+        playbackManager.stop()
+        LaunchedEffect(Unit) {
+            scope.launch {
+                playbackManager.updateCycle()
             }
+        }
 
-            Button(
-                onClick = {
-                    logger.info { "Play/pause button clicked" }
-                    playbackManager.playOrPause()
-                },
-                modifier = Modifier.padding(end = 20.dp),
+        Column(
+            modifier = Modifier.fillMaxSize().padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            VideoPreview(playbackManager)
+
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(50.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                if (playbackManager.isPlaying.value) {
+                Button(
+                    onClick = {
+                        playbackManager.seek(-10_000)
+                    },
+                    modifier = Modifier.padding(end = 20.dp),
+                ) {
                     Image(
-                        painter = painterResource("buttons/pause_button.svg"),
-                        contentDescription = Strings.PAUSE,
-                        modifier = Modifier.size(70.dp),
-                    )
-                } else {
-                    Image(
-                        painter = painterResource("buttons/play_button.svg"),
-                        contentDescription = Strings.PLAY,
+                        painter = painterResource("buttons/rewind_backwards_button.svg"),
+                        contentDescription = "Перемотка назад",
                         modifier = Modifier.size(70.dp),
                     )
                 }
-            }
 
-            Button(
-                onClick = {
-                    logger.info { "Stop button clicked" }
-                    playbackManager.stop()
-                },
-                modifier = Modifier.padding(end = 20.dp),
-            ) {
-                Image(
-                    painter = painterResource("buttons/stop_button.svg"),
-                    contentDescription = Strings.STOP,
-                    modifier = Modifier.size(70.dp),
-                )
-            }
+                Button(
+                    onClick = {
+                        playbackManager.playOrPause()
+                    },
+                    modifier = Modifier.padding(end = 20.dp),
+                ) {
+                    if (playbackManager.isPlaying.value) {
+                        Image(
+                            painter = painterResource("buttons/pause_button.svg"),
+                            contentDescription = "Пауза",
+                            modifier = Modifier.size(70.dp),
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource("buttons/play_button.svg"),
+                            contentDescription = "Запуск",
+                            modifier = Modifier.size(70.dp),
+                        )
+                    }
+                }
 
-            Button(
-                onClick = {
-                    logger.info { " +10s button clicked" }
-                    playbackManager.seek(10_000)
-                },
-                modifier = Modifier.padding(end = 20.dp),
-            ) {
-                Image(
-                    painter = painterResource("buttons/rewind_forward_button.svg"),
-                    contentDescription = Strings.REWINDFORWARD,
-                    modifier = Modifier.size(70.dp),
-                )
+                Button(
+                    onClick = {
+                        playbackManager.stop()
+                    },
+                    modifier = Modifier.padding(end = 20.dp),
+                ) {
+                    Image(
+                        painter = painterResource("buttons/stop_button.svg"),
+                        contentDescription = "Стоп",
+                        modifier = Modifier.size(70.dp),
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        playbackManager.seek(10_000)
+                    },
+                    modifier = Modifier.padding(end = 20.dp),
+                ) {
+                    Image(
+                        painter = painterResource("buttons/rewind_forward_button.svg"),
+                        contentDescription = "Перемотка вперед",
+                        modifier = Modifier.size(70.dp),
+                    )
+                }
             }
         }
     }

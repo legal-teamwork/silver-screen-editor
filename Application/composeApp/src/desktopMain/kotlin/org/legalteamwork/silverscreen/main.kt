@@ -6,10 +6,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import org.legalteamwork.silverscreen.resources.Strings
-import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit

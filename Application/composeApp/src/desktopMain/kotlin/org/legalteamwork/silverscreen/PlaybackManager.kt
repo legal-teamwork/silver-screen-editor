@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen
 
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
+import org.legalteamwork.silverscreen.ve.Slider
 import kotlin.math.max
 
 /**
@@ -54,6 +55,7 @@ class PlaybackManager {
     fun stop() {
         playStartTimestamp = System.currentTimeMillis()
         playStartFromTimestamp = 0
+        Slider.updatePosition(0)
         isPlaying.component2().invoke(false)
     }
 
@@ -75,6 +77,8 @@ class PlaybackManager {
     suspend fun updateCycle() {
         while (true) {
             currentTimestamp.component2().invoke(calculateCurrentTimestamp())
+
+            Slider.updatePosition(currentTimestamp.value)
 
             delay(1000L / PLAYBACK_FPS)
         }

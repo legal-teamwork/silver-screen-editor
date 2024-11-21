@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.ve.VideoEditor
 import java.io.File
 
 @Serializable
