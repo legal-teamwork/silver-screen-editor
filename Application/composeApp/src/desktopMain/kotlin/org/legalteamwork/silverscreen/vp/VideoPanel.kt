@@ -20,6 +20,7 @@ import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
 import kotlin.math.min
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.resources.Strings
 
 val logger = KotlinLogging.logger {}
 
@@ -57,7 +58,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_backwards_button.svg"),
-                    contentDescription = "Перемотка назад",
+                    contentDescription = Strings.REWINDBACKWARDS,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -72,13 +73,13 @@ fun VideoPanel() {
                 if (playbackManager.isPlaying.value) {
                     Image(
                         painter = painterResource("buttons/pause_button.svg"),
-                        contentDescription = "Пауза",
+                        contentDescription = Strings.PAUSE,
                         modifier = Modifier.size(70.dp),
                     )
                 } else {
                     Image(
                         painter = painterResource("buttons/play_button.svg"),
-                        contentDescription = "Запуск",
+                        contentDescription = Strings.PLAY,
                         modifier = Modifier.size(70.dp),
                     )
                 }
@@ -93,7 +94,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/stop_button.svg"),
-                    contentDescription = "Стоп",
+                    contentDescription = Strings.STOP,
                     modifier = Modifier.size(70.dp),
                 )
             }
@@ -107,7 +108,7 @@ fun VideoPanel() {
             ) {
                 Image(
                     painter = painterResource("buttons/rewind_forward_button.svg"),
-                    contentDescription = "Перемотка вперед",
+                    contentDescription = Strings.REWINDFORWARD,
                     modifier = Modifier.size(70.dp),
                 )
             }

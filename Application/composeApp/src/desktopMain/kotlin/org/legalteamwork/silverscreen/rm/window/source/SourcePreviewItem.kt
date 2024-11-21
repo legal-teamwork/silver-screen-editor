@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -86,7 +87,7 @@ fun SourcePreviewItem(
         }
 
         Column(
-            modifier = activeModifier.padding(CELL_PADDING),
+            modifier = activeModifier.padding(Dimens.CELL_PADDING),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -97,7 +98,7 @@ fun SourcePreviewItem(
                 Image(
                     painter = File(resource.previewPath).inputStream().readAllBytes().decodeToSvgPainter(Density(1f)),
                     contentDescription = rememberedTitle,
-                    modifier = Modifier.size(IMAGE_WIDTH, IMAGE_HEIGHT),
+                    modifier = Modifier.size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT),
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.TopCenter
                 )
@@ -107,7 +108,7 @@ fun SourcePreviewItem(
                         File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
                     }),
                     contentDescription = rememberedTitle,
-                    modifier = Modifier.size(IMAGE_WIDTH, IMAGE_HEIGHT),
+                    modifier = Modifier.size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT),
                     contentScale = ContentScale.FillBounds,
                     alignment = Alignment.TopCenter
                 )

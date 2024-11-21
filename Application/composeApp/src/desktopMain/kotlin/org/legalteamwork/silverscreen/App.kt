@@ -16,6 +16,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.EditingPanel
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.vp.VideoPanel
@@ -30,9 +31,6 @@ fun App() {
     var width3 by remember { mutableStateOf(1f) }
     var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
-    val marginSize = 6.dp
-    val dividerSize = 8.dp
-    val windowCornerRadius = 8.dp
 
     Surface(color = Color.Black) {
         Box(
@@ -52,21 +50,21 @@ fun App() {
                 MenuBarCompose()
 
                 // Horizontal divider
-                Box(modifier = Modifier.background(Color.Black).height(marginSize).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(Color.Black).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
 
-                Row(modifier = Modifier.height((panelSize.height * height1).dp - (2 * marginSize + dividerSize) / 2)) {
+                Row(modifier = Modifier.height((panelSize.height * height1).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)) {
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
                     )
 
                     // Resource manager box:
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width1).dp - (2 * marginSize + dividerSize) / 2)
+                                .width((panelSize.width * width1).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)
                                 .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
+                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
                         ResourceManager.compose()
                     }
@@ -77,7 +75,7 @@ fun App() {
                             Modifier
                                 .background(Color.Black)
                                 .fillMaxHeight()
-                                .width(dividerSize)
+                                .width(Dimens.DIVIDER_SIZE)
                                 .pointerInput(Unit) {
                                     detectDragGestures { change, dragAmount ->
                                         change.consume()
@@ -96,23 +94,23 @@ fun App() {
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width2).dp - (2 * marginSize + dividerSize) / 2)
+                                .width((panelSize.width * width2).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)
                                 .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
+                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
                         VideoPanel()
                     }
 
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
                     )
                 }
 
                 // Horizontal divider:
                 Box(
                     modifier =
-                        Modifier.background(Color.Black).height(dividerSize).fillMaxWidth().pointerInput(Unit) {
+                        Modifier.background(Color.Black).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 val newHeight1 =
@@ -129,27 +127,27 @@ fun App() {
                 Row(modifier = Modifier.height((panelSize.height * height3).dp - 20.dp)) {
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
                     )
 
                     // Video editor box:
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width3).dp - 2 * dividerSize)
+                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE)
                                 .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(windowCornerRadius)),
+                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
                         EditingPanel()
                     }
 
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(marginSize).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
                     )
                 }
 
-                Box(modifier = Modifier.background(Color.Black).height(marginSize).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(Color.Black).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
             }
         }
     }

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import androidx.compose.ui.window.PopupProperties
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
@@ -33,7 +34,6 @@ fun NewFolderWindow(
     onContextWindowClose: () -> Unit
 ) {
     val position = contextWindowData.position
-    val width = 250.dp
     val shape = RoundedCornerShape(5.dp)
 
     Popup(
@@ -43,7 +43,7 @@ fun NewFolderWindow(
     ) {
         Box(
             modifier = Modifier
-                .width(width)
+                .width(Dimens.WINDOW_WIDTH)
                 .wrapContentHeight()
                 .shadow(5.dp, shape = shape)
                 .background(Color.DarkGray, shape = shape)

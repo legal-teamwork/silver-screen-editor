@@ -12,16 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
 fun SourceAddButton() {
     Box(
-        modifier = Modifier.padding(CELL_PADDING).fillMaxSize()
+        modifier = Modifier.padding(Dimens.CELL_PADDING).fillMaxSize()
     ) {
         Box(
             Modifier
-                .size(IMAGE_WIDTH, IMAGE_HEIGHT)
+                .size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT)
                 .align(Alignment.Center)
                 .clickable(
                     onClickLabel = "Add resource",

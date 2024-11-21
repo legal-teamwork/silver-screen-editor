@@ -38,11 +38,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.legalteamwork.silverscreen.rm.AudioEditor.AUDIO_TRACK_MAX_HEIGHT
-import org.legalteamwork.silverscreen.rm.AudioEditor.AUDIO_TRACK_MIN_WIDTH
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.AudioEditor.audiotracks
-import org.legalteamwork.silverscreen.rm.VideoEditor.VIDEO_TRACK_MAX_HEIGHT
-import org.legalteamwork.silverscreen.rm.VideoEditor.VIDEO_TRACK_MIN_WIDTH
 import org.legalteamwork.silverscreen.rm.VideoEditor.videotracks
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
@@ -59,10 +56,6 @@ var DpInFrame by mutableStateOf(1f)
  */
 @Serializable
 object VideoEditor {
-    // Constants
-    const val FRAME_RATE = 25f
-    val VIDEO_TRACK_MAX_HEIGHT = 500.dp
-    val VIDEO_TRACK_MIN_WIDTH = 30.dp
 
     var videotracks = mutableStateListOf(VideoTrack)
 
@@ -387,10 +380,6 @@ object VideoEditor {
  */
 @Serializable
 object AudioEditor {
-    // Constants
-    const val FRAME_RATE = 25f
-    val AUDIO_TRACK_MAX_HEIGHT = 500.dp
-    val AUDIO_TRACK_MIN_WIDTH = 30.dp
 
     var audiotracks = mutableStateListOf(AudioTrack)
 
@@ -800,8 +789,8 @@ fun EditingPanel() {
                     )
                     .fillMaxSize(),
         ) {
-            val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, AUDIO_TRACK_MAX_HEIGHT), AUDIO_TRACK_MIN_WIDTH)
-            val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, VIDEO_TRACK_MAX_HEIGHT), VIDEO_TRACK_MIN_WIDTH)
+            val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
+            val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
 
             Column(
                 modifier =

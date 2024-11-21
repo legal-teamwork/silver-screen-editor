@@ -36,6 +36,7 @@ import java.awt.datatransfer.DataFlavor
 import java.io.File
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
+import org.legalteamwork.silverscreen.resources.Dimens
 
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
@@ -63,24 +64,15 @@ object ResourceManager {
     // Logger
     private val logger = KotlinLogging.logger {}
 
-    // Constants
-    private const val INIT_ID = 1
-    private const val SOURCES_ID = 1
-    private const val EFFECTS_ID = 2
-    private const val PRESETS_ID = 3
-    private const val TEMPLATES_ID = 4
-    private val MENU_MIN_WIDTH = 150.dp
-    private val MENU_MAX_WIDTH = 275.dp
-    private val MENU_BUTTON_HEIGHT = 35.dp
     private val MENU_FONT_FAMILY = FontFamily.Default
 
     // Fields:
-    private val buttonId = mutableStateOf(INIT_ID)
+    private val buttonId = mutableStateOf(Dimens.INIT_ID)
     private val buttons = listOf(
-        MenuButton(SOURCES_ID, Strings.SOURCES),
-        MenuButton(EFFECTS_ID, Strings.EFFECTS),
-        MenuButton(PRESETS_ID, Strings.PRESETS),
-        MenuButton(TEMPLATES_ID, Strings.TEMPLATES),
+        MenuButton(Dimens.SOURCES_ID, Strings.SOURCES),
+        MenuButton(Dimens.EFFECTS_ID, Strings.EFFECTS),
+        MenuButton(Dimens.PRESETS_ID, Strings.PRESETS),
+        MenuButton(Dimens.TEMPLATES_ID, Strings.TEMPLATES),
     )
     val rootFolder: FolderResource =
         FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
@@ -102,7 +94,7 @@ object ResourceManager {
                 shape = RoundedCornerShape(8.dp),
             ).fillMaxSize()
         ) {
-            val adaptiveMenuWidth = max(min(maxWidth * 0.3f, MENU_MAX_WIDTH), MENU_MIN_WIDTH)
+            val adaptiveMenuWidth = max(min(maxWidth * 0.3f, Dimens.MENU_MAX_WIDTH), Dimens.MENU_MIN_WIDTH)
             val adaptiveMainWindowWidth = maxWidth - adaptiveMenuWidth
 
             Row {
@@ -226,7 +218,7 @@ object ResourceManager {
 
         Button(
             onClick = { chosenButton = button.id },
-            modifier = Modifier.fillMaxWidth().height(MENU_BUTTON_HEIGHT),
+            modifier = Modifier.fillMaxWidth().height(Dimens.MENU_BUTTON_HEIGHT),
             colors = buttonColors,
             elevation = null,
             border = null,
@@ -281,10 +273,10 @@ object ResourceManager {
         })) {
             logger.info { "Displaying window with id: $id" }
             when (id) {
-                SOURCES_ID -> SourcesMainWindow()
-                EFFECTS_ID -> EffectsMainWindow()
-                PRESETS_ID -> PresetsMainWindow()
-                TEMPLATES_ID -> TemplatesMainWindow()
+                Dimens.SOURCES_ID -> SourcesMainWindow()
+                Dimens.EFFECTS_ID -> EffectsMainWindow()
+                Dimens.PRESETS_ID -> PresetsMainWindow()
+                Dimens.TEMPLATES_ID -> TemplatesMainWindow()
                 else -> ErrorMainWindow()
             }
         }

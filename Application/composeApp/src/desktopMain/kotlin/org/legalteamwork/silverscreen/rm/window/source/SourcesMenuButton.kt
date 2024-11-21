@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Density
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -41,13 +42,6 @@ import silverscreeneditor.composeapp.generated.resources.add_folder
 import silverscreeneditor.composeapp.generated.resources.up
 import java.io.File
 
-// Constants:
-val IMAGE_WIDTH = 250.dp
-val IMAGE_HEIGHT = 140.dp
-val CELL_PADDING = 5.dp
-val COLUMN_MIN_WIDTH = IMAGE_WIDTH + CELL_PADDING * 2
-val NAV_ICON_SIZE = 40.dp
-val NAV_MENU_HEIGHT = 50.dp
 
 @Composable
 fun SourcesMainWindow() {
@@ -92,7 +86,7 @@ fun SourcesMainWindow() {
 fun PathWindow() {
     Box(
         Modifier.fillMaxWidth()
-            .height(NAV_MENU_HEIGHT)
+            .height(Dimens.NAV_MENU_HEIGHT)
             .background(Color(0xFF3A3A3A)),
         contentAlignment = Alignment.CenterStart) {
         val path = mutableListOf<FolderResource>()
@@ -118,7 +112,7 @@ fun NavWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
-    Box(Modifier.fillMaxWidth().height(NAV_MENU_HEIGHT).background(Color(0xFF3A3A3A))) {
+    Box(Modifier.fillMaxWidth().height(Dimens.NAV_MENU_HEIGHT).background(Color(0xFF3A3A3A))) {
         Row(
             modifier = Modifier.fillMaxSize().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -135,7 +129,7 @@ fun NavWindow(
                 Image(
                     painter = painterResource(Res.drawable.up),
                     contentDescription = "Up",
-                    modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
+                    modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp)
                 )
             }
 
@@ -153,7 +147,7 @@ fun NavWindow(
                 Image(
                     painter = painterResource(Res.drawable.add_folder),
                     contentDescription = "Add folder",
-                    modifier = Modifier.size(NAV_ICON_SIZE).padding(5.dp)
+                    modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp)
                 )
             }
 
@@ -173,7 +167,7 @@ private fun SourcesPreviews(
     onContextWindowClose: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = COLUMN_MIN_WIDTH)) {
+        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Dimens.COLUMN_MIN_WIDTH)) {
             items(
                 items = ResourceManager.videoResources.value.resources.toList(),
                 key = Resource::hashCode

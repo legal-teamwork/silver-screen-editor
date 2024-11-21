@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
@@ -44,8 +45,6 @@ fun MoveToWindow(
 ) {
     val resource = ResourceManager.activeResource.value ?: return
     val position = contextWindowData.position
-    val width = 250.dp
-    val height = 400.dp
     val shape = RoundedCornerShape(5.dp)
     val possibleFolders: List<Pair<FolderResource, String>> = if (resource is FolderResource) {
         collectPossibleFolders(except = resource)
@@ -60,8 +59,8 @@ fun MoveToWindow(
         Box(
             modifier = Modifier
                 .wrapContentSize()
-                .width(width)
-                .heightIn(min = 0.dp, max = height)
+                .width(Dimens.WINDOW_WIDTH)
+                .heightIn(min = 0.dp, max = Dimens.WINDOW_HEIGHT)
                 .wrapContentSize()
                 .shadow(5.dp, shape = shape)
                 .background(Color(0xFF222222), shape = shape)
