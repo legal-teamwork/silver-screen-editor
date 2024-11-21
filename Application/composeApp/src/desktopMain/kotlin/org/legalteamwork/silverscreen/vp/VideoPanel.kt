@@ -19,7 +19,9 @@ import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
 import kotlin.math.min
+import io.github.oshai.kotlinlogging.KotlinLogging
 
+val logger = KotlinLogging.logger {}
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -48,6 +50,7 @@ fun VideoPanel() {
         ) {
             Button(
                 onClick = {
+                    logger.info { " -10s button clicked" }
                     playbackManager.seek(-10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -61,6 +64,7 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
+                    logger.info { "Play/pause button clicked" }
                     playbackManager.playOrPause()
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -82,6 +86,7 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
+                    logger.info { "Stop button clicked" }
                     playbackManager.stop()
                 },
                 modifier = Modifier.padding(end = 20.dp),
@@ -95,6 +100,7 @@ fun VideoPanel() {
 
             Button(
                 onClick = {
+                    logger.info { " +10s button clicked" }
                     playbackManager.seek(10_000)
                 },
                 modifier = Modifier.padding(end = 20.dp),
