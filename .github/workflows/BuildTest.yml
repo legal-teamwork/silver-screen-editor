@@ -51,4 +51,5 @@ jobs:
       
       #Building:
       - name: Build the project
+        working-directory: ./Application
         run: ./Application/gradlew build --no-daemon
