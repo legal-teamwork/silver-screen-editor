@@ -855,4 +855,5 @@ fun EditingPanel() {
             )
         }
     }
+    logger.info { "Timeline created!" }
 }

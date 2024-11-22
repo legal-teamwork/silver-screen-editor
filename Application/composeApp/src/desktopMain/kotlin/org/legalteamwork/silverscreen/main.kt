@@ -5,6 +5,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.SaveManager
@@ -14,8 +15,10 @@ import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit
 
-fun main() {
+private val logger = KotlinLogging.logger {  }
 
+fun main() {
+    logger.info { "Program started!" }
     SaveManager.load()
 
     application {
@@ -24,7 +27,8 @@ fun main() {
             state = WindowState(WindowPlacement.Maximized),
             onCloseRequest = {
                 SaveManager.save()
-                exitApplication() },
+                exitApplication()
+                logger.info { "Program finished\n\n" } },
             title = Strings.TITLE,
             icon = icon,
             onKeyEvent = ShortcutManager::onKeyEvent
