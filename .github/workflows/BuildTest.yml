@@ -47,4 +47,4 @@ jobs:
 
       #Building:
       - name: Build the project
-        run: ./gradlew build --no-daemon
+        run: ./Application/gradlew build --no-daemon
