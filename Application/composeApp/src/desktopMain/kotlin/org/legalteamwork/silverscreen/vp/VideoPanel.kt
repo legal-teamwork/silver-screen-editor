@@ -22,7 +22,7 @@ import kotlin.math.min
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
 
-val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.IntArraySerializer
 import kotlinx.serialization.encoding.Decoder
@@ -46,6 +47,8 @@ import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
+
+private val logger = KotlinLogging.logger {  }
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
@@ -74,10 +77,12 @@ object VideoEditor {
                 encoder: Encoder,
                 value: ResourceOnTrack,
             ) {
+                logger.info { "Serializing video resource" }
                 encoder.encodeSerializableValue(IntArraySerializer(), intArrayOf(value.id, value.position, value.framesCount))
             }
 
             override fun deserialize(decoder: Decoder): ResourceOnTrack {
+                logger.info { "Deserializing video resource" }
                 val array = decoder.decodeSerializableValue(IntArraySerializer())
                 return ResourceOnTrack(null, array[0], array[1], array[2])
             }
@@ -109,11 +114,13 @@ object VideoEditor {
             }
 
             fun updatePosition(newPosition: Int) {
+                logger.info { "Moving video block..." }
                 localDragTargetInfo.component1().dragOffset = Offset(newPosition * DpInFrame, 0f)
                 position = (localDragTargetInfo.component1().dragOffset.x / DpInFrame).roundToInt()
             }
 
             fun updateOffset() {
+                logger.info { "Updating offset of video block..." }
                 localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
             }
 
@@ -141,12 +148,15 @@ object VideoEditor {
                                     currentState.draggableComposable = content
                                 }, onDrag = { change, dragAmount ->
                                     change.consume()
+                                    logger.debug { "Dragging video resource..." }
                                     currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
                                 }, onDragEnd = {
+                                    logger.debug { "Dragged video resource successfully" }
                                     currentState.isDragging = false
                                     position = (currentState.dragOffset.x / DpInFrame).roundToInt()
                                     chooseNewPositionAndMoveResources(id, position, framesCount)
                                 }, onDragCancel = {
+                                    logger.warn { "Canceled dragging video resource" }
                                     currentState.dragOffset = Offset.Zero
                                     currentState.isDragging = false
                                 })
@@ -212,6 +222,7 @@ object VideoEditor {
             if (resourcesOnTrack.isNotEmpty()) {
                 pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
             }
+            logger.info { "Adding video resource to timeline" }
             resourcesOnTrack.add(
                 ResourceOnTrack(
                     null,
@@ -251,6 +262,7 @@ object VideoEditor {
                     fl = true
                 }
             }
+            logger.info { "Repositioning of video resources..." }
             for (change in changes)
                 resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
             for (res in resourcesOnTrack) {
@@ -261,6 +273,7 @@ object VideoEditor {
         }
 
         fun updateResourcesOnTrack() {
+            logger.info { "Updating video offsets" }
             for (i in 0..<resourcesOnTrack.size)
                 resourcesOnTrack[i].updateOffset()
         }
@@ -271,6 +284,7 @@ object VideoEditor {
             maxWidth: Dp,
         ) {
             val resources = remember { resourcesOnTrack }
+            logger.info { "Composing video resource" }
             Box(
                 modifier =
                     Modifier
@@ -327,10 +341,12 @@ object VideoEditor {
         savedResourcesOnTrack: List<VideoTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
+        logger.info { "Restoring video resources..." }
         videotracks[0].resourcesOnTrack.clear()
         videotracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
         videotracks[0].videoResources.clear()
         videotracks[0].videoResources.addAll(savedVideoResource)
+        logger.info { "Restoring video resources finished" }
     }
 
     @Composable
@@ -341,6 +357,7 @@ object VideoEditor {
     ) {
         val shortMarkInterval = 10f * DpInFrame
         val longMarkInterval = 100f * DpInFrame
+        logger.info { "Markup timeline..." }
 
         Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
@@ -398,10 +415,12 @@ object AudioEditor {
                 encoder: Encoder,
                 value: ResourceOnTrack,
             ) {
+                logger.info { "Serializing audio" }
                 encoder.encodeSerializableValue(IntArraySerializer(), intArrayOf(value.id, value.position, value.framesCount))
             }
 
             override fun deserialize(decoder: Decoder): ResourceOnTrack {
+                logger.info { "Deserializing audio" }
                 val array = decoder.decodeSerializableValue(IntArraySerializer())
                 return ResourceOnTrack(null, array[0], array[1], array[2])
             }
@@ -433,11 +452,13 @@ object AudioEditor {
             }
 
             fun updatePosition(newPosition: Int) {
+                logger.info { "Updating audio block position" }
                 localDragTargetInfo.component1().dragOffset = Offset(newPosition * DpInFrame, 0f)
                 position = (localDragTargetInfo.component1().dragOffset.x / DpInFrame).roundToInt()
             }
 
             fun updateOffset() {
+                logger.info { "Updating audio block offset" }
                 localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
             }
 
@@ -465,12 +486,15 @@ object AudioEditor {
                                     currentState.draggableComposable = content
                                 }, onDrag = { change, dragAmount ->
                                     change.consume()
+                                    logger.debug { "Dragging audio resource..." }
                                     currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
                                 }, onDragEnd = {
+                                    logger.debug { "Dragged audio resource successfully" }
                                     currentState.isDragging = false
                                     position = (currentState.dragOffset.x / DpInFrame).roundToInt()
                                     chooseNewPositionAndMoveResources(id, position, framesCount)
                                 }, onDragCancel = {
+                                    logger.warn { "Canceled dragging audio resource" }
                                     currentState.dragOffset = Offset.Zero
                                     currentState.isDragging = false
                                 })
@@ -536,6 +560,7 @@ object AudioEditor {
             if (resourcesOnTrack.isNotEmpty()) {
                 pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
             }
+            logger.info { "Adding audio resource to timeline" }
             resourcesOnTrack.add(
                 ResourceOnTrack(
                     null,
@@ -575,6 +600,7 @@ object AudioEditor {
                     fl = true
                 }
             }
+            logger.info { "Repositioning of audio resources..." }
             for (change in changes)
                 resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
             for (res in resourcesOnTrack) {
@@ -585,6 +611,7 @@ object AudioEditor {
         }
 
         fun updateResourcesOnTrack() {
+            logger.info { "Updating audio offsets" }
             for (i in 0..<resourcesOnTrack.size)
                 resourcesOnTrack[i].updateOffset()
         }
@@ -594,6 +621,7 @@ object AudioEditor {
             trackHeight: Dp,
             maxWidth: Dp,
         ) {
+            logger.info { "Composing audio resource" }
             val resources = remember { resourcesOnTrack }
             Box(
                 modifier =
@@ -651,10 +679,12 @@ object AudioEditor {
         savedResourcesOnTrack: List<AudioTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
+        logger.info { "Restoring audio resources..." } //Может, позже пригодится)
         audiotracks[0].resourcesOnTrack.clear()
         audiotracks[0].resourcesOnTrack.addAll(savedResourcesOnTrack)
         audiotracks[0].audioResources.clear()
         audiotracks[0].audioResources.addAll(savedVideoResource)
+        logger.info { "Restoring audio resources finished" }
     }
 
     @Composable
@@ -665,6 +695,7 @@ object AudioEditor {
     ) {
         val shortMarkInterval = 10f * DpInFrame
         val longMarkInterval = 100f * DpInFrame
+        logger.info { "Markup timeline..." }
 
         Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
@@ -739,6 +770,7 @@ fun EditingPanel() {
                         .height(50.dp)
                         .padding(0.dp),
                 onClick = {
+                    logger.info { "Instrumental button clicked" }
                     DpInFrame += 0.5f
                     if (DpInFrame > 3) {
                         DpInFrame = 0.5f
@@ -815,6 +847,7 @@ fun EditingPanel() {
                             detectDragGestures(
                                 onDrag = { change, dragAmount ->
                                     change.consume()
+                                    logger.info { "Dragging to panel..." }
                                     markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
                                 },
                             )
