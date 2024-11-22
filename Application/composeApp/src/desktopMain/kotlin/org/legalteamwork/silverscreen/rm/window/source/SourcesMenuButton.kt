@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.unit.Density
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
@@ -42,6 +43,7 @@ import silverscreeneditor.composeapp.generated.resources.add_folder
 import silverscreeneditor.composeapp.generated.resources.up
 import java.io.File
 
+private val logger = KotlinLogging.logger {  }
 
 @Composable
 fun SourcesMainWindow() {
@@ -153,7 +155,10 @@ fun NavWindow(
 
             // Кнопка переключения режима
             Button(
-                onClick = { toggleViewMode() },
+                onClick = {
+                    logger.info { "View mode button clicked" }
+                    toggleViewMode()
+                },
             ) {
                 Text(if (isListView.value) "Switch to Icons" else "Switch to List")
             }
@@ -197,6 +202,7 @@ private fun ListViewItem(resource: Resource) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Миниатюра
+        logger.info { "Adding miniature of file" }
         if (File(resource.previewPath).extension == "svg") {
             Image(
                 painter = File(resource.previewPath).inputStream().readAllBytes().decodeToSvgPainter(Density(1f)),
@@ -267,6 +273,7 @@ private fun ContextWindow(
     onContextWindowClose: () -> Unit
 ) {
     contextWindow?.apply {
+        logger.info { "Context menu opened" }
         when (id) {
             ContextWindowId.CONTEXT_MENU -> ResourceActionsContextWindow(
                 data,

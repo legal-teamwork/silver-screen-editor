@@ -16,7 +16,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>src/logs/SilverScreenEditor.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
-            <totalSizeCap>2000KB</totalSizeCap>
+            <totalSizeCap>3000KB</totalSizeCap>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
 
