@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.legalteamwork.silverscreen.resources.ResourcePropertiesContextWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
@@ -30,13 +30,13 @@ fun ResourcePropertiesContextWindow(
                     .forEach { (groupName, groupProperties) ->
                         Box(
                             Modifier.fillMaxWidth().wrapContentHeight()
-                                .border(1.dp, SolidColor(Color(0x44FFFFFF)), RectangleShape)
+                                .border(1.dp, SolidColor(ResourcePropertiesContextWindowTheme.BORDER_COLOR), RectangleShape)
                         ) {
                             Text(
                                 groupName,
                                 modifier = Modifier.padding(10.dp, 2.dp),
                                 fontSize = 8.sp,
-                                color = Color.LightGray
+                                color = ResourcePropertiesContextWindowTheme.PROPERTY_NAME_COLOR
                             )
                         }
 
@@ -46,7 +46,7 @@ fun ResourcePropertiesContextWindow(
                                     "${property.key} - ${property.value}",
                                     modifier = Modifier.padding(7.dp, 2.dp),
                                     fontSize = 10.sp,
-                                    color = Color.White
+                                    color = ResourcePropertiesContextWindowTheme.EACH_PROPERTY_TEXT_COLOR
                                 )
                             }
                         }

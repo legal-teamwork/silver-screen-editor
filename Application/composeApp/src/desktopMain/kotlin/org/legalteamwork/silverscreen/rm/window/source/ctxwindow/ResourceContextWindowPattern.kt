@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.rememberPopupPositionProviderAtPosition
+import org.legalteamwork.silverscreen.resources.ResourceContextWindowPatternTheme
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -42,7 +43,7 @@ fun ResourceContextWindowPattern(
                 .wrapContentHeight()
                 .shadow(5.dp, shape = shape)
                 .background(Color(0xFF222222), shape = shape)
-                .border(1.dp, Color.LightGray, shape = shape)
+                .border(1.dp, ResourceContextWindowPatternTheme.BACKGROUND_COLOR, shape = shape)
         ) {
             content()
         }

@@ -6,8 +6,8 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.legalteamwork.silverscreen.resources.ResourceActionsContextWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 @Composable
@@ -30,7 +30,7 @@ fun ResourceActionsContextWindow(
                 onContextWindowClose()
             }
 
-            Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
+            Divider(modifier = Modifier.fillMaxWidth(), color = ResourceActionsContextWindowTheme.DIVIDERS_COLOR)
 
             ResourceAction("Move to") {
                 onContextWindowOpen(ContextWindow(ContextWindowId.MOVE_TO, contextWindowData))
@@ -39,7 +39,7 @@ fun ResourceActionsContextWindow(
                 onContextWindowOpen(ContextWindow(ContextWindowId.COPY_TO, contextWindowData))
             }
 
-            Divider(modifier = Modifier.fillMaxWidth(), color = Color.LightGray)
+            Divider(modifier = Modifier.fillMaxWidth(), color = ResourceActionsContextWindowTheme.DIVIDERS_COLOR)
 
             ResourceAction("Properties") {
                 onContextWindowOpen(ContextWindow(ContextWindowId.PROPERTIES, contextWindowData))
@@ -51,6 +51,6 @@ fun ResourceActionsContextWindow(
 @Composable
 private fun ResourceAction(text: String, onClick: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Text(text = text, modifier = Modifier.padding(5.dp), color = Color.White)
+        Text(text = text, modifier = Modifier.padding(5.dp), color = ResourceActionsContextWindowTheme.TEXT_COLOR)
     }
 }

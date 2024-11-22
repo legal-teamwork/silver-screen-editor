@@ -39,6 +39,7 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.AudioEditor.audiotracks
 import org.legalteamwork.silverscreen.rm.VideoEditor.videotracks
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -168,7 +169,7 @@ object VideoEditor {
                             Modifier
                                 .fillMaxHeight()
                                 .width((framesCount * DpInFrame).dp)
-                                .background(color = Color(0xDDFFDBE1), RoundedCornerShape(20.dp)),
+                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
                     ) {
                         val textHeight = min(20.dp, maxHeight)
                         val previewHeight = min(75.dp, maxHeight - textHeight)
@@ -185,7 +186,7 @@ object VideoEditor {
                                     Modifier
                                         .offset(x = 10.dp)
                                         .height(textHeight),
-                                color = Color.Black,
+                                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
                             )
                             Image(
                                 painter =
@@ -276,7 +277,7 @@ object VideoEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)),
+                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
             ) {
                 markup(maxWidth, trackHeight, 1f)
                 for (i in 0..<resources.size) {
@@ -347,13 +348,13 @@ object VideoEditor {
                 val width = size.width
                 val height = size.height
 
-                drawRect(color = Color(0xFFFFC1CC), size = size)
+                drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
 
                 for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
                     val xPosition = i * shortMarkInterval - 1
 
                     drawLine(
-                        color = Color.Gray,
+                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
                         start = Offset(xPosition, height * 0.25f),
                         end = Offset(xPosition, height * 0.75f),
                         strokeWidth = 1f,
@@ -364,7 +365,7 @@ object VideoEditor {
                     val xPosition = i * longMarkInterval - 1
 
                     drawLine(
-                        color = Color.Black,
+                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
                         start = Offset(xPosition, height * 0.15f),
                         end = Offset(xPosition, height * 0.85f),
                         strokeWidth = 1f,
@@ -492,7 +493,7 @@ object AudioEditor {
                             Modifier
                                 .fillMaxHeight()
                                 .width((framesCount * DpInFrame).dp)
-                                .background(color = Color(0xFF93C47D), RoundedCornerShape(20.dp)),
+                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
                     ) {
                         val textHeight = min(20.dp, maxHeight)
                         val previewHeight = min(75.dp, maxHeight - textHeight)
@@ -509,7 +510,7 @@ object AudioEditor {
                                     Modifier
                                         .offset(x = 10.dp)
                                         .height(textHeight),
-                                color = Color.Black,
+                                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
                             )
                             Image(
                                 painter =
@@ -671,13 +672,13 @@ object AudioEditor {
                 val width = size.width
                 val height = size.height
 
-                drawRect(color = Color(0xFFCCFFC1), size = size)
+                drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
 
                 for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
                     val xPosition = i * shortMarkInterval - 1
 
                     drawLine(
-                        color = Color.Gray,
+                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
                         start = Offset(xPosition, height * 0.25f),
                         end = Offset(xPosition, height * 0.75f),
                         strokeWidth = 1f,
@@ -688,7 +689,7 @@ object AudioEditor {
                     val xPosition = i * longMarkInterval - 1
 
                     drawLine(
-                        color = Color.Black,
+                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
                         start = Offset(xPosition, height * 0.15f),
                         end = Offset(xPosition, height * 0.85f),
                         strokeWidth = 1f,
@@ -707,7 +708,7 @@ fun EditingPanel() {
         modifier =
             Modifier
                 .background(
-                    color = Color.Black,
+                    color = EditingPanelTheme.EDITING_PANEL_BACKGROUND,
                 ),
     ) {
         /**
@@ -717,7 +718,7 @@ fun EditingPanel() {
             modifier =
                 Modifier
                     .background(
-                        color = Color(0xFF444444),
+                        color = EditingPanelTheme.TOOL_PANEL_COLOR,
                         shape = RoundedCornerShape(8.dp),
                     )
                     .fillMaxHeight()
@@ -726,10 +727,10 @@ fun EditingPanel() {
         ) {
             val buttonColors =
                 ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFF3A3A3A),
-                    contentColor = Color.White,
-                    disabledBackgroundColor = Color(0xFF222222),
-                    disabledContentColor = Color.White,
+                    backgroundColor = EditingPanelTheme.TOOL_BUTTONS_BACKGROUND_COLOR,
+                    contentColor = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR,
+                    disabledBackgroundColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_BACKGROUND_COLOR,
+                    disabledContentColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_CONTENT_COLOR,
                 )
 
             Button(
@@ -784,7 +785,7 @@ fun EditingPanel() {
             modifier =
                 Modifier
                     .background(
-                        color = Color(0xFF444444),
+                        color = EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR,
                         shape = RoundedCornerShape(8.dp),
                     )
                     .fillMaxSize(),
@@ -810,7 +811,7 @@ fun EditingPanel() {
                         .offset { IntOffset(markerPosition, 0) }
                         .fillMaxHeight()
                         .width(3.dp)
-                        .background(color = Color.White, RoundedCornerShape(3.dp))
+                        .background(color = EditingPanelTheme.MARKER_COLOR, RoundedCornerShape(3.dp))
                         .pointerInput(Unit) {
                             detectDragGestures(
                                 onDrag = { change, dragAmount ->

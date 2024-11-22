@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -29,6 +28,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.SourcesMenuButtonTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -52,9 +52,9 @@ fun SourcesMainWindow() {
     BoxWithConstraints {
         Column {
             NavWindow(onContextWindowOpen, onContextWindowClose)
-            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
+            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = SourcesMenuButtonTheme.DIVIDER_COLOR)
             PathWindow()
-            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Black)
+            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = SourcesMenuButtonTheme.DIVIDER_COLOR)
 
             Box(modifier = Modifier.fillMaxSize()) {
                 if (isListView.value) {
@@ -87,7 +87,7 @@ fun PathWindow() {
     Box(
         Modifier.fillMaxWidth()
             .height(Dimens.NAV_MENU_HEIGHT)
-            .background(Color(0xFF3A3A3A)),
+            .background(SourcesMenuButtonTheme.PATH_WINDOW_COLOR),
         contentAlignment = Alignment.CenterStart) {
         val path = mutableListOf<FolderResource>()
         var current: FolderResource? = ResourceManager.videoResources.value
@@ -101,7 +101,7 @@ fun PathWindow() {
 
         Text(
             text = pathText,
-            color = Color.White,
+            color = SourcesMenuButtonTheme.PATH_WINDOW_TEXT_COLOR,
             modifier = Modifier.padding(5.dp)
         )
     }
@@ -112,7 +112,7 @@ fun NavWindow(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
-    Box(Modifier.fillMaxWidth().height(Dimens.NAV_MENU_HEIGHT).background(Color(0xFF3A3A3A))) {
+    Box(Modifier.fillMaxWidth().height(Dimens.NAV_MENU_HEIGHT).background(SourcesMenuButtonTheme.NAV_WINDOW_BACKGROUND_COLOR)) {
         Row(
             modifier = Modifier.fillMaxSize().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -121,7 +121,7 @@ fun NavWindow(
             Box(
                 modifier = Modifier
                     .wrapContentSize()
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
+                    .border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
                     .clickable {
                         ResourceManager.onFolderUp()
                     }
@@ -136,7 +136,7 @@ fun NavWindow(
             Box(
                 modifier = Modifier
                     .wrapContentSize()
-                    .border(1.dp, Color.LightGray, RoundedCornerShape(5.dp))
+                    .border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
                     .clickable {
                         val contextWindowId = ContextWindowId.NEW_FOLDER
                         val contextWindowData = ContextWindowData(Offset.Zero)
@@ -191,7 +191,7 @@ private fun ListViewItem(resource: Resource) {
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .border(0.5.dp, Color(0x44000000))
+            .border(0.5.dp, SourcesMenuButtonTheme.LIST_VIEW_RESOURCES_OUTLINE_COLOR)
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -220,13 +220,13 @@ private fun ListViewItem(resource: Resource) {
         Text(
             text = resource.title.value,
             modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
-            color = Color.White,
+            color = SourcesMenuButtonTheme.PATH_WINDOW_TEXT_COLOR,
         )
 
         // Можно добавить дополнительную информацию
         Text(
             text = "Size: ${File(resource.previewPath).length() / 1024} KB",
-            color = Color.Gray
+            color = SourcesMenuButtonTheme.LIST_VIEW_ADDITIONAL_INFO_COLOR
         )
     }
 }
@@ -237,7 +237,7 @@ private fun ListAddButton() {
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .border(0.5.dp, Color(0x44000000))
+            .border(0.5.dp, SourcesMenuButtonTheme.LIST_ADD_BUTTON_OUTLINE_COLOR)
             .padding(8.dp)
             .clickable(
                 onClickLabel = "Add resource",
@@ -254,7 +254,7 @@ private fun ListAddButton() {
         )
         Text(
             text = "Add New Resource",
-            color = Color.White,
+            color = SourcesMenuButtonTheme.LIST_VIEW_ADD_BUTTON_TEXT_COLOR,
             modifier = Modifier.padding(start = 8.dp)
         )
     }

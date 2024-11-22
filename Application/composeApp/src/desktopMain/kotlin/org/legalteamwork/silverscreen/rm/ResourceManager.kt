@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,6 +35,7 @@ import java.io.File
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
@@ -64,8 +63,6 @@ object ResourceManager {
     // Logger
     private val logger = KotlinLogging.logger {}
 
-    private val MENU_FONT_FAMILY = FontFamily.Default
-
     // Fields:
     private val buttonId = mutableStateOf(Dimens.INIT_ID)
     private val buttons = listOf(
@@ -90,7 +87,7 @@ object ResourceManager {
     fun compose() {
         BoxWithConstraints(
             modifier = Modifier.background(
-                color = Color(0xFF444444),
+                color = ResourceManagerTheme.RESOURCE_MANAGER_BACKGROUND_COLOR,
                 shape = RoundedCornerShape(8.dp),
             ).fillMaxSize()
         ) {
@@ -182,7 +179,7 @@ object ResourceManager {
     @Composable
     private fun Menu(menuWidth: Dp) {
         Box(
-            modifier = Modifier.background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp)).width(menuWidth)
+            modifier = Modifier.background(color = ResourceManagerTheme.MENU_COLOR, RoundedCornerShape(8.dp)).width(menuWidth)
                 .fillMaxHeight()
         ) {
             ButtonList()
@@ -210,10 +207,10 @@ object ResourceManager {
     private fun MenuButton(button: MenuButton) {
         var chosenButton by remember { buttonId }
         val buttonColors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF3A3A3A),
-            contentColor = Color.White,
-            disabledBackgroundColor = Color(0xFF222222),
-            disabledContentColor = Color.White,
+            backgroundColor = ResourceManagerTheme.MENU_BUTTONS_BACKGROUND_COLOR,
+            contentColor = ResourceManagerTheme.MENU_BUTTONS_CONTENT_COLOR,
+            disabledBackgroundColor = ResourceManagerTheme.MENU_BUTTONS_DISABLED_BACKGROUND_COLOR,
+            disabledContentColor = ResourceManagerTheme.MENU_BUTTONS_DISABLED_CONTENT_COLOR,
         )
 
         Button(
@@ -228,7 +225,7 @@ object ResourceManager {
                 text = button.title,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Left,
-                fontFamily = MENU_FONT_FAMILY,
+                fontFamily = ResourceManagerTheme.MENU_FONT_FAMILY,
             )
         }
     }
