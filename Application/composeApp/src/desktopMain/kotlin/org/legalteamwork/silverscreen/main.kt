@@ -7,28 +7,37 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
-import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.SaveManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.save.EditorSettingsSaveManager
+import org.legalteamwork.silverscreen.save.ProjectSaveManager
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit
 
 private val logger = KotlinLogging.logger {  }
 
+private fun onStart() {
+    EditorSettingsSaveManager.load()
+    ProjectSaveManager.autoload()
+}
+
+private fun onClose() {
+    EditorSettingsSaveManager.save()
+    ProjectSaveManager.autosave()
+}
+
 fun main() {
     logger.info { "Program started!" }
-    SaveManager.load()
+    onStart()
 
     application {
         val icon = painterResource("icon.ico")
         Window(
             state = WindowState(WindowPlacement.Maximized),
             onCloseRequest = {
-                SaveManager.save()
+                onClose()
                 exitApplication()
-                logger.info { "Program finished\n\n" } },
+                logger.info { "Program finished\n\n" }
+            },
             title = Strings.TITLE,
             icon = icon,
             onKeyEvent = ShortcutManager::onKeyEvent

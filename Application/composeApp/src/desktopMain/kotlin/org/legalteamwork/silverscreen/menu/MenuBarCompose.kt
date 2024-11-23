@@ -7,10 +7,11 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.SaveManager
+import org.legalteamwork.silverscreen.save.EditorSettingsSaveManager
 import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.resources.Strings
+import org.legalteamwork.silverscreen.save.ProjectSaveManager
 
 val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
@@ -24,6 +25,14 @@ val menuItemBorder = Color(0xFFAAAAAA)
 val menuAcceleratorColor = Color(0xFFAAAAAA)
 
 val logger = KotlinLogging.logger {}
+
+private fun saveAs() {
+    val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
+
+    if (filenameSet.isNotEmpty()) {
+        ProjectSaveManager.save(filenameSet.first().path)
+    }
+}
 
 /**
  * Компоуз, ответственный за добавление системного меню
@@ -39,11 +48,10 @@ fun MenuBarCompose() {
             MenuItem(text = Strings.FILE_OPEN_ITEM, shortcut = Shortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
 
-                // FIXME:
                 val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
-                    SaveManager.load(filenameSet.first().path)
+                    ProjectSaveManager.load(filenameSet.first().path)
                 }
             }
 
@@ -67,30 +75,31 @@ fun MenuBarCompose() {
             MenuItem(text = Strings.FILE_SAVE_ITEM, shortcut = Shortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
-                // FIXME:
-                val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
-
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.save(filenameSet.first().path)
-                }
+                if (ProjectSaveManager.hasPath)
+                    ProjectSaveManager.save()
+                else
+                    saveAs()
             }
             MenuItem(
                 text = Strings.FILE_SAVE_AS_ITEM, shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Save as" }
 
-                // FIXME:
-                val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
-
-                if (filenameSet.isNotEmpty()) {
-                    SaveManager.save(filenameSet.first().path)
-                }
+                saveAs()
             }
             MenuItem(
-                text = Strings.FILE_AUTO_SAVE_ITEM, shortcut = Shortcut(Key.E, ctrl = true, shift = true)
+                text = if (EditorSettingsSaveManager.get().autosaveEnabled.value)
+                    Strings.FILE_AUTO_SAVE_ITEM_ON
+                else
+                    Strings.FILE_AUTO_SAVE_ITEM_OFF,
+                shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
-                // TODO
+
+                EditorSettingsSaveManager.change {
+                    autosaveEnabled.value = !autosaveEnabled.value
+                }
+                EditorSettingsSaveManager.save()
             }
         }
     }

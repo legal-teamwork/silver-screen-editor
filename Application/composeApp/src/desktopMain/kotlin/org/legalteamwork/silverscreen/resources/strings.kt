@@ -25,6 +25,6 @@ object Strings {
     const val FILE_EXPORT_ITEM = "Export"
     const val FILE_SAVE_ITEM = "Save"
     const val FILE_SAVE_AS_ITEM = "Save as"
-    const val FILE_AUTO_SAVE_ITEM = "Enable/Disable auto save"
-
+    const val FILE_AUTO_SAVE_ITEM_ON = "Disable auto save"
+    const val FILE_AUTO_SAVE_ITEM_OFF = "Enable auto save"
 }

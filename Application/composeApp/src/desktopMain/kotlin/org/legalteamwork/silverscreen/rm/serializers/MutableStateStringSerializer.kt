@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.rm.resource
+package org.legalteamwork.silverscreen.rm.serializers
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

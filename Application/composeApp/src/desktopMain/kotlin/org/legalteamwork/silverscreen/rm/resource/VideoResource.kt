@@ -7,6 +7,7 @@ import kotlinx.serialization.Transient
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.Java2DFrameConverter
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
