@@ -43,7 +43,7 @@ open class SaveManager<T: Any>(private val type: KClass<T>) {
         logger.info { "Loading ${type.simpleName} from $savePath..." }
         val jsonFile = File(savePath!!)
         if (!jsonFile.exists()) {
-            logger.info { "Loading failed: file does not exist" }
+            logger.error { "Loading failed: file does not exist" }
             return false
         }
         val str = jsonFile.readText()
