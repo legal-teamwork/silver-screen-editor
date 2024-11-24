@@ -6,12 +6,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.ps.ProjectSettingsWindow
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.save.EditorSettingsSaveManager
+import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.resources.Strings
-import org.legalteamwork.silverscreen.save.ProjectSaveManager
+import org.legalteamwork.silverscreen.save.Project
 
 val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
@@ -30,7 +31,7 @@ private fun saveAs() {
     val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
 
     if (filenameSet.isNotEmpty()) {
-        ProjectSaveManager.save(filenameSet.first().path)
+        Project.save(filenameSet.first().path)
     }
 }
 
@@ -43,7 +44,8 @@ fun MenuBarCompose() {
         Menu(Strings.FILE_MENU_TAG, mnemonic = Key.F) {
             MenuItem(text = Strings.FILE_NEW_ITEM, shortcut = Shortcut(Key.N, ctrl = true)) {
                 logger.debug { "MenuBar Action: New" }
-                // TODO
+                //Project.reset()
+                // TODO: make this work
             }
             MenuItem(text = Strings.FILE_OPEN_ITEM, shortcut = Shortcut(Key.O, ctrl = true)) {
                 logger.debug { "MenuBar Action: Open" }
@@ -51,7 +53,7 @@ fun MenuBarCompose() {
                 val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
 
                 if (filenameSet.isNotEmpty()) {
-                    ProjectSaveManager.load(filenameSet.first().path)
+                    Project.load(filenameSet.first().path)
                 }
             }
 
@@ -75,8 +77,8 @@ fun MenuBarCompose() {
             MenuItem(text = Strings.FILE_SAVE_ITEM, shortcut = Shortcut(Key.S, ctrl = true)) {
                 logger.debug { "MenuBar Action: Save" }
 
-                if (ProjectSaveManager.hasPath)
-                    ProjectSaveManager.save()
+                if (Project.hasPath)
+                    Project.save()
                 else
                     saveAs()
             }
@@ -87,8 +89,19 @@ fun MenuBarCompose() {
 
                 saveAs()
             }
+
+            Divider(color = menuItemBorder, thickness = 1.dp)
+
             MenuItem(
-                text = if (EditorSettingsSaveManager.get().autosaveEnabled.value)
+                text = Strings.PROJECT_SETTINGS_ITEM, shortcut = Shortcut(Key.P, ctrl = true)
+            ) {
+                logger.debug { "MenuBar Action: Project Settings" }
+
+                ProjectSettingsWindow.open()
+            }
+
+            MenuItem(
+                text = if (EditorSettings.get().autosaveEnabled.value)
                     Strings.FILE_AUTO_SAVE_ITEM_ON
                 else
                     Strings.FILE_AUTO_SAVE_ITEM_OFF,
@@ -96,10 +109,10 @@ fun MenuBarCompose() {
             ) {
                 logger.debug { "MenuBar Action: Enable/Disable auto save" }
 
-                EditorSettingsSaveManager.change {
+                EditorSettings.change {
                     autosaveEnabled.value = !autosaveEnabled.value
                 }
-                EditorSettingsSaveManager.save()
+                EditorSettings.save()
             }
         }
     }

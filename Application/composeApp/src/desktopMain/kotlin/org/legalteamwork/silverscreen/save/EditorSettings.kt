@@ -6,14 +6,14 @@ import org.legalteamwork.silverscreen.rm.serializers.MutableStateBooleanSerializ
 
 
 @Serializable
-class EditorSettings {
+class EditorSettingsData {
     @Serializable(with = MutableStateBooleanSerializer::class)
     val autosaveEnabled = mutableStateOf(true)
 }
 
-object EditorSettingsSaveManager : SaveManager<EditorSettings>(EditorSettings::class) {
+object EditorSettings : SaveManager<EditorSettingsData>(EditorSettingsData::class) {
     init {
-        value = EditorSettings()
+        value = EditorSettingsData()
         savePath = "settings.json"
     }
 }

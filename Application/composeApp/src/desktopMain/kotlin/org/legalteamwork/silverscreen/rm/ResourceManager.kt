@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.ErrorMainWindow
@@ -38,6 +37,16 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.resources.Dimens
 
+/**
+ * Открывает диалоговое окно для выбора файлов
+ *
+ * @param[parent] parent window frame
+ * @param[title] window title
+ * @param[allowedExtensions] allowed extensions to pick, examples: ".jpg", ".mp4" etc.
+ * @param[allowMultiSelection] true if user can pick multiple selections
+ *
+ * @return [Set] of chosen files
+ */
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
 ) = FileDialog(parent, title, FileDialog.LOAD).apply {
@@ -74,8 +83,7 @@ object ResourceManager {
         MenuButton(Dimens.PRESETS_ID, Strings.PRESETS),
         MenuButton(Dimens.TEMPLATES_ID, Strings.TEMPLATES),
     )
-    val rootFolder: FolderResource =
-        FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+    val rootFolder: FolderResource = FolderResource.defaultRoot
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
@@ -123,17 +131,6 @@ object ResourceManager {
             }
         }
     }
-
-    /**
-     * Открывает диалоговое окно для выбора файлов
-     *
-     * @param[parent] parent window frame
-     * @param[title] window title
-     * @param[allowedExtensions] allowed extensions to pick, examples: ".jpg", ".mp4" etc.
-     * @param[allowMultiSelection] true if user can pick multiple selections
-     *
-     * @return [Set] of chosen files
-     */
 
     /**
      * Добавление ресурса

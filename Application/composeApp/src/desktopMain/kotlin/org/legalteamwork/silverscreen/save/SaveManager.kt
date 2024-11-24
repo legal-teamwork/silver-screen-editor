@@ -14,7 +14,7 @@ open class SaveManager<T: Any>(private val type: KClass<T>) {
     protected var savePath: String? = null
 
     val hasPath: Boolean
-        get() = ProjectSaveManager.savePath != null
+        get() = Project.savePath != null
     fun setPath(s: String?) {
         savePath = s
     }

@@ -6,9 +6,10 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.ps.*
 import org.legalteamwork.silverscreen.resources.Strings
-import org.legalteamwork.silverscreen.save.EditorSettingsSaveManager
-import org.legalteamwork.silverscreen.save.ProjectSaveManager
+import org.legalteamwork.silverscreen.save.EditorSettings
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit
@@ -16,13 +17,13 @@ import java.awt.Toolkit
 private val logger = KotlinLogging.logger {  }
 
 private fun onStart() {
-    EditorSettingsSaveManager.load()
-    ProjectSaveManager.autoload()
+    EditorSettings.load()
+    Project.autoload()
 }
 
 private fun onClose() {
-    EditorSettingsSaveManager.save()
-    ProjectSaveManager.autosave()
+    EditorSettings.save()
+    Project.autosave()
 }
 
 fun main() {
@@ -46,6 +47,19 @@ fun main() {
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
 
             App()
+        }
+
+        if (ProjectSettingsWindow.isOpened) {
+            Window(
+                title = Strings.PROJECT_SETTINGS_TITLE,
+                icon = icon,
+                onCloseRequest = {
+                    logger.info { "Project settings window closed" }
+                    ProjectSettingsWindow.close()
+                }
+            ) {
+                ProjectSettingsWindow.compose()
+            }
         }
     }
 }

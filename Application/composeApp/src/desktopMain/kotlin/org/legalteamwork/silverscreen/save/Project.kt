@@ -8,10 +8,24 @@ import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 @Serializable
-class Project {
-    lateinit var resources: FolderResource
-    lateinit var resourcesOnTrack: List<ResourceOnTrack>
-    lateinit var trackResources: List<VideoResource>
+class ProjectData {
+    var bitrate: Int
+    var fps: Double
+    var resolution: String
+
+    var resources: FolderResource
+    var resourcesOnTrack: List<ResourceOnTrack>
+    var trackResources: List<VideoResource>
+
+    init {
+        // project initialization
+        bitrate = 6000
+        fps = 30.0
+        resolution = "1920x1080 (Full HD; 1080p; 16:9)"
+        resources = FolderResource.defaultRoot
+        resourcesOnTrack = listOf()
+        trackResources = listOf()
+    }
 
     fun sync() {
         resources = ResourceManager.videoResources.value
@@ -29,9 +43,14 @@ class Project {
     }
 }
 
-object ProjectSaveManager : SaveManager<Project>(Project::class) {
+object Project : SaveManager<ProjectData>(ProjectData::class) {
     init {
-        value = Project()
+        value = ProjectData()
+    }
+
+    fun reset() {
+        value = ProjectData()
+        value!!.restore()
     }
 
     override fun save() {
@@ -45,11 +64,11 @@ object ProjectSaveManager : SaveManager<Project>(Project::class) {
     }
 
     fun autosave() {
-        if (EditorSettingsSaveManager.get().autosaveEnabled.value)
+        if (EditorSettings.get().autosaveEnabled.value)
             save("autosave.json")
     }
     fun autoload() {
-        if (EditorSettingsSaveManager.get().autosaveEnabled.value)
+        if (EditorSettings.get().autosaveEnabled.value)
             load("autosave.json")
         setPath(null)
     }
