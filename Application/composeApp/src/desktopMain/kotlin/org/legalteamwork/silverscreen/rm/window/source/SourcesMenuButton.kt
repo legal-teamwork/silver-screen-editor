@@ -89,15 +89,7 @@ fun PathWindow() {
             .height(Dimens.NAV_MENU_HEIGHT)
             .background(SourcesMenuButtonTheme.PATH_WINDOW_COLOR),
         contentAlignment = Alignment.CenterStart) {
-        val path = mutableListOf<FolderResource>()
-        var current: FolderResource? = ResourceManager.videoResources.value
-
-        while (current != null) {
-            path.add(current)
-            current = current.parent
-        }
-
-        val pathText = path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
+        val pathText = ResourceManager.getRelativePath(ResourceManager.videoResources.value)
 
         Text(
             text = pathText,

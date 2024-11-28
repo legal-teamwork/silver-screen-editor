@@ -168,6 +168,18 @@ object ResourceManager {
         }
     }
 
+    fun getRelativePath(folder: FolderResource): String {
+        val path = mutableListOf<FolderResource>()
+        var current: FolderResource? = folder
+
+        while (current != null) {
+            path.add(current)
+            current = current.parent
+        }
+
+        return path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
+    }
+
     //Private methods:
 
     /**
