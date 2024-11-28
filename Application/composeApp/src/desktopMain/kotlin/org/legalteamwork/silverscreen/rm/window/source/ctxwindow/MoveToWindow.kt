@@ -17,6 +17,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.AddResourceCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.MoveToWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -38,7 +40,7 @@ private fun collectPossibleFolders(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MoveToWindow(
+fun AppScope.MoveToWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
@@ -71,7 +73,7 @@ fun MoveToWindow(
                     items(possibleFolders, { it }) { (folder, folderPath) ->
                         Box(modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
                             resource.parent?.resources?.remove(resource)
-                            folder.addResource(resource)
+                            commandManager.execute(AddResourceCommand(resourceManager, resource, folder))
                             onContextWindowClose()
                         }) {
                             Text(

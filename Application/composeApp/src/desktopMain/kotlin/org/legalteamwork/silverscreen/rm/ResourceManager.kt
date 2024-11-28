@@ -7,7 +7,6 @@ import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.awt.FileDialog
 import java.awt.Frame
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.command.AddResourceCommand
 import org.legalteamwork.silverscreen.command.CommandManager
 import org.legalteamwork.silverscreen.resources.Strings
@@ -92,30 +91,6 @@ object ResourceManager {
     }
 
     /**
-     * Добавление ресурса
-     */
-    fun addSource(resource: Resource) {
-        logger.info { "Adding resource: ${resource.title.value}" }
-        currentFolder.value.resources.add(resource)
-        logger.info { "Resource ${resource.title.value} added successfully" }
-    }
-
-    /**
-     * Удаление ресурса
-     *
-     * @param[resource] дата ресуса
-     */
-    fun removeSource(resource: Resource) {
-        logger.info { "Removing resource: ${resource.title.value}" }
-        if ((currentFolder.value.resources.remove(resource))) {
-            logger.info { "Resource ${resource.title.value} removed successfully" }
-        }
-        else {
-            logger.warn { "Failed to remove resource: ${resource.title.value}" }
-        }
-    }
-
-    /**
      * Changes current showing folder to the parent one if it is possible
      */
     fun onFolderUp() {
@@ -130,6 +105,13 @@ object ResourceManager {
         }
     }
 
+    /**
+     * Gets path from the root folder to the provided one
+     *
+     * @param[folder] provided folder
+     *
+     * @return path as string like 'root/folder/'
+     */
     fun getRelativePath(folder: FolderResource): String {
         val path = mutableListOf<FolderResource>()
         var current: FolderResource? = folder

@@ -257,7 +257,7 @@ private fun AppScope.ListAddButton() {
 }
 
 @Composable
-private fun ContextWindow(
+private fun AppScope.ContextWindow(
     contextWindow: ContextWindow?,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit

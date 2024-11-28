@@ -8,13 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.AddResourceCommand
+import org.legalteamwork.silverscreen.command.RemoveResourceCommand
 import org.legalteamwork.silverscreen.resources.ResourceActionsContextWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 
 private val logger = KotlinLogging.logger {  }
 
 @Composable
-fun ResourceActionsContextWindow(
+fun AppScope.ResourceActionsContextWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
@@ -24,14 +27,9 @@ fun ResourceActionsContextWindow(
     
     ResourceContextWindowPattern(position, onContextWindowOpen, onContextWindowClose) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            ResourceAction("Clone") {
-                logger.info { "Clone context button clicked" }
-                ResourceManager.addSource(resource.clone())
-                onContextWindowClose()
-            }
             ResourceAction("Delete") {
                 logger.info { "Delete context button clicked" }
-                ResourceManager.removeSource(resource)
+                commandManager.execute(RemoveResourceCommand(resourceManager, resource))
                 onContextWindowClose()
             }
 
@@ -40,10 +38,6 @@ fun ResourceActionsContextWindow(
             ResourceAction("Move to") {
                 logger.info { "Move to context button clicked" }
                 onContextWindowOpen(ContextWindow(ContextWindowId.MOVE_TO, contextWindowData))
-            }
-            ResourceAction("Copy to") {
-                logger.info { "Copy to context button clicked" }
-                onContextWindowOpen(ContextWindow(ContextWindowId.COPY_TO, contextWindowData))
             }
 
             Divider(modifier = Modifier.fillMaxWidth(), color = ResourceActionsContextWindowTheme.DIVIDERS_COLOR)

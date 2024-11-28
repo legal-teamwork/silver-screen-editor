@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import androidx.compose.ui.window.PopupProperties
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.AddResourceCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.NewFolderWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -26,7 +28,7 @@ import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun NewFolderWindow(
+fun AppScope.NewFolderWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
@@ -76,7 +78,8 @@ fun NewFolderWindow(
                                 ResourceManager.currentFolder.value,
                                 mutableStateListOf()
                             )
-                            ResourceManager.addSource(folderResource)
+
+                            commandManager.execute(AddResourceCommand(resourceManager, folderResource))
                             onContextWindowClose()
                         },
                         modifier = Modifier.align(Alignment.Center).wrapContentSize()

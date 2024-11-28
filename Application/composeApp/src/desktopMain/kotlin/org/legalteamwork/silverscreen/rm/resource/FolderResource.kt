@@ -30,11 +30,6 @@ class FolderResource(
     val dataResources: List<Resource>
         get() = resources.filterNot { it is FolderResource }
 
-    fun addResource(resource: Resource) {
-        resources.add(resource)
-        resource.parent = this
-    }
-
     override fun clone(): Resource {
         return FolderResource(
             mutableStateOf("${title.value} (clone)"),
