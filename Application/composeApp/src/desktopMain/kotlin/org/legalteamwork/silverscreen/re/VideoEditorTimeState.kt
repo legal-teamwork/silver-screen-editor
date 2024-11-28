@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.ve
+package org.legalteamwork.silverscreen.re
 
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.resource.VideoResource

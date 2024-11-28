@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -23,7 +21,6 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.resource.SimpleResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.ErrorMainWindow
@@ -37,7 +34,18 @@ import java.io.File
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 
+/**
+ * Открывает диалоговое окно для выбора файлов
+ *
+ * @param[parent] parent window frame
+ * @param[title] window title
+ * @param[allowedExtensions] allowed extensions to pick, examples: ".jpg", ".mp4" etc.
+ * @param[allowMultiSelection] true if user can pick multiple selections
+ *
+ * @return [Set] of chosen files
+ */
 fun openFileDialog(
     parent: Frame?, title: String, allowedExtensions: List<String>, allowMultiSelection: Boolean = true
 ) = FileDialog(parent, title, FileDialog.LOAD).apply {
@@ -64,8 +72,6 @@ object ResourceManager {
     // Logger
     private val logger = KotlinLogging.logger {}
 
-    private val MENU_FONT_FAMILY = FontFamily.Default
-
     // Fields:
     private val buttonId = mutableStateOf(Dimens.INIT_ID)
     private val buttons = listOf(
@@ -74,8 +80,7 @@ object ResourceManager {
         MenuButton(Dimens.PRESETS_ID, Strings.PRESETS),
         MenuButton(Dimens.TEMPLATES_ID, Strings.TEMPLATES),
     )
-    val rootFolder: FolderResource =
-        FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+    val rootFolder: FolderResource = FolderResource.defaultRoot
     val videoResources: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
@@ -90,7 +95,7 @@ object ResourceManager {
     fun compose() {
         BoxWithConstraints(
             modifier = Modifier.background(
-                color = Color(0xFF444444),
+                color = ResourceManagerTheme.RESOURCE_MANAGER_BACKGROUND_COLOR,
                 shape = RoundedCornerShape(8.dp),
             ).fillMaxSize()
         ) {
@@ -123,17 +128,6 @@ object ResourceManager {
             }
         }
     }
-
-    /**
-     * Открывает диалоговое окно для выбора файлов
-     *
-     * @param[parent] parent window frame
-     * @param[title] window title
-     * @param[allowedExtensions] allowed extensions to pick, examples: ".jpg", ".mp4" etc.
-     * @param[allowMultiSelection] true if user can pick multiple selections
-     *
-     * @return [Set] of chosen files
-     */
 
     /**
      * Добавление ресурса
@@ -182,7 +176,7 @@ object ResourceManager {
     @Composable
     private fun Menu(menuWidth: Dp) {
         Box(
-            modifier = Modifier.background(color = Color(0xFF3A3A3A), RoundedCornerShape(8.dp)).width(menuWidth)
+            modifier = Modifier.background(color = ResourceManagerTheme.MENU_COLOR, RoundedCornerShape(8.dp)).width(menuWidth)
                 .fillMaxHeight()
         ) {
             ButtonList()
@@ -210,10 +204,10 @@ object ResourceManager {
     private fun MenuButton(button: MenuButton) {
         var chosenButton by remember { buttonId }
         val buttonColors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF3A3A3A),
-            contentColor = Color.White,
-            disabledBackgroundColor = Color(0xFF222222),
-            disabledContentColor = Color.White,
+            backgroundColor = ResourceManagerTheme.MENU_BUTTONS_BACKGROUND_COLOR,
+            contentColor = ResourceManagerTheme.MENU_BUTTONS_CONTENT_COLOR,
+            disabledBackgroundColor = ResourceManagerTheme.MENU_BUTTONS_DISABLED_BACKGROUND_COLOR,
+            disabledContentColor = ResourceManagerTheme.MENU_BUTTONS_DISABLED_CONTENT_COLOR,
         )
 
         Button(
@@ -228,7 +222,7 @@ object ResourceManager {
                 text = button.title,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Left,
-                fontFamily = MENU_FONT_FAMILY,
+                fontFamily = ResourceManagerTheme.MENU_FONT_FAMILY,
             )
         }
     }

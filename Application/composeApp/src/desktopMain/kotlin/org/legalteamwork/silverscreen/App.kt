@@ -11,15 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
+import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.ve.EditingPanel
+import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import androidx.compose.ui.graphics.Color
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -32,7 +33,7 @@ fun App() {
     var height1 by remember { mutableStateOf(0.7f) }
     var height3 by remember { mutableStateOf(0.3f) }
 
-    Surface(color = Color.Black) {
+    Surface(color = AppTheme.SURFACE_COLOR) {
         Box(
             modifier =
                 Modifier
@@ -50,12 +51,12 @@ fun App() {
                 MenuBarCompose()
 
                 // Horizontal divider
-                Box(modifier = Modifier.background(Color.Black).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
+                Box(modifier = Modifier.background(AppTheme.HORIZONTAL_DIVIDER_COLOR).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
 
                 Row(modifier = Modifier.height((panelSize.height * height1).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)) {
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
                     )
 
                     // Resource manager box:
@@ -73,7 +74,7 @@ fun App() {
                     Box(
                         modifier =
                             Modifier
-                                .background(Color.Black)
+                                .background(AppTheme.VERTICAL_DIVIDER_COLOR)
                                 .fillMaxHeight()
                                 .width(Dimens.DIVIDER_SIZE)
                                 .pointerInput(Unit) {
@@ -96,21 +97,21 @@ fun App() {
                             Modifier
                                 .width((panelSize.width * width2).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)
                                 .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
+                                .background(AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
                         VideoPanel.compose()
                     }
 
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
                     )
                 }
 
                 // Horizontal divider:
                 Box(
                     modifier =
-                        Modifier.background(Color.Black).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
+                        Modifier.background(AppTheme.HORIZONTAL_DIVIDER_COLOR).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 val newHeight1 =
@@ -127,7 +128,7 @@ fun App() {
                 Row(modifier = Modifier.height((panelSize.height * height3).dp - 20.dp)) {
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
                     )
 
                     // Video editor box:
@@ -136,14 +137,14 @@ fun App() {
                             Modifier
                                 .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE)
                                 .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
+                                .background(AppTheme.VIDEO_EDITOR_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
                         EditingPanel()
                     }
 
                     // Vertical divider:
                     Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(Color.Black),
+                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
                     )
                 }
 

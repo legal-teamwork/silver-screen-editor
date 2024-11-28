@@ -3,11 +3,18 @@ package org.legalteamwork.silverscreen.rm.resource
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer
+import org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer
 
+@Serializable
 class FolderResource(
+    @Serializable(with = MutableStateStringSerializer::class)
     override val title: MutableState<String>,
-    override var parent: FolderResource?,
+    @Transient
+    override var parent: FolderResource? = null,
+    @Serializable(with = SnapshotResourceListSerializer::class)
     val resources: SnapshotStateList<Resource> = mutableStateListOf(),
 ) : Resource {
     override val previewPath: String = "src/desktopMain/resources/svg/folder.svg"
@@ -38,5 +45,17 @@ class FolderResource(
 
     override fun action() {
         ResourceManager.videoResources.component2().invoke(this)
+    }
+
+    fun assignParents() {
+        resources.forEach { child ->
+            child.parent = this
+            if (child is FolderResource)
+                child.assignParents()
+        }
+    }
+
+    companion object {
+        val defaultRoot = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
     }
 }

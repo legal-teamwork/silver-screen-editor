@@ -14,11 +14,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.MoveToWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
@@ -63,8 +63,8 @@ fun MoveToWindow(
                 .heightIn(min = 0.dp, max = Dimens.WINDOW_HEIGHT)
                 .wrapContentSize()
                 .shadow(5.dp, shape = shape)
-                .background(Color(0xFF222222), shape = shape)
-                .border(1.dp, Color.LightGray, shape = shape)
+                .background(MoveToWindowTheme.BACKGROUND_COLOR, shape = shape)
+                .border(1.dp, MoveToWindowTheme.BORDER_COLOR, shape = shape)
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
@@ -75,7 +75,7 @@ fun MoveToWindow(
                             onContextWindowClose()
                         }) {
                             Text(
-                                text = "/$folderPath", modifier = Modifier.padding(10.dp, 2.dp), color = Color.White
+                                text = "/$folderPath", modifier = Modifier.padding(10.dp, 2.dp), color = MoveToWindowTheme.TEXT_COLOR
                             )
                         }
                     }

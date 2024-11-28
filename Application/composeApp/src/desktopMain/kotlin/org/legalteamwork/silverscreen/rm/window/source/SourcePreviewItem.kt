@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.PointerButton
@@ -28,8 +27,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.ve.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
@@ -80,7 +80,7 @@ fun SourcePreviewItem(
     ) {
         val activeModifier = if (ResourceManager.activeResource.value == resource) {
             Modifier.border(
-                width = 0.dp, color = Color.Blue, shape = RoundedCornerShape(5.dp)
+                width = 0.dp, color = SourcePreviewItemTheme.ACTIVE_RESOURCE_OUTLINE_COLOR, shape = RoundedCornerShape(5.dp)
             )
         } else {
             Modifier
@@ -120,11 +120,11 @@ fun SourcePreviewItem(
                 modifier = Modifier
                     .padding(top = 5.dp) // outer padding
                     .wrapContentSize(align = Alignment.BottomCenter)
-                    .border(1.dp, SolidColor(Color.Black), RoundedCornerShape(2.dp))
+                    .border(1.dp, SolidColor(SourcePreviewItemTheme.RESOURCE_NAME_OUTLINE_COLOR), RoundedCornerShape(2.dp))
                     .padding(5.dp),
                 singleLine = true,
-                textStyle = TextStyle(color = Color.White),
-                cursorBrush = SolidColor(Color.Magenta),
+                textStyle = TextStyle(color = SourcePreviewItemTheme.RESOURCE_TEXT_COLOR),
+                cursorBrush = SolidColor(SourcePreviewItemTheme.RESOURCE_CURSOR_BRUSH),
             )
         }
     }

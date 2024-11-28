@@ -17,12 +17,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
-import org.legalteamwork.silverscreen.ve.VideoEditorTimeState
+import org.legalteamwork.silverscreen.re.VideoEditorTimeState
 import kotlin.math.min
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.legalteamwork.silverscreen.resources.Strings
 
-val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 
 object VideoPanel {
     val playbackManager by mutableStateOf(PlaybackManager())

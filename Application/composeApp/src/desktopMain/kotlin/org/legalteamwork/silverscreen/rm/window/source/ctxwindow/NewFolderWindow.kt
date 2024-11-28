@@ -14,7 +14,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.findComposeDefaultViewModelStoreOwner
 import androidx.compose.ui.text.TextStyle
@@ -23,6 +22,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import androidx.compose.ui.window.PopupProperties
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.NewFolderWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 
@@ -46,8 +46,8 @@ fun NewFolderWindow(
                 .width(Dimens.WINDOW_WIDTH)
                 .wrapContentHeight()
                 .shadow(5.dp, shape = shape)
-                .background(Color.DarkGray, shape = shape)
-                .border(1.dp, Color.LightGray, shape = shape)
+                .background(NewFolderWindowTheme.BACKGROUND_COLOR, shape = shape)
+                .border(1.dp, NewFolderWindowTheme.BORDER_COLOR, shape = shape)
         ) {
             Column {
                 var folderName by remember { mutableStateOf("New folder") }
@@ -55,16 +55,16 @@ fun NewFolderWindow(
                 BasicTextField(
                     value = folderName,
                     onValueChange = { folderName = it },
-                    textStyle = TextStyle(color = Color.White),
-                    cursorBrush = SolidColor(Color.Blue)
+                    textStyle = TextStyle(color = NewFolderWindowTheme.TEXT_COLOR),
+                    cursorBrush = SolidColor(NewFolderWindowTheme.CURSOR_BRUSH_COLOR)
                 ) { innerContent ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .padding(10.dp)
-                            .border(1.dp, color = Color.LightGray, shape = RoundedCornerShape(5.dp))
-                            .background(color = Color.Black, shape = RoundedCornerShape(5.dp))
+                            .border(1.dp, color = NewFolderWindowTheme.INNER_BORDER_COLOR, shape = RoundedCornerShape(5.dp))
+                            .background(color = NewFolderWindowTheme.INNER_BACKGROUND_COLOR, shape = RoundedCornerShape(5.dp))
                     ) {
                         Box(Modifier.padding(10.dp)) { innerContent() }
                     }

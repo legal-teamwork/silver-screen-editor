@@ -2,7 +2,7 @@ package org.legalteamwork.silverscreen
 
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
-import org.legalteamwork.silverscreen.ve.Slider
+import org.legalteamwork.silverscreen.re.Slider
 import kotlin.math.max
 
 /**

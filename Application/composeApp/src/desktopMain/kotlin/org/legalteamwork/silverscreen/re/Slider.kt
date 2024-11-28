@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.ve
+package org.legalteamwork.silverscreen.re
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -14,7 +14,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
-import kotlin.math.max
 import kotlin.math.roundToInt
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
