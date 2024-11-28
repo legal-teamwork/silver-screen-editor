@@ -6,8 +6,10 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.command.CommandManager
 import org.legalteamwork.silverscreen.ps.*
 import org.legalteamwork.silverscreen.resources.Strings
+import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
@@ -46,7 +48,9 @@ fun main() {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
 
-            App()
+            val appScope = AppScope(CommandManager(), ResourceManager)
+
+            appScope.App()
         }
 
         if (ProjectSettingsWindow.isOpened) {

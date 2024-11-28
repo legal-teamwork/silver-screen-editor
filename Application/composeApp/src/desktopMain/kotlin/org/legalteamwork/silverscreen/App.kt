@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun App() {
+fun AppScope.App() {
     var panelSize by remember { mutableStateOf(Size.Zero) }
 
     var width1 by remember { mutableStateOf(0.4f) }
