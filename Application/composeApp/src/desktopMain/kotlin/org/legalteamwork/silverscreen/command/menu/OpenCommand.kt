@@ -7,7 +7,7 @@ import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.save.Project
 
-class OpenProjectMenuCommand : Command {
+class OpenCommand : Command {
     override fun execute() {
         logger.commandLog(Strings.FILE_OPEN_ITEM)
 

@@ -7,7 +7,7 @@ import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.save.Project
 
-class SaveAsMenuCommand : Command {
+class SaveAsCommand : Command {
 
     private val logger = KotlinLogging.logger {}
 

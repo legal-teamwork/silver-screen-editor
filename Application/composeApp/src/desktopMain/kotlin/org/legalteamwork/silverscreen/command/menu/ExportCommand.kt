@@ -5,7 +5,7 @@ import org.legalteamwork.silverscreen.command.Command
 import org.legalteamwork.silverscreen.command.commandLog
 import org.legalteamwork.silverscreen.resources.Strings
 
-class ExportMenuCommand : Command {
+class ExportCommand : Command {
 
     private val logger = KotlinLogging.logger {}
 

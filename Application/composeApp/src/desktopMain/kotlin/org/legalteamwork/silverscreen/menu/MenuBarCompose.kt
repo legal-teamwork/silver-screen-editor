@@ -33,10 +33,10 @@ fun AppScope.MenuBarCompose() {
     MenuBar {
         Menu(Strings.FILE_MENU_TAG, mnemonic = Key.F) {
             MenuItem(text = Strings.FILE_NEW_ITEM, shortcut = Shortcut(Key.N, ctrl = true)) {
-                commandManager.execute(NewProjectMenuCommand())
+                commandManager.execute(NewCommand())
             }
             MenuItem(text = Strings.FILE_OPEN_ITEM, shortcut = Shortcut(Key.O, ctrl = true)) {
-                commandManager.execute(OpenProjectMenuCommand())
+                commandManager.execute(OpenCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
@@ -44,24 +44,24 @@ fun AppScope.MenuBarCompose() {
             MenuItem(
                 text = Strings.FILE_IMPORT_ITEM, shortcut = Shortcut(Key.I, ctrl = true)
             ) {
-                commandManager.execute(ImportMenuCommand(resourceManager))
+                commandManager.execute(ImportCommand(resourceManager))
             }
 
             MenuItem(
                 text = Strings.FILE_EXPORT_ITEM, shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
-                commandManager.execute(ExportMenuCommand())
+                commandManager.execute(ExportCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
             MenuItem(text = Strings.FILE_SAVE_ITEM, shortcut = Shortcut(Key.S, ctrl = true)) {
-                commandManager.execute(SaveMenuCommand())
+                commandManager.execute(SaveCommand())
             }
             MenuItem(
                 text = Strings.FILE_SAVE_AS_ITEM, shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
-                commandManager.execute(SaveAsMenuCommand())
+                commandManager.execute(SaveAsCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
@@ -69,7 +69,7 @@ fun AppScope.MenuBarCompose() {
             MenuItem(
                 text = Strings.PROJECT_SETTINGS_ITEM, shortcut = Shortcut(Key.P, ctrl = true)
             ) {
-                commandManager.execute(ProjectSettingsOpenMenuCommand())
+                commandManager.execute(ProjectSettingsOpenCommand())
             }
 
             MenuItem(
@@ -79,7 +79,7 @@ fun AppScope.MenuBarCompose() {
                     Strings.FILE_AUTO_SAVE_ITEM_OFF,
                 shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {
-                commandManager.execute(AutosaveEnableOrDisableMenuCommand())
+                commandManager.execute(AutosaveEnableOrDisableCommand())
             }
         }
     }
