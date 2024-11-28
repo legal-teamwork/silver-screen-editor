@@ -28,7 +28,7 @@ class ProjectData {
     }
 
     fun sync() {
-        resources = ResourceManager.videoResources.value
+        resources = ResourceManager.currentFolder.value
         while (resources.parent != null)
             resources = resources.parent!!
         resourcesOnTrack = VideoEditor.getResourcesOnTrack()
@@ -36,8 +36,8 @@ class ProjectData {
     }
 
     fun restore() {
-        ResourceManager.videoResources.value = resources
-        ResourceManager.videoResources.value.assignParents()
+        ResourceManager.currentFolder.value = resources
+        ResourceManager.currentFolder.value.assignParents()
 
         VideoEditor.restore(resourcesOnTrack, trackResources)
     }

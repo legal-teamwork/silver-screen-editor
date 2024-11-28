@@ -28,13 +28,13 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.SourcesMenuButtonTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.ResourceManager.isListView
 import org.legalteamwork.silverscreen.rm.ResourceManager.toggleViewMode
-import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.*
 import silverscreeneditor.composeapp.generated.resources.Res
 import silverscreeneditor.composeapp.generated.resources.add_folder
@@ -44,7 +44,7 @@ import java.io.File
 private val logger = KotlinLogging.logger {  }
 
 @Composable
-fun SourcesMainWindow() {
+fun AppScope.SourcesMainWindow() {
     var contextWindow by remember { mutableStateOf<ContextWindow?>(null) }
     val onContextWindowOpen: (ContextWindow?) -> Unit = { contextWindow = it }
     val onContextWindowClose: () -> Unit = { contextWindow = null }
@@ -61,7 +61,7 @@ fun SourcesMainWindow() {
                     // Режим списка
                     LazyColumn {
                         items(
-                            items = ResourceManager.videoResources.value.resources.toList(),
+                            items = ResourceManager.currentFolder.value.resources.toList(),
                             key = Resource::hashCode
                         ) { resource ->
                             ListViewItem(resource)
@@ -89,7 +89,7 @@ fun PathWindow() {
             .height(Dimens.NAV_MENU_HEIGHT)
             .background(SourcesMenuButtonTheme.PATH_WINDOW_COLOR),
         contentAlignment = Alignment.CenterStart) {
-        val pathText = ResourceManager.getRelativePath(ResourceManager.videoResources.value)
+        val pathText = ResourceManager.getRelativePath(ResourceManager.currentFolder.value)
 
         Text(
             text = pathText,
@@ -157,14 +157,14 @@ fun NavWindow(
 }
 
 @Composable
-private fun SourcesPreviews(
+private fun AppScope.SourcesPreviews(
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Dimens.COLUMN_MIN_WIDTH)) {
             items(
-                items = ResourceManager.videoResources.value.resources.toList(),
+                items = ResourceManager.currentFolder.value.resources.toList(),
                 key = Resource::hashCode
             ) { resource ->
                 SourcePreviewItem(
@@ -228,7 +228,7 @@ private fun ListViewItem(resource: Resource) {
 }
 
 @Composable
-private fun ListAddButton() {
+private fun AppScope.ListAddButton() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -238,7 +238,7 @@ private fun ListAddButton() {
             .clickable(
                 onClickLabel = "Add resource",
                 role = Role.Button,
-                onClick = ResourceManager::addSourceTriggerActivity
+                onClick = { ResourceManager.addSourceTriggerActivity(commandManager) }
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {

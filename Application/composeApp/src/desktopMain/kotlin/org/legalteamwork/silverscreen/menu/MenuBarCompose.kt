@@ -44,7 +44,7 @@ fun AppScope.MenuBarCompose() {
             MenuItem(
                 text = Strings.FILE_IMPORT_ITEM, shortcut = Shortcut(Key.I, ctrl = true)
             ) {
-                commandManager.execute(ImportCommand(resourceManager))
+                commandManager.execute(ImportCommand(resourceManager, commandManager))
             }
 
             MenuItem(

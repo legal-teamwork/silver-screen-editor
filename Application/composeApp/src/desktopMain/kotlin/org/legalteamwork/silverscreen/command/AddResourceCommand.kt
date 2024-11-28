@@ -5,10 +5,10 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.Resource
 
-class AddResource(
+class AddResourceCommand(
     private val resourceManager: ResourceManager,
     private val resource: Resource,
-    private val folder: FolderResource = resourceManager.videoResources.value
+    private val folder: FolderResource = resourceManager.currentFolder.value
 ) : CommandUndoSupport {
     private val logger = KotlinLogging.logger {}
 

@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.findComposeDefaultViewModelStoreOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -75,7 +73,7 @@ fun NewFolderWindow(
                         onClick = {
                             val folderResource = FolderResource(
                                 mutableStateOf(folderName),
-                                ResourceManager.videoResources.value,
+                                ResourceManager.currentFolder.value,
                                 mutableStateListOf()
                             )
                             ResourceManager.addSource(folderResource)

@@ -44,7 +44,7 @@ class FolderResource(
     }
 
     override fun action() {
-        ResourceManager.videoResources.component2().invoke(this)
+        ResourceManager.currentFolder.component2().invoke(this)
     }
 
     fun assignParents() {

@@ -11,16 +11,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
+import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.re.EditingPanel
-import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import androidx.compose.ui.graphics.Color
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -67,7 +68,7 @@ fun AppScope.App() {
                                 .fillMaxHeight()
                                 .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        ResourceManager.compose()
+                        ResourceManagerCompose()
                     }
 
                     // Vertical divider:
