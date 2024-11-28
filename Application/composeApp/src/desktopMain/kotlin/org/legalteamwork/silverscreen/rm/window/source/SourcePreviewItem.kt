@@ -29,7 +29,7 @@ import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData

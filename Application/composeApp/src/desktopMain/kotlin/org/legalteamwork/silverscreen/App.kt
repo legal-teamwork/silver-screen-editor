@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.rm.EditingPanel
+import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import androidx.compose.ui.graphics.Color
@@ -99,7 +99,7 @@ fun App() {
                                 .fillMaxHeight()
                                 .background(AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        VideoPanel()
+                        VideoPanel.compose()
                     }
 
                     // Vertical divider:

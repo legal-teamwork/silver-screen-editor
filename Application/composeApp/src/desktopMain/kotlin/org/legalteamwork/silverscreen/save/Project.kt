@@ -2,8 +2,8 @@ package org.legalteamwork.silverscreen.save
 
 import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
-import org.legalteamwork.silverscreen.rm.VideoEditor.VideoTrack.ResourceOnTrack
+import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 

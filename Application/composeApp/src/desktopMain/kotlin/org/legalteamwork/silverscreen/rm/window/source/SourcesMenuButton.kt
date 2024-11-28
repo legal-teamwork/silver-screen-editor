@@ -31,9 +31,7 @@ import org.jetbrains.compose.resources.decodeToSvgPainter
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.SourcesMenuButtonTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.rm.VideoEditor
 import org.legalteamwork.silverscreen.rm.resource.Resource
-import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.rm.ResourceManager.isListView
 import org.legalteamwork.silverscreen.rm.ResourceManager.toggleViewMode
 import org.legalteamwork.silverscreen.rm.resource.FolderResource

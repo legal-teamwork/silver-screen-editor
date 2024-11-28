@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.rm
+package org.legalteamwork.silverscreen.re
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -13,16 +13,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import kotlin.math.max
+import org.legalteamwork.silverscreen.resources.Dimens
 import kotlin.math.roundToInt
+import org.legalteamwork.silverscreen.vp.VideoPanel
 
-@Suppress("ktlint:standard:function-naming")
-@Composable
-fun Slider() {
-    var markerPosition by remember { mutableStateOf(0) }
+/**
+ * Класс-объект ползунка.
+ */
+object Slider {
 
-    Box(
-        modifier =
+    var markerPosition by mutableStateOf(0)
+
+    fun updatePosition(currentTimestamp: Long) {
+        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).roundToInt()
+    }
+
+
+    @Suppress("ktlint:standard:function-naming")
+    @Composable
+    fun compose() {
+        Box(
+            modifier =
             Modifier
                 .offset { IntOffset(markerPosition, 0) }
                 .fillMaxHeight()
@@ -31,10 +42,14 @@ fun Slider() {
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { change, dragAmount ->
-                            change.consume()
-                            markerPosition = max(0, markerPosition + dragAmount.x.roundToInt())
+                            if (!VideoPanel.playbackManager.isPlaying.value) {
+                                change.consume()
+                                val delta = (dragAmount.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                                VideoPanel.playbackManager.seek(delta)
+                            }
                         },
                     )
                 },
-    )
+        )
+    }
 }
