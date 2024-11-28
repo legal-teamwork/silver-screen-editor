@@ -7,7 +7,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.command.*
+import org.legalteamwork.silverscreen.command.menu.*
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.shortcut.Shortcut

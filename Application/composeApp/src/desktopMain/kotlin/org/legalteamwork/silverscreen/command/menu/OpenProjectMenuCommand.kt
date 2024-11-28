@@ -1,5 +1,7 @@
-package org.legalteamwork.silverscreen.command
+package org.legalteamwork.silverscreen.command.menu
 
+import org.legalteamwork.silverscreen.command.Command
+import org.legalteamwork.silverscreen.command.commandLog
 import org.legalteamwork.silverscreen.menu.logger
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog

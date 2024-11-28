@@ -1,8 +1,8 @@
-package org.legalteamwork.silverscreen.command
+package org.legalteamwork.silverscreen.command.menu
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.bytedeco.opencv.presets.opencv_core.Str
-import org.legalteamwork.silverscreen.ps.ProjectSettingsWindow
+import org.legalteamwork.silverscreen.command.Command
+import org.legalteamwork.silverscreen.command.commandLog
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.EditorSettings
 
