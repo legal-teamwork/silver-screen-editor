@@ -19,7 +19,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -39,8 +43,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/Application/.gradle/caches
-            ~/Application/.gradle/wrapper
+            ~/.gradle/caches
+            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/*.kts', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
@@ -53,3 +57,7 @@ jobs:
       - name: Build the project
         working-directory: ./Application
         run: ./gradlew build --no-daemon
+
+      #- name: Tests
+      #  working-directory: ./Application
+      #  run: ./gradlew test --no-daemon
