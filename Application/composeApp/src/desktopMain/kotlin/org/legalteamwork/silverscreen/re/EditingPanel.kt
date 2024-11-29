@@ -716,31 +716,60 @@ fun EditingPanel() {
                     disabledContentColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_CONTENT_COLOR,
                 )
 
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(50.dp)
-                        .padding(0.dp),
-                onClick = {
-                    logger.info { "Instrumental button clicked" }
-                    DpInFrame += 0.5f
-                    if (DpInFrame > 3) {
-                        DpInFrame = 0.5f
-                    }
-                    VideoEditor.VideoTrack.updateResourcesOnTrack()
-                    AudioEditor.AudioTrack.updateResourcesOnTrack()
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("%.1fx", (DpInFrame)),
+            Column {
+                Button(
                     modifier =
                         Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
+                            .width(80.dp)
+                            .height(50.dp)
+                            .padding(0.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame += 0.25f
+                        if (DpInFrame > 2.25f) {
+                            DpInFrame = 2.25f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("+"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
+                Button(
+                    modifier =
+                        Modifier
+                            .width(80.dp)
+                            .height(55.dp)
+                            .padding(top = 5.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame -= 0.25f
+                        if (DpInFrame < 0.75f) {
+                            DpInFrame = 0.75f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("-"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
 
@@ -756,7 +785,7 @@ fun EditingPanel() {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = 100.dp * DpInFrame
+            val distance = 150.dp * DpInFrame
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Row {
