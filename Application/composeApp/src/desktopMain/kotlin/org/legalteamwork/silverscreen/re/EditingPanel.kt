@@ -39,7 +39,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
@@ -288,9 +287,9 @@ object VideoEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), // Что за сущность?
+                        .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, RoundedCornerShape(6.dp)), // Что за сущность?
             ) {
-                markup(maxWidth, trackHeight, 1f)
+                markup(maxWidth, trackHeight)
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -351,10 +350,7 @@ object VideoEditor {
     fun markup(
         maxWidth: Dp,
         trackHeight: Dp,
-        zoom: Float,
     ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
         logger.info { "Markup timeline..." }
 
         Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
@@ -603,9 +599,9 @@ object AudioEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xDDE1FFDB), RoundedCornerShape(6.dp)),
+                        .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, RoundedCornerShape(6.dp)),
             ) {
-                markup(maxWidth, trackHeight, 1f)
+                markup(maxWidth, trackHeight)
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -666,17 +662,11 @@ object AudioEditor {
     fun markup(
         maxWidth: Dp,
         trackHeight: Dp,
-        zoom: Float,
     ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
         logger.info { "Markup timeline..." }
 
         Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
                 drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
             }
         }
@@ -685,7 +675,7 @@ object AudioEditor {
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun EditingPanel() {
+fun EditingPanel(panelHeight: Dp) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -726,8 +716,8 @@ fun EditingPanel() {
                     onClick = {
                         logger.info { "Instrumental button clicked" }
                         DpInFrame += 0.25f
-                        if (DpInFrame > 2.25f) {
-                            DpInFrame = 2.25f
+                        if (DpInFrame > 2.5f) {
+                            DpInFrame = 2.5f
                         }
                         VideoEditor.VideoTrack.updateResourcesOnTrack()
                         AudioEditor.AudioTrack.updateResourcesOnTrack()
@@ -822,21 +812,20 @@ fun EditingPanel() {
                 }
             }
 
-            val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
-            val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
+            val tracksAmount = 2
+            val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
+            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
 
-            /*
             Column(
                 modifier =
                     Modifier
-                        .padding(vertical = maxHeight * 0.05f),
-                verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
+                        .padding(top = 55.dp).height(panelHeight - 100.dp),
             ) {
                 VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                Box(modifier = Modifier.fillMaxWidth().height(10.dp))
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
 
-             */
             Slider.compose()
         }
     }
