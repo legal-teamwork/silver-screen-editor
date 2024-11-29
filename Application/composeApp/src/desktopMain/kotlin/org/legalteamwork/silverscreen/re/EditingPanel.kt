@@ -302,7 +302,7 @@ object VideoEditor {
                 ) {
                     Column {
                         Text(
-                            text = String.format("▶ Video Channel 1"),
+                            text = String.format("▶ Video Channel"),
                             modifier =
                                 Modifier
                                     .fillMaxSize()
@@ -621,7 +621,7 @@ object AudioEditor {
                 ) {
                     Column {
                         Text(
-                            text = String.format("▶ Audio Channel 1"),
+                            text = String.format("▶ Audio Channel"),
                             modifier =
                                 Modifier
                                     .fillMaxSize()
@@ -801,12 +801,21 @@ fun EditingPanel(panelHeight: Dp) {
                             Column {
                                 Box(modifier = Modifier.width(distance).height(25.dp)) {
                                     Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                                    Text(
-                                        text = String.format("%02d:%02d.00", i / 12, (i % 12) * 5),
-                                        fontSize = 15.sp,
-                                        color = Color.White,
-                                        modifier = Modifier.padding(start = 8.dp),
-                                    )
+                                    if (i * 5 < 60) {
+                                        Text(
+                                            text = String.format("%ds", i * 5),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    } else {
+                                        Text(
+                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    }
                                 }
                                 Box(modifier = Modifier.width(distance).height(20.dp)) {
                                     Row {
