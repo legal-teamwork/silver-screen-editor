@@ -11,20 +11,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
+import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.re.EditingPanel
-import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import androidx.compose.ui.graphics.Color
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun App() {
+fun AppScope.App() {
     var panelSize by remember { mutableStateOf(Size.Zero) }
 
     var width1 by remember { mutableStateOf(0.4f) }
@@ -67,7 +68,7 @@ fun App() {
                                 .fillMaxHeight()
                                 .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        ResourceManager.compose()
+                        ResourceManagerCompose()
                     }
 
                     // Vertical divider:
@@ -111,7 +112,9 @@ fun App() {
                 // Horizontal divider:
                 Box(
                     modifier =
-                        Modifier.background(AppTheme.HORIZONTAL_DIVIDER_COLOR).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
+                        Modifier.background(
+                            AppTheme.HORIZONTAL_DIVIDER_COLOR,
+                        ).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 val newHeight1 =
@@ -135,11 +138,11 @@ fun App() {
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE)
+                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE + 3.5.dp)
                                 .fillMaxHeight()
                                 .background(AppTheme.VIDEO_EDITOR_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        EditingPanel()
+                        EditingPanel((panelSize.height * height3).dp)
                     }
 
                     // Vertical divider:

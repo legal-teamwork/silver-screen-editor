@@ -17,6 +17,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.resource.MoveResourceCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.MoveToWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -38,7 +40,7 @@ private fun collectPossibleFolders(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MoveToWindow(
+fun AppScope.MoveToWindow(
     contextWindowData: ContextWindowData,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit,
@@ -69,13 +71,26 @@ fun MoveToWindow(
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyColumn {
                     items(possibleFolders, { it }) { (folder, folderPath) ->
-                        Box(modifier = Modifier.fillMaxWidth().wrapContentHeight().clickable {
-                            resource.parent?.resources?.remove(resource)
-                            folder.addResource(resource)
-                            onContextWindowClose()
-                        }) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .clickable {
+                                    val folderFrom = resource.parent
+
+                                    if (folderFrom != null) {
+                                        val moveResourceCommand =
+                                            MoveResourceCommand(resourceManager, resource, folderFrom, folder)
+                                        commandManager.execute(moveResourceCommand)
+                                    }
+
+                                    onContextWindowClose()
+                                }
+                        ) {
                             Text(
-                                text = "/$folderPath", modifier = Modifier.padding(10.dp, 2.dp), color = MoveToWindowTheme.TEXT_COLOR
+                                text = "/$folderPath",
+                                modifier = Modifier.padding(10.dp, 2.dp),
+                                color = MoveToWindowTheme.TEXT_COLOR
                             )
                         }
                     }

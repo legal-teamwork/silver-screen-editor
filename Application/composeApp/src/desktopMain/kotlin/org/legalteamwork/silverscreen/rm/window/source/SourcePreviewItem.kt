@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.decodeToSvgPainter
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -38,7 +40,7 @@ import java.io.File
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun SourcePreviewItem(
+fun AppScope.SourcePreviewItem(
     resource: Resource,
     onContextWindowOpen: (ContextWindow?) -> Unit,
     onContextWindowClose: () -> Unit
@@ -57,7 +59,13 @@ fun SourcePreviewItem(
                 onLongClickLabel = resource.title.value,
                 role = null,
                 onLongClick = {
-                    VideoEditor.addResource(resource)  // Временное решение
+                    val position = VideoEditor.VideoTrack.getFreePosition()
+                    val addResourceCommand = AddResourceToTrackFabric.makeCommand(
+                        resource, VideoEditor.VideoTrack, position
+                    )
+
+                    if (addResourceCommand != null)
+                        commandManager.execute(addResourceCommand)
                 },
                 onDoubleClick = {
                     ResourceManager.activeResource.component2().invoke(resource)

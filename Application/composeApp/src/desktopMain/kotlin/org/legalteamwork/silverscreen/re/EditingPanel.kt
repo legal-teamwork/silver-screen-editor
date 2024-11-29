@@ -2,6 +2,9 @@
 
 package org.legalteamwork.silverscreen.re
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -46,7 +49,7 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
@@ -57,7 +60,6 @@ var DpInFrame by mutableStateOf(1f)
  */
 @Serializable
 object VideoEditor {
-
     var videotracks = mutableStateListOf(VideoTrack)
 
     /**
@@ -97,7 +99,7 @@ object VideoEditor {
             val framesCount: Int,
         ) {
             // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
-            private var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
+            var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
 
             fun getRightBorder(): Int {
                 return position + framesCount - 1
@@ -121,180 +123,31 @@ object VideoEditor {
                 logger.info { "Updating offset of video block..." }
                 localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
             }
-
-            @Composable
-            fun <T> dragTarget(
-                modifier: Modifier,
-                dataToDrop: T,
-                content: @Composable (() -> Unit),
-            ) {
-                var currentPosition by remember { mutableStateOf(Offset.Zero) }
-                val currentState = localDragTargetInfo.component1()
-
-                Box(
-                    modifier =
-                        modifier
-                            .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
-                            .onGloballyPositioned {
-                                currentPosition = it.localToWindow(Offset.Zero)
-                            }
-                            .pointerInput(Unit) {
-                                detectDragGestures(onDragStart = {
-                                    currentState.dataToDrop = dataToDrop
-                                    currentState.isDragging = true
-                                    currentState.dragPosition = currentPosition + it
-                                    currentState.draggableComposable = content
-                                }, onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    logger.debug { "Dragging video resource..." }
-                                    currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
-                                }, onDragEnd = {
-                                    logger.debug { "Dragged video resource successfully" }
-                                    currentState.isDragging = false
-                                    position = (currentState.dragOffset.x / DpInFrame).roundToInt()
-                                    chooseNewPositionAndMoveResources(id, position, framesCount)
-                                }, onDragCancel = {
-                                    logger.warn { "Canceled dragging video resource" }
-                                    currentState.dragOffset = Offset.Zero
-                                    currentState.isDragging = false
-                                })
-                            },
-                ) {
-                    content()
-                }
-            }
-
-            @OptIn(ExperimentalResourceApi::class)
-            @Composable
-            fun compose() {
-                dragTarget(
-                    modifier = Modifier.fillMaxHeight().width((framesCount * DpInFrame).dp),
-                    dataToDrop = "",
-                ) {
-                    BoxWithConstraints(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width((framesCount * DpInFrame).dp)
-                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
-                    ) {
-                        val textHeight = min(20.dp, maxHeight)
-                        val previewHeight = min(75.dp, maxHeight - textHeight)
-                        val previewWidth = min(150.dp, minWidth)
-
-                        Column(
-                            modifier =
-                                Modifier
-                                    .padding(vertical = 10.dp),
-                        ) {
-                            Text(
-                                text = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .offset(x = 10.dp)
-                                        .height(textHeight),
-                                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-                            )
-                            Image(
-                                painter =
-                                    BitmapPainter(
-                                        remember {
-                                            File(videoResources[id].previewPath).inputStream().readAllBytes()
-                                                .decodeToImageBitmap()
-                                        },
-                                    ),
-                                contentDescription = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .width(previewWidth)
-                                        .height(previewHeight),
-                            )
-                        }
-                    }
-                }
-            }
         }
 
-        fun addResource(resource: VideoResource) {
-            var pos = 0
-            if (resourcesOnTrack.isNotEmpty()) {
-                pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
-            }
-            logger.info { "Adding video resource to timeline" }
-            resourcesOnTrack.add(
-                ResourceOnTrack(
-                    null,
-                    videoResources.size,
-                    pos,
-                    resource.numberOfFrames,
-                ),
-            )
+        fun getFreePosition(): Int =
+            if (resourcesOnTrack.isEmpty()) { 0 } else { resourcesOnTrack.maxOf(ResourceOnTrack::getRightBorder) + 1 }
+
+        fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
+            logger.debug { "Adding video resource to timeline" }
+
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
+
+            return resourceOnTrack
         }
 
-        fun chooseNewPositionAndMoveResources(
-            id: Int,
-            position: Int,
-            framesCount: Int,
-        ): Int {
-            var leftBorder = position
-            var rightBorder = leftBorder + framesCount - 1
+        fun removeResource(resourceOnTrack: ResourceOnTrack) {
+            logger.debug { "Removing video resource from the timeline" }
 
-            val changes = mutableListOf<Pair<Int, Int>>()
-
-            var fl = false
-            for (resource in resourcesOnTrack.sortedBy { it.position }) {
-                if (resource.id == id) {
-                    changes.add(Pair(id, leftBorder))
-                    fl = true
-                    continue
-                }
-                if (fl) {
-                    if (resource.getLeftBorder() in leftBorder..rightBorder) {
-                        changes.add(Pair(resource.id, rightBorder + 1))
-                        rightBorder += resource.framesCount
-                    }
-                } else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
-                    leftBorder = resource.getRightBorder() + 1
-                    rightBorder = leftBorder + framesCount - 1
-                    fl = true
-                }
-            }
-            logger.info { "Repositioning of video resources..." }
-            for (change in changes)
-                resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
-            for (res in resourcesOnTrack) {
-                print(res.position)
-                print(" ")
-            }
-            return leftBorder
+            resourcesOnTrack.remove(resourceOnTrack)
         }
 
         fun updateResourcesOnTrack() {
             logger.info { "Updating video offsets" }
             for (i in 0..<resourcesOnTrack.size)
                 resourcesOnTrack[i].updateOffset()
-        }
-
-        @Composable
-        fun compose(
-            trackHeight: Dp,
-            maxWidth: Dp,
-        ) {
-            val resources = remember { resourcesOnTrack }
-            logger.info { "Composing video resource" }
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(trackHeight)
-                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
-            ) {
-                markup(maxWidth, trackHeight, 1f)
-                for (i in 0..<resources.size) {
-                    resources[i].compose()
-                }
-            }
         }
 
         @OptIn(ExperimentalSerializationApi::class)
@@ -322,13 +175,6 @@ object VideoEditor {
         }
     }
 
-    fun addResource(resource: Resource) {
-        println(resource.title)
-        if (resource is VideoResource) {
-            VideoTrack.addResource(resource)
-        }
-    }
-
     fun getResourcesOnTrack() = VideoTrack.resourcesOnTrack
 
     fun getVideoResources() = VideoTrack.videoResources
@@ -346,48 +192,6 @@ object VideoEditor {
         VideoTrack.videoResources.addAll(savedVideoResource)
         logger.info { "Restoring video resources finished" }
     }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-        zoom: Float,
-    ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
-                drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
-            }
-        }
-    }
 }
 
 /**
@@ -395,7 +199,6 @@ object VideoEditor {
  */
 @Serializable
 object AudioEditor {
-
     var audiotracks = mutableStateListOf(AudioTrack)
 
     /**
@@ -626,9 +429,34 @@ object AudioEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xDDE1FFDB), RoundedCornerShape(6.dp)),
+                        .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR),
             ) {
-                markup(maxWidth, trackHeight, 1f)
+                Box(
+                    modifier =
+                        Modifier.width(
+                            300.dp,
+                        ).height(
+                            trackHeight - 8.dp,
+                        ).padding(
+                            start = 4.dp,
+                        ).align(
+                            Alignment.CenterStart,
+                        ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
+                ) {
+                    Column {
+                        Text(
+                            text = String.format("▶ Audio Channel"),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 23.sp,
+                            color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
+                        )
+                    }
+                }
+
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -677,60 +505,18 @@ object AudioEditor {
         savedResourcesOnTrack: List<AudioTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        logger.info { "Restoring audio resources..." } //Может, позже пригодится)
+        logger.info { "Restoring audio resources..." } // Может, позже пригодится)
         AudioTrack.resourcesOnTrack.clear()
         AudioTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
         AudioTrack.audioResources.clear()
         AudioTrack.audioResources.addAll(savedVideoResource)
         logger.info { "Restoring audio resources finished" }
     }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-        zoom: Float,
-    ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
-                drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
-            }
-        }
-    }
 }
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun EditingPanel() {
+fun AppScope.EditingPanel(panelHeight: Dp) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -761,31 +547,60 @@ fun EditingPanel() {
                     disabledContentColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_CONTENT_COLOR,
                 )
 
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(50.dp)
-                        .padding(0.dp),
-                onClick = {
-                    logger.info { "Instrumental button clicked" }
-                    DpInFrame += 0.5f
-                    if (DpInFrame > 3) {
-                        DpInFrame = 0.5f
-                    }
-                    VideoEditor.VideoTrack.updateResourcesOnTrack()
-                    AudioEditor.AudioTrack.updateResourcesOnTrack()
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("%.1fx", (DpInFrame)),
+            Column {
+                Button(
                     modifier =
                         Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
+                            .width(80.dp)
+                            .height(50.dp)
+                            .padding(0.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame += 0.25f
+                        if (DpInFrame > 2.5f) {
+                            DpInFrame = 2.5f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("+"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
+                Button(
+                    modifier =
+                        Modifier
+                            .width(80.dp)
+                            .height(55.dp)
+                            .padding(top = 5.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame -= 0.25f
+                        if (DpInFrame < 0.75f) {
+                            DpInFrame = 0.75f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("-"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
 
@@ -808,24 +623,74 @@ fun EditingPanel() {
                     .fillMaxSize()
                     .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
         ) {
-            val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
-            val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
+            val distance = 150.dp * DpInFrame
+
+            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+                Row {
+                    for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
+                        Box(modifier = Modifier.width(distance).height(45.dp)) {
+                            Column {
+                                Box(modifier = Modifier.width(distance).height(25.dp)) {
+                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                                    if (i * 5 < 60) {
+                                        Text(
+                                            text = String.format("%ds", i * 5),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    } else {
+                                        Text(
+                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    }
+                                }
+                                Box(modifier = Modifier.width(distance).height(20.dp)) {
+                                    Row {
+                                        for (i in 1..5) {
+                                            Row {
+                                                Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
+                                                Box(
+                                                    modifier =
+                                                        Modifier.width(
+                                                            (distance - 10.dp) / 5,
+                                                        ).height(20.dp).background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            val tracksAmount = 2
+            val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
+            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
 
             Column(
                 modifier =
                     Modifier
-                        .padding(vertical = maxHeight * 0.05f)
+                        .padding(top = 55.dp).height(panelHeight - 100.dp)
                         .horizontalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
             ) {
                 val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
                 val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
                 val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
                 val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth, this@BoxWithConstraints.maxWidth)
-                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                Box(modifier = Modifier.fillMaxWidth().height(10.dp))
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
             }
-            Slider.compose()
+
+            Box(modifier = Modifier.padding(start = 304.dp)) {
+                Slider.compose(panelHeight - 40.dp)
+            }
         }
     }
     logger.info { "Timeline created!" }

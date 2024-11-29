@@ -32,6 +32,16 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.logback.classic)
             implementation(libs.kotlin.logging)
+            implementation(kotlin("test"))
+        }
+    }
+
+    sourceSets {
+        val desktopTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                // Добавьте другие зависимости для тестирования, если нужно
+            }
         }
     }
 }
