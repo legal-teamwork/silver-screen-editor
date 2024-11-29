@@ -3,8 +3,8 @@ package org.legalteamwork.silverscreen.command
 class CommandManager(
     private val stackMaxSize: Int = 5
 ) {
-    private val commandUndoSupportStack = mutableListOf<CommandUndoSupport>()
-    private var commandUndoSupportPointer = 0
+    private val stack = mutableListOf<CommandUndoSupport>()
+    private var pointer = 0
 
     fun execute(command: Command) = command.execute()
 
@@ -15,25 +15,25 @@ class CommandManager(
     }
 
     fun undo() {
-        if (commandUndoSupportPointer > 1)
-            commandUndoSupportStack[--commandUndoSupportPointer].undo()
+        if (pointer > 1)
+            stack[--pointer].undo()
     }
 
     fun redo() {
-        if (commandUndoSupportStack.size > 0 && commandUndoSupportPointer < commandUndoSupportStack.size)
-            commandUndoSupportStack[commandUndoSupportPointer++].execute()
+        if (stack.size > 0 && pointer < stack.size)
+            stack[pointer++].execute()
     }
 
     private fun addCommandToStack(command: CommandUndoSupport) {
-        while (commandUndoSupportStack.size > commandUndoSupportPointer)
-            commandUndoSupportStack.removeLast()
+        while (stack.size > pointer)
+            stack.removeLast()
 
-        commandUndoSupportStack.add(command)
-        commandUndoSupportPointer++
+        stack.add(command)
+        pointer++
 
-        while (commandUndoSupportStack.size > stackMaxSize) {
-            commandUndoSupportStack.removeFirst()
-            commandUndoSupportPointer--
+        while (stack.size > stackMaxSize) {
+            stack.removeFirst()
+            pointer--
         }
     }
 }
