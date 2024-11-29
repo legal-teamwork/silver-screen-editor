@@ -818,12 +818,12 @@ fun EditingPanel() {
                         .horizontalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
             ) {
-                val maxWidthVideos = (VideoEditor.getResourcesOnTrack().sumOf { it.framesCount }).dp
-                val maxWidthAudio = (AudioEditor.getResourcesOnTrack().sumOf { it.framesCount }).dp
+                val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
+                val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
                 val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
                 val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth, this@BoxWithConstraints.maxWidth)
-                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, totalMaximumWidth)
-                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth)
+                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
             }
             Slider.compose()
         }
