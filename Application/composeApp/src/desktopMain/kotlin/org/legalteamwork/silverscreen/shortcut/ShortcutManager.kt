@@ -6,7 +6,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 /**
  * Данный класс отвечает за глобальные шорткаты окна
  */
-object ShortcutManager {
+class ShortcutManager {
 
     private val shortcuts: MutableMap<Shortcut, (keyEvent: KeyEvent) -> Boolean> = mutableMapOf()
     private val logger = KotlinLogging.logger {}

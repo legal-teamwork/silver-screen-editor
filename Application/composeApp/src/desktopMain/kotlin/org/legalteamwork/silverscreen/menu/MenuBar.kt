@@ -3,6 +3,7 @@ package org.legalteamwork.silverscreen.menu
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,12 +14,8 @@ import androidx.compose.ui.Modifier
  * @param[content] Контент бара
  */
 @Composable
-fun MenuBar(content: @Composable () -> Unit) {
-    Box(
-        modifier = Modifier.fillMaxWidth().background(menuBarBackground)
-    ) {
-        Row {
-            content()
-        }
+fun MenuBar(content: @Composable RowScope.() -> Unit) {
+    Box(modifier = Modifier.fillMaxWidth().background(menuBarBackground)) {
+        Row(content = content)
     }
 }

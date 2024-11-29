@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -16,8 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.window.rememberComponentRectPositionProvider
-import org.legalteamwork.silverscreen.shortcut.Shortcut
-import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 
 /**
  * Создание вкладки в системном меню
@@ -32,31 +30,15 @@ fun Menu(
     text: String,
     mnemonic: Key? = null,
     enabled: Boolean = true,
+    isActive: Boolean,
+    onActive: () -> Unit,
+    onUnactive: () -> Unit,
     content: @Composable MenuScope.() -> Unit
 ) {
-    var isActive by remember { mutableStateOf(false) }
-
-    if (mnemonic != null) {
-        val shortcut = Shortcut(
-            key = mnemonic,
-            alt = true
-        )
-
-        remember {
-            ShortcutManager.addShortcut(shortcut) {
-                isActive = !isActive
-                true
-            }
-        }
-    }
-
     Box(
         modifier = Modifier
             .background(if (isActive) selectedMenuBackground else menuBackground)
-            .clickable(enabled = enabled) {
-                logger.debug { "Activating $text" }
-                isActive = true
-            }
+            .clickable(enabled = enabled, onClick = onActive)
     ) {
         Text(
             text = text,
@@ -73,7 +55,7 @@ fun Menu(
 
             Popup(
                 popupPositionProvider = popupPositionProvider,
-                onDismissRequest = { isActive = false },
+                onDismissRequest = onUnactive,
                 properties = PopupProperties(
                     focusable = true,
                     dismissOnBackPress = true,
@@ -91,10 +73,7 @@ fun Menu(
                 ) {
                     Column {
                         val scope = object : MenuScope {
-                            override fun onMenuClose() {
-                                isActive = false
-                            }
-
+                            override fun onMenuClose() = onUnactive()
                         }
 
                         scope.content()
