@@ -1,7 +1,7 @@
 package org.legalteamwork.silverscreen.command
 
 class CommandManager(
-    private val stackMaxSize: Int = 5
+    private val stackMaxSize: Int = 100
 ) {
     private val stack = mutableListOf<CommandUndoSupport>()
     private var pointer = 0
