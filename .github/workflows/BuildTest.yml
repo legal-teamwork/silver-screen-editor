@@ -58,6 +58,6 @@ jobs:
         working-directory: ./Application
         run: ./gradlew build --no-daemon
 
-      #- name: Tests
-      #  working-directory: ./Application
-      #  run: ./gradlew test --no-daemon
+      - name: Tests
+        working-directory: ./Application
+        run: ./gradlew test --no-daemon
