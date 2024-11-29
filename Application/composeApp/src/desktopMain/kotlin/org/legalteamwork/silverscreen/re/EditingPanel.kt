@@ -47,7 +47,7 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
@@ -58,7 +58,6 @@ var DpInFrame by mutableStateOf(1f)
  */
 @Serializable
 object VideoEditor {
-
     var videotracks = mutableStateListOf(VideoTrack)
 
     /**
@@ -289,7 +288,7 @@ object VideoEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
+                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), // Что за сущность?
             ) {
                 markup(maxWidth, trackHeight, 1f)
                 for (i in 0..<resources.size) {
@@ -364,28 +363,6 @@ object VideoEditor {
                 val height = size.height
 
                 drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
             }
         }
     }
@@ -396,7 +373,6 @@ object VideoEditor {
  */
 @Serializable
 object AudioEditor {
-
     var audiotracks = mutableStateListOf(AudioTrack)
 
     /**
@@ -678,7 +654,7 @@ object AudioEditor {
         savedResourcesOnTrack: List<AudioTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        logger.info { "Restoring audio resources..." } //Может, позже пригодится)
+        logger.info { "Restoring audio resources..." } // Может, позже пригодится)
         AudioTrack.resourcesOnTrack.clear()
         AudioTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
         AudioTrack.audioResources.clear()
@@ -702,28 +678,6 @@ object AudioEditor {
                 val height = size.height
 
                 drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
             }
         }
     }
@@ -802,9 +756,47 @@ fun EditingPanel() {
                     )
                     .fillMaxSize(),
         ) {
+            val distance = 100.dp * DpInFrame
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Row {
+                    for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
+                        Box(modifier = Modifier.width(distance).height(45.dp)) {
+                            Column {
+                                Box(modifier = Modifier.width(distance).height(25.dp)) {
+                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                                    Text(
+                                        text = String.format("%02d:%02d.00", i / 12, (i % 12) * 5),
+                                        fontSize = 15.sp,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(start = 8.dp),
+                                    )
+                                }
+                                Box(modifier = Modifier.width(distance).height(20.dp)) {
+                                    Row {
+                                        for (i in 1..5) {
+                                            Row {
+                                                Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
+                                                Box(
+                                                    modifier =
+                                                        Modifier.width(
+                                                            (distance - 10.dp) / 5,
+                                                        ).height(20.dp).background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
             val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
 
+            /*
             Column(
                 modifier =
                     Modifier
@@ -814,6 +806,8 @@ fun EditingPanel() {
                 VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
+
+             */
             Slider.compose()
         }
     }

@@ -5,9 +5,11 @@ import androidx.compose.ui.text.font.FontFamily
 
 object AppTheme {
     val SURFACE_COLOR = Color.Black
-    //Влияет вообще на все горизонтальные разделители(если есть желание, то можно будет разделить на отдельные разделители)
+
+    // Влияет вообще на все горизонтальные разделители(если есть желание, то можно будет разделить на отдельные разделители)
     val HORIZONTAL_DIVIDER_COLOR = Color.Black
-    //Влияет вообще на все вертикальные разделители
+
+    // Влияет вообще на все вертикальные разделители
     val VERTICAL_DIVIDER_COLOR = Color.Black
     val VIDEO_PANEL_BACKGROUND_COLOR = Color.DarkGray
     val VIDEO_EDITOR_BACKGROUND_COLOR = Color.DarkGray
@@ -26,10 +28,9 @@ object ResourceManagerTheme {
 object EditingPanelTheme {
     val DROPPABLE_FILE_BACKGROUND_COLOR = Color(0xDDFFDBE1)
     val DROPPABLE_FILE_TEXT_COLOR = Color.Black
-//Здесь будет цвет той сущности
+
+// Здесь будет цвет той сущности
     val VIDEO_TRACK_BACKGROUND_COLOR = Color(0xFFFFC1CC)
-    val SHORT_MARK_INTERVAL_COLOR = Color.Gray
-    val LONG_MARK_INTERVAL_COLOR = Color.Black
 
     val AUDIO_TRACK_BACKGROUND_COLOR = Color(0xFFFFC1CC)
 
