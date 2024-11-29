@@ -1,15 +1,19 @@
 package org.legalteamwork.silverscreen
 
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.legalteamwork.silverscreen.command.CommandManager
 import org.legalteamwork.silverscreen.ps.*
 import org.legalteamwork.silverscreen.resources.Strings
+import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.save.Project
+import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
 import java.awt.Dimension
 import java.awt.Toolkit
@@ -30,6 +34,20 @@ fun main() {
     logger.info { "Program started!" }
     onStart()
 
+    val commandManager = CommandManager()
+    val resourceManager = ResourceManager
+    val shortcutManager = ShortcutManager
+    val appScope = AppScope(commandManager, resourceManager, shortcutManager)
+
+    shortcutManager.addShortcut(Shortcut(Key.Z, ctrl = true)) {
+        commandManager.undo()
+        true
+    }
+    shortcutManager.addShortcut(Shortcut(Key.Z, ctrl = true, shift = true)) {
+        commandManager.redo()
+        true
+    }
+
     application {
         val icon = painterResource("icon.ico")
         Window(
@@ -46,7 +64,7 @@ fun main() {
             val screenSize = Toolkit.getDefaultToolkit().screenSize
             window.minimumSize = Dimension(screenSize.width / 2, screenSize.height / 2)
 
-            App()
+            appScope.App()
         }
 
         if (ProjectSettingsWindow.isOpened) {

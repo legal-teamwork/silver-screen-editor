@@ -6,13 +6,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.legalteamwork.silverscreen.ps.ProjectSettingsWindow
-import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.save.EditorSettings
-import org.legalteamwork.silverscreen.rm.openFileDialog
-import org.legalteamwork.silverscreen.shortcut.Shortcut
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.menu.*
 import org.legalteamwork.silverscreen.resources.Strings
-import org.legalteamwork.silverscreen.save.Project
+import org.legalteamwork.silverscreen.save.EditorSettings
+import org.legalteamwork.silverscreen.shortcut.Shortcut
 
 val menuBarBackground = Color(0xFF000000)
 val menuBackground = Color(0xFF000000)
@@ -27,34 +25,18 @@ val menuAcceleratorColor = Color(0xFFAAAAAA)
 
 val logger = KotlinLogging.logger {}
 
-private fun saveAs() {
-    val filenameSet = openFileDialog(null, "Save project", listOf("json"), false)
-
-    if (filenameSet.isNotEmpty()) {
-        Project.save(filenameSet.first().path)
-    }
-}
-
 /**
  * Компоуз, ответственный за добавление системного меню
  */
 @Composable
-fun MenuBarCompose() {
+fun AppScope.MenuBarCompose() {
     MenuBar {
         Menu(Strings.FILE_MENU_TAG, mnemonic = Key.F) {
             MenuItem(text = Strings.FILE_NEW_ITEM, shortcut = Shortcut(Key.N, ctrl = true)) {
-                logger.debug { "MenuBar Action: New" }
-                //Project.reset()
-                // TODO: make this work
+                commandManager.execute(NewCommand())
             }
             MenuItem(text = Strings.FILE_OPEN_ITEM, shortcut = Shortcut(Key.O, ctrl = true)) {
-                logger.debug { "MenuBar Action: Open" }
-
-                val filenameSet = openFileDialog(null, "Open project", listOf("json"), false)
-
-                if (filenameSet.isNotEmpty()) {
-                    Project.load(filenameSet.first().path)
-                }
+                commandManager.execute(OpenCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
@@ -62,32 +44,24 @@ fun MenuBarCompose() {
             MenuItem(
                 text = Strings.FILE_IMPORT_ITEM, shortcut = Shortcut(Key.I, ctrl = true)
             ) {
-                logger.debug { "MenuBar Action: Import" }
-                ResourceManager.addSourceTriggerActivity()
+                commandManager.execute(ImportCommand(resourceManager, commandManager))
             }
+
             MenuItem(
                 text = Strings.FILE_EXPORT_ITEM, shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
-                logger.debug { "MenuBar Action: Export" }
-                // TODO
+                commandManager.execute(ExportCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
 
             MenuItem(text = Strings.FILE_SAVE_ITEM, shortcut = Shortcut(Key.S, ctrl = true)) {
-                logger.debug { "MenuBar Action: Save" }
-
-                if (Project.hasPath)
-                    Project.save()
-                else
-                    saveAs()
+                commandManager.execute(SaveCommand())
             }
             MenuItem(
                 text = Strings.FILE_SAVE_AS_ITEM, shortcut = Shortcut(Key.S, ctrl = true, shift = true)
             ) {
-                logger.debug { "MenuBar Action: Save as" }
-
-                saveAs()
+                commandManager.execute(SaveAsCommand())
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
@@ -95,9 +69,7 @@ fun MenuBarCompose() {
             MenuItem(
                 text = Strings.PROJECT_SETTINGS_ITEM, shortcut = Shortcut(Key.P, ctrl = true)
             ) {
-                logger.debug { "MenuBar Action: Project Settings" }
-
-                ProjectSettingsWindow.open()
+                commandManager.execute(ProjectSettingsOpenCommand())
             }
 
             MenuItem(
@@ -107,12 +79,7 @@ fun MenuBarCompose() {
                     Strings.FILE_AUTO_SAVE_ITEM_OFF,
                 shortcut = Shortcut(Key.E, ctrl = true, shift = true)
             ) {
-                logger.debug { "MenuBar Action: Enable/Disable auto save" }
-
-                EditorSettings.change {
-                    autosaveEnabled.value = !autosaveEnabled.value
-                }
-                EditorSettings.save()
+                commandManager.execute(AutosaveEnableOrDisableCommand())
             }
         }
     }

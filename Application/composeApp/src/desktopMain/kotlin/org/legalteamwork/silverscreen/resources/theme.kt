@@ -28,8 +28,10 @@ object ResourceManagerTheme {
 object EditingPanelTheme {
     val DROPPABLE_FILE_BACKGROUND_COLOR = Color(0xDDFFDBE1)
     val DROPPABLE_FILE_TEXT_COLOR = Color.Black
+    val SHORT_MARK_INTERVAL_COLOR = Color.Gray
+    val LONG_MARK_INTERVAL_COLOR = Color.Black
 
-// Здесь будет цвет той сущности
+    // Здесь будет цвет той сущности
     val VIDEO_TRACK_BACKGROUND_COLOR = Color(0x337D8791)
     val AUDIO_TRACK_BACKGROUND_COLOR = Color(0x337D8791)
 

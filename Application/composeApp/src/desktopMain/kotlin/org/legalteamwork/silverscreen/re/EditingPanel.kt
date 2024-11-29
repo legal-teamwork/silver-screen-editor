@@ -38,6 +38,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
@@ -95,7 +97,7 @@ object VideoEditor {
             val framesCount: Int,
         ) {
             // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
-            private var localDragTargetInfo = mutableStateOf(AudioEditor.AudioTrack.DragTargetInfo(position))
+            var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
 
             fun getRightBorder(): Int {
                 return position + framesCount - 1
@@ -119,204 +121,31 @@ object VideoEditor {
                 logger.info { "Updating offset of video block..." }
                 localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
             }
-
-            @Composable
-            fun <T> dragTarget(
-                modifier: Modifier,
-                dataToDrop: T,
-                content: @Composable (() -> Unit),
-            ) {
-                var currentPosition by remember { mutableStateOf(Offset.Zero) }
-                val currentState = localDragTargetInfo.component1()
-
-                Box(
-                    modifier =
-                        modifier
-                            .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
-                            .onGloballyPositioned {
-                                currentPosition = it.localToWindow(Offset.Zero)
-                            }
-                            .pointerInput(Unit) {
-                                detectDragGestures(onDragStart = {
-                                    currentState.dataToDrop = dataToDrop
-                                    currentState.isDragging = true
-                                    currentState.dragPosition = currentPosition + it
-                                    currentState.draggableComposable = content
-                                }, onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    logger.debug { "Dragging video resource..." }
-                                    currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
-                                }, onDragEnd = {
-                                    logger.debug { "Dragged video resource successfully" }
-                                    currentState.isDragging = false
-                                    position = (currentState.dragOffset.x / DpInFrame).roundToInt()
-                                    chooseNewPositionAndMoveResources(id, position, framesCount)
-                                }, onDragCancel = {
-                                    logger.warn { "Canceled dragging video resource" }
-                                    currentState.dragOffset = Offset.Zero
-                                    currentState.isDragging = false
-                                })
-                            },
-                ) {
-                    content()
-                }
-            }
-
-            @OptIn(ExperimentalResourceApi::class)
-            @Composable
-            fun compose() {
-                dragTarget(
-                    modifier = Modifier.fillMaxHeight().width((framesCount * DpInFrame).dp),
-                    dataToDrop = "",
-                ) {
-                    BoxWithConstraints(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width((framesCount * DpInFrame).dp)
-                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
-                    ) {
-                        val textHeight = min(20.dp, maxHeight)
-                        val previewHeight = min(75.dp, maxHeight - textHeight)
-                        val previewWidth = min(150.dp, minWidth)
-
-                        Column(
-                            modifier =
-                                Modifier
-                                    .padding(vertical = 10.dp),
-                        ) {
-                            Text(
-                                text = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .offset(x = 10.dp)
-                                        .height(textHeight),
-                                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-                            )
-                            Image(
-                                painter =
-                                    BitmapPainter(
-                                        remember {
-                                            File(videoResources[id].previewPath).inputStream().readAllBytes()
-                                                .decodeToImageBitmap()
-                                        },
-                                    ),
-                                contentDescription = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .width(previewWidth)
-                                        .height(previewHeight),
-                            )
-                        }
-                    }
-                }
-            }
         }
 
-        fun addResource(resource: VideoResource) {
-            var pos = 0
-            if (resourcesOnTrack.isNotEmpty()) {
-                pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
-            }
-            logger.info { "Adding video resource to timeline" }
-            resourcesOnTrack.add(
-                ResourceOnTrack(
-                    null,
-                    videoResources.size,
-                    pos,
-                    resource.numberOfFrames,
-                ),
-            )
+        fun getFreePosition(): Int =
+            if (resourcesOnTrack.isEmpty()) { 0 } else { resourcesOnTrack.maxOf(ResourceOnTrack::getRightBorder) + 1 }
+
+        fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
+            logger.debug { "Adding video resource to timeline" }
+
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
+
+            return resourceOnTrack
         }
 
-        fun chooseNewPositionAndMoveResources(
-            id: Int,
-            position: Int,
-            framesCount: Int,
-        ): Int {
-            var leftBorder = position
-            var rightBorder = leftBorder + framesCount - 1
+        fun removeResource(resourceOnTrack: ResourceOnTrack) {
+            logger.debug { "Removing video resource from the timeline" }
 
-            val changes = mutableListOf<Pair<Int, Int>>()
-
-            var fl = false
-            for (resource in resourcesOnTrack.sortedBy { it.position }) {
-                if (resource.id == id) {
-                    changes.add(Pair(id, leftBorder))
-                    fl = true
-                    continue
-                }
-                if (fl) {
-                    if (resource.getLeftBorder() in leftBorder..rightBorder) {
-                        changes.add(Pair(resource.id, rightBorder + 1))
-                        rightBorder += resource.framesCount
-                    }
-                } else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
-                    leftBorder = resource.getRightBorder() + 1
-                    rightBorder = leftBorder + framesCount - 1
-                    fl = true
-                }
-            }
-            logger.info { "Repositioning of video resources..." }
-            for (change in changes)
-                resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
-            for (res in resourcesOnTrack) {
-                print(res.position)
-                print(" ")
-            }
-            return leftBorder
+            resourcesOnTrack.remove(resourceOnTrack)
         }
 
         fun updateResourcesOnTrack() {
             logger.info { "Updating video offsets" }
             for (i in 0..<resourcesOnTrack.size)
                 resourcesOnTrack[i].updateOffset()
-        }
-
-        @Composable
-        fun compose(
-            trackHeight: Dp,
-            maxWidth: Dp,
-        ) {
-            val resources = remember { resourcesOnTrack }
-            logger.info { "Composing video resource" }
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(trackHeight)
-                        .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
-            ) {
-                Box(
-                    modifier =
-                        Modifier.width(
-                            300.dp,
-                        ).height(
-                            trackHeight - 8.dp,
-                        ).padding(
-                            start = 4.dp,
-                        ).align(
-                            Alignment.CenterStart,
-                        ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
-                ) {
-                    Column {
-                        Text(
-                            text = String.format("▶ Video Channel"),
-                            modifier =
-                                Modifier
-                                    .fillMaxSize()
-                                    .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
-                            textAlign = TextAlign.Center,
-                            fontSize = 23.sp,
-                            color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
-                        )
-                    }
-                }
-                for (i in 0..<resources.size) {
-                    resources[i].compose()
-                }
-            }
         }
 
         @OptIn(ExperimentalSerializationApi::class)
@@ -341,13 +170,6 @@ object VideoEditor {
             var dragOffset by mutableStateOf(Offset(position * DpInFrame, 0f))
             var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
             var dataToDrop by mutableStateOf<Any?>(null)
-        }
-    }
-
-    fun addResource(resource: Resource) {
-        println(resource.title)
-        if (resource is VideoResource) {
-            VideoTrack.addResource(resource)
         }
     }
 
@@ -692,7 +514,7 @@ object AudioEditor {
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun EditingPanel(panelHeight: Dp) {
+fun AppScope.EditingPanel(panelHeight: Dp) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -847,7 +669,7 @@ fun EditingPanel(panelHeight: Dp) {
                     Modifier
                         .padding(top = 55.dp).height(panelHeight - 100.dp),
             ) {
-                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
                 Box(modifier = Modifier.fillMaxWidth().height(10.dp))
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }

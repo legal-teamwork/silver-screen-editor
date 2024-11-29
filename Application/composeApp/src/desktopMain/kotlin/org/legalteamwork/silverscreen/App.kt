@@ -14,17 +14,18 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun App() {
+fun AppScope.App() {
     var panelSize by remember { mutableStateOf(Size.Zero) }
 
     var width1 by remember { mutableStateOf(0.4f) }
@@ -67,7 +68,7 @@ fun App() {
                                 .fillMaxHeight()
                                 .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        ResourceManager.compose()
+                        ResourceManagerCompose()
                     }
 
                     // Vertical divider:

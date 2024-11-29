@@ -30,11 +30,6 @@ class FolderResource(
     val dataResources: List<Resource>
         get() = resources.filterNot { it is FolderResource }
 
-    fun addResource(resource: Resource) {
-        resources.add(resource)
-        resource.parent = this
-    }
-
     override fun clone(): Resource {
         return FolderResource(
             mutableStateOf("${title.value} (clone)"),
@@ -44,7 +39,7 @@ class FolderResource(
     }
 
     override fun action() {
-        ResourceManager.videoResources.component2().invoke(this)
+        ResourceManager.currentFolder.component2().invoke(this)
     }
 
     fun assignParents() {
