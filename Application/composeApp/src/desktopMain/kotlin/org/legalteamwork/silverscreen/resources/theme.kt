@@ -5,9 +5,11 @@ import androidx.compose.ui.text.font.FontFamily
 
 object AppTheme {
     val SURFACE_COLOR = Color.Black
-    //Влияет вообще на все горизонтальные разделители(если есть желание, то можно будет разделить на отдельные разделители)
+
+    // Влияет вообще на все горизонтальные разделители(если есть желание, то можно будет разделить на отдельные разделители)
     val HORIZONTAL_DIVIDER_COLOR = Color.Black
-    //Влияет вообще на все вертикальные разделители
+
+    // Влияет вообще на все вертикальные разделители
     val VERTICAL_DIVIDER_COLOR = Color.Black
     val VIDEO_PANEL_BACKGROUND_COLOR = Color.DarkGray
     val VIDEO_EDITOR_BACKGROUND_COLOR = Color.DarkGray
@@ -26,12 +28,13 @@ object ResourceManagerTheme {
 object EditingPanelTheme {
     val DROPPABLE_FILE_BACKGROUND_COLOR = Color(0xDDFFDBE1)
     val DROPPABLE_FILE_TEXT_COLOR = Color.Black
-//Здесь будет цвет той сущности
-    val VIDEO_TRACK_BACKGROUND_COLOR = Color(0xFFFFC1CC)
-    val SHORT_MARK_INTERVAL_COLOR = Color.Gray
-    val LONG_MARK_INTERVAL_COLOR = Color.Black
 
-    val AUDIO_TRACK_BACKGROUND_COLOR = Color(0xFFFFC1CC)
+// Здесь будет цвет той сущности
+    val VIDEO_TRACK_BACKGROUND_COLOR = Color(0x337D8791)
+    val AUDIO_TRACK_BACKGROUND_COLOR = Color(0x337D8791)
+
+    val TRACK_INFO_BACKGROUND_COLOR = Color(0xFF222528)
+    val TRACK_INFO_TEXT_COLOR = Color(0xFFE7E9EB)
 
     val EDITING_PANEL_BACKGROUND = Color.Black
     val TOOL_PANEL_COLOR = Color(0xFF444444)
@@ -40,7 +43,7 @@ object EditingPanelTheme {
     val TOOL_BUTTONS_DISABLED_BACKGROUND_COLOR = Color(0xFF222222)
     val TOOL_BUTTONS_DISABLED_CONTENT_COLOR = Color.White
     val TRACKS_PANEL_BACKGROUND_COLOR = Color(0xFF444444)
-    val MARKER_COLOR = Color.White
+    val SLIDER_COLOR = Color.White
 }
 
 object MainWindowTheme {
