@@ -112,7 +112,9 @@ fun AppScope.App() {
                 // Horizontal divider:
                 Box(
                     modifier =
-                        Modifier.background(AppTheme.HORIZONTAL_DIVIDER_COLOR).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
+                        Modifier.background(
+                            AppTheme.HORIZONTAL_DIVIDER_COLOR,
+                        ).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
                             detectDragGestures { change, dragAmount ->
                                 change.consume()
                                 val newHeight1 =
@@ -136,11 +138,11 @@ fun AppScope.App() {
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE)
+                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE + 3.5.dp)
                                 .fillMaxHeight()
                                 .background(AppTheme.VIDEO_EDITOR_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
-                        EditingPanel()
+                        EditingPanel((panelSize.height * height3).dp)
                     }
 
                     // Vertical divider:

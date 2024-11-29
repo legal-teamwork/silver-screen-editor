@@ -2,7 +2,6 @@
 
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,7 +47,7 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
@@ -59,7 +58,6 @@ var DpInFrame by mutableStateOf(1f)
  */
 @Serializable
 object VideoEditor {
-
     var videotracks = mutableStateListOf(VideoTrack)
 
     /**
@@ -199,7 +197,6 @@ object VideoEditor {
  */
 @Serializable
 object AudioEditor {
-
     var audiotracks = mutableStateListOf(AudioTrack)
 
     /**
@@ -430,9 +427,34 @@ object AudioEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = Color(0xDDE1FFDB), RoundedCornerShape(6.dp)),
+                        .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR),
             ) {
-                markup(maxWidth, trackHeight, 1f)
+                Box(
+                    modifier =
+                        Modifier.width(
+                            300.dp,
+                        ).height(
+                            trackHeight - 8.dp,
+                        ).padding(
+                            start = 4.dp,
+                        ).align(
+                            Alignment.CenterStart,
+                        ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
+                ) {
+                    Column {
+                        Text(
+                            text = String.format("▶ Audio Channel"),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 23.sp,
+                            color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
+                        )
+                    }
+                }
+
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -481,60 +503,18 @@ object AudioEditor {
         savedResourcesOnTrack: List<AudioTrack.ResourceOnTrack>,
         savedVideoResource: List<VideoResource>,
     ) {
-        logger.info { "Restoring audio resources..." } //Может, позже пригодится)
+        logger.info { "Restoring audio resources..." } // Может, позже пригодится)
         AudioTrack.resourcesOnTrack.clear()
         AudioTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
         AudioTrack.audioResources.clear()
         AudioTrack.audioResources.addAll(savedVideoResource)
         logger.info { "Restoring audio resources finished" }
     }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-        zoom: Float,
-    ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
-                drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
-            }
-        }
-    }
 }
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun AppScope.EditingPanel() {
+fun AppScope.EditingPanel(panelHeight: Dp) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -565,31 +545,60 @@ fun AppScope.EditingPanel() {
                     disabledContentColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_CONTENT_COLOR,
                 )
 
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(50.dp)
-                        .padding(0.dp),
-                onClick = {
-                    logger.info { "Instrumental button clicked" }
-                    DpInFrame += 0.5f
-                    if (DpInFrame > 3) {
-                        DpInFrame = 0.5f
-                    }
-                    VideoEditor.VideoTrack.updateResourcesOnTrack()
-                    AudioEditor.AudioTrack.updateResourcesOnTrack()
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("%.1fx", (DpInFrame)),
+            Column {
+                Button(
                     modifier =
                         Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
+                            .width(80.dp)
+                            .height(50.dp)
+                            .padding(0.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame += 0.25f
+                        if (DpInFrame > 2.5f) {
+                            DpInFrame = 2.5f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("+"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
+                Button(
+                    modifier =
+                        Modifier
+                            .width(80.dp)
+                            .height(55.dp)
+                            .padding(top = 5.dp),
+                    onClick = {
+                        logger.info { "Instrumental button clicked" }
+                        DpInFrame -= 0.25f
+                        if (DpInFrame < 0.75f) {
+                            DpInFrame = 0.75f
+                        }
+                        VideoEditor.VideoTrack.updateResourcesOnTrack()
+                        AudioEditor.AudioTrack.updateResourcesOnTrack()
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("-"),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
 
@@ -605,19 +614,69 @@ fun AppScope.EditingPanel() {
                     )
                     .fillMaxSize(),
         ) {
-            val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
-            val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
+            val distance = 150.dp * DpInFrame
+
+            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+                Row {
+                    for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
+                        Box(modifier = Modifier.width(distance).height(45.dp)) {
+                            Column {
+                                Box(modifier = Modifier.width(distance).height(25.dp)) {
+                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                                    if (i * 5 < 60) {
+                                        Text(
+                                            text = String.format("%ds", i * 5),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    } else {
+                                        Text(
+                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                            fontSize = 15.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.padding(start = 8.dp),
+                                        )
+                                    }
+                                }
+                                Box(modifier = Modifier.width(distance).height(20.dp)) {
+                                    Row {
+                                        for (i in 1..5) {
+                                            Row {
+                                                Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
+                                                Box(
+                                                    modifier =
+                                                        Modifier.width(
+                                                            (distance - 10.dp) / 5,
+                                                        ).height(20.dp).background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            val tracksAmount = 2
+            val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
+            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
 
             Column(
                 modifier =
                     Modifier
-                        .padding(vertical = maxHeight * 0.05f),
-                verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
+                        .padding(top = 55.dp).height(panelHeight - 100.dp),
             ) {
                 VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                Box(modifier = Modifier.fillMaxWidth().height(10.dp))
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
-            Slider.compose()
+
+            Box(modifier = Modifier.padding(start = 304.dp)) {
+                Slider.compose(panelHeight - 40.dp)
+            }
         }
     }
     logger.info { "Timeline created!" }

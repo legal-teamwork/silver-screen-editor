@@ -8,16 +8,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
@@ -45,10 +44,33 @@ fun AppScope.VideoTrackCompose(
             Modifier
                 .fillMaxWidth()
                 .height(trackHeight)
-                .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
+                .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
     ) {
-        VideoEditorMarkup(maxWidth, trackHeight, 1f)
-
+        Box(
+            modifier =
+                Modifier.width(
+                    300.dp,
+                ).height(
+                    trackHeight - 8.dp,
+                ).padding(
+                    start = 4.dp,
+                ).align(
+                    Alignment.CenterStart,
+                ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
+        ) {
+            Column {
+                Text(
+                    text = String.format("▶ Video Channel"),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 23.sp,
+                    color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
+                )
+            }
+        }
         for (i in 0..<resources.size) {
             val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resources[i])
             resourceOnTrackScope.ResourceOnTrackCompose()
