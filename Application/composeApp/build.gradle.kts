@@ -32,6 +32,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.logback.classic)
             implementation(libs.kotlin.logging)
+            implementation(kotlin("test"))
         }
     }
 }
