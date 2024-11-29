@@ -216,21 +216,24 @@ object VideoEditor {
             }
         }
 
-        fun addResource(resource: VideoResource) {
-            var pos = 0
-            if (resourcesOnTrack.isNotEmpty()) {
-                pos = resourcesOnTrack.maxOf { it.getRightBorder() } + 1
-            }
-            logger.info { "Adding video resource to timeline" }
-            resourcesOnTrack.add(
-                ResourceOnTrack(
-                    null,
-                    videoResources.size,
-                    pos,
-                    resource.numberOfFrames,
-                ),
-            )
+
+        fun getFreePosition(): Int =
+            if (resourcesOnTrack.isEmpty()) { 0 } else { resourcesOnTrack.maxOf(ResourceOnTrack::getRightBorder) + 1 }
+
+        fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
+            logger.debug { "Adding video resource to timeline" }
+
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
+
+            return resourceOnTrack
+        }
+
+        fun removeResource(resourceOnTrack: ResourceOnTrack) {
+            logger.debug { "Removing video resource from the timeline" }
+
+            resourcesOnTrack.remove(resourceOnTrack)
         }
 
         fun chooseNewPositionAndMoveResources(
@@ -320,13 +323,6 @@ object VideoEditor {
             var dragOffset by mutableStateOf(Offset(position * DpInFrame, 0f))
             var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
             var dataToDrop by mutableStateOf<Any?>(null)
-        }
-    }
-
-    fun addResource(resource: Resource) {
-        println(resource.title)
-        if (resource is VideoResource) {
-            VideoTrack.addResource(resource)
         }
     }
 
