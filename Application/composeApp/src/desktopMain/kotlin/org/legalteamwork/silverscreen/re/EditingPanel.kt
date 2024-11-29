@@ -95,7 +95,7 @@ object VideoEditor {
             val framesCount: Int,
         ) {
             // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
-            private var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
+            private var localDragTargetInfo = mutableStateOf(AudioEditor.AudioTrack.DragTargetInfo(position))
 
             fun getRightBorder(): Int {
                 return position + framesCount - 1
@@ -288,6 +288,31 @@ object VideoEditor {
                         .height(trackHeight)
                         .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
             ) {
+                Box(
+                    modifier =
+                        Modifier.width(
+                            300.dp,
+                        ).height(
+                            trackHeight - 8.dp,
+                        ).padding(
+                            start = 4.dp,
+                        ).align(
+                            Alignment.CenterStart,
+                        ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
+                ) {
+                    Column {
+                        Text(
+                            text = String.format("▶ Video Channel 1"),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 23.sp,
+                            color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
+                        )
+                    }
+                }
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -582,6 +607,32 @@ object AudioEditor {
                         .height(trackHeight)
                         .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR),
             ) {
+                Box(
+                    modifier =
+                        Modifier.width(
+                            300.dp,
+                        ).height(
+                            trackHeight - 8.dp,
+                        ).padding(
+                            start = 4.dp,
+                        ).align(
+                            Alignment.CenterStart,
+                        ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
+                ) {
+                    Column {
+                        Text(
+                            text = String.format("▶ Audio Channel 1"),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
+                            textAlign = TextAlign.Center,
+                            fontSize = 23.sp,
+                            color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
+                        )
+                    }
+                }
+
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -743,7 +794,7 @@ fun EditingPanel(panelHeight: Dp) {
         ) {
             val distance = 150.dp * DpInFrame
 
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
                 Row {
                     for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
                         Box(modifier = Modifier.width(distance).height(45.dp)) {
@@ -792,7 +843,9 @@ fun EditingPanel(panelHeight: Dp) {
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
 
-            Slider.compose(panelHeight - 40.dp)
+            Box(modifier = Modifier.padding(start = 304.dp)) {
+                Slider.compose(panelHeight - 40.dp)
+            }
         }
     }
     logger.info { "Timeline created!" }

@@ -5,24 +5,24 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import kotlin.math.roundToInt
 
 /**
  * Класс-объект ползунка.
  */
 object Slider {
-    var markerPosition by mutableStateOf(0)
+    private var markerPosition by mutableStateOf(0)
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).roundToInt()
+        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
     }
 
     @Suppress("ktlint:standard:function-naming")
@@ -35,7 +35,7 @@ object Slider {
                     .width(2.dp)
                     .height(panelHeight)
                     .padding(top = 50.dp)
-                    .background(color = EditingPanelTheme.SLIDER_COLOR, RoundedCornerShape(3.dp))
+                    .background(color = Color.White, RoundedCornerShape(3.dp))
                     .pointerInput(Unit) {
                         detectDragGestures(
                             onDrag = { change, dragAmount ->
