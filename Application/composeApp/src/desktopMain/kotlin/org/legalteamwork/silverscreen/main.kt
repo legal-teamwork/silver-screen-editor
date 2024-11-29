@@ -34,7 +34,7 @@ fun main() {
     logger.info { "Program started!" }
     onStart()
 
-    val commandManager = CommandManager()
+    val commandManager = CommandManager
     val resourceManager = ResourceManager
     val shortcutManager = ShortcutManager
     val appScope = AppScope(commandManager, resourceManager, shortcutManager)

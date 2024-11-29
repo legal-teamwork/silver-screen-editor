@@ -1,7 +1,8 @@
 package org.legalteamwork.silverscreen.command
 
-class CommandManager {
+object CommandManager {
 
+    private const val STACK_MAX_SIZE = 5
     private val commandUndoSupportStack = mutableListOf<CommandUndoSupport>()
     private var commandUndoSupportPointer = 0
 
@@ -32,10 +33,7 @@ class CommandManager {
 
         while (commandUndoSupportStack.size > STACK_MAX_SIZE) {
             commandUndoSupportStack.removeFirst()
+            commandUndoSupportPointer--
         }
-    }
-
-    companion object {
-        private const val STACK_MAX_SIZE = 5
     }
 }

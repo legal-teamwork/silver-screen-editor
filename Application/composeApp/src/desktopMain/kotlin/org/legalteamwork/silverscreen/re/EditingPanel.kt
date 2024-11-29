@@ -39,6 +39,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.command.CommandManager
+import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -152,8 +154,11 @@ object VideoEditor {
                                 }, onDragEnd = {
                                     logger.debug { "Dragged video resource successfully" }
                                     currentState.isDragging = false
-                                    position = (currentState.dragOffset.x / DpInFrame).roundToInt()
-                                    chooseNewPositionAndMoveResources(id, position, framesCount)
+
+                                    val newPosition = (currentState.dragOffset.x / DpInFrame).roundToInt()
+                                    val moveResourceOnTrackCommand =
+                                        MoveResourceOnTrackCommand(this@ResourceOnTrack, VideoTrack, newPosition)
+                                    CommandManager.execute(moveResourceOnTrackCommand) // FIXME use application context
                                 }, onDragCancel = {
                                     logger.warn { "Canceled dragging video resource" }
                                     currentState.dragOffset = Offset.Zero
@@ -216,7 +221,6 @@ object VideoEditor {
             }
         }
 
-
         fun getFreePosition(): Int =
             if (resourcesOnTrack.isEmpty()) { 0 } else { resourcesOnTrack.maxOf(ResourceOnTrack::getRightBorder) + 1 }
 
@@ -234,44 +238,6 @@ object VideoEditor {
             logger.debug { "Removing video resource from the timeline" }
 
             resourcesOnTrack.remove(resourceOnTrack)
-        }
-
-        fun chooseNewPositionAndMoveResources(
-            id: Int,
-            position: Int,
-            framesCount: Int,
-        ): Int {
-            var leftBorder = position
-            var rightBorder = leftBorder + framesCount - 1
-
-            val changes = mutableListOf<Pair<Int, Int>>()
-
-            var fl = false
-            for (resource in resourcesOnTrack.sortedBy { it.position }) {
-                if (resource.id == id) {
-                    changes.add(Pair(id, leftBorder))
-                    fl = true
-                    continue
-                }
-                if (fl) {
-                    if (resource.getLeftBorder() in leftBorder..rightBorder) {
-                        changes.add(Pair(resource.id, rightBorder + 1))
-                        rightBorder += resource.framesCount
-                    }
-                } else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
-                    leftBorder = resource.getRightBorder() + 1
-                    rightBorder = leftBorder + framesCount - 1
-                    fl = true
-                }
-            }
-            logger.info { "Repositioning of video resources..." }
-            for (change in changes)
-                resourcesOnTrack[resourcesOnTrack.indexOfFirst { it.id == change.first }].updatePosition(change.second)
-            for (res in resourcesOnTrack) {
-                print(res.position)
-                print(" ")
-            }
-            return leftBorder
         }
 
         fun updateResourcesOnTrack() {
