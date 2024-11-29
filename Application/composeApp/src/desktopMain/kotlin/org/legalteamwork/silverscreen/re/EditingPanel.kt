@@ -826,7 +826,7 @@ fun EditingPanel(panelHeight: Dp) {
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
 
-            Slider.compose()
+            Slider.compose(panelHeight - 40.dp)
         }
     }
     logger.info { "Timeline created!" }

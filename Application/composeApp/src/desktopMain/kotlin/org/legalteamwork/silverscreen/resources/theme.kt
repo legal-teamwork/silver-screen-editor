@@ -41,7 +41,7 @@ object EditingPanelTheme {
     val TOOL_BUTTONS_DISABLED_BACKGROUND_COLOR = Color(0xFF222222)
     val TOOL_BUTTONS_DISABLED_CONTENT_COLOR = Color.White
     val TRACKS_PANEL_BACKGROUND_COLOR = Color(0xFF444444)
-    val MARKER_COLOR = Color.White
+    val SLIDER_COLOR = Color(0xFF929BA3)
 }
 
 object MainWindowTheme {

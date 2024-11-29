@@ -137,7 +137,7 @@ fun App() {
                     Box(
                         modifier =
                             Modifier
-                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE)
+                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE + 3.5.dp)
                                 .fillMaxHeight()
                                 .background(AppTheme.VIDEO_EDITOR_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
                     ) {
