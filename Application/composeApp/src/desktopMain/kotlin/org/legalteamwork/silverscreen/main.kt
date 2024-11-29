@@ -36,7 +36,15 @@ private fun ShortcutManager.setUpMenuBarShortcuts(menuBarData: MenuBarData) {
     for (menuData in menuBarData.menuList) {
         if (menuData.mnemonic != null) {
             addShortcut(Shortcut(key = menuData.mnemonic, alt = true)) {
-                menuBarData.activeMenu.component2().invoke(menuData)
+                val currentActiveMenu = menuBarData.activeMenu.value
+                if (currentActiveMenu == menuData) {
+                    // Close menu
+                    menuBarData.activeMenu.component2().invoke(null)
+                } else {
+                    // Open menu
+                    menuBarData.activeMenu.component2().invoke(menuData)
+                }
+
                 true
             }
         }
