@@ -2,10 +2,7 @@
 
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -23,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.IntArraySerializer
@@ -793,6 +792,12 @@ fun EditingPanel() {
         /**
          * Панель с дорожками.
          */
+        val scrollState = rememberScrollState()
+
+        LaunchedEffect(scrollState.value) {
+            Slider.updateScrollOffset(scrollState.value)
+        }
+
         BoxWithConstraints(
             modifier =
                 Modifier
@@ -800,7 +805,8 @@ fun EditingPanel() {
                         color = EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR,
                         shape = RoundedCornerShape(8.dp),
                     )
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
         ) {
             val adaptiveAudioTrackHeight = max(min(maxHeight * 0.45f, Dimens.AUDIO_TRACK_MAX_HEIGHT), Dimens.AUDIO_TRACK_MIN_WIDTH)
             val adaptiveVideoTrackHeight = max(min(maxHeight * 0.45f, Dimens.VIDEO_TRACK_MAX_HEIGHT), Dimens.VIDEO_TRACK_MIN_WIDTH)
@@ -808,11 +814,16 @@ fun EditingPanel() {
             Column(
                 modifier =
                     Modifier
-                        .padding(vertical = maxHeight * 0.05f),
+                        .padding(vertical = maxHeight * 0.05f)
+                        .horizontalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
             ) {
-                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
-                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
+                val maxWidthVideos = (VideoEditor.getResourcesOnTrack().sumOf { it.framesCount }).dp
+                val maxWidthAudio = (AudioEditor.getResourcesOnTrack().sumOf { it.framesCount }).dp
+                val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
+                val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth, this@BoxWithConstraints.maxWidth)
+                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, totalMaximumWidth)
+                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth)
             }
             Slider.compose()
         }
