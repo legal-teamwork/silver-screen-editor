@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class CommandManagerTest {
 
     @Test
-    fun simpleTest() {
+    fun redoUndoTest() {
         val commandManager = CommandManager(Int.MAX_VALUE)
         val testContext = TestContext(0)
         commandManager.execute(IncrementCommand(testContext))
