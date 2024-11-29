@@ -7,7 +7,7 @@ import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.awt.FileDialog
 import java.awt.Frame
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.legalteamwork.silverscreen.command.AddResourceCommand
+import org.legalteamwork.silverscreen.command.global.AddResourceCommand
 import org.legalteamwork.silverscreen.command.CommandManager
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.resources.Dimens

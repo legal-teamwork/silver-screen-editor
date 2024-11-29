@@ -9,8 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.command.AddResourceCommand
-import org.legalteamwork.silverscreen.command.RemoveResourceCommand
+import org.legalteamwork.silverscreen.command.global.RemoveResourceCommand
 import org.legalteamwork.silverscreen.resources.ResourceActionsContextWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 

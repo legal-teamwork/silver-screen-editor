@@ -5,7 +5,7 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.legalteamwork.silverscreen.command.AddResourceCommand
+import org.legalteamwork.silverscreen.command.global.AddResourceCommand
 import org.legalteamwork.silverscreen.command.CommandManager
 import org.legalteamwork.silverscreen.rm.ResourceManager.currentFolder
 import org.legalteamwork.silverscreen.rm.resource.VideoResource

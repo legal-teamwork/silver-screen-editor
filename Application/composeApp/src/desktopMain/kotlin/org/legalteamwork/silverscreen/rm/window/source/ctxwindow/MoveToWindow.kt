@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProviderAtPosition
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.command.AddResourceCommand
+import org.legalteamwork.silverscreen.command.global.AddResourceCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.MoveToWindowTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
