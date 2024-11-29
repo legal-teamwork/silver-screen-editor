@@ -2,7 +2,6 @@
 
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -287,9 +286,8 @@ object VideoEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, RoundedCornerShape(6.dp)), // Что за сущность?
+                        .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
             ) {
-                markup(maxWidth, trackHeight)
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -344,23 +342,6 @@ object VideoEditor {
         VideoTrack.videoResources.clear()
         VideoTrack.videoResources.addAll(savedVideoResource)
         logger.info { "Restoring video resources finished" }
-    }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-    ) {
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
-                drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-            }
-        }
     }
 }
 
@@ -599,9 +580,8 @@ object AudioEditor {
                     Modifier
                         .fillMaxWidth()
                         .height(trackHeight)
-                        .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, RoundedCornerShape(6.dp)),
+                        .background(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR),
             ) {
-                markup(maxWidth, trackHeight)
                 for (i in 0..<resources.size) {
                     resources[i].compose()
                 }
@@ -656,20 +636,6 @@ object AudioEditor {
         AudioTrack.audioResources.clear()
         AudioTrack.audioResources.addAll(savedVideoResource)
         logger.info { "Restoring audio resources finished" }
-    }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-    ) {
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                drawRect(color = EditingPanelTheme.AUDIO_TRACK_BACKGROUND_COLOR, size = size)
-            }
-        }
     }
 }
 

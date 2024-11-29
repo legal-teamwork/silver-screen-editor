@@ -30,9 +30,9 @@ object EditingPanelTheme {
     val DROPPABLE_FILE_TEXT_COLOR = Color.Black
 
 // Здесь будет цвет той сущности
-    val VIDEO_TRACK_BACKGROUND_COLOR = Color(0x99F4F2F2)
+    val VIDEO_TRACK_BACKGROUND_COLOR = Color(0xCCF4F2F2)
 
-    val AUDIO_TRACK_BACKGROUND_COLOR = Color(0x99F4F2F2)
+    val AUDIO_TRACK_BACKGROUND_COLOR = Color(0xCCF4F2F2)
 
     val EDITING_PANEL_BACKGROUND = Color.Black
     val TOOL_PANEL_COLOR = Color(0xFF444444)
