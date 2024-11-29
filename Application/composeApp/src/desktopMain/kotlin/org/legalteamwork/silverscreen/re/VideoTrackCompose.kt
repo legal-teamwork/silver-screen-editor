@@ -34,7 +34,30 @@ import kotlin.math.roundToInt
 private val logger = KotlinLogging.logger {  }
 
 @Composable
-fun AppScope.VideoEditorMarkup(
+fun AppScope.VideoTrackCompose(
+    trackHeight: Dp,
+    maxWidth: Dp,
+) {
+    val resources = remember { resourcesOnTrack }
+    logger.info { "Composing video resource" }
+    Box(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(trackHeight)
+                .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
+    ) {
+        VideoEditorMarkup(maxWidth, trackHeight, 1f)
+
+        for (i in 0..<resources.size) {
+            val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resources[i])
+            resourceOnTrackScope.ResourceOnTrackCompose()
+        }
+    }
+}
+
+@Composable
+private fun VideoEditorMarkup(
     maxWidth: Dp,
     trackHeight: Dp,
     zoom: Float,
@@ -76,32 +99,9 @@ fun AppScope.VideoEditorMarkup(
 }
 
 @Composable
-fun AppScope.VideoTrackCompose(
-    trackHeight: Dp,
-    maxWidth: Dp,
-) {
-    val resources = remember { resourcesOnTrack }
-    logger.info { "Composing video resource" }
-    Box(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(trackHeight)
-                .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
-    ) {
-        VideoEditorMarkup(maxWidth, trackHeight, 1f)
-
-        for (i in 0..<resources.size) {
-            ResourceOnTrackCompose(resources[i])
-        }
-    }
-}
-
-@Composable
-fun <T> AppScope.DragTarget(
+private fun <T> ResourceOnTrackScope.DragTarget(
     modifier: Modifier,
     dataToDrop: T,
-    resourceOnTrack: VideoTrack.ResourceOnTrack,
     content: @Composable (() -> Unit)
 ) {
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
@@ -145,11 +145,10 @@ fun <T> AppScope.DragTarget(
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun AppScope.ResourceOnTrackCompose(resourceOnTrack: VideoTrack.ResourceOnTrack) {
+private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     DragTarget(
         modifier = Modifier.fillMaxHeight().width((resourceOnTrack.framesCount * DpInFrame).dp),
         dataToDrop = "",
-        resourceOnTrack = resourceOnTrack
     ) {
         BoxWithConstraints(
             modifier =
@@ -193,3 +192,4 @@ fun AppScope.ResourceOnTrackCompose(resourceOnTrack: VideoTrack.ResourceOnTrack)
         }
     }
 }
+
