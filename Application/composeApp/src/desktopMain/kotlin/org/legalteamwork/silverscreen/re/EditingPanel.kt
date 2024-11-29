@@ -39,8 +39,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.legalteamwork.silverscreen.command.CommandManager
-import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
+import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -100,7 +99,7 @@ object VideoEditor {
             val framesCount: Int,
         ) {
             // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
-            private var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
+            var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
 
             fun getRightBorder(): Int {
                 return position + framesCount - 1
@@ -123,101 +122,6 @@ object VideoEditor {
             fun updateOffset() {
                 logger.info { "Updating offset of video block..." }
                 localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
-            }
-
-            @Composable
-            fun <T> dragTarget(
-                modifier: Modifier,
-                dataToDrop: T,
-                content: @Composable (() -> Unit),
-            ) {
-                var currentPosition by remember { mutableStateOf(Offset.Zero) }
-                val currentState = localDragTargetInfo.component1()
-
-                Box(
-                    modifier =
-                        modifier
-                            .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
-                            .onGloballyPositioned {
-                                currentPosition = it.localToWindow(Offset.Zero)
-                            }
-                            .pointerInput(Unit) {
-                                detectDragGestures(onDragStart = {
-                                    currentState.dataToDrop = dataToDrop
-                                    currentState.isDragging = true
-                                    currentState.dragPosition = currentPosition + it
-                                    currentState.draggableComposable = content
-                                }, onDrag = { change, dragAmount ->
-                                    change.consume()
-                                    logger.debug { "Dragging video resource..." }
-                                    currentState.dragOffset = Offset(max(0f, currentState.dragOffset.x + dragAmount.x), 0f)
-                                }, onDragEnd = {
-                                    logger.debug { "Dragged video resource successfully" }
-                                    currentState.isDragging = false
-
-                                    val newPosition = (currentState.dragOffset.x / DpInFrame).roundToInt()
-                                    val moveResourceOnTrackCommand =
-                                        MoveResourceOnTrackCommand(this@ResourceOnTrack, VideoTrack, newPosition)
-                                    CommandManager.execute(moveResourceOnTrackCommand) // FIXME use application context
-                                }, onDragCancel = {
-                                    logger.warn { "Canceled dragging video resource" }
-                                    currentState.dragOffset = Offset.Zero
-                                    currentState.isDragging = false
-                                })
-                            },
-                ) {
-                    content()
-                }
-            }
-
-            @OptIn(ExperimentalResourceApi::class)
-            @Composable
-            fun compose() {
-                dragTarget(
-                    modifier = Modifier.fillMaxHeight().width((framesCount * DpInFrame).dp),
-                    dataToDrop = "",
-                ) {
-                    BoxWithConstraints(
-                        modifier =
-                            Modifier
-                                .fillMaxHeight()
-                                .width((framesCount * DpInFrame).dp)
-                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
-                    ) {
-                        val textHeight = min(20.dp, maxHeight)
-                        val previewHeight = min(75.dp, maxHeight - textHeight)
-                        val previewWidth = min(150.dp, minWidth)
-
-                        Column(
-                            modifier =
-                                Modifier
-                                    .padding(vertical = 10.dp),
-                        ) {
-                            Text(
-                                text = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .offset(x = 10.dp)
-                                        .height(textHeight),
-                                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-                            )
-                            Image(
-                                painter =
-                                    BitmapPainter(
-                                        remember {
-                                            File(videoResources[id].previewPath).inputStream().readAllBytes()
-                                                .decodeToImageBitmap()
-                                        },
-                                    ),
-                                contentDescription = videoResources[id].title.value,
-                                modifier =
-                                    Modifier
-                                        .width(previewWidth)
-                                        .height(previewHeight),
-                            )
-                        }
-                    }
-                }
             }
         }
 
@@ -244,27 +148,6 @@ object VideoEditor {
             logger.info { "Updating video offsets" }
             for (i in 0..<resourcesOnTrack.size)
                 resourcesOnTrack[i].updateOffset()
-        }
-
-        @Composable
-        fun compose(
-            trackHeight: Dp,
-            maxWidth: Dp,
-        ) {
-            val resources = remember { resourcesOnTrack }
-            logger.info { "Composing video resource" }
-            Box(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(trackHeight)
-                        .background(color = Color(0xFF545454), RoundedCornerShape(6.dp)), //Что за сущность?
-            ) {
-                markup(maxWidth, trackHeight, 1f)
-                for (i in 0..<resources.size) {
-                    resources[i].compose()
-                }
-            }
         }
 
         @OptIn(ExperimentalSerializationApi::class)
@@ -308,48 +191,6 @@ object VideoEditor {
         VideoTrack.videoResources.clear()
         VideoTrack.videoResources.addAll(savedVideoResource)
         logger.info { "Restoring video resources finished" }
-    }
-
-    @Composable
-    fun markup(
-        maxWidth: Dp,
-        trackHeight: Dp,
-        zoom: Float,
-    ) {
-        val shortMarkInterval = 10f * DpInFrame
-        val longMarkInterval = 100f * DpInFrame
-        logger.info { "Markup timeline..." }
-
-        Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val width = size.width
-                val height = size.height
-
-                drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-
-                for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                    val xPosition = i * shortMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.25f),
-                        end = Offset(xPosition, height * 0.75f),
-                        strokeWidth = 1f,
-                    )
-                }
-
-                for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                    val xPosition = i * longMarkInterval - 1
-
-                    drawLine(
-                        color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                        start = Offset(xPosition, height * 0.15f),
-                        end = Offset(xPosition, height * 0.85f),
-                        strokeWidth = 1f,
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -693,7 +534,7 @@ object AudioEditor {
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun EditingPanel() {
+fun AppScope.EditingPanel() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -773,7 +614,7 @@ fun EditingPanel() {
                         .padding(vertical = maxHeight * 0.05f),
                 verticalArrangement = Arrangement.spacedBy(maxHeight * 0.025f),
             ) {
-                VideoEditor.VideoTrack.compose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
                 AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
             }
             Slider.compose()
