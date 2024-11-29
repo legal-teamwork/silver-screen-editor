@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.command.global
+package org.legalteamwork.silverscreen.command.resource
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.command.CommandUndoSupport
