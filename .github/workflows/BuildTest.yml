@@ -60,4 +60,4 @@ jobs:
 
       - name: Tests
         working-directory: ./Application
-        run: ./gradlew test --no-daemon
+        run: ./gradlew test --info --no-daemon
