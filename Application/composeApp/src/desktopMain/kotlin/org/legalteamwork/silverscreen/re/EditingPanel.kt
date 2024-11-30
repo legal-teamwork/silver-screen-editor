@@ -41,6 +41,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
+import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
@@ -624,41 +625,47 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
         ) {
             val distance = 150.dp * DpInFrame
+            val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
+            val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
+            val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
+            val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth)
 
-            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
-                Row {
-                    for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
-                        Box(modifier = Modifier.width(distance).height(45.dp)) {
-                            Column {
-                                Box(modifier = Modifier.width(distance).height(25.dp)) {
-                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                                    if (i * 5 < 60) {
-                                        Text(
-                                            text = String.format("%ds", i * 5),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
-                                    } else {
-                                        Text(
-                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
+            Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+                    Row {
+                        for (i in 0 until (totalMaximumWidth / distance).toInt() + 1) {
+                            Box(modifier = Modifier.width(distance).height(45.dp)) {
+                                Column {
+                                    Box(modifier = Modifier.width(distance).height(25.dp)) {
+                                        Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                                        if (i * 5 < 60) {
+                                            Text(
+                                                text = String.format("%ds", i * 5),
+                                                fontSize = 15.sp,
+                                                color = Color.White,
+                                                modifier = Modifier.padding(start = 8.dp),
+                                            )
+                                        } else {
+                                            Text(
+                                                text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                                fontSize = 15.sp,
+                                                color = Color.White,
+                                                modifier = Modifier.padding(start = 8.dp),
+                                            )
+                                        }
                                     }
-                                }
-                                Box(modifier = Modifier.width(distance).height(20.dp)) {
-                                    Row {
-                                        for (i in 1..5) {
-                                            Row {
-                                                Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
-                                                Box(
-                                                    modifier =
+                                    Box(modifier = Modifier.width(distance).height(20.dp)) {
+                                        Row {
+                                            for (i in 1..5) {
+                                                Row {
+                                                    Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
+                                                    Box(
+                                                        modifier =
                                                         Modifier.width(
                                                             (distance - 10.dp) / 5,
                                                         ).height(20.dp).background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
-                                                )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -667,25 +674,20 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                         }
                     }
                 }
-            }
 
-            val tracksAmount = 2
-            val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
-            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
+                val tracksAmount = 2
+                val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
+                val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
 
-            Column(
-                modifier =
+                Column(
+                    modifier =
                     Modifier
-                        .padding(top = 55.dp).height(panelHeight - 100.dp)
-                        .horizontalScroll(scrollState),
-            ) {
-                val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
-                val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
-                val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
-                val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth, this@BoxWithConstraints.maxWidth)
-                VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
-                Box(modifier = Modifier.fillMaxWidth().height(10.dp))
-                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
+                        .padding(top = 55.dp).height(panelHeight - 100.dp),
+                ) {
+                    VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                    Box(modifier = Modifier.fillMaxWidth().height(10.dp))
+                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
+                }
             }
 
             Box(modifier = Modifier.padding(start = 304.dp)) {
