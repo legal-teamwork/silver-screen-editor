@@ -7,6 +7,10 @@ plugins {
     alias(libs.plugins.serialization)
 }
 
+tasks.register("test") {
+    dependsOn("desktopTest")
+}
+
 kotlin {
     jvm("desktop")
 
