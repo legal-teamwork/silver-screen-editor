@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: BuildTest
+name: Build and Run tests
 
 # Controls when the workflow will run
 on:
@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    name: Build
+    name: Build and Test
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -49,15 +49,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      #Permissions:
+      #Permission:
       - name: Make Gradle wrapper executable
         run: chmod +x ./Application/gradlew
       
       #Building:
-      - name: Build the project
+      - name: Build and Test the project
         working-directory: ./Application
         run: ./gradlew build --no-daemon
-
-      #- name: Tests
-      #  working-directory: ./Application
-      #  run: ./gradlew test --no-daemon
+      #If tests fail, build will not be completed!
