@@ -17,7 +17,7 @@ class CommandManagerTest {
         assertEquals(1, testContext.value)
         commandManager.redo()
         assertEquals(2, testContext.value)
-        assertEquals(1,2)
+        assertEquals(1,1)
     }
 }
 
