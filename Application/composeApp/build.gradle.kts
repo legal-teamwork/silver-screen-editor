@@ -16,12 +16,6 @@ kotlin {
 
     sourceSets {
         val desktopMain by getting
-        val desktopTest by getting {
-            dependencies {
-                implementation(kotlin("test")) // Базовые функции тестирования
-                implementation(kotlin("test-junit")) // Для запуска JUnit-тестов
-            }
-        }
 
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -63,8 +57,3 @@ compose.desktop {
         }
     }
 }
-
-// Убедитесь, что все тесты запускаются
-//tasks.test {
-//    useJUnitPlatform()
-//}
