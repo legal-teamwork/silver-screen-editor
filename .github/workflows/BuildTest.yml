@@ -54,10 +54,6 @@ jobs:
         run: chmod +x ./Application/gradlew
       
       #Building:
-      - name: Build the project
+      - name: Build and Test the project
         working-directory: ./Application
         run: ./gradlew build --no-daemon
-
-      - name: Tests
-        working-directory: ./Application
-        run: ./gradlew test --info --no-daemon
