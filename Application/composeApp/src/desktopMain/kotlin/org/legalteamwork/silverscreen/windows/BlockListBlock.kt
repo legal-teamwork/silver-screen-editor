@@ -30,7 +30,6 @@ class BlockListBlock(
 
     override val content: @Composable DimensionsScope.() -> Unit
         get() = {
-            println("Root: ($width, $height)")
             Box(Modifier.fillMaxSize()) {
                 when (blockListType) {
                     BlockListType.ROW -> Row {
@@ -97,7 +96,6 @@ class BlockListBlock(
     private fun divider(index: Int, width: Dp, height: Dp) = Box(
         Modifier
             .size(width, height)
-            .background(Color.Red)
             .pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->
                     change.consume()
