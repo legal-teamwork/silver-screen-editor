@@ -6,6 +6,7 @@ import org.bytedeco.ffmpeg.global.avutil
 import org.bytedeco.javacv.*
 import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.save.Project
+import org.legalteamwork.silverscreen.save.Resolution
 import java.awt.Graphics2D
 import java.awt.Image
 import java.awt.image.BufferedImage
@@ -46,8 +47,8 @@ private fun resizeImage(originalImage: BufferedImage, targetWidth: Int, targetHe
 class ExportRenderer {
     fun export(filename: String) {
         val fps = Project.get { fps }
-        val width = Project.get { resolution.width }
-        val height = Project.get { resolution.height }
+        val width = Project.get { Resolution.available[resolution].width }
+        val height = Project.get { Resolution.available[resolution].height }
         val resources = VideoEditor.VideoTrack.resourcesOnTrack.sortedBy { it.position }
         val length = resources.lastOrNull()?.run { position + framesCount } ?: 0
         logger.info { "export start; total frames: $length" }

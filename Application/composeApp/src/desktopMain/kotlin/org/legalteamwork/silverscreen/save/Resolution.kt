@@ -1,13 +1,9 @@
 package org.legalteamwork.silverscreen.save
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
-
-@Serializable
 data class Resolution(
     val width: Int,
     val height: Int,
-    @Transient val repr: String = "${width}x${height}"
+    val repr: String = "${width}x${height}"
 ) {
     override fun toString() = repr
 
@@ -20,6 +16,6 @@ data class Resolution(
             Resolution(3840, 2160, "3840x2160 (Ultra HD; 4K; 16:9)"),
             Resolution(7680, 4320, "7680x4320 (Full Ultra HD; 8K; 16:9)")
         )
-        val default = available[2]
+        const val default = 2
     }
 }

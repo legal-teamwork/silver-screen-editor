@@ -52,6 +52,7 @@ private inline fun<T> InputFieldWithOptions(
     targetVar: MutableState<T>,
     options: List<T>,
     crossinline fromString: (String) -> T? = { null },
+    crossinline toString: (T) -> Any? = { it },
     enabled: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -69,7 +70,7 @@ private inline fun<T> InputFieldWithOptions(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
-            value = targetVar.value.toString(),
+            value = toString(targetVar.value).toString(),
             onValueChange = { newValue: String ->
                 fromString(newValue)?.let {
                     logger.info { "$title parameter change via input: $it" }
@@ -100,7 +101,7 @@ private inline fun<T> InputFieldWithOptions(
                             expanded = false
                         },
                     ) {
-                        Text(v.toString(), color = Color.White)
+                        Text(toString(v).toString(), color = Color.White)
                     }
                 }
             }
@@ -114,7 +115,7 @@ object ProjectSettingsWindow {
     var opened = mutableStateOf(false)
     private val mBitrate = mutableStateOf(14100)
     private val mFPS = mutableStateOf(30.0)
-    private val mResolution = mutableStateOf(Resolution.default)
+    private val mResolution = mutableStateOf(2)
 
     fun sync() {
         logger.info { "Loading project parameters into settings window..." }
@@ -167,7 +168,8 @@ object ProjectSettingsWindow {
                             title = Strings.RESOLUTION,
                             targetVar = mResolution,
                             enabled = false,
-                            options = Resolution.available
+                            options = (0..<Resolution.available.size).toList(),
+                            toString = { Resolution.available[it] }
                         )
                     }
 
