@@ -15,6 +15,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.Project
+import org.legalteamwork.silverscreen.save.Resolution
 
 private val logger = KotlinLogging.logger {}
 
@@ -109,19 +110,11 @@ private inline fun<T> InputFieldWithOptions(
 
 object ProjectSettingsWindow {
     val fpsOptions = listOf(30.0, 60.0, 90.0, 120.0, 240.0)
-    val resolutionOptions = listOf(
-        "640x480 (SD; 480p; 4:3)",
-        "1280x720 (HD; 720p; 16:9)",
-        "1920x1080 (Full HD; 1080p; 16:9)",
-        "2560x1440 (Quad HD; 1440p; 16:9)",
-        "3840x2160 (Ultra HD; 4K; 16:9)",
-        "7680x4320 (Full Ultra HD; 8K; 16:9)"
-    )
 
     var opened = mutableStateOf(false)
     private val mBitrate = mutableStateOf(14100)
     private val mFPS = mutableStateOf(30.0)
-    private val mResolution = mutableStateOf(resolutionOptions[0])
+    private val mResolution = mutableStateOf(Resolution.default)
 
     fun sync() {
         logger.info { "Loading project parameters into settings window..." }
@@ -174,7 +167,7 @@ object ProjectSettingsWindow {
                             title = Strings.RESOLUTION,
                             targetVar = mResolution,
                             enabled = false,
-                            options = resolutionOptions
+                            options = Resolution.available
                         )
                     }
 

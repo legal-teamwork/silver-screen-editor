@@ -11,7 +11,7 @@ import org.legalteamwork.silverscreen.rm.resource.VideoResource
 class ProjectData {
     var bitrate: Int
     var fps: Double
-    var resolution: String
+    var resolution: Resolution
 
     var resources: FolderResource
     var resourcesOnTrack: List<ResourceOnTrack>
@@ -21,7 +21,7 @@ class ProjectData {
         // project initialization
         bitrate = 6000
         fps = 30.0
-        resolution = "1920x1080 (Full HD; 1080p; 16:9)"
+        resolution = Resolution.default
         resources = FolderResource.defaultRoot
         resourcesOnTrack = listOf()
         trackResources = listOf()
