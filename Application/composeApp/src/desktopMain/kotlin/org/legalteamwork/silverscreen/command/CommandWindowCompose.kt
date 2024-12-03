@@ -1,6 +1,7 @@
 package org.legalteamwork.silverscreen.command
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,8 +28,35 @@ fun AppScope.CommandWindowCompose() {
         )
 
         LazyColumn(Modifier.fillMaxSize()) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { commandManager.seek(0) },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        Modifier
+                            .padding(Dimens.COMMANDS_ICON_START_OFFSET, Dimens.COMMANDS_ICON_END_OFFSET)
+                            .size(Dimens.COMMANDS_ICON_SIZE)
+                            .background(
+                                CommandWindowTheme.COMMANDS_ICON_MAJOR_COLOR
+                            )
+
+                    )
+                    Text(
+                        text = "Reset",
+                        color = CommandWindowTheme.TEXT_COLOR
+                    )
+                }
+            }
             itemsIndexed(commandManager.stack, key = { _, item -> item.hashCode() }) { index, item ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { commandManager.seek(index + 1) },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Box(
                         Modifier
                             .padding(Dimens.COMMANDS_ICON_START_OFFSET, Dimens.COMMANDS_ICON_END_OFFSET)

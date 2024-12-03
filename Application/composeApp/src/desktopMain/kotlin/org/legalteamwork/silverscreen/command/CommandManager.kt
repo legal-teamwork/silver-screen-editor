@@ -22,7 +22,7 @@ class CommandManager(
     fun undo() {
         var pointerEditor by pointer
 
-        if (pointerEditor > 1)
+        if (pointerEditor >= 1)
             stack[--pointerEditor].undo()
     }
 
@@ -31,6 +31,18 @@ class CommandManager(
 
         if (stack.size > 0 && pointerEditor < stack.size)
             stack[pointerEditor++].execute()
+    }
+
+    fun seek(newPointer: Int) {
+        assert(newPointer in 0..stack.size)
+
+        while (pointer.value < newPointer) {
+            redo()
+        }
+
+        while (pointer.value > newPointer) {
+            undo()
+        }
     }
 
     private fun addCommandToStack(command: CommandUndoSupport) {
