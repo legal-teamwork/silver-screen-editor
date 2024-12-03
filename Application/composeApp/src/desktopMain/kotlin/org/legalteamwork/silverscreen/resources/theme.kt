@@ -104,8 +104,6 @@ object MoveToWindowTheme {
     val TEXT_COLOR = Color.White
 }
 
-object CopyToWindowTheme {
-    val BACKGROUND_COLOR = Color(0xFF222222)
-    val BORDER_COLOR = Color.LightGray
+object CommandWindowTheme {
     val TEXT_COLOR = Color.White
 }

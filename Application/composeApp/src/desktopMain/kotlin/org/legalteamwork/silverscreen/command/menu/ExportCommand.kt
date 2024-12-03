@@ -6,7 +6,8 @@ import org.legalteamwork.silverscreen.command.commandLog
 import org.legalteamwork.silverscreen.resources.Strings
 
 class ExportCommand : Command {
-
+    override val title: String = Strings.FILE_EXPORT_ITEM
+    override val description: String = Strings.FILE_EXPORT_ITEM
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

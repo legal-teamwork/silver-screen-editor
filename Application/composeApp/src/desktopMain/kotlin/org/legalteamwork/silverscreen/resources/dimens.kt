@@ -1,6 +1,7 @@
 package org.legalteamwork.silverscreen.resources
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object Dimens {
     //In ResourceManager.kt
@@ -36,4 +37,8 @@ object Dimens {
     val MARGIN_SIZE = 6.dp
     val DIVIDER_SIZE = 8.dp
     val WINDOW_CORNER_RADIUS = 8.dp
+
+    // In command/CommandWindowCompose.kt
+    val COMMAND_WINDOW_MARGIN = 8.dp
+    val HEADER_TEXT_SIZE = 24.sp
 }

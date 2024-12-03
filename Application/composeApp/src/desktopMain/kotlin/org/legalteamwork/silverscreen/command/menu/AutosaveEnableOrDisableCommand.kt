@@ -7,7 +7,10 @@ import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.EditorSettings
 
 class AutosaveEnableOrDisableCommand : Command {
-
+    override val title: String =
+        "${Strings.FILE_AUTO_SAVE_ITEM_ON}/${Strings.FILE_AUTO_SAVE_ITEM_OFF}"
+    override val description: String =
+        "${Strings.FILE_AUTO_SAVE_ITEM_ON}/${Strings.FILE_AUTO_SAVE_ITEM_OFF}"
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

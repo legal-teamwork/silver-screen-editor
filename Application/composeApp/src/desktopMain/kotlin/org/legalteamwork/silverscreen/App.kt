@@ -6,11 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
+import org.legalteamwork.silverscreen.command.CommandWindowCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
@@ -49,10 +47,7 @@ fun AppScope.App() {
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                     )
                 ) {
-                    Column {
-                        Text("TODO", color = Color.Red, fontSize = 38.sp)
-                        Text("Commands log window", color = Color.Red, fontSize = 18.sp)
-                    }
+                    CommandWindowCompose()
                 }
             }
         ),
@@ -74,3 +69,4 @@ fun AppScope.App() {
         }
     }
 }
+
