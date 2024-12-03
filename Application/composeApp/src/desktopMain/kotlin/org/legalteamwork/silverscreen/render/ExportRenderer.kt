@@ -10,6 +10,8 @@ import org.legalteamwork.silverscreen.save.Resolution
 import java.awt.Graphics2D
 import java.awt.Image
 import java.awt.image.BufferedImage
+import java.nio.ByteBuffer
+import kotlin.math.max
 
 private val logger = KotlinLogging.logger {}
 
@@ -44,14 +46,22 @@ private fun resizeImage(originalImage: BufferedImage, targetWidth: Int, targetHe
     return resizedImage
 }
 
+/*
+known issues:
+- слияние аудио работает хорошо только с видео, у которых аудио дорожка в одном и том же формате
+- добавление тишины работает плохо, появляются посторонние шумы и щелчки
+
+скорее всего аудио нужно будет прогонять через отдельную порцию ffmpeg, так чтобы все было в одном и том же формате
+подобным образом и генерировать тишину/склеивать получившееся
+но пока что сойдет
+ */
 class ExportRenderer {
     fun export(filename: String) {
         val fps = Project.get { fps }
         val width = Project.get { Resolution.available[resolution].width }
         val height = Project.get { Resolution.available[resolution].height }
         val resources = VideoEditor.VideoTrack.resourcesOnTrack.sortedBy { it.position }
-        val length = resources.lastOrNull()?.run { position + framesCount } ?: 0
-        logger.info { "export start; total frames: $length" }
+        logger.info { "export start; expected total frames: ${resources.lastOrNull()?.run { position + framesCount } ?: 0}" }
 
         val recorder = FFmpegFrameRecorder(filename, width, height)
         recorder.format = "mp4"
@@ -70,14 +80,33 @@ class ExportRenderer {
         }
         recorder.start()
 
+        fun next(grabber: FFmpegFrameGrabber): Frame {
+            while (true) {
+                val frame = grabber.grab()
+                //println(frame.type)
+                if (frame.type == Frame.Type.AUDIO)
+                    recorder.record(frame)
+                else
+                    return frame
+            }
+        }
+
         val converter = Java2DFrameConverter()
         var lastFrame = 0
         resources.forEach { resource ->
-            val blankFrames = resource.position - lastFrame
-            logger.info { "export: padding $blankFrames blank frames"}
+            val blankFrames = max(0, resource.position - lastFrame)
+
             repeat(blankFrames) {
                 recorder.record(converter.convert(BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)))
             }
+            val length = (recorder.sampleRate * blankFrames / fps).toInt()
+            println("$blankFrames $length")
+            val bufferList = mutableListOf<ByteBuffer>()
+            repeat(recorder.audioChannels) {
+                val buffer = ByteBuffer.allocate(length)
+                bufferList.add(buffer)
+            }
+            recorder.recordSamples(*bufferList.toTypedArray())
             lastFrame = resource.position
 
             val videoResource = VideoEditor.getVideoResources()[resource.id]
@@ -85,17 +114,17 @@ class ExportRenderer {
             frameGrabber.start()
             val sourceFPS = frameGrabber.frameRate
 
+            var frames = 0
             var timestamp = 0L
             var cachedFrame: Frame? = null
             var lastSourceFrame = -1
-
             while (true) {
                 val nextFrame = (timestamp * sourceFPS / 1000).toInt()
                 if (nextFrame >= resource.framesCount)
                     break
                 if (nextFrame > lastSourceFrame) {
-                    repeat(nextFrame - lastSourceFrame - 1) { frameGrabber.grabImage() }
-                    val frame = frameGrabber.grabImage()
+                    repeat(nextFrame - lastSourceFrame - 1) { next(frameGrabber) }
+                    val frame = next(frameGrabber)
                     val image = converter.convert(frame)
                     val resizedImage = resizeImage(image, width, height)
                     val resizedFrame = converter.convert(resizedImage)
@@ -104,10 +133,12 @@ class ExportRenderer {
                 }
                 recorder.record(cachedFrame)
                 timestamp += (1000 / fps).toLong()
-                lastFrame++
+                frames++
             }
             frameGrabber.stop()
             frameGrabber.close()
+            logger.info { "export: $blankFrames padded frames, $frames actual frames" }
+            lastFrame += frames
         }
         logger.info { "export done" }
         recorder.stop()
