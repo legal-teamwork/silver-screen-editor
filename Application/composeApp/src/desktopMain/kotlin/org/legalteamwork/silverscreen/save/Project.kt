@@ -1,5 +1,7 @@
 package org.legalteamwork.silverscreen.save
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -16,7 +18,7 @@ class ProjectData {
     var fps: Double = 30.0
     var resolution: Int = Resolution.default
 
-    var resources: FolderResource = FolderResource.defaultRoot
+    var resources: FolderResource = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
     var resourcesOnTrack: List<ResourceOnTrack> = listOf()
     var trackResources: List<VideoResource> = listOf()
 

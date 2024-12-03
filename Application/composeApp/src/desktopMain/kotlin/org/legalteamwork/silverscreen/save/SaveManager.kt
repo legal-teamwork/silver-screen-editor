@@ -20,9 +20,7 @@ open class SaveManager<T: Any>(private val type: KClass<T>) {
     }
 
     fun get(): T = value!!
-    fun change(action: T.() -> Unit) {
-        value!!.apply(action)
-    }
+    fun change(action: T.() -> Unit) { value!!.apply(action) }
     fun<U> get(action: T.() -> U) = value!!.run(action)
 
     open fun save() {
