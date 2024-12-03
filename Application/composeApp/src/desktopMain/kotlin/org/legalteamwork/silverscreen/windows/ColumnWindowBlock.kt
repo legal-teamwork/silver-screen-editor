@@ -4,6 +4,8 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -38,16 +40,19 @@ class ColumnWindowBlock(
 
     @Composable
     private fun divider(index: Int, width: Dp, height: Dp) = Box(
-        Modifier.size(width, height).pointerInput(Unit) {
-            detectDragGestures { change, dragAmount ->
-                change.consume()
+        Modifier
+            .size(width, height)
+            .pointerHoverIcon(PointerIcon.Hand)
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consume()
 
-                val currSize = blocks[index].deltaHeightState.value + dragAmount.y.dp
-                val nextSize = blocks[index + 1].deltaHeightState.value - dragAmount.y.dp
-                blocks[index].deltaHeightState.component2().invoke(currSize)
-                blocks[index + 1].deltaHeightState.component2().invoke(nextSize)
-            }
-        })
+                    val currSize = blocks[index].deltaHeightState.value + dragAmount.y.dp
+                    val nextSize = blocks[index + 1].deltaHeightState.value - dragAmount.y.dp
+                    blocks[index].deltaHeightState.component2().invoke(currSize)
+                    blocks[index + 1].deltaHeightState.component2().invoke(nextSize)
+                }
+            })
 
     companion object {
         fun calculateDimension(
