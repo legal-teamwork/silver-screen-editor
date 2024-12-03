@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 abstract class AbstractWindowBlock : WindowBlock {
-    abstract override val initialSize: Float
+    abstract override val weight: Float
     override var deltaWidthState: MutableState<Dp> = mutableStateOf(0.dp)
     override var deltaHeightState: MutableState<Dp> = mutableStateOf(0.dp)
 }

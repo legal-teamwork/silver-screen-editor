@@ -9,12 +9,10 @@ fun terminal(
 
 fun row(
     initialSize: Float,
-    initialSizeType: InitialSizeType,
     vararg blocks: WindowBlock
-) = BlockListBlock(initialSize, initialSizeType, blocks.asList(), BlockListType.ROW)
+) = BlockListBlock(initialSize, blocks.asList(), BlockListType.ROW)
 
 fun column(
     initialSize: Float,
-    initialSizeType: InitialSizeType,
     vararg blocks: WindowBlock
-) = BlockListBlock(initialSize, initialSizeType, blocks.asList(), BlockListType.COLUMN)
+) = BlockListBlock(initialSize, blocks.asList(), BlockListType.COLUMN)

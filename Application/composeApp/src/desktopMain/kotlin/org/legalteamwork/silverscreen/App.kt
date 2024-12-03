@@ -23,10 +23,8 @@ import org.legalteamwork.silverscreen.windows.*
 fun AppScope.App() {
     val windowBlock = column(
         1f,
-        InitialSizeType.PARTIAL,
         row(
             0.7f,
-            InitialSizeType.PARTIAL,
             terminal(0.3f) {
                 Box(
                     Modifier.fillMaxSize().background(

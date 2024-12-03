@@ -10,8 +10,7 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
 
 class BlockListBlock(
-    override val initialSize: Float,
-    val initialSizeType: InitialSizeType,
+    override val weight: Float,
     val blocks: List<WindowBlock>,
     val blockListType: BlockListType
 ) : AbstractWindowBlock() {
@@ -22,24 +21,14 @@ class BlockListBlock(
                     BlockListType.ROW -> Row {
                         for ((index, block) in blocks.withIndex()) {
                             val maxWidth = width - Dimens.DIVIDER_SIZE * (blocks.size - 1)
-                            val blockWidth = calculateDimension(
-                                initialSizeType,
-                                maxWidth,
-                                block,
-                                blocks
-                            )
+                            val blockWidth = calculateDimension(maxWidth, block, blocks)
                             val blockHeight = height
                             val dimensionsScope = DimensionsScope(
                                 blockWidth + block.deltaWidthState.value,
                                 blockHeight + block.deltaHeightState.value
                             )
 
-                            Box(
-                                Modifier.size(
-                                    dimensionsScope.width,
-                                    dimensionsScope.height
-                                )
-                            ) {
+                            Box(Modifier.size(dimensionsScope.width, dimensionsScope.height)) {
                                 block.content.invoke(dimensionsScope)
                             }
 
@@ -51,24 +40,14 @@ class BlockListBlock(
                         for ((index, block) in blocks.withIndex()) {
                             val maxHeight = height - Dimens.DIVIDER_SIZE * (blocks.size - 1)
                             val blockWidth = width
-                            val blockHeight = calculateDimension(
-                                initialSizeType,
-                                maxHeight,
-                                block,
-                                blocks
-                            )
+                            val blockHeight = calculateDimension(maxHeight, block, blocks)
 
                             val dimensionsScope = DimensionsScope(
                                 blockWidth + block.deltaWidthState.value,
                                 blockHeight + block.deltaHeightState.value
                             )
 
-                            Box(
-                                Modifier.size(
-                                    dimensionsScope.width,
-                                    dimensionsScope.height
-                                )
-                            ) {
+                            Box(Modifier.size(dimensionsScope.width, dimensionsScope.height)) {
                                 block.content.invoke(dimensionsScope)
                             }
 
@@ -81,44 +60,31 @@ class BlockListBlock(
 
     @Composable
     private fun divider(index: Int, width: Dp, height: Dp) = Box(
-        Modifier
-            .size(width, height)
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
+        Modifier.size(width, height).pointerInput(Unit) {
+            detectDragGestures { change, dragAmount ->
+                change.consume()
 
-                    when (blockListType) {
-                        BlockListType.ROW -> {
-                            val currSize = blocks[index].deltaWidthState.value + dragAmount.x.dp
-                            val nextSize = blocks[index + 1].deltaWidthState.value - dragAmount.x.dp
-                            blocks[index].deltaWidthState.component2().invoke(currSize)
-                            blocks[index + 1].deltaWidthState.component2().invoke(nextSize)
-                        }
-                        BlockListType.COLUMN -> {
-                            val currSize = blocks[index].deltaHeightState.value + dragAmount.y.dp
-                            val nextSize = blocks[index + 1].deltaHeightState.value - dragAmount.y.dp
-                            blocks[index].deltaHeightState.component2().invoke(currSize)
-                            blocks[index + 1].deltaHeightState.component2().invoke(nextSize)
-                        }
+                when (blockListType) {
+                    BlockListType.ROW -> {
+                        val currSize = blocks[index].deltaWidthState.value + dragAmount.x.dp
+                        val nextSize = blocks[index + 1].deltaWidthState.value - dragAmount.x.dp
+                        blocks[index].deltaWidthState.component2().invoke(currSize)
+                        blocks[index + 1].deltaWidthState.component2().invoke(nextSize)
+                    }
+
+                    BlockListType.COLUMN -> {
+                        val currSize = blocks[index].deltaHeightState.value + dragAmount.y.dp
+                        val nextSize = blocks[index + 1].deltaHeightState.value - dragAmount.y.dp
+                        blocks[index].deltaHeightState.component2().invoke(currSize)
+                        blocks[index + 1].deltaHeightState.component2().invoke(nextSize)
                     }
                 }
             }
-    )
+        })
 
     companion object {
         fun calculateDimension(
-            initialSizeType: InitialSizeType,
-            maxDimension: Dp,
-            block: WindowBlock,
-            blocks: List<WindowBlock>
-        ) = when (initialSizeType) {
-            InitialSizeType.DP -> {
-                block.initialSize.dp
-            }
-
-            InitialSizeType.PARTIAL -> {
-                maxDimension * block.initialSize / blocks.sumOf { it.initialSize.toDouble() }.toFloat()
-            }
-        }
+            maxDimension: Dp, block: WindowBlock, blocks: List<WindowBlock>
+        ) = maxDimension * block.weight / blocks.sumOf { it.weight.toDouble() }.toFloat()
     }
 }
