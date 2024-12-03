@@ -9,6 +9,4 @@ interface WindowBlock {
     val deltaWidthState: MutableState<Dp>
     val deltaHeightState: MutableState<Dp>
     val content: @Composable DimensionsScope.() -> Unit
-
-    fun configure(deltaWidthListAdd: (MutableState<Dp>) -> Unit, deltaHeightListAdd: (MutableState<Dp>) -> Unit)
 }

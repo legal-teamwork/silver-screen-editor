@@ -9,12 +9,4 @@ abstract class AbstractWindowBlock : WindowBlock {
     abstract override val initialSize: Float
     override var deltaWidthState: MutableState<Dp> = mutableStateOf(0.dp)
     override var deltaHeightState: MutableState<Dp> = mutableStateOf(0.dp)
-
-    override fun configure(
-        deltaWidthListAdd: (MutableState<Dp>) -> Unit,
-        deltaHeightListAdd: (MutableState<Dp>) -> Unit
-    ) {
-        deltaWidthListAdd.invoke(deltaWidthState)
-        deltaHeightListAdd.invoke(deltaHeightState)
-    }
 }
