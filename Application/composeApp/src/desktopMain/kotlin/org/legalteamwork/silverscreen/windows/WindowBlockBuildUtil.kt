@@ -3,16 +3,15 @@ package org.legalteamwork.silverscreen.windows
 import androidx.compose.runtime.Composable
 
 fun terminal(
-    initialSize: Float,
     content: @Composable DimensionsScope.() -> Unit
-) = TerminalBlock(initialSize, content)
+): WindowBlock = TerminalBlock(content)
 
 fun row(
-    initialSize: Float,
-    vararg blocks: WindowBlock
-) = RowWindowBlock(initialSize, blocks.asList())
+    vararg blocks: BlockWithWeight
+): WindowBlock = RowWindowBlock(blocks.asList())
 
 fun column(
-    initialSize: Float,
-    vararg blocks: WindowBlock
-) = ColumnWindowBlock(initialSize, blocks.asList())
+    vararg blocks: BlockWithWeight
+): WindowBlock = ColumnWindowBlock(blocks.asList())
+
+infix fun Float.with(block: WindowBlock): BlockWithWeight = BlockWithWeight(this, block)

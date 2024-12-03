@@ -12,51 +12,38 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
 
 class ColumnWindowBlock(
-    override val weight: Float,
-    private val blocks: List<WindowBlock>,
-) : AbstractWindowBlock() {
-    override val content: @Composable DimensionsScope.() -> Unit
-        get() = {
-            Box(Modifier.fillMaxSize()) {
-                Column {
-                    for ((index, block) in blocks.withIndex()) {
-                        val maxHeight = height - Dimens.DIVIDER_SIZE * (blocks.size - 1)
-                        val blockWidth = width
-                        val blockHeight = calculateDimension(maxHeight, block, blocks)
+    private val blocksWithHeights: List<BlockWithWeight>,
+) : ListWindowBlock(blocksWithHeights) {
+    override fun calculateInitialWidth(width: Dp, weight: Float): Dp = width
 
-                        val dimensionsScope = DimensionsScope(
-                            blockWidth + block.deltaWidthState.value, blockHeight + block.deltaHeightState.value
-                        )
+    override fun calculateInitialHeight(height: Dp, weight: Float): Dp {
+        val maxSize = height - Dimens.DIVIDER_SIZE * (blocksWithHeights.size - 1)
+        val weightRatio = weight / blocksWithHeights.sumOf { it.weight.toDouble() }.toFloat()
 
-                        Box(Modifier.size(dimensionsScope.width, dimensionsScope.height)) {
-                            block.content.invoke(dimensionsScope)
-                        }
+        return maxSize * weightRatio
+    }
 
-                        if (index != blocks.lastIndex) divider(index, width, Dimens.DIVIDER_SIZE)
+    override val divider: @Composable (index: Int, width: Dp, height: Dp) -> Unit = { index, width, _ ->
+        Box(
+            Modifier
+                .size(width, Dimens.DIVIDER_SIZE)
+                .pointerHoverIcon(PointerIcon.Hand)
+                .pointerInput(Unit) {
+                    detectDragGestures { change, dragAmount ->
+                        change.consume()
+
+                        dividerYOffsets[index + 1].component2().invoke(dividerYOffsets[index + 1].value + dragAmount.y.dp)
                     }
-                }
+                })
+    }
+
+    override val listComposable: @Composable DimensionsScope.(content: @Composable DimensionsScope.() -> Unit) -> Unit = { content ->
+        Box(Modifier.fillMaxSize()) {
+            Column {
+                content()
             }
         }
-
-    @Composable
-    private fun divider(index: Int, width: Dp, height: Dp) = Box(
-        Modifier
-            .size(width, height)
-            .pointerHoverIcon(PointerIcon.Hand)
-            .pointerInput(Unit) {
-                detectDragGestures { change, dragAmount ->
-                    change.consume()
-
-                    val currSize = blocks[index].deltaHeightState.value + dragAmount.y.dp
-                    val nextSize = blocks[index + 1].deltaHeightState.value - dragAmount.y.dp
-                    blocks[index].deltaHeightState.component2().invoke(currSize)
-                    blocks[index + 1].deltaHeightState.component2().invoke(nextSize)
-                }
-            })
-
-    companion object {
-        fun calculateDimension(
-            maxDimension: Dp, block: WindowBlock, blocks: List<WindowBlock>
-        ) = maxDimension * block.weight / blocks.sumOf { it.weight.toDouble() }.toFloat()
     }
+
+    override fun adaptOffsets(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
 }

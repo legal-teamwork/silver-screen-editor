@@ -20,10 +20,8 @@ import org.legalteamwork.silverscreen.windows.*
 @Composable
 fun AppScope.App() {
     val windowBlock = column(
-        1f,
-        row(
-            0.7f,
-            terminal(0.3f) {
+        1f with row(
+            0.42f with terminal {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -32,7 +30,7 @@ fun AppScope.App() {
                     ResourceManagerCompose()
                 }
             },
-            terminal(0.6f) {
+            0.42f with terminal {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -41,7 +39,7 @@ fun AppScope.App() {
                     VideoPanel.compose()
                 }
             },
-            terminal(0.1f) {
+            0.16f with terminal {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -51,7 +49,7 @@ fun AppScope.App() {
                 }
             }
         ),
-        terminal(0.3f) {
+        0.3f with terminal {
             Box(
                 Modifier.fillMaxSize().background(
                     AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
