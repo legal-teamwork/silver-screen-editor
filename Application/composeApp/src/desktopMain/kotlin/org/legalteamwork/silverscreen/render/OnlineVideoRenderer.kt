@@ -110,12 +110,13 @@ class OnlineVideoRenderer : Closeable {
      * @return Nullable FFMPEG [Frame] object, null if no frame found
      */
     fun grabVideoFrame(frameNumber: Int): Frame? = frameGrabber?.let { frameGrabber ->
-        if (frameNumber > videoResource!!.numberOfFrames)
-            null
-        else if (frameGrabber.frameNumber <= frameNumber) {
+        if (frameGrabber.frameNumber <= frameNumber) {
+            var lastFrameNumber = frameGrabber.frameNumber
             while (frameGrabber.frameNumber < frameNumber) {
                 logger.debug { "Moving forwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
                 frameGrabber.grabImage()
+                if (lastFrameNumber == frameGrabber.frameNumber) return@let null
+                lastFrameNumber = frameGrabber.frameNumber
             }
 
             cachedPreviousFrame = frameGrabber.grabImage()
