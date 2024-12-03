@@ -18,7 +18,7 @@ class ProjectData {
     var fps: Double = 30.0
     var resolution: Int = Resolution.default
 
-    var resources: FolderResource = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+    var resources: FolderResource = FolderResource.createRoot()
     var resourcesOnTrack: List<ResourceOnTrack> = listOf()
     var trackResources: List<VideoResource> = listOf()
 

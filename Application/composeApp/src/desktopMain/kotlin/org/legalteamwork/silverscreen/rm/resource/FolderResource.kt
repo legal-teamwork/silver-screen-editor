@@ -49,4 +49,8 @@ class FolderResource(
                 child.assignParents()
         }
     }
+
+    companion object {
+        fun createRoot() = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+    }
 }
