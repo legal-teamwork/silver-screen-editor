@@ -41,4 +41,7 @@ object Dimens {
     // In command/CommandWindowCompose.kt
     val COMMAND_WINDOW_MARGIN = 8.dp
     val HEADER_TEXT_SIZE = 24.sp
+    val COMMANDS_ICON_SIZE = 5.dp
+    val COMMANDS_ICON_START_OFFSET = 15.dp
+    val COMMANDS_ICON_END_OFFSET = 15.dp
 }

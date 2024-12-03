@@ -106,4 +106,7 @@ object MoveToWindowTheme {
 
 object CommandWindowTheme {
     val TEXT_COLOR = Color.White
+
+    val COMMANDS_ICON_MAJOR_COLOR = Color.Green
+    val COMMANDS_ICON_MINOR_COLOR = Color.Red
 }

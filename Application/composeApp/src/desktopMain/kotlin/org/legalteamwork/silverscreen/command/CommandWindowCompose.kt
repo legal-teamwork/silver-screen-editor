@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -27,11 +28,16 @@ fun AppScope.CommandWindowCompose() {
 
         LazyColumn(Modifier.fillMaxSize()) {
             itemsIndexed(commandManager.stack, key = { _, item -> item.hashCode() }) { index, item ->
-                Row {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         Modifier
-                            .size(10.dp)
-                            .background(if (index < commandManager.pointer.value) Color.Green else Color.Gray)
+                            .padding(Dimens.COMMANDS_ICON_START_OFFSET, Dimens.COMMANDS_ICON_END_OFFSET)
+                            .size(Dimens.COMMANDS_ICON_SIZE)
+                            .background(
+                                if (index < commandManager.pointer.value) CommandWindowTheme.COMMANDS_ICON_MAJOR_COLOR
+                                else CommandWindowTheme.COMMANDS_ICON_MINOR_COLOR
+                            )
+
                     )
                     Text(
                         text = item.title,
