@@ -25,6 +25,8 @@ data class TestContext(var value: Int)
 private class IncrementCommand(
     private val testContext: TestContext
 ) : CommandUndoSupport {
+    override val title: String = ""
+    override val description: String = ""
 
     override fun execute() {
         testContext.value++
@@ -33,5 +35,4 @@ private class IncrementCommand(
     override fun undo() {
         testContext.value--
     }
-
 }
