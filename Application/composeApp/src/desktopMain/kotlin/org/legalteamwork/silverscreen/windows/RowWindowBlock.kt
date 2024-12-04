@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -35,7 +37,14 @@ class RowWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        dividerXOffsets[index + 1].component2().invoke(dividerXOffsets[index + 1].value + dragAmount.x.dp)
+                        var increaseDelta by widthDelta[index]
+                        increaseDelta += dragAmount.x.dp
+
+                        val lowerIndices = (index + 1)..widthDelta.lastIndex
+                        for (i in lowerIndices) {
+                            var lowerDelta by widthDelta[i]
+                            lowerDelta -= dragAmount.x.dp / lowerIndices.count()
+                        }
                     }
                 })
     }
@@ -48,5 +57,5 @@ class RowWindowBlock(
         }
     }
 
-    override fun adaptOffsets(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
+    override fun adaptDeltas(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
 }

@@ -3,6 +3,8 @@ package org.legalteamwork.silverscreen.windows
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -32,7 +34,14 @@ class ColumnWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        dividerYOffsets[index + 1].component2().invoke(dividerYOffsets[index + 1].value + dragAmount.y.dp)
+                        var increaseDelta by heightDelta[index]
+                        increaseDelta += dragAmount.y.dp
+
+                        val lowerIndices = (index + 1)..heightDelta.lastIndex
+                        for (i in lowerIndices) {
+                            var lowerDelta by heightDelta[i]
+                            lowerDelta -= dragAmount.y.dp / lowerIndices.count()
+                        }
                     }
                 })
     }
@@ -45,5 +54,5 @@ class ColumnWindowBlock(
         }
     }
 
-    override fun adaptOffsets(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
+    override fun adaptDeltas(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
 }
