@@ -68,8 +68,8 @@ abstract class ListWindowBlock(
         listComposable {
             for ((index, dimension) in dimensions.withIndex()) {
                 val block = blocksWithWeights[index].block
-                val blockWidth = dimension.width
-                val blockHeight = dimension.height
+                val blockWidth = dimension.getWidth()
+                val blockHeight = dimension.getHeight()
                 val dimensionsScope = DimensionsScope(blockWidth, blockHeight)
 
                 Box(Modifier.size(dimensionsScope.width, dimensionsScope.height)) {

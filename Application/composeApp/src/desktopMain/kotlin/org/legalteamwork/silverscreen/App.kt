@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.command.CommandWindowCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
@@ -21,7 +23,7 @@ import org.legalteamwork.silverscreen.windows.*
 fun AppScope.App() {
     val windowBlock = column(
         1f with row(
-            0.42f with terminal {
+            0.42f with terminal(400.dp, 400.dp, 800.dp, Dp.Infinity) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -30,7 +32,7 @@ fun AppScope.App() {
                     ResourceManagerCompose()
                 }
             },
-            0.42f with terminal {
+            0.42f with terminal(400.dp, 400.dp, Dp.Infinity, Dp.Infinity) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -39,7 +41,7 @@ fun AppScope.App() {
                     VideoPanel.compose()
                 }
             },
-            0.16f with terminal {
+            0.16f with terminal(100.dp, 100.dp, Dp.Infinity, Dp.Infinity) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -49,7 +51,7 @@ fun AppScope.App() {
                 }
             }
         ),
-        0.3f with terminal {
+        0.3f with terminal(0.dp, 100.dp, Dp.Infinity, Dp.Infinity) {
             Box(
                 Modifier.fillMaxSize().background(
                     AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)

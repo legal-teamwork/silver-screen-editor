@@ -41,13 +41,14 @@ class RowWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        val lowerIndices = (index + 1)..dimensions.lastIndex
-                        var increaseDelta by dimensions[index].deltaWidth
-                        increaseDelta += dragAmount.x.dp
+                        val (added, _) = dimensions[index].addToDeltaWidth(dragAmount.x.dp)
+                        var needToAccumulate = -added
+                        var currentIndex = index + 1
 
-                        for (i in lowerIndices) {
-                            var lowerDelta by dimensions[i].deltaWidth
-                            lowerDelta -= dragAmount.x.dp / lowerIndices.count()
+                        while (needToAccumulate != 0.dp && currentIndex < dimensions.size) {
+                            val (a, ignored) = dimensions[currentIndex].addToDeltaWidth(needToAccumulate)
+                            needToAccumulate = ignored
+                            currentIndex++
                         }
                     }
                 })

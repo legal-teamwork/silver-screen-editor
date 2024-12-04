@@ -38,13 +38,14 @@ class ColumnWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        val lowerIndices = (index + 1)..dimensions.lastIndex
-                        var increaseDelta by dimensions[index].deltaHeight
-                        increaseDelta += dragAmount.y.dp
+                        val (added, _) = dimensions[index].addToDeltaHeight(dragAmount.y.dp)
+                        var needToAccumulate = -added
+                        var currentIndex = index + 1
 
-                        for (i in lowerIndices) {
-                            var lowerDelta by dimensions[i].deltaHeight
-                            lowerDelta -= dragAmount.y.dp / lowerIndices.count()
+                        while (needToAccumulate != 0.dp && currentIndex < dimensions.size) {
+                            val (_, ignored) = dimensions[currentIndex].addToDeltaHeight(needToAccumulate)
+                            needToAccumulate = ignored
+                            currentIndex++
                         }
                     }
                 })
