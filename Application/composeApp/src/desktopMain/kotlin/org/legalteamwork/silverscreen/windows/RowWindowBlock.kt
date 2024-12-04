@@ -17,11 +17,15 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
 
 class RowWindowBlock(
-    private val blocksWithHeights: List<BlockWithWeight>,
+    override val minWidth: Dp,
+    override val minHeight: Dp,
+    override val maxWidth: Dp,
+    override val maxHeight: Dp,
+    blocksWithHeights: List<BlockWithWeight>,
 ) : ListWindowBlock(blocksWithHeights) {
     override fun calculateInitialWidth(width: Dp, weight: Float): Dp {
-        val maxSize = width - Dimens.DIVIDER_SIZE * (blocksWithHeights.size - 1)
-        val weightRatio = weight / blocksWithHeights.sumOf { it.weight.toDouble() }.toFloat()
+        val maxSize = width - Dimens.DIVIDER_SIZE * (dimensions.size - 1)
+        val weightRatio = weight / dimensions.sumOf { it.weight.toDouble() }.toFloat()
 
         return maxSize * weightRatio
     }
@@ -37,12 +41,12 @@ class RowWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        var increaseDelta by widthDelta[index]
+                        val lowerIndices = (index + 1)..dimensions.lastIndex
+                        var increaseDelta by dimensions[index].deltaWidth
                         increaseDelta += dragAmount.x.dp
 
-                        val lowerIndices = (index + 1)..widthDelta.lastIndex
                         for (i in lowerIndices) {
-                            var lowerDelta by widthDelta[i]
+                            var lowerDelta by dimensions[i].deltaWidth
                             lowerDelta -= dragAmount.x.dp / lowerIndices.count()
                         }
                     }
@@ -57,5 +61,5 @@ class RowWindowBlock(
         }
     }
 
-    override fun adaptDeltas(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
+    override fun adaptDeltas(width: Dp, height: Dp) {}
 }

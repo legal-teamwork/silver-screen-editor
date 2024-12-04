@@ -1,17 +1,19 @@
 package org.legalteamwork.silverscreen.windows
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 fun terminal(
     content: @Composable DimensionsScope.() -> Unit
-): WindowBlock = TerminalBlock(content)
+): WindowBlock = TerminalBlock(0.dp, 0.dp, Dp.Infinity, Dp.Infinity, content)
 
 fun row(
     vararg blocks: BlockWithWeight
-): WindowBlock = RowWindowBlock(blocks.asList())
+): WindowBlock = RowWindowBlock(0.dp, 0.dp, Dp.Infinity, Dp.Infinity, blocks.asList())
 
 fun column(
     vararg blocks: BlockWithWeight
-): WindowBlock = ColumnWindowBlock(blocks.asList())
+): WindowBlock = ColumnWindowBlock(0.dp, 0.dp, Dp.Infinity, Dp.Infinity, blocks.asList())
 
 infix fun Float.with(block: WindowBlock): BlockWithWeight = BlockWithWeight(this, block)

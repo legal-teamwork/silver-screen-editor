@@ -14,13 +14,17 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
 
 class ColumnWindowBlock(
-    private val blocksWithHeights: List<BlockWithWeight>,
+    override val minWidth: Dp,
+    override val minHeight: Dp,
+    override val maxWidth: Dp,
+    override val maxHeight: Dp,
+    blocksWithHeights: List<BlockWithWeight>,
 ) : ListWindowBlock(blocksWithHeights) {
     override fun calculateInitialWidth(width: Dp, weight: Float): Dp = width
 
     override fun calculateInitialHeight(height: Dp, weight: Float): Dp {
-        val maxSize = height - Dimens.DIVIDER_SIZE * (blocksWithHeights.size - 1)
-        val weightRatio = weight / blocksWithHeights.sumOf { it.weight.toDouble() }.toFloat()
+        val maxSize = height - Dimens.DIVIDER_SIZE * (dimensions.size - 1)
+        val weightRatio = weight / dimensions.sumOf { it.weight.toDouble() }.toFloat()
 
         return maxSize * weightRatio
     }
@@ -34,12 +38,12 @@ class ColumnWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        var increaseDelta by heightDelta[index]
+                        val lowerIndices = (index + 1)..dimensions.lastIndex
+                        var increaseDelta by dimensions[index].deltaHeight
                         increaseDelta += dragAmount.y.dp
 
-                        val lowerIndices = (index + 1)..heightDelta.lastIndex
                         for (i in lowerIndices) {
-                            var lowerDelta by heightDelta[i]
+                            var lowerDelta by dimensions[i].deltaHeight
                             lowerDelta -= dragAmount.y.dp / lowerIndices.count()
                         }
                     }
@@ -54,5 +58,5 @@ class ColumnWindowBlock(
         }
     }
 
-    override fun adaptDeltas(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>) {}
+    override fun adaptDeltas(width: Dp, height: Dp) {}
 }

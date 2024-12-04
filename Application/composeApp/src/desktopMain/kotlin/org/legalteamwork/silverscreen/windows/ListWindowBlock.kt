@@ -3,11 +3,8 @@ package org.legalteamwork.silverscreen.windows
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 /**
  * Абстрактный класс для отображения ряда окошек в одной полосе, разделенные разделителем,
@@ -19,19 +16,7 @@ import androidx.compose.ui.unit.dp
 abstract class ListWindowBlock(
     private val blocksWithWeights: List<BlockWithWeight>,
 ) : WindowBlock {
-    /**
-     * Дельта ширины каждого под-окна.
-     * Инвариант: должны в сумме всегда давать 0 dp
-     */
-    protected val widthDelta: List<MutableState<Dp>> =
-        List(blocksWithWeights.size) { mutableStateOf(0.dp) }
-
-    /**
-     * Дельта высоты каждого под-окна.
-     * Инвариант: должны в сумме всегда давать 0 dp
-     */
-    protected val heightDelta: List<MutableState<Dp>> =
-        List(blocksWithWeights.size) { mutableStateOf(0.dp) }
+    protected val dimensions: List<BlockWithDimensions> = blocksWithWeights.map { BlockWithDimensions(it.block, it.weight) }
 
     /**
      * Метод, высчитывающий инициирующую ширину под-окна с весом [weight] при выделенное ширине на ряд [width]
@@ -54,15 +39,13 @@ abstract class ListWindowBlock(
     abstract fun calculateInitialHeight(height: Dp, weight: Float): Dp
 
     /**
-     * Адаптирует сдвиги размеров [widthDelta] и [heightDelta] так, чтобы сохранялся их инвариант
+     * Адаптирует сдвиги размеров в [dimensions] так, чтобы сохранялся их инвариант
      * и новые размеры были допустимые (входили в определенные ограничения)
      *
      * @param[width] выделенная ширина под весь ряд
      * @param[height] выделенная высота под весь ряд
-     * @param[widths] массив ширин инициации для всех под-окон
-     * @param[heights] массив высот инициации для всех под-окон
      */
-    abstract fun adaptDeltas(width: Dp, height: Dp, widths: List<Dp>, heights: List<Dp>)
+    abstract fun adaptDeltas(width: Dp, height: Dp)
 
     /**
      * Компоуз разделителя
@@ -75,18 +58,18 @@ abstract class ListWindowBlock(
     abstract val listComposable: @Composable DimensionsScope.(content: @Composable DimensionsScope.() -> Unit) -> Unit
 
     override val content: @Composable DimensionsScope.() -> Unit = {
-        val widths = blocksWithWeights.map { calculateInitialWidth(width, it.weight) }
-        val heights = blocksWithWeights.map { calculateInitialHeight(height, it.weight) }
-        adaptDeltas(width, height, widths, heights)
+        for (dimension in dimensions) {
+            dimension.initiationWidth = calculateInitialWidth(width, dimension.weight)
+            dimension.initiationHeight = calculateInitialHeight(height, dimension.weight)
+        }
 
-        val blockWidths = widths.zip(widthDelta).map { it.first + it.second.value }
-        val blockHeights = heights.zip(heightDelta).map { it.first + it.second.value }
+        adaptDeltas(width, height)
 
         listComposable {
-            for (index in blocksWithWeights.indices) {
+            for ((index, dimension) in dimensions.withIndex()) {
                 val block = blocksWithWeights[index].block
-                val blockWidth = blockWidths[index]
-                val blockHeight = blockHeights[index]
+                val blockWidth = dimension.width
+                val blockHeight = dimension.height
                 val dimensionsScope = DimensionsScope(blockWidth, blockHeight)
 
                 Box(Modifier.size(dimensionsScope.width, dimensionsScope.height)) {
