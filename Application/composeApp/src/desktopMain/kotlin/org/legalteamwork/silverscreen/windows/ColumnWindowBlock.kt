@@ -1,10 +1,11 @@
 package org.legalteamwork.silverscreen.windows
 
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -14,12 +15,17 @@ import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
 
 class ColumnWindowBlock(
-    override val minWidth: Dp,
-    override val minHeight: Dp,
-    override val maxWidth: Dp,
-    override val maxHeight: Dp,
     blocksWithHeights: List<BlockWithWeight>,
 ) : ListWindowBlock(blocksWithHeights) {
+    override val minWidth: Dp
+        get() = dimensions.maxOf { it.minWidth }
+    override val minHeight: Dp
+        get() = dimensions.fold(0.dp) { acc, item -> acc + item.minHeight }
+    override val maxWidth: Dp
+        get() = dimensions.minOf { it.maxWidth }
+    override val maxHeight: Dp
+        get() = dimensions.fold(0.dp) { acc, item -> acc + item.maxHeight }
+
     override fun calculateInitialWidth(width: Dp, weight: Float): Dp = width
 
     override fun calculateInitialHeight(height: Dp, weight: Float): Dp {
@@ -38,11 +44,21 @@ class ColumnWindowBlock(
                     detectDragGestures { change, dragAmount ->
                         change.consume()
 
-                        val (added, _) = dimensions[index].addToDeltaHeight(dragAmount.y.dp)
+                        val nextIndices = (index + 1)..dimensions.lastIndex
+                        val possibleNextAddition = nextIndices
+                            .map { dimensions[it] }
+                            .map { it.getDeltaHeightPossibleRange() }
+                            .fold(0.dp..0.dp) { acc, item ->
+                                (acc.start + item.start)..(acc.endInclusive + item.endInclusive)
+                            }
+                        val possibleCurrAddition = possibleNextAddition.let { -it.endInclusive..-it.start }
+                        val currAddition = dragAmount.y.dp.coerceIn(possibleCurrAddition)
+
+                        val (added, _) = dimensions[index].addToDeltaHeight(currAddition)
                         var needToAccumulate = -added
                         var currentIndex = index + 1
 
-                        while (needToAccumulate != 0.dp && currentIndex < dimensions.size) {
+                        while (currentIndex < dimensions.size) {
                             val (_, ignored) = dimensions[currentIndex].addToDeltaHeight(needToAccumulate)
                             needToAccumulate = ignored
                             currentIndex++

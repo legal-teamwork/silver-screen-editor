@@ -26,10 +26,14 @@ data class BlockWithDimensions(
     private fun getMinDeltaWidth() = minWidth - initiationWidth
     private fun getMaxDeltaWidth() = maxWidth - initiationWidth
     private fun getDeltaWidthRange() = getMinDeltaWidth()..getMaxDeltaWidth()
+    fun getDeltaWidthPossibleRange() =
+        (getMinDeltaWidth() - deltaWidth.value)..(getMaxDeltaWidth() - deltaWidth.value)
 
     private fun getMinDeltaHeight() = minHeight - initiationHeight
     private fun getMaxDeltaHeight() = maxHeight - initiationHeight
     private fun getDeltaHeightRange() = getMinDeltaHeight()..getMaxDeltaHeight()
+    fun getDeltaHeightPossibleRange() =
+        (getMinDeltaHeight() - deltaHeight.value)..(getMaxDeltaHeight() - deltaHeight.value)
 
     fun addToDeltaWidth(addition: Dp): Pair<Dp, Dp> {
         var delegate by deltaWidth
