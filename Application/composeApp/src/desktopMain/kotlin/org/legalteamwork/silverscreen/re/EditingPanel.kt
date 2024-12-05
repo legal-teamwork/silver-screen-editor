@@ -735,7 +735,7 @@ fun EditingPanel(panelHeight: Dp) {
                             .padding(0.dp),
                     onClick = {
                         logger.info { "Instrumental button clicked" }
-                        DpInFrame += 0.5f
+                        DpInFrame += 0.25f
                         if (DpInFrame > 2.5f) {
                             DpInFrame = 2.5f
                         }
@@ -762,9 +762,9 @@ fun EditingPanel(panelHeight: Dp) {
                             .padding(top = 5.dp),
                     onClick = {
                         logger.info { "Instrumental button clicked" }
-                        DpInFrame -= 0.5f
-                        if (DpInFrame < 0.5f) {
-                            DpInFrame = 0.5f
+                        DpInFrame -= 0.25f
+                        if (DpInFrame < 0.75f) {
+                            DpInFrame = 0.75f
                         }
                         VideoEditor.VideoTrack.updateResourcesOnTrack()
                         AudioEditor.AudioTrack.updateResourcesOnTrack()
@@ -795,7 +795,7 @@ fun EditingPanel(panelHeight: Dp) {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = (Dimens.FRAME_RATE * DpInFrame * 5).dp
+            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
                 Row {
