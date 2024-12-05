@@ -35,15 +35,6 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
-
-    sourceSets {
-        val desktopTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                // Добавьте другие зависимости для тестирования, если нужно
-            }
-        }
-    }
 }
 
 
