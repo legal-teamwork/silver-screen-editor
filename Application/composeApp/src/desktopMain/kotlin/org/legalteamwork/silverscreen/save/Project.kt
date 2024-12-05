@@ -1,5 +1,8 @@
 package org.legalteamwork.silverscreen.save
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.re.VideoEditor
@@ -7,25 +10,17 @@ import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
+private val logger = KotlinLogging.logger {}
+
 @Serializable
 class ProjectData {
-    var bitrate: Int
-    var fps: Double
-    var resolution: String
+    var bitrate: Int = 6000
+    var fps: Double = 30.0
+    var resolution: Int = Resolution.default
 
-    var resources: FolderResource
-    var resourcesOnTrack: List<ResourceOnTrack>
-    var trackResources: List<VideoResource>
-
-    init {
-        // project initialization
-        bitrate = 6000
-        fps = 30.0
-        resolution = "1920x1080 (Full HD; 1080p; 16:9)"
-        resources = FolderResource.defaultRoot
-        resourcesOnTrack = listOf()
-        trackResources = listOf()
-    }
+    var resources: FolderResource = FolderResource.createRoot()
+    var resourcesOnTrack: List<ResourceOnTrack> = listOf()
+    var trackResources: List<VideoResource> = listOf()
 
     fun sync() {
         resources = ResourceManager.currentFolder.value
@@ -40,6 +35,7 @@ class ProjectData {
         ResourceManager.currentFolder.value.assignParents()
 
         VideoEditor.restore(resourcesOnTrack, trackResources)
+        logger.info { "Project restore finished" }
     }
 }
 

@@ -59,7 +59,7 @@ object ResourceManager {
     )
 
     // Folder management:
-    val rootFolder: FolderResource = FolderResource.defaultRoot
+    val rootFolder: FolderResource = FolderResource.createRoot()
     val currentFolder: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 

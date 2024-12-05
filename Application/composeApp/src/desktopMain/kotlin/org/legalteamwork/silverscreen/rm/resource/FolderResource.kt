@@ -51,6 +51,6 @@ class FolderResource(
     }
 
     companion object {
-        val defaultRoot = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
+        fun createRoot() = FolderResource(mutableStateOf("root"), parent = null, resources = mutableStateListOf())
     }
 }
