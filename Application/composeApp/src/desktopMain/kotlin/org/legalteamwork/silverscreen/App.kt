@@ -45,7 +45,7 @@ fun AppScope.App() {
                     VideoPanel.compose()
                 }
             },
-            0.16f with terminal(100.dp, 100.dp, Dp.Infinity, Dp.Infinity) {
+            0.16f with terminal(200.dp, 200.dp, Dp.Infinity, Dp.Infinity) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)

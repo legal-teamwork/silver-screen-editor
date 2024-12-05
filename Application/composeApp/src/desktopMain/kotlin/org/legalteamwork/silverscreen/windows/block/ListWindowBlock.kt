@@ -3,8 +3,11 @@ package org.legalteamwork.silverscreen.windows.block
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.windows.data.BlockWithDimensions
 import org.legalteamwork.silverscreen.windows.data.BlockWithWeight
 import org.legalteamwork.silverscreen.windows.data.DimensionsScope
@@ -19,6 +22,8 @@ import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 abstract class ListWindowBlock(
     private val blocksWithWeights: List<BlockWithWeight>,
 ) : WindowBlock {
+    private var dimensionsOuterWidth: Dp = Dp.Unspecified
+    private var dimensionsOuterHeight: Dp = Dp.Unspecified
     protected val dimensions: List<BlockWithDimensions> = blocksWithWeights.map { BlockWithDimensions(it.block, it.weight) }
 
     /**
@@ -52,9 +57,18 @@ abstract class ListWindowBlock(
     abstract val listComposable: @Composable DimensionsScope.(content: @Composable DimensionsScope.() -> Unit) -> Unit
 
     override val content: @Composable DimensionsScope.() -> Unit = {
-        for (dimension in dimensions) {
-            dimension.initiationWidth = calculateInitialWidth(width, dimension.weight)
-            dimension.initiationHeight = calculateInitialHeight(height, dimension.weight)
+        if (dimensionsOuterWidth != width || dimensionsOuterHeight != height) {
+            dimensionsOuterWidth = width
+            dimensionsOuterHeight = height
+
+            for (dimension in dimensions) {
+                var delegateWidth by dimension.deltaWidth
+                var delegateHeight by dimension.deltaWidth
+                dimension.initiationWidth = calculateInitialWidth(width, dimension.weight)
+                dimension.initiationHeight = calculateInitialHeight(height, dimension.weight)
+                delegateWidth = 0.dp
+                delegateHeight = 0.dp
+            }
         }
 
         listComposable {
