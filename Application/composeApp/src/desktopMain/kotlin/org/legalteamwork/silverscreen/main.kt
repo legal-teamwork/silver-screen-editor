@@ -21,6 +21,7 @@ import java.awt.Toolkit
 private val logger = KotlinLogging.logger {  }
 
 private fun onStart() {
+    logger.info { "Program started!" }
     EditorSettings.load()
     Project.autoload()
 }
@@ -28,12 +29,10 @@ private fun onStart() {
 private fun onClose() {
     EditorSettings.save()
     Project.autosave()
+    logger.info { "Program finished\n\n" }
 }
 
 fun main() {
-    logger.info { "Program started!" }
-    onStart()
-
     val commandManager = CommandManager()
     val resourceManager = ResourceManager
     val shortcutManager = ShortcutManager
@@ -48,6 +47,7 @@ fun main() {
         true
     }
 
+    onStart()
     application {
         val icon = painterResource("icon.ico")
         Window(
@@ -55,7 +55,6 @@ fun main() {
             onCloseRequest = {
                 onClose()
                 exitApplication()
-                logger.info { "Program finished\n\n" }
             },
             title = Strings.TITLE,
             icon = icon,

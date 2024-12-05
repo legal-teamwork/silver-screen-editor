@@ -25,6 +25,7 @@ import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack
 import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.videoResources
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.io.File
 import kotlin.math.max
@@ -133,6 +134,7 @@ private fun <T> ResourceOnTrackScope.DragTarget(
         modifier =
             modifier
                 .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
+                .offset(x = Dimens.RESOURCES_HORIZONTAL_OFFSET_ON_TRACK)
                 .onGloballyPositioned {
                     currentPosition = it.localToWindow(Offset.Zero)
                 }
@@ -168,15 +170,17 @@ private fun <T> ResourceOnTrackScope.DragTarget(
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
+    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+
     DragTarget(
-        modifier = Modifier.fillMaxHeight().width((resourceOnTrack.framesCount * DpInFrame).dp),
+        modifier = Modifier.fillMaxHeight().width(size),
         dataToDrop = "",
     ) {
         BoxWithConstraints(
             modifier =
                 Modifier
                     .fillMaxHeight()
-                    .width((resourceOnTrack.framesCount * DpInFrame).dp)
+                    .width(size)
                     .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
         ) {
             val textHeight = min(20.dp, maxHeight)

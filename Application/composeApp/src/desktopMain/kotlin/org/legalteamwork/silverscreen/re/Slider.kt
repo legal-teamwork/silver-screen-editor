@@ -26,6 +26,8 @@ object Slider {
         markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
     }
 
+    fun getPosition() = markerPosition
+
     /**
      * Устанавливает горизонтальное смещение от прокрутки.
      */
