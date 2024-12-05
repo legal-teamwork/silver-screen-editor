@@ -25,6 +25,8 @@ object Slider {
         markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
     }
 
+    fun getPosition() = markerPosition
+
     @Suppress("ktlint:standard:function-naming")
     @Composable
     fun compose(panelHeight: Dp) {

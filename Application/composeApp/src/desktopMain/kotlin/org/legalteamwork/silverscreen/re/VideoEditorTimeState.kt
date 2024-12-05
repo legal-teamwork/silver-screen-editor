@@ -26,7 +26,7 @@ data class VideoEditorTimeState(val timestamp: Long) {
      */
     val resourceOnTrackTimestamp: Long = run {
         if (resourceOnTrack != null) {
-            val resourceStartTimestamp = resourceOnTrack.position * 1000 / Dimens.FRAME_RATE
+            val resourceStartTimestamp = (resourceOnTrack.position - resourceOnTrack.framesSkip) * 1000 / Dimens.FRAME_RATE
             timestamp - resourceStartTimestamp.toLong()
         } else {
             0
@@ -39,5 +39,4 @@ data class VideoEditorTimeState(val timestamp: Long) {
     val videoResource: VideoResource? = resourceOnTrack?.let {
         VideoEditor.getVideoResources()[it.id]
     }
-
 }
