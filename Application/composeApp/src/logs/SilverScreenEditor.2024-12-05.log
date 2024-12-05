@@ -1,0 +1,402 @@
+2024-12-05 03:47:29 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 03:47:29 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 03:47:29 [main] ERROR o.l.silverscreen.save.SaveManager - Loading failed: file does not exist
+2024-12-05 03:47:29 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 03:47:29 [main] ERROR o.l.silverscreen.save.SaveManager - Loading failed: file does not exist
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:47:29 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:47:30 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:47:30 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:47:30 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:47:30 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:47 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:52 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:47:53 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:47:53 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:47:53 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:04 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:14 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:15 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:48:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:48:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:48:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:49:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 03:49:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 03:49:28 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 03:54:18 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 03:54:18 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:19 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:26 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 03:54:26 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 03:54:26 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 03:54:34 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 03:54:34 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:54:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:54:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:54:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:54:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:55:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:55:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:55:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:55:10 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:55:10 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:55:10 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:55:22 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:55:22 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:55:22 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:55:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 03:55:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 03:55:28 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 03:56:42 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 03:56:42 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 03:56:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 03:56:48 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:56:48 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:56:48 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:56:56 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:56:56 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:56:56 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:56:57 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:56:57 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:56:57 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:56:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 03:56:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 03:56:58 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 03:57:12 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 03:57:12 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 03:57:12 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 13:20:17 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 13:20:17 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 13:20:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 13:20:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 13:20:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 13:20:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 13:20:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 13:20:43 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 13:21:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 13:21:03 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 13:21:03 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 19:53:07 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 19:53:07 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:53:08 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:53:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:23 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:23 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:23 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:28 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:31 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:31 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:31 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:32 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:33 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:53:35 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:53:59 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 19:53:59 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 19:53:59 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 19:54:17 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 19:54:17 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:54:21 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 19:54:21 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 19:54:21 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
+2024-12-05 19:54:33 [main] INFO  org.legalteamwork.silverscreen.Main - Program started!
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.save.SaveManager - Loading EditorSettingsData from settings.json...
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.save.SaveManager - Loading ProjectData from autosave.json...
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.save.SaveManager - Loaded successfully
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources...
+2024-12-05 19:54:33 [main] INFO  o.l.silverscreen.re.EditingPanel - Restoring video resources finished
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.s.shortcut.ShortcutManager - Initialising shortcut Alt+F
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Timeline created!
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing video resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Composing audio resource
+2024-12-05 19:54:34 [AWT-EventQueue-0] INFO  o.l.silverscreen.rm.ResourceManager - Displaying window with id: 1
+2024-12-05 19:55:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:16 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:17 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:18 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:36 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:36 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:36 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:55:37 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Instrumental button clicked
+2024-12-05 19:55:37 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating video offsets
+2024-12-05 19:55:37 [AWT-EventQueue-0] INFO  o.l.silverscreen.re.EditingPanel - Updating audio offsets
+2024-12-05 19:56:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving EditorSettingsData to settings.json..
+2024-12-05 19:56:05 [AWT-EventQueue-0] INFO  o.l.silverscreen.save.SaveManager - Saving ProjectData to autosave.json..
+2024-12-05 19:56:05 [AWT-EventQueue-0] INFO  org.legalteamwork.silverscreen.Main - Program finished
+
+
