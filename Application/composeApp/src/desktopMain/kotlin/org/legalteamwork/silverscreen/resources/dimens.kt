@@ -19,6 +19,7 @@ object Dimens {
     val VIDEO_TRACK_MIN_WIDTH = 30.dp
     val AUDIO_TRACK_MAX_HEIGHT = 500.dp
     val AUDIO_TRACK_MIN_WIDTH = 30.dp
+    val RESOURCES_OFFSET_ON_TRACK = 304.dp
 
     //In SourceMenuButton.kt
     val IMAGE_WIDTH = 250.dp

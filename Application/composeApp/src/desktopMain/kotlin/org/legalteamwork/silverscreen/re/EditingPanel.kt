@@ -39,6 +39,7 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import java.io.File
@@ -133,6 +134,7 @@ object VideoEditor {
                     modifier =
                         modifier
                             .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
+                            .offset(x = Dimens.RESOURCES_OFFSET_ON_TRACK)
                             .onGloballyPositioned {
                                 currentPosition = it.localToWindow(Offset.Zero)
                             }
@@ -452,6 +454,7 @@ object AudioEditor {
                     modifier =
                         modifier
                             .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
+                            .offset(x = Dimens.RESOURCES_OFFSET_ON_TRACK)
                             .onGloballyPositioned {
                                 currentPosition = it.localToWindow(Offset.Zero)
                             }
