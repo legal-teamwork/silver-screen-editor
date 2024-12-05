@@ -42,15 +42,6 @@ abstract class ListWindowBlock(
     abstract fun calculateInitialHeight(height: Dp, weight: Float): Dp
 
     /**
-     * Адаптирует сдвиги размеров в [dimensions] так, чтобы сохранялся их инвариант
-     * и новые размеры были допустимые (входили в определенные ограничения)
-     *
-     * @param[width] выделенная ширина под весь ряд
-     * @param[height] выделенная высота под весь ряд
-     */
-    abstract fun adaptDeltas(width: Dp, height: Dp)
-
-    /**
      * Компоуз разделителя
      */
     abstract val divider: @Composable (index: Int, width: Dp, height: Dp) -> Unit
@@ -65,8 +56,6 @@ abstract class ListWindowBlock(
             dimension.initiationWidth = calculateInitialWidth(width, dimension.weight)
             dimension.initiationHeight = calculateInitialHeight(height, dimension.weight)
         }
-
-        adaptDeltas(width, height)
 
         listComposable {
             for ((index, dimension) in dimensions.withIndex()) {

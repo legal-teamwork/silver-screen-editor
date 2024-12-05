@@ -77,5 +77,4 @@ class ColumnWindowBlock(
         }
     }
 
-    override fun adaptDeltas(width: Dp, height: Dp) {}
 }

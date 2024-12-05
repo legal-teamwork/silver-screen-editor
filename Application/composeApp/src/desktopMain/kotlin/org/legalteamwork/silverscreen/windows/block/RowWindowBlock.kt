@@ -77,5 +77,4 @@ class RowWindowBlock(
         }
     }
 
-    override fun adaptDeltas(width: Dp, height: Dp) {}
 }
