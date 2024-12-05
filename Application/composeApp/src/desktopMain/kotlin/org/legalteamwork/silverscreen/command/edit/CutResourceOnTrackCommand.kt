@@ -40,7 +40,7 @@ class CutResourceOnTrackCommand(
         if (leftResource != null &&
             rightResource != null
             ) {
-            val index = leftResource!!.id
+            val index = track.resourcesOnTrack.indexOf(leftResource)
             if (index != -1) {
                 track.resourcesOnTrack[index].framesCount = leftResource!!.framesCount + rightResource!!.framesCount
                 track.removeResource(rightResource!!)
