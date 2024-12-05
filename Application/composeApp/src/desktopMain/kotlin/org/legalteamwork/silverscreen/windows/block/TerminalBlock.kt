@@ -1,7 +1,8 @@
-package org.legalteamwork.silverscreen.windows
+package org.legalteamwork.silverscreen.windows.block
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
+import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 
 class TerminalBlock(
     override val minWidth: Dp,

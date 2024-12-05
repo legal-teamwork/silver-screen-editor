@@ -1,4 +1,6 @@
-package org.legalteamwork.silverscreen.windows
+package org.legalteamwork.silverscreen.windows.data
+
+import org.legalteamwork.silverscreen.windows.block.WindowBlock
 
 data class BlockWithWeight(
     /**

@@ -16,7 +16,11 @@ import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import org.legalteamwork.silverscreen.windows.*
+import org.legalteamwork.silverscreen.windows.block.column
+import org.legalteamwork.silverscreen.windows.block.row
+import org.legalteamwork.silverscreen.windows.block.terminal
+import org.legalteamwork.silverscreen.windows.block.with
+import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 
 @Suppress("ktlint:standard:function-naming")
 @Composable

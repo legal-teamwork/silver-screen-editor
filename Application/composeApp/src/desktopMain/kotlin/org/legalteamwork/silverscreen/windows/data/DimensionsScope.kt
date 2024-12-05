@@ -1,4 +1,4 @@
-package org.legalteamwork.silverscreen.windows
+package org.legalteamwork.silverscreen.windows.data
 
 import androidx.compose.ui.unit.Dp
 

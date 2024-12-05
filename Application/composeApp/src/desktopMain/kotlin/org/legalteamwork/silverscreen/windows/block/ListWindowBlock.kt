@@ -1,10 +1,13 @@
-package org.legalteamwork.silverscreen.windows
+package org.legalteamwork.silverscreen.windows.block
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import org.legalteamwork.silverscreen.windows.data.BlockWithDimensions
+import org.legalteamwork.silverscreen.windows.data.BlockWithWeight
+import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 
 /**
  * Абстрактный класс для отображения ряда окошек в одной полосе, разделенные разделителем,
