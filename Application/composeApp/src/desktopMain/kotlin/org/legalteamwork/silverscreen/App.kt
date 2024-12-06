@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.command.CommandWindowCompose
+import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
@@ -67,9 +68,12 @@ fun AppScope.App() {
     )
 
     Surface(color = AppTheme.SURFACE_COLOR) {
-        BoxWithConstraints(Modifier.fillMaxSize().padding(Dimens.MARGIN_SIZE)) {
-            val dimensionsScope = DimensionsScope(maxWidth, maxHeight)
-            windowBlock.content.invoke(dimensionsScope)
+        Column {
+            MenuBarCompose()
+            BoxWithConstraints(Modifier.fillMaxSize().padding(Dimens.MARGIN_SIZE)) {
+                val dimensionsScope = DimensionsScope(maxWidth, maxHeight)
+                windowBlock.content.invoke(dimensionsScope)
+            }
         }
     }
 }
