@@ -37,4 +37,8 @@ object Strings {
     const val SAVE_AND_CLOSE = "Save"
     const val APPLY = "Apply"
     const val CLOSE = "Close"
+
+    // In CommandWindowCompose.kt
+    const val COMMAND_WINDOW_HEADER = "Commands Log"
+    const val EXTRA_ITEM_TITLE = "Undo possible"
 }
