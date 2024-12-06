@@ -4,7 +4,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicText
-import androidx.compose.material.Button
+import androidx.compose.material.IconButton
+import androidx.compose.material.Slider
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.unit.sp
+import androidx.compose.material.Text
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,11 +32,9 @@ private val logger = KotlinLogging.logger {}
 object VideoPanel {
     val playbackManager by mutableStateOf(PlaybackManager())
 
-    @Suppress("ktlint:standard:function-naming")
     @Composable
     fun compose() {
         val scope = rememberCoroutineScope()
-
 
         playbackManager.stop()
         LaunchedEffect(Unit) {
@@ -46,74 +50,123 @@ object VideoPanel {
         ) {
             VideoPreview(playbackManager)
 
+            // Ползунок для видео
+            Slider(
+                value = playbackManager.currentTimestamp.value.toFloat(),
+                onValueChange = { newValue -> playbackManager.seek(newValue.toLong()) },
+                valueRange = 0f..playbackManager.totalDuration.value.toFloat(),
+                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+            )
+
             Row(
-                modifier = Modifier.fillMaxWidth().padding(50.dp),
-                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Button(
-                    onClick = {
-                        playbackManager.seek(-10_000)
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
+                // Панель времени
+                Box(
+                    modifier = Modifier
+                        .background(Color.DarkGray, RoundedCornerShape(8.dp))
+                        .padding(8.dp)
                 ) {
-                    Image(
-                        painter = painterResource("buttons/rewind_backwards_button.svg"),
-                        contentDescription = "Перемотка назад",
-                        modifier = Modifier.size(70.dp),
+                    Text(
+                        text = formatTime(playbackManager.currentTimestamp.value),
+                        color = Color.White,
+                        fontSize = 14.sp
                     )
                 }
 
-                Button(
-                    onClick = {
-                        playbackManager.playOrPause()
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
+                // Центральные кнопки управления
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (playbackManager.isPlaying.value) {
+                    IconButton(onClick = { playbackManager.seekToStart() }) {
                         Image(
-                            painter = painterResource("buttons/pause_button.svg"),
-                            contentDescription = "Пауза",
-                            modifier = Modifier.size(70.dp),
+                            painter = painterResource("player-control-panel-buttons/Left Start.svg"),
+                            contentDescription = "В начало",
+                            modifier = Modifier.size(24.dp)
                         )
-                    } else {
+                    }
+
+                    IconButton(onClick = { playbackManager.seek(-10_000) }) {
                         Image(
-                            painter = painterResource("buttons/play_button.svg"),
-                            contentDescription = "Запуск",
-                            modifier = Modifier.size(70.dp),
+                            painter = painterResource("player-control-panel-buttons/rewind_backwards_button.svg"),
+                            contentDescription = "Назад",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    IconButton(onClick = { playbackManager.playOrPause() }) {
+                        Image(
+                            painter = painterResource(
+                                if (playbackManager.isPlaying.value)
+                                    "player-control-panel-buttons/pause_button.svg"
+                                else
+                                    "player-control-panel-buttons/play_button.svg"
+                            ),
+                            contentDescription = "Воспроизведение/Пауза",
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+
+                    IconButton(onClick = { playbackManager.stop() }) {
+                        Image(
+                            painter = painterResource("player-control-panel-buttons/stop_button.svg"),
+                            contentDescription = "Стоп",
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+
+                    IconButton(onClick = { playbackManager.seek(10_000) }) {
+                        Image(
+                            painter = painterResource("player-control-panel-buttons/rewind_forward_button.svg"),
+                            contentDescription = "Вперед",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    IconButton(onClick = { playbackManager.seekToEnd() }) {
+                        Image(
+                            painter = painterResource("player-control-panel-buttons/Right End.svg"),
+                            contentDescription = "В конец",
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }
 
-                Button(
-                    onClick = {
-                        playbackManager.stop()
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
+                // Кнопки громкости и полноэкранный режим
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Image(
-                        painter = painterResource("buttons/stop_button.svg"),
-                        contentDescription = "Стоп",
-                        modifier = Modifier.size(70.dp),
-                    )
-                }
+                    IconButton(onClick = { playbackManager.toggleVolume() }) {
+                        Image(
+                            painter = painterResource(
+                                when {
+                                    playbackManager.volume.value < 0.25f -> "player-control-panel-buttons/<25%.svg"
+                                    playbackManager.volume.value < 0.75f -> "player-control-panel-buttons/25%><75%.svg"
+                                    else -> "player-control-panel-buttons/>75%.svg"
+                                }
+                            ),
+                            contentDescription = "Громкость",
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
 
-                Button(
-                    onClick = {
-                        playbackManager.seek(10_000)
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
-                ) {
-                    Image(
-                        painter = painterResource("buttons/rewind_forward_button.svg"),
-                        contentDescription = "Перемотка вперед",
-                        modifier = Modifier.size(70.dp),
-                    )
+                    IconButton(onClick = { playbackManager.toggleFullscreen() }) {
+                        Image(
+                            painter = painterResource("player-control-panel-buttons/fullscreen.png"),
+                            contentDescription = "Полноэкранный режим",
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
@@ -121,14 +174,14 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
     val currentTimestamp by playbackManager.currentTimestamp
     val timeState = VideoEditorTimeState(currentTimestamp)
 
-    Box(Modifier.Companion.weight(1f).fillMaxWidth()) {
-        // Draw canvas
+    Box(Modifier.weight(1f).fillMaxWidth()) {
+        // Рисуем канвас
         Canvas(Modifier.fillMaxSize()) {
             val drawScope = this
             drawRect(Color.Black)
 
             timeState.videoResource?.let { videoResource ->
-                // Get drawing frame:
+                // Получаем кадр для рисования:
                 val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
                 if (videoResource != onlineVideoRenderer.videoResource)
                     onlineVideoRenderer.setVideoResource(videoResource)
@@ -136,7 +189,7 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
                 val bufferedImage = onlineVideoRenderer.grabBufferedVideoFrameByTimestamp(videoResourceTimestamp)
                 val imageBitmap = bufferedImage?.toComposeImageBitmap()
 
-                // Draw frame:
+                // Рисуем кадр:
                 if (imageBitmap != null) {
                     val imageWidth = imageBitmap.width
                     val imageHeight = imageBitmap.height

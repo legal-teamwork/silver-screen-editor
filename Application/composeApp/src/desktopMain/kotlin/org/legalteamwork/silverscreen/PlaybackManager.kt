@@ -89,9 +89,69 @@ class PlaybackManager {
     } else {
         playStartFromTimestamp
     }
+    /**
+     * Общая длительность видео
+     */
+    var totalDuration = mutableStateOf(0L)
+        private set
+
+    /**
+     * Текущий уровень громкости (0-100)
+     */
+    var volume = mutableStateOf(50)
+        private set
+
+    /**
+     * Состояние полноэкранного режима
+     */
+    private var isFullscreen = mutableStateOf(false)
+
+    // Существующие функции...
+
+    /**
+     * Перемотка в начало видео
+     */
+    fun seekToStart() {
+        playStartFromTimestamp = 0
+        playStartTimestamp = System.currentTimeMillis()
+        Slider.updatePosition(0)
+    }
+
+    /**
+     * Перемотка в конец видео
+     */
+    fun seekToEnd() {
+        playStartFromTimestamp = totalDuration.value
+        playStartTimestamp = System.currentTimeMillis()
+        Slider.updatePosition(totalDuration.value)
+    }
+
+    /**
+     * Переключение уровня громкости
+     */
+    fun toggleVolume() {
+        volume.value = when {
+            volume.value < 25 -> 50
+            volume.value < 75 -> 100
+            else -> 0
+        }
+    }
+
+    /**
+     * Переключение полноэкранного режима
+     */
+    fun toggleFullscreen() {
+        isFullscreen.value = !isFullscreen.value
+    }
+
+    /**
+     * Установка общей длительности видео
+     */
+    fun setTotalDuration(duration: Long) {
+        totalDuration.value = duration
+    }
 
     companion object {
         private const val PLAYBACK_FPS = 25
     }
-
 }

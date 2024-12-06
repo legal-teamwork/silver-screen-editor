@@ -49,25 +49,53 @@ object ResourceManager {
     // Logger
     private val logger = KotlinLogging.logger {}
 
-    // Tabs:
-    val tabId = mutableStateOf(Dimens.INIT_ID)
-    val tabs = listOf(
-        MenuButton(Dimens.SOURCES_ID, Strings.SOURCES),
-        MenuButton(Dimens.EFFECTS_ID, Strings.EFFECTS),
-        MenuButton(Dimens.PRESETS_ID, Strings.PRESETS),
-        MenuButton(Dimens.TEMPLATES_ID, Strings.TEMPLATES),
+    // Текущий выбранный тип ресурса для отображения
+    val currentResourceType = mutableStateOf(ResourceType.ALL)
+
+    /**
+     * Структура кнопки ресурс-менеджера
+     * @param id уникальный идентификатор кнопки
+     * @param iconPath путь к SVG иконке
+     * @param resourceType тип ресурса для отображения
+     */
+    data class ResourceButton(
+        val id: Int,
+        val iconPath: String,
+        val resourceType: ResourceType
     )
 
-    // Folder management:
+    // Кнопки ресурс-менеджера
+    val resourceButtons = listOf(
+        ResourceButton(1, "resource-manager-buttons/project.svg", ResourceType.ALL),
+        ResourceButton(2, "resource-manager-buttons/video.svg", ResourceType.VIDEO),
+        ResourceButton(3, "resource-manager-buttons/music.svg", ResourceType.AUDIO),
+        ResourceButton(4, "resource-manager-buttons/image.svg", ResourceType.IMAGE),
+        ResourceButton(5, "resource-manager-buttons/text.svg", ResourceType.TEXT),
+        ResourceButton(6, "resource-manager-buttons/effects.png", ResourceType.EFFECTS)
+    )
+
+    // Управление папками
     val rootFolder: FolderResource = FolderResource.defaultRoot
     val currentFolder: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
-    //Режимы отображения: список
+    // Режим отображения
     val isListView = mutableStateOf(false)
 
+    /**
+     * Переключает режим отображения между списком и сеткой
+     */
     fun toggleViewMode() {
         isListView.value = !isListView.value
+    }
+
+    /**
+     * Устанавливает текущий тип ресурса для отображения
+     * @param type тип ресурса из перечисления [ResourceType]
+     */
+    fun setResourceType(type: ResourceType) {
+        currentResourceType.value = type
+        logger.info { "Changed resource type to: $type" }
     }
 
     /**
@@ -125,4 +153,18 @@ object ResourceManager {
     }
 
 }
+
+/**
+ * Перечисление, определяющее типы ресурсов для отображения в менеджере
+ */
+enum class ResourceType {
+    ALL,        // Все файлы
+    VIDEO,      // Только видео файлы
+    AUDIO,      // Только аудио файлы
+    IMAGE,      // Только изображения
+    TEXT,       // Только текстовые вставки
+    EFFECTS     // Только эффекты
+}
+
+
 
