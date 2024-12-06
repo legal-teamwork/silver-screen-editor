@@ -660,7 +660,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = 150.dp * DpInFrame
+            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
                 Row {
