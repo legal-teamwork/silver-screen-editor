@@ -1,9 +1,34 @@
 package org.legalteamwork.silverscreen.resources
 
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object Dimens {
+    // App.kt
+    const val RESOURCE_WINDOW_WEIGHT = 45f
+    const val PREVIEW_WINDOW_WEIGHT = 45f
+    const val COMMANDS_WINDOW_WEIGHT = 10f
+    val RESOURCE_WINDOW_MIN_WIDTH = 400.dp
+    val RESOURCE_WINDOW_MAX_WIDTH = 800.dp
+    val PREVIEW_WINDOW_MIN_WIDTH = 400.dp
+    val PREVIEW_WINDOW_MAX_WIDTH = Dp.Infinity
+    val COMMANDS_WINDOW_MIN_WIDTH = 200.dp
+    val COMMANDS_WINDOW_MAX_WIDTH = 400.dp
+    val RESOURCE_WINDOW_MIN_HEIGHT = 400.dp
+    val RESOURCE_WINDOW_MAX_HEIGHT = Dp.Infinity
+    val PREVIEW_WINDOW_MIN_HEIGHT = 400.dp
+    val PREVIEW_WINDOW_MAX_HEIGHT = Dp.Infinity
+    val COMMANDS_WINDOW_MIN_HEIGHT = 400.dp
+    val COMMANDS_WINDOW_MAX_HEIGHT = Dp.Infinity
+
+    const val UPPER_WINDOW_WEIGHT = 70f
+    const val TIMELINE_WINDOW_WEIGHT = 30f
+    val TIMELINE_WINDOW_MIN_WIDTH = 0.dp
+    val TIMELINE_WINDOW_MAX_WIDTH = Dp.Infinity
+    val TIMELINE_WINDOW_MIN_HEIGHT = 200.dp
+    val TIMELINE_WINDOW_MAX_HEIGHT = Dp.Infinity
+
     //In ResourceManager.kt
     const val INIT_ID = 1
     const val SOURCES_ID = 1

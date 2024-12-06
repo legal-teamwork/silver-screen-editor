@@ -27,8 +27,13 @@ import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 @Composable
 fun AppScope.App() {
     val windowBlock = column(
-        1f with row(
-            0.42f with terminal(400.dp, 400.dp, Dp.Infinity, Dp.Infinity) {
+        Dimens.UPPER_WINDOW_WEIGHT with row(
+            Dimens.RESOURCE_WINDOW_WEIGHT with terminal(
+                Dimens.RESOURCE_WINDOW_MIN_WIDTH,
+                Dimens.RESOURCE_WINDOW_MIN_HEIGHT,
+                Dimens.RESOURCE_WINDOW_MAX_WIDTH,
+                Dimens.RESOURCE_WINDOW_MAX_HEIGHT,
+            ) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -37,7 +42,12 @@ fun AppScope.App() {
                     ResourceManagerCompose()
                 }
             },
-            0.42f with terminal(400.dp, 400.dp, Dp.Infinity, Dp.Infinity) {
+            Dimens.PREVIEW_WINDOW_WEIGHT with terminal(
+                Dimens.PREVIEW_WINDOW_MIN_WIDTH,
+                Dimens.PREVIEW_WINDOW_MIN_HEIGHT,
+                Dimens.PREVIEW_WINDOW_MAX_WIDTH,
+                Dimens.PREVIEW_WINDOW_MAX_HEIGHT,
+            ) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -46,7 +56,12 @@ fun AppScope.App() {
                     VideoPanel.compose()
                 }
             },
-            0.16f with terminal(200.dp, 200.dp, Dp.Infinity, Dp.Infinity) {
+            Dimens.COMMANDS_WINDOW_WEIGHT with terminal(
+                Dimens.COMMANDS_WINDOW_MIN_WIDTH,
+                Dimens.COMMANDS_WINDOW_MIN_HEIGHT,
+                Dimens.COMMANDS_WINDOW_MAX_WIDTH,
+                Dimens.COMMANDS_WINDOW_MAX_HEIGHT,
+            ) {
                 Box(
                     Modifier.fillMaxSize().background(
                         AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
@@ -56,7 +71,12 @@ fun AppScope.App() {
                 }
             }
         ),
-        0.3f with terminal(0.dp, 200.dp, Dp.Infinity, Dp.Infinity) {
+        Dimens.TIMELINE_WINDOW_WEIGHT with terminal(
+            Dimens.TIMELINE_WINDOW_MIN_WIDTH,
+            Dimens.TIMELINE_WINDOW_MIN_HEIGHT,
+            Dimens.TIMELINE_WINDOW_MAX_WIDTH,
+            Dimens.TIMELINE_WINDOW_MAX_HEIGHT,
+        ) {
             Box(
                 Modifier.fillMaxSize().background(
                     AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
