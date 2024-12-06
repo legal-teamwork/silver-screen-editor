@@ -59,7 +59,7 @@ object ResourceManager {
     )
 
     // Folder management:
-    val rootFolder: FolderResource = FolderResource.defaultRoot
+    val rootFolder: FolderResource = FolderResource.createRoot()
     val currentFolder: MutableState<FolderResource> = mutableStateOf(rootFolder)
     val activeResource: MutableState<Resource?> = mutableStateOf(null)
 
@@ -75,7 +75,7 @@ object ResourceManager {
      */
     fun addSourceTriggerActivity(commandManager: CommandManager) {
         logger.info { "Triggering file picker function openFileDialog for video resources" }
-        val loadFiles = openFileDialog(null, "File Picker", listOf(".mp4"))
+        val loadFiles = openFileDialog(null, "File Picker", listOf("mp4"))
 
         if (loadFiles.isEmpty()) {
             logger.warn { "No files selected in file picker" }
@@ -83,9 +83,14 @@ object ResourceManager {
         else {
             logger.info { "Files selected: ${loadFiles.joinToString { it.path }}" }
             for (loadFile in loadFiles) {
-                val resource = VideoResource(loadFile.path, currentFolder.value)
-                val addResourceCommand = AddResourceCommand(this, resource)
-                commandManager.execute(addResourceCommand)
+                if (loadFile.extension == "mp4") {
+                    val resource = VideoResource(loadFile.path, currentFolder.value)
+                    val addResourceCommand = AddResourceCommand(this, resource)
+                    commandManager.execute(addResourceCommand)
+                }
+                else {
+                    logger.error { "${loadFile.path} has wrong extension: \"${loadFile.extension}\"! mp4 expected" }
+                }
             }
         }
     }

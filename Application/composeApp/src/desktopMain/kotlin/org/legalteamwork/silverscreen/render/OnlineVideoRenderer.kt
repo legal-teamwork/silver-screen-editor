@@ -111,10 +111,12 @@ class OnlineVideoRenderer : Closeable {
      */
     fun grabVideoFrame(frameNumber: Int): Frame? = frameGrabber?.let { frameGrabber ->
         if (frameGrabber.frameNumber <= frameNumber) {
+            var lastFrameNumber = frameGrabber.frameNumber
             while (frameGrabber.frameNumber < frameNumber) {
                 logger.debug { "Moving forwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
-
                 frameGrabber.grabImage()
+                if (lastFrameNumber == frameGrabber.frameNumber) return@let null
+                lastFrameNumber = frameGrabber.frameNumber
             }
 
             cachedPreviousFrame = frameGrabber.grabImage()

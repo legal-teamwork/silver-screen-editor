@@ -39,10 +39,14 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.PlaybackManager
+import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.vp.VideoPanel
+import java.io.Console
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -76,27 +80,32 @@ object VideoEditor {
                 value: ResourceOnTrack,
             ) {
                 logger.info { "Serializing video resource" }
-                encoder.encodeSerializableValue(IntArraySerializer(), intArrayOf(value.id, value.position, value.framesCount))
+                encoder.encodeSerializableValue(IntArraySerializer(), intArrayOf(value.id, value.position, value.framesCount, value.framesSkip))
             }
 
             override fun deserialize(decoder: Decoder): ResourceOnTrack {
                 logger.info { "Deserializing video resource" }
                 val array = decoder.decodeSerializableValue(IntArraySerializer())
-                return ResourceOnTrack(null, array[0], array[1], array[2])
+                return ResourceOnTrack(null, array[0], array[1], array[2], array[3])
             }
         }
 
         /**
          * Класс ресурса на дорожке. Позиция и размер в кадрах.
+         * @param[framesCountDefault] начальный размер ресурса в кадрах (может быть не равен VideoResource.framesCount).
+         * @param[framesSkip] cколько кадров пропустить сначала.
+         * @property[framesCount] актуальный размер ресурса в кадрах (меняется при Cut)
          */
         @Serializable(with = ResourceOnTrackSerializer::class)
         class ResourceOnTrack(
             @Transient val track: VideoTrack? = null,
             val id: Int,
             var position: Int,
-            val framesCount: Int,
+            val framesCountDefault: Int,
+            var framesSkip: Int = 0
         ) {
-            // private val color = Color(0xFF93C47D - (0x00000001..0x00000030).random() - (0x00000100..0x00003000).random())
+            var framesCount by mutableStateOf(framesCountDefault)
+
             var localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
 
             fun getRightBorder(): Int {
@@ -130,6 +139,16 @@ object VideoEditor {
             logger.debug { "Adding video resource to timeline" }
 
             val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            resourcesOnTrack.add(resourceOnTrack)
+            videoResources.add(resource)
+
+            return resourceOnTrack
+        }
+
+        fun addResource(resource: VideoResource, position: Int, framesCount: Int, framesSkip: Int): ResourceOnTrack {
+            logger.debug { "Adding video resource to timeline" }
+
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, framesCount, framesSkip)
             resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
 
@@ -274,6 +293,7 @@ object AudioEditor {
                     modifier =
                         modifier
                             .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
+                            .offset(x = Dimens.RESOURCES_HORIZONTAL_OFFSET_ON_TRACK)
                             .onGloballyPositioned {
                                 currentPosition = it.localToWindow(Offset.Zero)
                             }
@@ -599,6 +619,32 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                         textAlign = TextAlign.Center,
                     )
                 }
+
+                Button(
+                    modifier =
+                    Modifier
+                        .width(80.dp)
+                        .height(55.dp)
+                        .padding(top = 5.dp),
+                    onClick = {
+                        logger.info { "Cut button clicked" }
+                        if (VideoPanel.playbackManager.isPlaying.value)
+                            VideoPanel.playbackManager.pause()
+                        val cutResourceOnTrackCommand =
+                            CutResourceOnTrackCommand(VideoEditor.VideoTrack, Slider.getPosition())
+                        commandManager.execute(cutResourceOnTrackCommand)
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("cut"),
+                        modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
 
@@ -614,7 +660,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = 150.dp * DpInFrame
+            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
                 Row {
