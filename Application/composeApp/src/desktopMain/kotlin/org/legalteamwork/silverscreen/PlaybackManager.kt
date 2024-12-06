@@ -70,6 +70,10 @@ class PlaybackManager {
         }
     }
 
+    fun seekToExactPosition(delta: Long) {
+        playStartFromTimestamp = delta
+    }
+
     /**
      * Асинхронный запуск бесконечного цикла, сдвигающий ползунок воспроизведения,
      * то есть обновляющий [currentTimestamp]

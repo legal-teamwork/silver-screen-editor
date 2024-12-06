@@ -47,6 +47,7 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.opencv.video.Video
 import java.io.Console
 import java.io.File
 import kotlin.math.max
@@ -666,19 +667,15 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 304.dp)
-//                .pointerInput(Unit) { // Обработчик кликов
-//                    detectTapGestures { tapOffset ->
-//                        if (!VideoPanel.playbackManager.isPlaying.value) {
-//                            val currentTimestamp =
-//
-//                            // Обновляем позицию слайдера
-//                            Slider.updatePosition(currentTimestamp)
-//
-//                            // Перемещаем плеер на выбранное время
-//                            VideoPanel.playbackManager.seek(currentTimestamp)
-//                        }
-//                    }
-//                },
+                .pointerInput(Unit) {
+                    detectTapGestures { tapOffset ->
+                        if (!VideoPanel.playbackManager.isPlaying.value) {
+                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                            Slider.updatePosition(currentTimestamp)
+                            VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
+                        }
+                    }
+                },
             ) {
                 Row {
                     for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
