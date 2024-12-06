@@ -8,6 +8,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.windows.block.WindowBlock
 
+/**
+ * Класс, содержащий всю информацию по размерностям под-окна
+ * в [org.legalteamwork.silverscreen.windows.block.ListWindowBlock],
+ * а именно: сам блок, кго инициирующие размеры и изменение по размерам
+ */
 data class BlockWithDimensions(
     val block: WindowBlock,
     val weight: Float,

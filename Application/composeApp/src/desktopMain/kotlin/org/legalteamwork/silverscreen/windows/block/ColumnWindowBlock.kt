@@ -16,6 +16,10 @@ import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.windows.data.BlockWithWeight
 import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 
+/**
+ * Класс для отображения вертикального ряда окошек в одной полосе, разделенные разделителем,
+ * позволяющим изменять размеры окон только в вертикальной размерности (высота)
+ */
 class ColumnWindowBlock(
     blocksWithHeights: List<BlockWithWeight>,
 ) : ListWindowBlock(blocksWithHeights) {
