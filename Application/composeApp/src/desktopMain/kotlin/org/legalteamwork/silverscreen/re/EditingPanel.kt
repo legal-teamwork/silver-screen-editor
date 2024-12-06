@@ -670,11 +670,11 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     .fillMaxSize()
                     .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
         ) {
-            val distance = 150.dp * DpInFrame
             val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
             val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
             val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
             val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth)
+            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxSize()) {
                 Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
