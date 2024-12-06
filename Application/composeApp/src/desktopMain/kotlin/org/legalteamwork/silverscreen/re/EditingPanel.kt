@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,7 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.opencv.video.Video
 import java.io.Console
 import java.io.File
 import kotlin.math.max
@@ -662,7 +664,19 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
         ) {
             val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
-            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 304.dp)
+                .pointerInput(Unit) {
+                    detectTapGestures { tapOffset ->
+                        if (!VideoPanel.playbackManager.isPlaying.value) {
+                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                            Slider.updatePosition(currentTimestamp)
+                            VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
+                        }
+                    }
+                },
+            ) {
                 Row {
                     for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
                         Box(modifier = Modifier.width(distance).height(45.dp)) {
