@@ -5,6 +5,7 @@ package org.legalteamwork.silverscreen.re
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.IntArraySerializer
@@ -651,6 +654,12 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
         /**
          * Панель с дорожками.
          */
+        val scrollState = rememberScrollState()
+
+        LaunchedEffect(scrollState.value) {
+            Slider.updateScrollOffset(scrollState.value)
+        }
+
         BoxWithConstraints(
             modifier =
                 Modifier
@@ -658,44 +667,51 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                         color = EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR,
                         shape = RoundedCornerShape(8.dp),
                     )
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
         ) {
+            val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
+            val maxWidthAudio = (AudioEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
+            val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
+            val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth)
             val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
-            Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
-                Row {
-                    for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
-                        Box(modifier = Modifier.width(distance).height(45.dp)) {
-                            Column {
-                                Box(modifier = Modifier.width(distance).height(25.dp)) {
-                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                                    if (i * 5 < 60) {
-                                        Text(
-                                            text = String.format("%ds", i * 5),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
-                                    } else {
-                                        Text(
-                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
+            Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+                    Row {
+                        for (i in 0 until (totalMaximumWidth / distance).toInt() + 1) {
+                            Box(modifier = Modifier.width(distance).height(45.dp)) {
+                                Column {
+                                    Box(modifier = Modifier.width(distance).height(25.dp)) {
+                                        Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                                        if (i * 5 < 60) {
+                                            Text(
+                                                text = String.format("%ds", i * 5),
+                                                fontSize = 15.sp,
+                                                color = Color.White,
+                                                modifier = Modifier.padding(start = 8.dp),
+                                            )
+                                        } else {
+                                            Text(
+                                                text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                                fontSize = 15.sp,
+                                                color = Color.White,
+                                                modifier = Modifier.padding(start = 8.dp),
+                                            )
+                                        }
                                     }
-                                }
-                                Box(modifier = Modifier.width(distance).height(20.dp)) {
-                                    Row {
-                                        for (i in 1..5) {
-                                            Row {
-                                                Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
-                                                Box(
-                                                    modifier =
+                                    Box(modifier = Modifier.width(distance).height(20.dp)) {
+                                        Row {
+                                            for (i in 1..5) {
+                                                Row {
+                                                    Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
+                                                    Box(
+                                                        modifier =
                                                         Modifier.width(
                                                             (distance - 10.dp) / 5,
                                                         ).height(20.dp).background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
-                                                )
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -704,20 +720,20 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                         }
                     }
                 }
-            }
 
-            val tracksAmount = 2
-            val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
-            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
+                val tracksAmount = 2
+                val adaptiveAudioTrackHeight = (panelHeight - 110.dp) / tracksAmount
+                val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
 
-            Column(
-                modifier =
+                Column(
+                    modifier =
                     Modifier
                         .padding(top = 55.dp).height(panelHeight - 100.dp),
-            ) {
-                VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
-                Box(modifier = Modifier.fillMaxWidth().height(10.dp))
-                AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
+                ) {
+                    VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                    Box(modifier = Modifier.fillMaxWidth().height(10.dp))
+                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
+                }
             }
 
             Box(modifier = Modifier.padding(start = 304.dp)) {
