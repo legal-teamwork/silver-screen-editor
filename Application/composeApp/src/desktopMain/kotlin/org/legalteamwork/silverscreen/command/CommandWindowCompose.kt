@@ -9,18 +9,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.CommandWindowTheme
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.Strings
 
 @Composable
 fun AppScope.CommandWindowCompose() {
     Column(Modifier.fillMaxSize().padding(Dimens.COMMAND_WINDOW_MARGIN)) {
         Text(
-            text = "Commands Log",
+            text = Strings.COMMAND_WINDOW_HEADER,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontSize = Dimens.HEADER_TEXT_SIZE,
@@ -45,7 +44,7 @@ fun AppScope.CommandWindowCompose() {
 
                     )
                     Text(
-                        text = "Reset",
+                        text = Strings.EXTRA_ITEM_TITLE,
                         color = CommandWindowTheme.TEXT_COLOR
                     )
                 }
