@@ -9,7 +9,9 @@ class MoveResourceOnTrackCommand(
     private val track: VideoEditor.VideoTrack,
     private val positionTo: Int
 ) : CommandUndoSupport {
-
+    override val title: String = "Move resource on track"
+    override val description: String =
+        "Move resource ${resourceOnTrack.id} on the timeline to the $positionTo position"
     private val logger = KotlinLogging.logger {}
     private var trackChanges: List<ResourceChange>? = null
 

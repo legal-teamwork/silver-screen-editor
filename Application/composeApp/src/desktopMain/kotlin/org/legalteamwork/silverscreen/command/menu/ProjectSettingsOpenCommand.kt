@@ -7,7 +7,8 @@ import org.legalteamwork.silverscreen.ps.ProjectSettingsWindow
 import org.legalteamwork.silverscreen.resources.Strings
 
 class ProjectSettingsOpenCommand : Command {
-
+    override val title: String = Strings.PROJECT_SETTINGS_ITEM
+    override val description: String = Strings.PROJECT_SETTINGS_ITEM
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

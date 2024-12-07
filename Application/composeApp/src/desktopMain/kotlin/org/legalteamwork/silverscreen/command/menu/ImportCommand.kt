@@ -11,7 +11,8 @@ class ImportCommand(
     private val resourceManager: ResourceManager,
     private val commandManager: CommandManager
 ) : Command {
-
+    override val title: String = Strings.FILE_IMPORT_ITEM
+    override val description: String = Strings.FILE_IMPORT_ITEM
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

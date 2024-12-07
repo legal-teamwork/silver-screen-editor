@@ -3,156 +3,98 @@
 package org.legalteamwork.silverscreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
+import org.legalteamwork.silverscreen.command.CommandWindowCompose
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.legalteamwork.silverscreen.windows.block.column
+import org.legalteamwork.silverscreen.windows.block.row
+import org.legalteamwork.silverscreen.windows.block.terminal
+import org.legalteamwork.silverscreen.windows.block.with
+import org.legalteamwork.silverscreen.windows.data.DimensionsScope
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun AppScope.App() {
-    var panelSize by remember { mutableStateOf(Size.Zero) }
-
-    var width1 by remember { mutableStateOf(0.4f) }
-    var width2 by remember { mutableStateOf(0.6f) }
-    var width3 by remember { mutableStateOf(1f) }
-    var height1 by remember { mutableStateOf(0.7f) }
-    var height3 by remember { mutableStateOf(0.3f) }
+    val windowBlock = column(
+        Dimens.UPPER_WINDOW_WEIGHT with row(
+            Dimens.RESOURCE_WINDOW_WEIGHT with terminal(
+                Dimens.RESOURCE_WINDOW_MIN_WIDTH,
+                Dimens.RESOURCE_WINDOW_MIN_HEIGHT,
+                Dimens.RESOURCE_WINDOW_MAX_WIDTH,
+                Dimens.RESOURCE_WINDOW_MAX_HEIGHT,
+            ) {
+                Box(
+                    Modifier.fillMaxSize().background(
+                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                    )
+                ) {
+                    ResourceManagerCompose()
+                }
+            },
+            Dimens.PREVIEW_WINDOW_WEIGHT with terminal(
+                Dimens.PREVIEW_WINDOW_MIN_WIDTH,
+                Dimens.PREVIEW_WINDOW_MIN_HEIGHT,
+                Dimens.PREVIEW_WINDOW_MAX_WIDTH,
+                Dimens.PREVIEW_WINDOW_MAX_HEIGHT,
+            ) {
+                Box(
+                    Modifier.fillMaxSize().background(
+                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                    )
+                ) {
+                    VideoPanel.compose()
+                }
+            },
+            Dimens.COMMANDS_WINDOW_WEIGHT with terminal(
+                Dimens.COMMANDS_WINDOW_MIN_WIDTH,
+                Dimens.COMMANDS_WINDOW_MIN_HEIGHT,
+                Dimens.COMMANDS_WINDOW_MAX_WIDTH,
+                Dimens.COMMANDS_WINDOW_MAX_HEIGHT,
+            ) {
+                Box(
+                    Modifier.fillMaxSize().background(
+                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                    )
+                ) {
+                    CommandWindowCompose()
+                }
+            }
+        ),
+        Dimens.TIMELINE_WINDOW_WEIGHT with terminal(
+            Dimens.TIMELINE_WINDOW_MIN_WIDTH,
+            Dimens.TIMELINE_WINDOW_MIN_HEIGHT,
+            Dimens.TIMELINE_WINDOW_MAX_WIDTH,
+            Dimens.TIMELINE_WINDOW_MAX_HEIGHT,
+        ) {
+            Box(
+                Modifier.fillMaxSize().background(
+                    AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                )
+            ) {
+                EditingPanel(height)
+            }
+        }
+    )
 
     Surface(color = AppTheme.SURFACE_COLOR) {
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .onGloballyPositioned { layoutCoordinates ->
-                        panelSize =
-                            Size(
-                                layoutCoordinates.size.width.toFloat(),
-                                layoutCoordinates.size.height.toFloat(),
-                            )
-                    },
-            contentAlignment = Alignment.Center,
-        ) {
-            Column {
-                MenuBarCompose()
-
-                // Horizontal divider
-                Box(modifier = Modifier.background(AppTheme.HORIZONTAL_DIVIDER_COLOR).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
-
-                Row(modifier = Modifier.height((panelSize.height * height1).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)) {
-                    // Vertical divider:
-                    Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
-                    )
-
-                    // Resource manager box:
-                    Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width1).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)
-                                .fillMaxHeight()
-                                .background(Color.DarkGray, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
-                    ) {
-                        ResourceManagerCompose()
-                    }
-
-                    // Vertical divider:
-                    Box(
-                        modifier =
-                            Modifier
-                                .background(AppTheme.VERTICAL_DIVIDER_COLOR)
-                                .fillMaxHeight()
-                                .width(Dimens.DIVIDER_SIZE)
-                                .pointerInput(Unit) {
-                                    detectDragGestures { change, dragAmount ->
-                                        change.consume()
-                                        val newWidth1 =
-                                            (width1 * panelSize.width + dragAmount.x).coerceIn(
-                                                panelSize.width * 0.4f,
-                                                panelSize.width * 0.6f,
-                                            )
-                                        width1 = newWidth1 / panelSize.width
-                                        width2 = 1 - width1
-                                    }
-                                },
-                    )
-
-                    // Video panel box:
-                    Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width2).dp - (2 * Dimens.MARGIN_SIZE + Dimens.DIVIDER_SIZE) / 2)
-                                .fillMaxHeight()
-                                .background(AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
-                    ) {
-                        VideoPanel.compose()
-                    }
-
-                    // Vertical divider:
-                    Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
-                    )
-                }
-
-                // Horizontal divider:
-                Box(
-                    modifier =
-                        Modifier.background(
-                            AppTheme.HORIZONTAL_DIVIDER_COLOR,
-                        ).height(Dimens.DIVIDER_SIZE).fillMaxWidth().pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consume()
-                                val newHeight1 =
-                                    (height1 * panelSize.height + dragAmount.y).coerceIn(
-                                        panelSize.height * 0.5f,
-                                        panelSize.height * 0.7f,
-                                    )
-                                height1 = newHeight1 / panelSize.height
-                                height3 = 1 - height1
-                            }
-                        },
-                )
-
-                Row(modifier = Modifier.height((panelSize.height * height3).dp - 20.dp)) {
-                    // Vertical divider:
-                    Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
-                    )
-
-                    // Video editor box:
-                    Box(
-                        modifier =
-                            Modifier
-                                .width((panelSize.width * width3).dp - 2 * Dimens.DIVIDER_SIZE + 3.5.dp)
-                                .fillMaxHeight()
-                                .background(AppTheme.VIDEO_EDITOR_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)),
-                    ) {
-                        EditingPanel((panelSize.height * height3).dp)
-                    }
-
-                    // Vertical divider:
-                    Box(
-                        modifier = Modifier.width(Dimens.MARGIN_SIZE).fillMaxHeight().background(AppTheme.VERTICAL_DIVIDER_COLOR),
-                    )
-                }
-
-                Box(modifier = Modifier.background(Color.Black).height(Dimens.MARGIN_SIZE).width(panelSize.width.dp))
+        Column {
+            MenuBarCompose()
+            BoxWithConstraints(Modifier.fillMaxSize().padding(Dimens.MARGIN_SIZE)) {
+                val dimensionsScope = DimensionsScope(maxWidth, maxHeight)
+                windowBlock.content.invoke(dimensionsScope)
             }
         }
     }
 }
+
