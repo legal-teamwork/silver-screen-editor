@@ -40,18 +40,17 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import org.opencv.video.Video
-import java.io.Console
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
+import org.bytedeco.javacv.FFmpegFrameGrabber
+import kotlin.math.floor
 
 private val logger = KotlinLogging.logger { }
 
@@ -103,6 +102,7 @@ object VideoEditor {
             @Transient val track: VideoTrack? = null,
             val id: Int,
             var position: Int,
+            val framesCountForExport: Int,
             val framesCountDefault: Int,
             var framesSkip: Int = 0
         ) {
@@ -140,7 +140,27 @@ object VideoEditor {
         fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
             logger.debug { "Adding video resource to timeline" }
 
-            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            //Temporary fix!!!
+            var frameRate = -1.0
+            val grabber = FFmpegFrameGrabber(resource.resourcePath)
+            try {
+                grabber.start()
+                frameRate = grabber.frameRate
+                logger.warn { "Frame Rate of ${resource.resourcePath}: ${frameRate} FPS" }
+            } catch (e: Exception) {
+                logger.error { "Failed to calc FPS of resource!!!" }
+                e.printStackTrace()
+            } finally {
+                try {
+                    grabber.stop()
+                } catch (e: Exception) {
+                    logger.error { "Failed to stop grabber" }
+                    e.printStackTrace()
+                }
+            }
+
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames ,floor(resource.numberOfFrames.toDouble() / (frameRate / Dimens.TIMELINE_FRAME_RATE.toDouble()) ).toInt())
+            //EndOfFix
             resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
 
@@ -624,10 +644,10 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
 
                 Button(
                     modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(55.dp)
-                        .padding(top = 5.dp),
+                        Modifier
+                            .width(80.dp)
+                            .height(55.dp)
+                            .padding(top = 5.dp),
                     onClick = {
                         logger.info { "Cut button clicked" }
                         if (VideoPanel.playbackManager.isPlaying.value)
@@ -641,9 +661,9 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     Text(
                         text = String.format("cut"),
                         modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
+                            Modifier
+                                .fillMaxSize()
+                                .wrapContentSize(Alignment.Center),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -662,7 +682,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
+            val distance = Dimens.TIMELINE_FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -670,7 +690,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                 .pointerInput(Unit) {
                     detectTapGestures { tapOffset ->
                         if (!VideoPanel.playbackManager.isPlaying.value) {
-                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.TIMELINE_FRAME_RATE * DpInFrame)).toLong()
                             Slider.updatePosition(currentTimestamp)
                             VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
                         }

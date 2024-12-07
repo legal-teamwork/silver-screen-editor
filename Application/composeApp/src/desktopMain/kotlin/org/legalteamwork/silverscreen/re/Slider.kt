@@ -23,7 +23,7 @@ object Slider {
     private var markerPosition by mutableStateOf(0)
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
+        markerPosition = (currentTimestamp * Dimens.TIMELINE_FRAME_RATE * DpInFrame / 1000).toInt()
     }
 
     fun getPosition() = markerPosition
@@ -47,7 +47,7 @@ object Slider {
                         onDrag = { change, dragAmount ->
                             if (!VideoPanel.playbackManager.isPlaying.value) {
                                 change.consume()
-                                val delta = (dragAmount.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                                val delta = (dragAmount.x * 1000 / (Dimens.TIMELINE_FRAME_RATE * DpInFrame)).toLong()
                                 VideoPanel.playbackManager.seek(delta)
                             }
                         },

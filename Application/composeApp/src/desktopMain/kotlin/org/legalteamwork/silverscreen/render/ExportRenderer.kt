@@ -120,7 +120,7 @@ class ExportRenderer {
             var lastSourceFrame = -1
             while (true) {
                 val nextFrame = (timestamp * sourceFPS / 1000).toInt()
-                if (nextFrame >= resource.framesCount)
+                if (nextFrame >= resource.framesCountForExport)
                     break
                 if (nextFrame > lastSourceFrame) {
                     repeat(nextFrame - lastSourceFrame - 1) { next(frameGrabber) }

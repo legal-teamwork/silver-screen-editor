@@ -42,7 +42,7 @@ object Dimens {
     val MENU_BUTTON_HEIGHT = 35.dp
 
     //In EditingPanel.kt
-    const val FRAME_RATE = 25f
+    const val TIMELINE_FRAME_RATE = 25f
     val VIDEO_TRACK_MAX_HEIGHT = 500.dp
     val VIDEO_TRACK_MIN_WIDTH = 30.dp
     val AUDIO_TRACK_MAX_HEIGHT = 500.dp

@@ -14,7 +14,7 @@ data class VideoEditorTimeState(val timestamp: Long) {
      * Находит ресурс, который находится в заданном моменте времени
      */
     private val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack? = run {
-        val frame = timestamp * Dimens.FRAME_RATE / 1000
+        val frame = timestamp * Dimens.TIMELINE_FRAME_RATE / 1000
 
         VideoEditor.VideoTrack.resourcesOnTrack.find {
             it.position <= frame && it.position + it.framesCount > frame
@@ -26,7 +26,7 @@ data class VideoEditorTimeState(val timestamp: Long) {
      */
     val resourceOnTrackTimestamp: Long = run {
         if (resourceOnTrack != null) {
-            val resourceStartTimestamp = (resourceOnTrack.position - resourceOnTrack.framesSkip) * 1000 / Dimens.FRAME_RATE
+            val resourceStartTimestamp = (resourceOnTrack.position - resourceOnTrack.framesSkip) * 1000 / Dimens.TIMELINE_FRAME_RATE
             timestamp - resourceStartTimestamp.toLong()
         } else {
             0
