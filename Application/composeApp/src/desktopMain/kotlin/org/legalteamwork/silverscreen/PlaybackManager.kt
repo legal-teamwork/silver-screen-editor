@@ -74,6 +74,12 @@ class PlaybackManager {
         playStartFromTimestamp = delta
     }
 
+    fun seekToExactPositionWhilePlaying(position: Long) {
+        val currentTimeMillis = System.currentTimeMillis()
+        playStartFromTimestamp = position
+        playStartTimestamp = currentTimeMillis
+    }
+
     /**
      * Асинхронный запуск бесконечного цикла, сдвигающий ползунок воспроизведения,
      * то есть обновляющий [currentTimestamp]
