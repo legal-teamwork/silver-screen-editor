@@ -45,11 +45,11 @@ object Slider {
                 .pointerInput(Unit) {
                     detectDragGestures(
                         onDrag = { change, dragAmount ->
-                            if (!VideoPanel.playbackManager.isPlaying.value) {
+//                            if (!VideoPanel.playbackManager.isPlaying.value) {
                                 change.consume()
                                 val delta = (dragAmount.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
                                 VideoPanel.playbackManager.seek(delta)
-                            }
+//                            }
                         },
                     )
                 },

@@ -669,9 +669,12 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                 .padding(start = 304.dp)
                 .pointerInput(Unit) {
                     detectTapGestures { tapOffset ->
-                        if (!VideoPanel.playbackManager.isPlaying.value) {
-                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
-                            Slider.updatePosition(currentTimestamp)
+                        val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                        Slider.updatePosition(currentTimestamp)
+                        if (VideoPanel.playbackManager.isPlaying.value) {
+                            VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
+                        }
+                        else {
                             VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
                         }
                     }
