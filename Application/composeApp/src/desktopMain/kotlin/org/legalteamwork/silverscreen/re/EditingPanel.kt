@@ -480,8 +480,10 @@ object AudioEditor {
                     }
                 }
 
-                for (i in 0..<resources.size) {
-                    resources[i].compose()
+                Box(modifier = Modifier.padding(start = 304.dp).width(10000.dp)) {
+                    for (i in 0..<resources.size) {
+                        resources[i].compose()
+                    }
                 }
             }
         }
