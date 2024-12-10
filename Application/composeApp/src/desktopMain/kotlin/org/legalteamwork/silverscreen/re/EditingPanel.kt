@@ -696,7 +696,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     },
                 ) {
                     Row {
-                        for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
+                        for (i in 0 until (totalMaximumWidth / distance).toInt() + 1) {
                             Box(modifier = Modifier.width(distance).height(45.dp)) {
                                 Column {
                                     Box(modifier = Modifier.width(distance).height(25.dp)) {
@@ -747,9 +747,9 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     Modifier
                         .padding(top = 55.dp).height(panelHeight - 100.dp),
                 ) {
-                    VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
+                    VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth)
                     Box(modifier = Modifier.fillMaxWidth().height(10.dp))
-                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
+                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth)
                 }
             }
 
