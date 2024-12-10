@@ -12,6 +12,9 @@ class MoveResourceCommand(
     private val folderFrom: FolderResource,
     private val folderTo: FolderResource
 ) : CommandUndoSupport {
+    override val title: String = "Move resource"
+    override val description: String =
+        "Add '${resource.title}' from ${resourceManager.getRelativePath(folderFrom)} to ${resourceManager.getRelativePath(folderTo)}"
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

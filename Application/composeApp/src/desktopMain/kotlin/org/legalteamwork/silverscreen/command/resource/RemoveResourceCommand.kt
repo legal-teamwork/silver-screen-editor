@@ -11,6 +11,9 @@ class RemoveResourceCommand(
     private val resource: Resource,
     private val folder: FolderResource = resourceManager.currentFolder.value
 ) : CommandUndoSupport {
+    override val title: String = "Remove resource"
+    override val description: String =
+        "Remove '${resource.title}' from ${resourceManager.getRelativePath(folder)}"
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

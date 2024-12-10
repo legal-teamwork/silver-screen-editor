@@ -8,7 +8,8 @@ import org.legalteamwork.silverscreen.rm.openFileDialog
 import org.legalteamwork.silverscreen.save.Project
 
 class SaveCommand : Command {
-
+    override val title: String = Strings.FILE_SAVE_ITEM
+    override val description: String = Strings.FILE_SAVE_ITEM
     private val logger = KotlinLogging.logger {}
 
     private fun saveAs() {

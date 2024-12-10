@@ -8,7 +8,8 @@ import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 
 class ExportCommand : Command {
-
+    override val title: String = Strings.FILE_EXPORT_ITEM
+    override val description: String = Strings.FILE_EXPORT_ITEM
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {

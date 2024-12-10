@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.opencv.video.Video
 import java.io.Console
 import java.io.File
 import kotlin.math.max
@@ -677,9 +679,24 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
             val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
 
             Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxSize()) {
-                Box(modifier = Modifier.fillMaxWidth().padding(start = 304.dp)) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 304.dp)
+                    .pointerInput(Unit) {
+                        detectTapGestures { tapOffset ->
+                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                            Slider.updatePosition(currentTimestamp)
+                            if (VideoPanel.playbackManager.isPlaying.value) {
+                                VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
+                            }
+                            else {
+                                VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
+                            }
+                        }
+                    },
+                ) {
                     Row {
-                        for (i in 0 until (totalMaximumWidth / distance).toInt() + 1) {
+                        for (i in 0 until (this@BoxWithConstraints.maxWidth / distance).toInt() + 1) {
                             Box(modifier = Modifier.width(distance).height(45.dp)) {
                                 Column {
                                     Box(modifier = Modifier.width(distance).height(25.dp)) {
@@ -730,9 +747,9 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     Modifier
                         .padding(top = 55.dp).height(panelHeight - 100.dp),
                 ) {
-                    VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth * 2)
+                    VideoTrackCompose(adaptiveVideoTrackHeight, this@BoxWithConstraints.maxWidth)
                     Box(modifier = Modifier.fillMaxWidth().height(10.dp))
-                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth * 2)
+                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, this@BoxWithConstraints.maxWidth)
                 }
             }
 

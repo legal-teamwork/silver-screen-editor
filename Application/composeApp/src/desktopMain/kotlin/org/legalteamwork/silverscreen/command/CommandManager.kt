@@ -1,10 +1,15 @@
 package org.legalteamwork.silverscreen.command
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
 class CommandManager(
     private val stackMaxSize: Int = 100
 ) {
-    private val stack = mutableListOf<CommandUndoSupport>()
-    private var pointer = 0
+    val stack = mutableStateListOf<CommandUndoSupport>()
+    val pointer = mutableStateOf(0)
 
     fun execute(command: Command) = command.execute()
 
@@ -15,25 +20,43 @@ class CommandManager(
     }
 
     fun undo() {
-        if (pointer > 1)
-            stack[--pointer].undo()
+        var pointerEditor by pointer
+
+        if (pointerEditor >= 1)
+            stack[--pointerEditor].undo()
     }
 
     fun redo() {
-        if (stack.size > 0 && pointer < stack.size)
-            stack[pointer++].execute()
+        var pointerEditor by pointer
+
+        if (stack.size > 0 && pointerEditor < stack.size)
+            stack[pointerEditor++].execute()
+    }
+
+    fun seek(newPointer: Int) {
+        assert(newPointer in 0..stack.size)
+
+        while (pointer.value < newPointer) {
+            redo()
+        }
+
+        while (pointer.value > newPointer) {
+            undo()
+        }
     }
 
     private fun addCommandToStack(command: CommandUndoSupport) {
-        while (stack.size > pointer)
+        var pointerEditor by pointer
+
+        while (stack.size > pointerEditor)
             stack.removeLast()
 
         stack.add(command)
-        pointer++
+        pointerEditor++
 
         while (stack.size > stackMaxSize) {
             stack.removeFirst()
-            pointer--
+            pointerEditor--
         }
     }
 }
