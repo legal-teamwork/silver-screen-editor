@@ -99,6 +99,7 @@ class ExportRenderer {
             repeat(blankFrames) {
                 recorder.record(converter.convert(BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)))
             }
+            /* TODO: audio should be handled differently
             val length = (recorder.sampleRate * blankFrames / fps).toInt()
             println("$blankFrames $length")
             val bufferList = mutableListOf<ByteBuffer>()
@@ -107,38 +108,33 @@ class ExportRenderer {
                 bufferList.add(buffer)
             }
             recorder.recordSamples(*bufferList.toTypedArray())
+             */
             lastFrame = resource.position
 
             val videoResource = VideoEditor.getVideoResources()[resource.id]
             val frameGrabber = FFmpegFrameGrabber(videoResource.resourcePath)
             frameGrabber.start()
-            val sourceFPS = frameGrabber.frameRate
 
-            var frames = 0
-            var timestamp = 0L
             var cachedFrame: Frame? = null
             var lastSourceFrame = -1
-            while (true) {
-                val nextFrame = (timestamp * sourceFPS / 1000).toInt()
-                if (nextFrame >= resource.framesCount)
-                    break
+            println(videoResource.numberOfFrames)
+            (resource.framesSkip..<resource.framesSkip + resource.framesCount).forEach { frameNo ->
+                val nextFrame = videoResource.fromProjectFPS(frameNo)
+                logger.info { "relative frame $frameNo; source frame $nextFrame" }
                 if (nextFrame > lastSourceFrame) {
-                    repeat(nextFrame - lastSourceFrame - 1) { next(frameGrabber) }
-                    val frame = next(frameGrabber)
-                    val image = converter.convert(frame)
+                    val frame = videoResource.getFrame(nextFrame)
+                    val image = frame.bufferedImage
                     val resizedImage = resizeImage(image, width, height)
                     val resizedFrame = converter.convert(resizedImage)
                     cachedFrame = resizedFrame
                     lastSourceFrame = nextFrame
                 }
                 recorder.record(cachedFrame)
-                timestamp += (1000 / fps).toLong()
-                frames++
             }
             frameGrabber.stop()
             frameGrabber.close()
-            logger.info { "export: $blankFrames padded frames, $frames actual frames" }
-            lastFrame += frames
+            logger.info { "export: $blankFrames padded frames, ${resource.framesCount} actual frames" }
+            lastFrame += resource.framesCount
         }
         logger.info { "export done" }
         recorder.stop()

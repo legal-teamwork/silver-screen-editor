@@ -40,15 +40,13 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import org.opencv.video.Video
-import java.io.Console
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -57,7 +55,10 @@ private val logger = KotlinLogging.logger { }
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
-var DpInFrame by mutableStateOf(1f)
+var DpPerSecond by mutableStateOf(30f)
+var DpInFrame: Float
+    get() = (DpPerSecond / Project.fps).toFloat()
+    set(value) { DpPerSecond = (value * Project.fps).toFloat() }
 
 /**
  * Базовый класс для панели редактирования видео.
@@ -140,7 +141,7 @@ object VideoEditor {
         fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
             logger.debug { "Adding video resource to timeline" }
 
-            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+            val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.framesInProjectFPS)
             resourcesOnTrack.add(resourceOnTrack)
             videoResources.add(resource)
 
@@ -209,6 +210,7 @@ object VideoEditor {
         VideoTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
         VideoTrack.videoResources.clear()
         VideoTrack.videoResources.addAll(savedVideoResource)
+        VideoTrack.resourcesOnTrack.forEach { it.updateOffset() }
         logger.info { "Restoring video resources finished" }
     }
 }
@@ -662,14 +664,14 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     )
                     .fillMaxSize(),
         ) {
-            val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
+            val distance = Project.fps * DpInFrame * 5.dp
 
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 304.dp)
                 .pointerInput(Unit) {
                     detectTapGestures { tapOffset ->
-                        val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                        val currentTimestamp = (tapOffset.x * 1000 / (Project.fps * DpInFrame)).toLong()
                         Slider.updatePosition(currentTimestamp)
                         if (VideoPanel.playbackManager.isPlaying.value) {
                             VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)

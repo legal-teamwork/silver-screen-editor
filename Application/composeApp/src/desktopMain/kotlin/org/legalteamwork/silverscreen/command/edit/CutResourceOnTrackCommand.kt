@@ -16,7 +16,7 @@ class CutResourceOnTrackCommand(
     private var rightResource: VideoEditor.VideoTrack.ResourceOnTrack? = null
 
     override fun execute() {
-        logger.info { "Cutting video resource" }
+        logger.info { "Cutting video resource position=$position" }
         val index = VideoEditor.VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
         if (index != -1) {
             val leftSize = position - VideoEditor.VideoTrack.resourcesOnTrack[index].getLeftBorder()

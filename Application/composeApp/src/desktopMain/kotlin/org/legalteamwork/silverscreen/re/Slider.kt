@@ -13,7 +13,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
 /**
@@ -23,10 +22,10 @@ object Slider {
     private var markerPosition by mutableStateOf(0)
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
+        markerPosition = (currentTimestamp * DpPerSecond / 1000).toInt()
     }
 
-    fun getPosition() = markerPosition
+    fun getPosition() = (markerPosition / DpInFrame).toInt()
 
     @Suppress("ktlint:standard:function-naming")
     @Composable
@@ -47,7 +46,7 @@ object Slider {
                         onDrag = { change, dragAmount ->
 //                            if (!VideoPanel.playbackManager.isPlaying.value) {
                                 change.consume()
-                                val delta = (dragAmount.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                                val delta = (dragAmount.x * 1000 / DpPerSecond).toLong()
                                 VideoPanel.playbackManager.seek(delta)
 //                            }
                         },
