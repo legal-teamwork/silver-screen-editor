@@ -21,12 +21,20 @@ import org.legalteamwork.silverscreen.vp.VideoPanel
  */
 object Slider {
     private var markerPosition by mutableStateOf(0)
+    private var scrollOffset by mutableStateOf(0)
 
     fun updatePosition(currentTimestamp: Long) {
         markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
     }
 
     fun getPosition() = markerPosition
+
+    /**
+     * Устанавливает горизонтальное смещение от прокрутки.
+     */
+    fun updateScrollOffset(scrollValue: Int) {
+        scrollOffset = scrollValue
+    }
 
     @Suppress("ktlint:standard:function-naming")
     @Composable
@@ -38,7 +46,7 @@ object Slider {
         Box(
             modifier = Modifier
                 // Центрируем область взаимодействия относительно текущей позиции слайдера
-                .offset { IntOffset(markerPosition - hitboxWidth.toPx().toInt() / 2, 0) }
+                .offset { IntOffset(markerPosition - (hitboxWidth.toPx().toInt() / 2) - scrollOffset, 0) }
                 .width(hitboxWidth)
                 .height(panelHeight)
                 .padding(top = 50.dp)
