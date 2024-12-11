@@ -679,7 +679,9 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
             val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
             val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth)
             val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
-            val totalBlocks = (totalMaximumWidth / distance).toInt() + 1
+            val minDistance = Dimens.FRAME_RATE * 0.75f * 5.dp
+            val minTotalBlocks = (totalMaximumWidth / minDistance).toInt() + 1
+            val totalBlocks = max((totalMaximumWidth / distance).toInt() + 1, minTotalBlocks)
             val timelineLength = totalBlocks * distance
 
             Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxWidth()) {
