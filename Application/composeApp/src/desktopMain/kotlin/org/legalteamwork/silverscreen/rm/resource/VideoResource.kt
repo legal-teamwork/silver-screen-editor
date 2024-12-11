@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.Java2DFrameConverter
+import org.legalteamwork.silverscreen.menu.logger
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer
 import org.legalteamwork.silverscreen.save.Project
@@ -111,6 +112,7 @@ class VideoResource(
      * @return preview file path
      */
     fun buildPreviewFile(): String {
+        logger.info { "buildPreviewFile called" }
         val result = kotlin.io.path.createTempFile().pathString
         val bufferedImage = getFrame().bufferedImage
         val previewFile = File(result)

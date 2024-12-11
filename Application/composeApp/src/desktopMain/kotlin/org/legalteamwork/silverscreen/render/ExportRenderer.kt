@@ -122,12 +122,15 @@ class ExportRenderer {
                 val nextFrame = videoResource.fromProjectFPS(frameNo)
                 logger.info { "relative frame $frameNo; source frame $nextFrame" }
                 if (nextFrame > lastSourceFrame) {
-                    val frame = videoResource.getFrame(nextFrame)
-                    val image = frame.bufferedImage
-                    val resizedImage = resizeImage(image, width, height)
-                    val resizedFrame = converter.convert(resizedImage)
-                    cachedFrame = resizedFrame
-                    lastSourceFrame = nextFrame
+                    try {
+                        val frame = videoResource.getFrame(nextFrame)
+                        val image = frame.bufferedImage
+                        val resizedImage = resizeImage(image, width, height)
+                        val resizedFrame = converter.convert(resizedImage)
+                        cachedFrame = resizedFrame
+                        lastSourceFrame = nextFrame
+                        logger.info { "updated cached frame" }
+                    } catch (_: Exception) {}
                 }
                 recorder.record(cachedFrame)
             }
