@@ -480,7 +480,7 @@ object AudioEditor {
                     }
                 }
 
-                Box(modifier = Modifier.padding(start = 304.dp).width(10000.dp)) {
+                Box(modifier = Modifier.padding(start = 304.dp).width(maxWidth)) {
                     for (i in 0..<resources.size) {
                         resources[i].compose()
                     }
@@ -679,8 +679,10 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
             val maxOfCalculatedWidth = (max(maxWidthAudio, maxWidthVideos))
             val totalMaximumWidth = maxOf(maxOfCalculatedWidth, this@BoxWithConstraints.maxWidth)
             val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
+            val totalBlocks = (totalMaximumWidth / distance).toInt() + 1
+            val timelineLength = totalBlocks * distance
 
-            Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxSize()) {
+            Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxWidth()) {
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 304.dp)
@@ -698,7 +700,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     },
                 ) {
                     Row {
-                        for (i in 0 until (totalMaximumWidth / distance).toInt() + 1) {
+                        for (i in 0 until totalBlocks) {
                             Box(modifier = Modifier.width(distance).height(45.dp)) {
                                 Column {
                                     Box(modifier = Modifier.width(distance).height(25.dp)) {
@@ -721,7 +723,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                                     }
                                     Box(modifier = Modifier.width(distance).height(20.dp)) {
                                         Row {
-                                            for (i in 1..5) {
+                                            for (j in 1..5) {
                                                 Row {
                                                     Box(modifier = Modifier.width(2.dp).height(20.dp).background(Color.White))
                                                     Box(
@@ -749,9 +751,9 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     Modifier
                         .padding(top = 55.dp).height(panelHeight - 100.dp),
                 ) {
-                    VideoTrackCompose(adaptiveVideoTrackHeight, totalMaximumWidth)
+                    VideoTrackCompose(adaptiveVideoTrackHeight, timelineLength)
                     Box(modifier = Modifier.fillMaxWidth().height(10.dp))
-                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, totalMaximumWidth)
+                    AudioEditor.AudioTrack.compose(adaptiveAudioTrackHeight, timelineLength)
                 }
             }
 

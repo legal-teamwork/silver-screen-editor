@@ -72,7 +72,7 @@ fun AppScope.VideoTrackCompose(
                 )
             }
         }
-        Box(modifier = Modifier.padding(start = 304.dp).width(10000.dp)) {
+        Box(modifier = Modifier.width(maxWidth + 304.dp)) {
             for (i in 0..<resources.size) {
                 val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resources[i])
                 resourceOnTrackScope.ResourceOnTrackCompose()
