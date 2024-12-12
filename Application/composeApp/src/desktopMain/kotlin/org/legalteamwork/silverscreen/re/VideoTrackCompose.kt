@@ -1,8 +1,8 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -38,7 +37,7 @@ fun AppScope.VideoTrackCompose(
     trackHeight: Dp,
     maxWidth: Dp,
 ) {
-    val resources = remember { resourcesOnTrack }
+    //val resources = remember { resourcesOnTrack }
     logger.info { "Composing video resource" }
     Box(
         modifier =
@@ -73,55 +72,14 @@ fun AppScope.VideoTrackCompose(
             }
         }
         Box(modifier = Modifier.width(maxWidth + 304.dp)) {
-            for (i in 0..<resources.size) {
-                val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resources[i])
+            for (resource in resourcesOnTrack) {
+                val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resource)
                 resourceOnTrackScope.ResourceOnTrackCompose()
             }
         }
     }
 }
 
-@Composable
-private fun VideoEditorMarkup(
-    maxWidth: Dp,
-    trackHeight: Dp,
-    zoom: Float,
-) {
-    val shortMarkInterval = 10f * DpInFrame
-    val longMarkInterval = 100f * DpInFrame
-    logger.info { "Markup timeline..." }
-
-    Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val width = size.width
-            val height = size.height
-
-            drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-
-            for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                val xPosition = i * shortMarkInterval - 1
-
-                drawLine(
-                    color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                    start = Offset(xPosition, height * 0.25f),
-                    end = Offset(xPosition, height * 0.75f),
-                    strokeWidth = 1f,
-                )
-            }
-
-            for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                val xPosition = i * longMarkInterval - 1
-
-                drawLine(
-                    color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                    start = Offset(xPosition, height * 0.15f),
-                    end = Offset(xPosition, height * 0.85f),
-                    strokeWidth = 1f,
-                )
-            }
-        }
-    }
-}
 
 @Composable
 private fun <T> ResourceOnTrackScope.DragTarget(
@@ -173,9 +131,12 @@ private fun <T> ResourceOnTrackScope.DragTarget(
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR)
 
     DragTarget(
-        modifier = Modifier.fillMaxHeight().width(size),
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(size),
         dataToDrop = "",
     ) {
         BoxWithConstraints(
@@ -183,7 +144,15 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                 Modifier
                     .fillMaxHeight()
                     .width(size)
-                    .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(20.dp)),
+                    .background(color = droppableFileBackgroundColor, RoundedCornerShape(20.dp))
+                    .clickable(
+                        onClick = {
+                            if (VideoEditor.highlightResource(resourceOnTrack.id))
+                                droppableFileBackgroundColor = EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
+                            else
+                                droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR
+                        }
+                    ),
         ) {
             val textHeight = min(20.dp, maxHeight)
             val previewHeight = min(75.dp, maxHeight - textHeight)
@@ -205,10 +174,8 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                 Image(
                     painter =
                         BitmapPainter(
-                            remember {
                                 File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
                                     .decodeToImageBitmap()
-                            },
                         ),
                     contentDescription = videoResources[resourceOnTrack.id].title.value,
                     modifier =

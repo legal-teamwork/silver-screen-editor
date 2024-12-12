@@ -34,7 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.IntArraySerializer
@@ -43,15 +42,13 @@ import kotlinx.serialization.encoding.Encoder
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
-import org.legalteamwork.silverscreen.PlaybackManager
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.vp.VideoPanel
-import org.opencv.video.Video
-import java.io.Console
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -76,6 +73,7 @@ object VideoEditor {
     object VideoTrack {
         var videoResources = mutableStateListOf<VideoResource>()
         var resourcesOnTrack = mutableStateListOf<ResourceOnTrack>()
+        var highlightedResources = mutableListOf<Int>()
 
         @OptIn(ExperimentalSerializationApi::class)
         @Serializer(forClass = ResourceOnTrack::class)
@@ -645,6 +643,30 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                 ) {
                     Text(
                         text = String.format("cut"),
+                        modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+
+                Button(
+                    modifier =
+                    Modifier
+                        .width(80.dp)
+                        .height(55.dp)
+                        .padding(top = 5.dp),
+                    onClick = {
+                        logger.info { "Del button clicked" }
+                        val deleteResourceOnTrackCommand =
+                            DeleteResourcesOnTrackCommand(VideoEditor.VideoTrack, VideoEditor.getHighlightedResources())
+                        commandManager.execute(deleteResourceOnTrackCommand)
+                    },
+                    colors = buttonColors,
+                ) {
+                    Text(
+                        text = String.format("del"),
                         modifier =
                         Modifier
                             .fillMaxSize()
