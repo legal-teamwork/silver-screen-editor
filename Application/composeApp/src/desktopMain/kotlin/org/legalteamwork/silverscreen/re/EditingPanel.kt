@@ -86,60 +86,86 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
         val timelineLength = totalBlocks * distance
 
         Box(modifier = Modifier.horizontalScroll(scrollState).fillMaxWidth()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .pointerInput(Unit) {
-                        detectTapGestures { tapOffset ->
-                            val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
-                            Slider.updatePosition(currentTimestamp)
-                            if (VideoPanel.playbackManager.isPlaying.value) {
-                                VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
+            TimelineMarks(totalBlocks, distance)
+            TimelineTracks(panelHeight, timelineLength)
+        }
+
+        Box {
+            SliderCompose(panelHeight)
+        }
+    }
+}
+
+@Composable
+private fun AppScope.TimelineTracks(
+    panelHeight: Dp,
+    timelineLength: Dp
+) {
+    Column(
+        modifier =
+            Modifier
+                .padding(top = 55.dp)
+                .height(panelHeight),
+        verticalArrangement = Arrangement.Center
+    ) {
+        VideoTrackCompose(Dimens.TIMELINE_TRACK_HEIGHT, timelineLength)
+    }
+}
+
+@Composable
+private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .pointerInput(Unit) {
+                detectTapGestures { tapOffset ->
+                    val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                    Slider.updatePosition(currentTimestamp)
+                    if (VideoPanel.playbackManager.isPlaying.value) {
+                        VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
+                    } else {
+                        VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
+                    }
+                }
+            },
+    ) {
+        Row {
+            for (i in 0 until totalBlocks) {
+                Box(modifier = Modifier.width(distance).height(45.dp)) {
+                    Column {
+                        Box(modifier = Modifier.width(distance).height(25.dp)) {
+                            Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
+                            if (i * 5 < 60) {
+                                Text(
+                                    text = String.format("%ds", i * 5),
+                                    fontSize = 15.sp,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(start = 8.dp),
+                                )
                             } else {
-                                VideoPanel.playbackManager.seekToExactPosition(currentTimestamp)
+                                Text(
+                                    text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
+                                    fontSize = 15.sp,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(start = 8.dp),
+                                )
                             }
                         }
-                    },
-            ) {
-                Row {
-                    for (i in 0 until totalBlocks) {
-                        Box(modifier = Modifier.width(distance).height(45.dp)) {
-                            Column {
-                                Box(modifier = Modifier.width(distance).height(25.dp)) {
-                                    Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                                    if (i * 5 < 60) {
-                                        Text(
-                                            text = String.format("%ds", i * 5),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
-                                    } else {
-                                        Text(
-                                            text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
-                                            fontSize = 15.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.padding(start = 8.dp),
-                                        )
-                                    }
-                                }
-                                Box(modifier = Modifier.width(distance).height(20.dp)) {
+                        Box(modifier = Modifier.width(distance).height(20.dp)) {
+                            Row {
+                                for (j in 1..5) {
                                     Row {
-                                        for (j in 1..5) {
-                                            Row {
-                                                Box(
-                                                    modifier = Modifier.width(2.dp).height(20.dp)
-                                                        .background(Color.White)
-                                                )
-                                                Box(
-                                                    modifier =
-                                                        Modifier.width(
-                                                            (distance - 10.dp) / 5,
-                                                        ).height(20.dp)
-                                                            .background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
-                                                )
-                                            }
-                                        }
+                                        Box(
+                                            modifier = Modifier.width(2.dp).height(20.dp)
+                                                .background(Color.White)
+                                        )
+                                        Box(
+                                            modifier =
+                                                Modifier.width(
+                                                    (distance - 10.dp) / 5,
+                                                ).height(20.dp)
+                                                    .background(EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR),
+                                        )
                                     }
                                 }
                             }
@@ -147,23 +173,6 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
                     }
                 }
             }
-
-            val tracksAmount = 1
-            val adaptiveVideoTrackHeight = (panelHeight - 110.dp) / tracksAmount
-
-            Column(
-                modifier =
-                    Modifier
-                        .padding(top = 55.dp)
-                        .wrapContentSize()
-                        .height(panelHeight - 100.dp),
-            ) {
-                VideoTrackCompose(adaptiveVideoTrackHeight, timelineLength)
-            }
-        }
-
-        Box {
-            SliderCompose(panelHeight - 40.dp)
         }
     }
 }
