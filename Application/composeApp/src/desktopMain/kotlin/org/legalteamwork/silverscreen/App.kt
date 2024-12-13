@@ -16,6 +16,7 @@ import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
+import org.legalteamwork.silverscreen.toolbar.ToolbarPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.windows.block.column
 import org.legalteamwork.silverscreen.windows.block.row
@@ -82,6 +83,7 @@ fun AppScope.App() {
                     AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                 )
             ) {
+                ToolbarPanel()
                 EditingPanel(height)
             }
         }

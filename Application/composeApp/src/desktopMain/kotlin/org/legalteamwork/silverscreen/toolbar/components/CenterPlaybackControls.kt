@@ -43,25 +43,25 @@ fun centerPlaybackControls(
         }
         Button(onClick = onRewindBackwardsClick) {
             Image(
-                painter = painterResource("toolbar_buttons/rewind_backwards.svg"),
+                painter = painterResource("toolbar_buttons/rewind_backwards_button.svg"),
                 contentDescription = "Rewind backwards"
             )
         }
         Button(onClick = onPlayPauseClick) {
             Image(
-                painter = painterResource("toolbar_buttons/play.svg"),
+                painter = painterResource("toolbar_buttons/play_button.svg"),
                 contentDescription = "Play"
                 )
         }
         Button(onClick = onStopClick) {
             Image(
-                painter = painterResource("toolbar_buttons/stop.svg"),
+                painter = painterResource("toolbar_buttons/stop_button.svg"),
                 contentDescription = "Stop"
             )
         }
         Button(onClick = onRewindForwardClick) {
             Image(
-                painter = painterResource("toolbar_buttons/rewind_forward.svg"),
+                painter = painterResource("toolbar_buttons/rewind_forward_button.svg"),
                 contentDescription = "Rewind forward"
             )
         }

@@ -42,7 +42,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
         centerPlaybackControls(
             currentTime = Slider.getPosition().toLong(),
-            totalDuration = totalProjectDuration * 1000 / Dimens.FRAME_RATE,
+            totalDuration = (totalProjectDuration * 1000 / Dimens.FRAME_RATE).toLong(),
             onPlayPauseClick = {
                 if (VideoPanel.playbackManager.isPlaying.value) VideoPanel.playbackManager.pause() else VideoPanel.playbackManager.play()
             },
@@ -57,9 +57,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
             },
             onSeekToStartClick = {
                 VideoPanel.playbackManager.seekToStart()
+                VideoPanel.playbackManager.pause()
+
             },
             onSeekToEndClick = {
                 VideoPanel.playbackManager.seekToEnd()
+                VideoPanel.playbackManager.pause()
             },
         )
 

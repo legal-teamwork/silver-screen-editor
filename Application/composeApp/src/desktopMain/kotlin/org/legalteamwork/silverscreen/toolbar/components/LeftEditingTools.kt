@@ -29,7 +29,7 @@ fun leftEditingTools(
     ) {
         IconButton(onClick = onCutClick) {
             Icon(
-                painter = painterResource("toolbar_buttons/cut.svg"),
+                painter = painterResource("toolbar_buttons/content_cut.svg"),
                 contentDescription = "Cut"
             )
         }
