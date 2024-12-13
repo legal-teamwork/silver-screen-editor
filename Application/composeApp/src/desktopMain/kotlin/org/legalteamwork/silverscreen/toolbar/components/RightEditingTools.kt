@@ -3,6 +3,7 @@ package org.legalteamwork.silverscreen.toolbar.components;
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,20 +32,20 @@ fun rightEditingTools(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onStepBackward) {
-            Icon(
+            Image(
                 painter = painterResource("toolbar_buttons/arrow_back.svg"),
                 contentDescription = "Step backward",
             )
         }
         IconButton(onClick = onStepForward) {
-            Icon(
+            Image(
                 painter = painterResource("toolbar_buttons/arrow_forward.svg"),
                 contentDescription = "Step forward",
             )
         }
 
         IconButton(onClick = onZoomOut) {
-            Icon(
+            Image(
                 painter = painterResource("toolbar_buttons/minus.svg"),
                 contentDescription = "Zoom out",
             )
@@ -61,7 +62,7 @@ fun rightEditingTools(
         )
 
         Button(onClick = onZoomIn) {
-            Icon(
+            Image(
                 painter = painterResource("toolbar_buttons/plus.svg"),
                 contentDescription = "Zoom in"
             )

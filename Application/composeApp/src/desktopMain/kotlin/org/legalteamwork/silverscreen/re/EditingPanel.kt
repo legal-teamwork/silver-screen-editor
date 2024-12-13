@@ -555,7 +555,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
         /**
          * Панель с инструментами.
          */
-        BoxWithConstraints(
+        /**BoxWithConstraints(
             modifier =
                 Modifier
                     .background(
@@ -655,7 +655,7 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     )
                 }
             }
-        }
+        } */
 
         /**
          * Панель с дорожками.

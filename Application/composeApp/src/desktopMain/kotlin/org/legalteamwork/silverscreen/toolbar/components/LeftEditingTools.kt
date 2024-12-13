@@ -2,8 +2,10 @@ package org.legalteamwork.silverscreen.toolbar.components;
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.foundation.Image
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.icons.Icons
@@ -28,22 +30,23 @@ fun leftEditingTools(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onCutClick) {
-            Icon(
+            Image(
                 painter = painterResource("toolbar_buttons/content_cut.svg"),
                 contentDescription = "Cut"
             )
         }
+        /** Слайдер регулировки громкости
         Slider(
             value = volume,
             onValueChange = {
                 volume = it
                 onVolumeChange(it)
             },
-            modifier = Modifier,
+            modifier = Modifier.widthIn(min = 50.dp, max = 150.dp),
             colors = SliderDefaults.colors(
                 thumbColor = EditingPanelTheme.SLIDER_COLOR,
                 activeTrackColor = EditingPanelTheme.SLIDER_COLOR
             )
-        )
+        ) */
     }
 }

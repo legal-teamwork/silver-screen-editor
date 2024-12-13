@@ -83,7 +83,10 @@ class PlaybackManager {
     }
 
     fun seekToStart() {
-        currentTimestamp.value = 0
+        playStartTimestamp = System.currentTimeMillis()
+        playStartFromTimestamp = 0
+        Slider.updatePosition(0)
+        isPlaying.component2().invoke(false)
     }
 
     fun seekToEnd() {

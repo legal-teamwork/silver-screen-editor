@@ -83,8 +83,10 @@ fun AppScope.App() {
                     AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                 )
             ) {
-                ToolbarPanel()
-                EditingPanel(height)
+                Column {
+                    ToolbarPanel(Modifier.fillMaxWidth().height(48.dp))
+                    EditingPanel(height)
+                }
             }
         }
     )

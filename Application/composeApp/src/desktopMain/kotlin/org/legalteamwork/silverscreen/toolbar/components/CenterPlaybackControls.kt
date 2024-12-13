@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.Image
 import androidx.compose.material.Button
+import androidx.compose.material.IconButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -35,37 +37,37 @@ fun centerPlaybackControls(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Button(onClick = onSeekToStartClick) {
+        IconButton(onClick = onSeekToStartClick) {
             Image(
                 painter = painterResource("toolbar_buttons/left_start.svg"),
                 contentDescription = "Seek to start"
             )
         }
-        Button(onClick = onRewindBackwardsClick) {
+        IconButton(onClick = onRewindBackwardsClick) {
             Image(
                 painter = painterResource("toolbar_buttons/rewind_backwards_button.svg"),
                 contentDescription = "Rewind backwards"
             )
         }
-        Button(onClick = onPlayPauseClick) {
+        IconButton(onClick = onPlayPauseClick) {
             Image(
                 painter = painterResource("toolbar_buttons/play_button.svg"),
                 contentDescription = "Play"
                 )
         }
-        Button(onClick = onStopClick) {
+        IconButton(onClick = onStopClick) {
             Image(
                 painter = painterResource("toolbar_buttons/stop_button.svg"),
                 contentDescription = "Stop"
             )
         }
-        Button(onClick = onRewindForwardClick) {
+        IconButton(onClick = onRewindForwardClick) {
             Image(
                 painter = painterResource("toolbar_buttons/rewind_forward_button.svg"),
                 contentDescription = "Rewind forward"
             )
         }
-        Button(onClick = onSeekToEndClick) {
+        IconButton(onClick = onSeekToEndClick) {
             Image(
                 painter = painterResource("toolbar_buttons/right_end.svg"),
                 contentDescription = "Seek to end"

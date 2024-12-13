@@ -45,7 +45,7 @@ object VideoPanel {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             VideoPreview(playbackManager)
-
+            /**
             Row(
                 modifier = Modifier.fillMaxWidth().padding(50.dp),
                 horizontalArrangement = Arrangement.Center,
@@ -110,7 +110,7 @@ object VideoPanel {
                         modifier = Modifier.size(70.dp),
                     )
                 }
-            }
+            } */
         }
     }
 }
@@ -159,7 +159,7 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
         }
     }
 
-    BasicText(text = formatTime(currentTimestamp), modifier = Modifier.align(Alignment.Start))
+    //BasicText(text = formatTime(currentTimestamp), modifier = Modifier.align(Alignment.Start))
 }
 
 private fun formatTime(elapsedTime: Long): String {
