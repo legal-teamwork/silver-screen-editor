@@ -8,8 +8,10 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.command.CommandManager
+import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.ps.*
+import org.legalteamwork.silverscreen.re.Slider
 import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Strings
@@ -18,6 +20,7 @@ import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.shortcut.Shortcut
 import org.legalteamwork.silverscreen.shortcut.ShortcutManager
+import org.legalteamwork.silverscreen.vp.VideoPanel
 import java.awt.Dimension
 import java.awt.Toolkit
 
@@ -59,6 +62,13 @@ fun main() {
         }
         true
     }
+    shortcutManager.addShortcut(Shortcut(Key.C, alt = true)) {
+        if (VideoPanel.playbackManager.isPlaying.value)
+            VideoPanel.playbackManager.pause()
+        commandManager.execute(CutResourceOnTrackCommand(VideoEditor.VideoTrack, Slider.getPosition()))
+        true
+    }
+
 
     onStart()
     application {

@@ -9,7 +9,7 @@ class CutResourceOnTrackCommand(
     private val track: VideoEditor.VideoTrack,
     private val position: Int
 ) : CommandUndoSupport {
-    override val title: String = "Cut resource command"
+    override val title: String = "Cut command"
     override val description: String = "Cut track with the $position position"
     private val logger = KotlinLogging.logger {}
     private var leftResource: VideoEditor.VideoTrack.ResourceOnTrack? = null
