@@ -1,16 +1,21 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.awtTransferable
+import androidx.compose.ui.draganddrop.dragData
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -23,6 +28,9 @@ import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.rm.window.effects.EffectTransferable
+import org.legalteamwork.silverscreen.rm.window.effects.VideoEffect
+import java.awt.datatransfer.DataFlavor
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -93,16 +101,43 @@ private fun <T> ResourceOnTrackScope.DragTarget(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
     var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
+    var showTargetBorder by mutableStateOf(false)
+    val dragAndDropTarget = remember {
+        object : DragAndDropTarget {
+            // Highlights the border of a potential drop target
+            override fun onStarted(event: DragAndDropEvent) {
+                showTargetBorder = true
+            }
 
+            override fun onEnded(event: DragAndDropEvent) {
+                showTargetBorder = false
+            }
+
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val dataFlavor = DataFlavor(
+                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.window.effects.VideoEffect",
+                    "VideoEffect"
+                )
+                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+
+                return transferData is VideoEffect
+            }
+        }
+    }
     DragTarget(
         modifier = Modifier
             .fillMaxHeight()
-            .width(size),
+            .width(size)
+            .border(width = if (showTargetBorder) { 1.dp } else { 0.dp }, color = Color.White)
+            .dragAndDropTarget(
+                shouldStartDragAndDrop = { true },
+                target = dragAndDropTarget
+            ),
         dataToDrop = "",
     ) {
         val colorStops = arrayOf(
