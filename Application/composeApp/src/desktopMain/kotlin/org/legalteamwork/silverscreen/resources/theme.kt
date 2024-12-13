@@ -37,7 +37,7 @@ object AppTheme {
 
 object ResourceManagerTheme {
     val MENU_FONT_FAMILY = FontFamily.Default
-    val MENU_COLOR = GRADIENT_1
+    val MENU_COLOR = Color.Gray
     val MENU_BUTTONS_BACKGROUND_COLOR = Color(0xFF191825)
     val MENU_BUTTONS_CONTENT_COLOR = MAIN_COLOR_4
     val MENU_BUTTONS_DISABLED_BACKGROUND_COLOR = Color(0xFF191825)

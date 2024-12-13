@@ -57,7 +57,7 @@ fun AppScope.ResourceManagerCompose() {
 @Composable
 private fun AppScope.Menu(menuWidth: Dp) {
     Box(
-        modifier = Modifier.background(Brush.verticalGradient(colorStops = ResourceManagerTheme.MENU_COLOR), RoundedCornerShape(8.dp)).width(menuWidth)
+        modifier = Modifier.background(color = ResourceManagerTheme.MENU_COLOR, RoundedCornerShape(8.dp)).width(menuWidth)
             .fillMaxHeight()
     ) {
         ButtonList()
