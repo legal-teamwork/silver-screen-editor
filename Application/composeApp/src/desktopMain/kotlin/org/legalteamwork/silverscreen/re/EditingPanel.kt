@@ -342,7 +342,7 @@ object AudioEditor {
                             Modifier
                                 .fillMaxHeight()
                                 .width((framesCount * DpInFrame).dp)
-                                .background(Brush.linearGradient(colorStops = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR), RoundedCornerShape(5.dp)),
+                                .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
                     ) {
                         val textHeight = min(20.dp, maxHeight)
                         val previewHeight = min(75.dp, maxHeight - textHeight)

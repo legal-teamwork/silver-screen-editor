@@ -48,7 +48,7 @@ object ResourceManagerTheme {
 }
 
 object EditingPanelTheme {
-    val DROPPABLE_FILE_BACKGROUND_COLOR = GRADIENT_1
+    val DROPPABLE_FILE_BACKGROUND_COLOR = MAIN_COLOR_4
     val DROPPABLE_FILE_TEXT_COLOR = MAIN_COLOR_4
 
     // Здесь будет цвет той сущности

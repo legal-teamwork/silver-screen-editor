@@ -32,6 +32,7 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.drawBehind
 
 private val logger = KotlinLogging.logger {  }
 
@@ -173,6 +174,7 @@ private fun <T> ResourceOnTrackScope.DragTarget(
     }
 }
 
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
@@ -187,40 +189,26 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                 Modifier
                     .fillMaxHeight()
                     .width(size)
-                    .background(Brush.linearGradient(colorStops = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR), RoundedCornerShape(5.dp)),
+                    .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
         ) {
-            val textHeight = min(20.dp, maxHeight)
-            val previewHeight = min(75.dp, maxHeight - textHeight)
-            val previewWidth = min(150.dp, minWidth)
+            Row() {
+                Box(modifier = Modifier.background(Color.Red).fillMaxHeight().width(10.dp))
 
-            Column(
-                modifier =
-                    Modifier
-                        .padding(vertical = 10.dp),
-            ) {
-                Text(
-                    text = videoResources[resourceOnTrack.id].title.value,
-                    modifier =
-                        Modifier
-                            .offset(x = 10.dp)
-                            .height(textHeight),
-                    color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-                )
                 Image(
                     painter =
-                        BitmapPainter(
-                            remember {
-                                File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
-                                    .decodeToImageBitmap()
-                            },
-                        ),
+                    BitmapPainter(
+                        remember {
+                            File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+                                .decodeToImageBitmap()
+                        },
+                    ),
                     contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier =
-                        Modifier
-                            .width(previewWidth)
-                            .height(previewHeight),
+                    modifier = Modifier.width(size - 20.dp)
                 )
+
+                Box(modifier = Modifier.background(Color.Red).fillMaxHeight().width(10.dp))
             }
+
         }
     }
 }
