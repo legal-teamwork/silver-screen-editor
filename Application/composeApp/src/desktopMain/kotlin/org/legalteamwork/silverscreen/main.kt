@@ -13,6 +13,7 @@ import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.ps.*
 import org.legalteamwork.silverscreen.re.Slider
 import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
@@ -55,7 +56,7 @@ fun main() {
     shortcutManager.addShortcut(Shortcut(Key.Delete)) {
         val highlightedResources = VideoEditor.getHighlightedResources()
         if (highlightedResources.size > 0) {
-            commandManager.execute(DeleteResourcesOnTrackCommand(VideoEditor.VideoTrack, highlightedResources))
+            commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
         }
         else {
             logger.warn { "Del shortcut triggered, but there is nothing highlighted!" }
@@ -65,7 +66,7 @@ fun main() {
     shortcutManager.addShortcut(Shortcut(Key.C, alt = true)) {
         if (VideoPanel.playbackManager.isPlaying.value)
             VideoPanel.playbackManager.pause()
-        commandManager.execute(CutResourceOnTrackCommand(VideoEditor.VideoTrack, Slider.getPosition()))
+        commandManager.execute(CutResourceOnTrackCommand(VideoTrack, Slider.getPosition()))
         true
     }
 

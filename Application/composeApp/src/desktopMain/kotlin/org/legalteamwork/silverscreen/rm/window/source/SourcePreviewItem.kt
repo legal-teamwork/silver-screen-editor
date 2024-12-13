@@ -31,7 +31,7 @@ import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
-import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
@@ -59,9 +59,9 @@ fun AppScope.SourcePreviewItem(
                 onLongClickLabel = resource.title.value,
                 role = null,
                 onLongClick = {
-                    val position = VideoEditor.VideoTrack.getFreePosition()
+                    val position = VideoTrack.getFreePosition()
                     val addResourceCommand = AddResourceToTrackFabric.makeCommand(
-                        resource, VideoEditor.VideoTrack, position
+                        resource, VideoTrack, position
                     )
 
                     if (addResourceCommand != null)

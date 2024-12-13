@@ -2,11 +2,12 @@ package org.legalteamwork.silverscreen.command.edit
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.command.CommandUndoSupport
-import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.ResourceOnTrack
+import org.legalteamwork.silverscreen.re.VideoTrack
 
 class MoveResourceOnTrackCommand(
-    private val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack,
-    private val track: VideoEditor.VideoTrack,
+    private val resourceOnTrack: ResourceOnTrack,
+    private val track: VideoTrack,
     private val positionTo: Int
 ) : CommandUndoSupport {
     override val title: String = "Move resource on track"
@@ -68,7 +69,7 @@ class MoveResourceOnTrackCommand(
 }
 
 private data class ResourceChange(
-    val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack,
+    val resourceOnTrack: ResourceOnTrack,
     val positionFrom: Int,
     val positionTo: Int,
 )

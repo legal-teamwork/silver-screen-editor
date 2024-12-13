@@ -5,6 +5,7 @@ import org.bytedeco.ffmpeg.global.avcodec
 import org.bytedeco.ffmpeg.global.avutil
 import org.bytedeco.javacv.*
 import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
 import java.awt.Graphics2D
@@ -60,7 +61,7 @@ class ExportRenderer {
         val fps = Project.get { fps }
         val width = Project.get { Resolution.available[resolution].width }
         val height = Project.get { Resolution.available[resolution].height }
-        val resources = VideoEditor.VideoTrack.resourcesOnTrack.sortedBy { it.position }
+        val resources = VideoTrack.resourcesOnTrack.sortedBy { it.position }
         logger.info { "export start; expected total frames: ${resources.lastOrNull()?.run { position + framesCount } ?: 0}" }
 
         val recorder = FFmpegFrameRecorder(filename, width, height)
@@ -69,7 +70,7 @@ class ExportRenderer {
         recorder.videoBitrate = Project.get { bitrate * 1000 }
         recorder.videoCodec = avcodec.AV_CODEC_ID_H264
         recorder.pixelFormat = avutil.AV_PIX_FMT_YUV420P
-        VideoEditor.VideoTrack.videoResources.firstOrNull()?.let {
+        VideoTrack.videoResources.firstOrNull()?.let {
             val grabber = FFmpegFrameGrabber(it.resourcePath)
             grabber.start()
             recorder.audioCodec = grabber.audioCodec
