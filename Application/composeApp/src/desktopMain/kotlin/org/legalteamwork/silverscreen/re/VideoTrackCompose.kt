@@ -29,6 +29,7 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
+import androidx.compose.ui.graphics.Brush
 
 private val logger = KotlinLogging.logger {  }
 
@@ -139,12 +140,20 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
             .width(size),
         dataToDrop = "",
     ) {
+        val colorStops = arrayOf(
+            0.0f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1,
+            0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
+            0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
+            0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
+            1f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5
+        )
+
         BoxWithConstraints(
             modifier =
                 Modifier
                     .fillMaxHeight()
                     .width(size)
-                    .background(color = droppableFileBackgroundColor, RoundedCornerShape(20.dp))
+                    .background(Brush.horizontalGradient(colorStops = colorStops), RoundedCornerShape(5.dp))
                     .clickable(
                         onClick = {
                             if (VideoEditor.highlightResource(resourceOnTrack.id))
