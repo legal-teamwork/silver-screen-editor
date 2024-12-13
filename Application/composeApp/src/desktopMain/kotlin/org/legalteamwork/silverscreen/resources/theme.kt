@@ -120,3 +120,7 @@ object CommandWindowTheme {
     val COMMANDS_ICON_MAJOR_COLOR = Color.Green
     val COMMANDS_ICON_MINOR_COLOR = Color.Red
 }
+
+object EffectsTabTheme {
+    val EFFECT_BACKGROUND = Color(0xFF444444)
+}
