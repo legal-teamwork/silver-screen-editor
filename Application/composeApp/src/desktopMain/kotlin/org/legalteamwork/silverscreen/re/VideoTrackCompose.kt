@@ -21,9 +21,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.resourcesOnTrack
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.videoResources
+import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
+import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.io.File

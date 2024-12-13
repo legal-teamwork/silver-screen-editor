@@ -2,20 +2,20 @@ package org.legalteamwork.silverscreen.command.edit
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.command.CommandUndoSupport
-import org.legalteamwork.silverscreen.re.VideoEditor
-import org.legalteamwork.silverscreen.resources.Strings
+import org.legalteamwork.silverscreen.re.ResourceOnTrack
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 
 class AddResourceToTrackCommand(
     private val resource: VideoResource,
-    private val track: VideoEditor.VideoTrack,
+    private val track: VideoTrack,
     private val position: Int
 ) : CommandUndoSupport {
     override val title: String = "Add resource to track"
     override val description: String =
         "Add resource ${resource.title} to the timeline"
     private val logger = KotlinLogging.logger {}
-    private var activityResult: VideoEditor.VideoTrack.ResourceOnTrack? = null
+    private var activityResult: ResourceOnTrack? = null
 
     override fun execute() {
         logger.info { "Adding resource to timeline" }

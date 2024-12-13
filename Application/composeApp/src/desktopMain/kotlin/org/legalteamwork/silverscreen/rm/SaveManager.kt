@@ -3,15 +3,17 @@ package org.legalteamwork.silverscreen.rm
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.legalteamwork.silverscreen.re.ResourceOnTrack
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import java.io.File
 
 @Serializable
 private data class Project(
     val resources: List<VideoResource>,
     //val tracks: List<VideoEditor.VideoTrack>
-    val resourcesOnTrack: List<VideoEditor.VideoTrack.ResourceOnTrack>,
+    val resourcesOnTrack: List<ResourceOnTrack>,
     val trackResources: List<VideoResource>
 )
 
