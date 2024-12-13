@@ -240,8 +240,8 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
 
     // Вычисляем ширину изображения и общее количество итераций
     val imageWidthDp = imageBitmap.width.dp
-    val imageHeightDp = imageBitmap.height.dp - 10.dp
-    val totalWidth = size.value - 36.dp.value
+    val imageHeightDp = imageBitmap.height.dp - 5.dp
+    val totalWidth = size.value - 26.dp.value
     val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
     val remainingWidth = totalWidth % imageWidthDp.value
 
@@ -255,26 +255,23 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                 .width(size)
                 .background(
                     color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR,
-                    shape = RoundedCornerShape(5.dp)
+                    shape = RoundedCornerShape(10.dp)
                 ),
         ) {
             Row(modifier = Modifier.fillMaxHeight()) {
 
-                Box(modifier = Modifier.fillMaxHeight().width(18.dp)) {
-                    Column(modifier = Modifier.align(Alignment.Center)){
-                        for (i in 0 until 7)
-                        {
-                            Text(
-                                text = "▬",
-                                textAlign = TextAlign.Center,
-                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR
-                            )
-                        }
-                    }
+                Box(modifier = Modifier.fillMaxHeight().width(13.dp)) {
+                    Text(
+                        text = "│",
+                        textAlign = TextAlign.Center,
+                        color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR,
+                        fontSize = 25.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
 
                 Column {
-                    Box(modifier = Modifier.height(5.dp))
+                    Box(modifier = Modifier.height(2.dp))
 
                     Row{
                         for (i in 0 until numberOfFullImages) {
@@ -301,21 +298,18 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                             )
                         }
                     }
-                    Box(modifier = Modifier.height(5.dp))
+                    Box(modifier = Modifier.height(2.dp))
                 }
 
 
-                Box(modifier = Modifier.fillMaxHeight().width(18.dp)) {
-                    Column(modifier = Modifier.align(Alignment.Center)){
-                        for (i in 0 until 7)
-                        {
+                Box(modifier = Modifier.fillMaxHeight().width(13.dp)) {
                             Text(
-                                text = "▬",
+                                text = "│",
                                 textAlign = TextAlign.Center,
-                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR
+                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR,
+                                fontSize = 25.sp,
+                                modifier = Modifier.align(Alignment.Center)
                             )
-                        }
-                    }
                 }
             }
         }
