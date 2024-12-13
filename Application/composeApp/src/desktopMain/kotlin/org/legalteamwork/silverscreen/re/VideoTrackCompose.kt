@@ -132,7 +132,7 @@ private fun <T> ResourceOnTrackScope.DragTarget(
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
-    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR)
+    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
 
     DragTarget(
         modifier = Modifier
@@ -141,11 +141,12 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
         dataToDrop = "",
     ) {
         val colorStops = arrayOf(
-            0.0f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1,
+            0.0f to droppableFileBackgroundColor,
             0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
             0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
             0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
-            1f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5
+            0.8f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5,
+            1f to droppableFileBackgroundColor
         )
 
         BoxWithConstraints(
@@ -159,7 +160,7 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                             if (VideoEditor.highlightResource(resourceOnTrack.id))
                                 droppableFileBackgroundColor = EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
                             else
-                                droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR
+                                droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1
                         }
                     ),
         ) {
