@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -33,6 +34,10 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.material.Text
+import androidx.compose.ui.layout.ContentScale
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+
 
 private val logger = KotlinLogging.logger {  }
 
@@ -175,6 +180,7 @@ private fun <T> ResourceOnTrackScope.DragTarget(
 }
 
 
+/*
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
@@ -192,7 +198,10 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                     .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
         ) {
             Row() {
-                Box(modifier = Modifier.background(Color.Red).fillMaxHeight().width(10.dp))
+                Box(modifier = Modifier.fillMaxHeight().width(12.dp))
+                {
+                    Text(text = "║", textAlign = TextAlign.Start, modifier = Modifier.align(Alignment.Center), color = EditingPanelTheme.RESOURCE_RESHAPE_AREA_COLOR)
+                }
 
                 Image(
                     painter =
@@ -203,13 +212,116 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                         },
                     ),
                     contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier = Modifier.width(size - 20.dp)
+                    modifier = Modifier.width(size - 24.dp)
                 )
 
-                Box(modifier = Modifier.background(Color.Red).fillMaxHeight().width(10.dp))
+                Box(modifier = Modifier.fillMaxHeight().width(12.dp))
+                {
+                    Text(text = "║", textAlign = TextAlign.End, modifier = Modifier.align(Alignment.Center), color = EditingPanelTheme.RESOURCE_RESHAPE_AREA_COLOR)
+                }
             }
 
         }
     }
 }
+
+
+
+ */
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
+    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    val imageBitmap = remember {
+        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+            .decodeToImageBitmap()
+    }
+
+    // Вычисляем ширину изображения и общее количество итераций
+    val imageWidthDp = imageBitmap.width.dp
+    val imageHeightDp = imageBitmap.height.dp - 10.dp
+    val totalWidth = size.value - 36.dp.value
+    val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
+    val remainingWidth = totalWidth % imageWidthDp.value
+
+    DragTarget(
+        modifier = Modifier.fillMaxHeight().width(size),
+        dataToDrop = "",
+    ) {
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(size)
+                .background(
+                    color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR,
+                    shape = RoundedCornerShape(5.dp)
+                ),
+        ) {
+            Row(modifier = Modifier.fillMaxHeight()) {
+
+                Box(modifier = Modifier.fillMaxHeight().width(18.dp)) {
+                    Column(modifier = Modifier.align(Alignment.Center)){
+                        for (i in 0 until 7)
+                        {
+                            Text(
+                                text = "▬",
+                                textAlign = TextAlign.Center,
+                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR
+                            )
+                        }
+                    }
+                }
+
+                Column {
+                    Box(modifier = Modifier.height(5.dp))
+
+                    Row{
+                        for (i in 0 until numberOfFullImages) {
+                            Image(
+                                painter = BitmapPainter(imageBitmap),
+                                contentDescription = videoResources[resourceOnTrack.id].title.value,
+                                modifier = Modifier
+                                    .width(imageWidthDp)
+                                    .height(imageHeightDp),
+                                contentScale = ContentScale.Crop,
+                                alignment = Alignment.Center
+                            )
+                        }
+
+                        if (remainingWidth > 0) {
+                            Image(
+                                painter = BitmapPainter(imageBitmap),
+                                contentDescription = videoResources[resourceOnTrack.id].title.value,
+                                modifier = Modifier
+                                    .width(remainingWidth.dp)
+                                    .height(imageHeightDp),
+                                contentScale = ContentScale.Crop,
+                                alignment = Alignment.TopStart
+                            )
+                        }
+                    }
+                    Box(modifier = Modifier.height(5.dp))
+                }
+
+
+                Box(modifier = Modifier.fillMaxHeight().width(18.dp)) {
+                    Column(modifier = Modifier.align(Alignment.Center)){
+                        for (i in 0 until 7)
+                        {
+                            Text(
+                                text = "▬",
+                                textAlign = TextAlign.Center,
+                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
 
