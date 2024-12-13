@@ -27,6 +27,7 @@ import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -181,20 +182,12 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
         modifier = Modifier.fillMaxHeight().width(size),
         dataToDrop = "",
     ) {
-        val colorStops = arrayOf(
-            0.0f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1,
-            0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
-            0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
-            0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
-            1f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5
-        )
-
         BoxWithConstraints(
             modifier =
                 Modifier
                     .fillMaxHeight()
                     .width(size)
-                    .background(Brush.horizontalGradient(colorStops = colorStops), RoundedCornerShape(5.dp)),
+                    .background(Brush.linearGradient(colorStops = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR), RoundedCornerShape(5.dp)),
         ) {
             val textHeight = min(20.dp, maxHeight)
             val previewHeight = min(75.dp, maxHeight - textHeight)

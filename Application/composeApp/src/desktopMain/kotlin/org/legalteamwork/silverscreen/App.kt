@@ -36,7 +36,7 @@ fun AppScope.App() {
             ) {
                 Box(
                     Modifier.fillMaxSize().background(
-                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                        AppTheme.RESOURCE_MANAGER_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                     )
                 ) {
                     ResourceManagerCompose()
@@ -64,7 +64,7 @@ fun AppScope.App() {
             ) {
                 Box(
                     Modifier.fillMaxSize().background(
-                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                        AppTheme.RESOURCE_MANAGER_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                     )
                 ) {
                     CommandWindowCompose()

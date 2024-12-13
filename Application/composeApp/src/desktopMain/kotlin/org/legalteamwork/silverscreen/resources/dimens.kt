@@ -65,7 +65,7 @@ object Dimens {
     //In App.kt
     val MARGIN_SIZE = 6.dp
     val DIVIDER_SIZE = 8.dp
-    val WINDOW_CORNER_RADIUS = 8.dp
+    val WINDOW_CORNER_RADIUS = 10.dp
 
     // In command/CommandWindowCompose.kt
     val COMMAND_WINDOW_MARGIN = 8.dp

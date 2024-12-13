@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager.tabId
 import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
@@ -30,12 +31,13 @@ import org.legalteamwork.silverscreen.rm.window.PresetsMainWindow
 import org.legalteamwork.silverscreen.rm.window.TemplatesMainWindow
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 import java.awt.datatransfer.DataFlavor
+import androidx.compose.ui.graphics.Brush
 
 @Composable
 fun AppScope.ResourceManagerCompose() {
     BoxWithConstraints(
         modifier = Modifier.background(
-            color = ResourceManagerTheme.RESOURCE_MANAGER_BACKGROUND_COLOR,
+            color = AppTheme.RESOURCE_MANAGER_BACKGROUND_COLOR,
             shape = RoundedCornerShape(8.dp),
         ).fillMaxSize()
     ) {
@@ -55,7 +57,7 @@ fun AppScope.ResourceManagerCompose() {
 @Composable
 private fun AppScope.Menu(menuWidth: Dp) {
     Box(
-        modifier = Modifier.background(color = ResourceManagerTheme.MENU_COLOR, RoundedCornerShape(8.dp)).width(menuWidth)
+        modifier = Modifier.background(Brush.verticalGradient(colorStops = ResourceManagerTheme.MENU_COLOR), RoundedCornerShape(8.dp)).width(menuWidth)
             .fillMaxHeight()
     ) {
         ButtonList()
