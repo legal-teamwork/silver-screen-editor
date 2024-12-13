@@ -125,7 +125,13 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                 )
                 val transferData = event.awtTransferable.getTransferData(dataFlavor)
 
-                return transferData is VideoEffect
+                if (transferData is VideoEffect) {
+                    resourceOnTrack.addEffect(transferData)
+
+                    return true
+                } else {
+                    return false
+                }
             }
         }
     }
@@ -193,6 +199,8 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
                             .width(previewWidth)
                             .height(previewHeight),
                 )
+
+                Text("Effects: " + resourceOnTrack.effects.joinToString(separator = "; ") { it.title })
             }
         }
     }
