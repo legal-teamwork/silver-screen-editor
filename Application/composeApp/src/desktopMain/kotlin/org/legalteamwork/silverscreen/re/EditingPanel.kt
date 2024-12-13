@@ -668,9 +668,14 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                         .padding(top = 5.dp),
                     onClick = {
                         logger.info { "Del button clicked" }
-                        val deleteResourceOnTrackCommand =
-                            DeleteResourcesOnTrackCommand(VideoEditor.VideoTrack, VideoEditor.getHighlightedResources())
-                        commandManager.execute(deleteResourceOnTrackCommand)
+
+                        val highlightedResources = VideoEditor.getHighlightedResources()
+                        if (highlightedResources.size > 0) {
+                            commandManager.execute(DeleteResourcesOnTrackCommand(VideoEditor.VideoTrack, highlightedResources))
+                        }
+                        else {
+                            logger.warn { "Del button clicked, but there is nothing highlighted!" }
+                        }
                     },
                     colors = buttonColors,
                 ) {

@@ -8,7 +8,10 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.command.CommandManager
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.ps.*
+import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.save.EditorSettings
@@ -44,6 +47,16 @@ fun main() {
     }
     shortcutManager.addShortcut(Shortcut(Key.Z, ctrl = true, shift = true)) {
         commandManager.redo()
+        true
+    }
+    shortcutManager.addShortcut(Shortcut(Key.Delete)) {
+        val highlightedResources = VideoEditor.getHighlightedResources()
+        if (highlightedResources.size > 0) {
+            commandManager.execute(DeleteResourcesOnTrackCommand(VideoEditor.VideoTrack, highlightedResources))
+        }
+        else {
+            logger.warn { "Del shortcut triggered, but there is nothing highlighted!" }
+        }
         true
     }
 
