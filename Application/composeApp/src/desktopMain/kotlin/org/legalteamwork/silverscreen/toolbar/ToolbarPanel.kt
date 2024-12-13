@@ -10,12 +10,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
-import org.legalteamwork.silverscreen.toolbar.components.CenterPlaybackControls
-import org.legalteamwork.silverscreen.toolbar.components.LeftEditingTools
-import org.legalteamwork.silverscreen.toolbar.components.RightEditingTools
+import org.legalteamwork.silverscreen.toolbar.components.centerPlaybackControls
+import org.legalteamwork.silverscreen.toolbar.components.leftEditingTools
+import org.legalteamwork.silverscreen.toolbar.components.rightEditingTools
 import org.legalteamwork.silverscreen.re.Slider
 import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
+import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
 @Composable
@@ -25,11 +26,11 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
     }
 
     Row(
-        modifier = modifier.fillMaxWidth().background(EditingPanelTheme.TOOLBAR_BACKGROUND_COLOR).padding(8.dp),
+        modifier = modifier.fillMaxWidth().background(EditingPanelTheme.EDITING_PANEL_BACKGROUND).padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        LeftEditingTools(
+        leftEditingTools(
             onCutClick = {
                 if (VideoPanel.playbackManager.isPlaying.value)
                     VideoPanel.playbackManager.pause()
@@ -39,12 +40,30 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
             },
         )
 
-        CenterPlaybackControls(
+        centerPlaybackControls(
             currentTime = Slider.getPosition().toLong(),
-            totalDuration = totalProjectDuration * 1000 / org.legalteamwork.silverscreen.resources.Dimens.FRAME_RATE
+            totalDuration = totalProjectDuration * 1000 / Dimens.FRAME_RATE,
+            onPlayPauseClick = {
+                if (VideoPanel.playbackManager.isPlaying.value) VideoPanel.playbackManager.pause() else VideoPanel.playbackManager.play()
+            },
+            onRewindBackwardsClick = {
+                VideoPanel.playbackManager.seek(-10_000)
+            },
+            onRewindForwardClick = {
+                VideoPanel.playbackManager.seek(10_000)
+            },
+            onStopClick = {
+                VideoPanel.playbackManager.stop()
+            },
+            onSeekToStartClick = {
+                VideoPanel.playbackManager.seekToStart()
+            },
+            onSeekToEndClick = {
+                VideoPanel.playbackManager.seekToEnd()
+            },
         )
 
-        RightEditingTools(
+        rightEditingTools(
             onStepBackward = {
                 // step backward logic here
             },

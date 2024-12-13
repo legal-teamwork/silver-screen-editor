@@ -2,8 +2,8 @@ package org.legalteamwork.silverscreen.toolbar.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.Image
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -14,53 +14,73 @@ import androidx.compose.ui.graphics.Color
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.text.SimpleDateFormat
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
 import java.util.*
 
 @Composable
-fun CenterPlaybackControls(
+fun centerPlaybackControls(
     modifier: Modifier = Modifier,
     currentTime: Long,
-    totalDuration: Long
+    totalDuration: Long,
+    onPlayPauseClick: () -> Unit,
+    onRewindBackwardsClick: () -> Unit,
+    onRewindForwardClick: () -> Unit,
+    onStopClick: () -> Unit,
+    onSeekToStartClick: () -> Unit,
+    onSeekToEndClick: () -> Unit,
 ) {
-    val playbackManager = VideoPanel.playbackManager
-    val isPlaying = playbackManager.isPlaying.collectAsState()
-    val timeFormat = SimpleDateFormat("mm:ss:SSS", Locale.getDefault())
-
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { playbackManager.seekToStart() }) {
-            Icon(imageVector = Icons.Filled.SkipToPrevious, contentDescription = "Skip to start", tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR)
-        }
-        IconButton(onClick = { playbackManager.rewindBackwards() }) {
-            Icon(imageVector = Icons.Filled.FastRewind, contentDescription = "Rewind backwards", tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR)
-        }
-
-        IconButton(onClick = {
-            if (isPlaying.value) playbackManager.pause() else playbackManager.play()
-        }) {
-            Icon(
-                imageVector = if (isPlaying.value) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                contentDescription = if (isPlaying.value) "Pause" else "Play",
-                tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR
+        Button(onClick = onSeekToStartClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/left_start.svg"),
+                contentDescription = "Seek to start"
             )
         }
-
-        IconButton(onClick = { playbackManager.stop() }) {
-            Icon(imageVector = Icons.Filled.Stop, contentDescription = "Stop", tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR)
+        Button(onClick = onRewindBackwardsClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/rewind_backwards.svg"),
+                contentDescription = "Rewind backwards"
+            )
         }
-        IconButton(onClick = { playbackManager.rewindForward() }) {
-            Icon(imageVector = Icons.Filled.FastForward, contentDescription = "Rewind forwards", tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR)
+        Button(onClick = onPlayPauseClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/play.svg"),
+                contentDescription = "Play"
+                )
         }
-        IconButton(onClick = { playbackManager.seekToEnd() }) {
-            Icon(imageVector = Icons.Filled.SkipToNext, contentDescription = "Skip to end", tint = EditingPanelTheme.TOOLBAR_ICONS_COLOR)
+        Button(onClick = onStopClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/stop.svg"),
+                contentDescription = "Stop"
+            )
         }
-
+        Button(onClick = onRewindForwardClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/rewind_forward.svg"),
+                contentDescription = "Rewind forward"
+            )
+        }
+        Button(onClick = onSeekToEndClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/right_end.svg"),
+                contentDescription = "Seek to end"
+            )
+        }
         Text(
-            text = "${timeFormat.format(Date(currentTime))} / ${timeFormat.format(Date(totalDuration))}",
-            color = EditingPanelTheme.TOOLBAR_TEXT_COLOR
+            text = "${formatTime(currentTime)} / ${formatTime(totalDuration)}",
+            color = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR
         )
     }
+}
+
+fun formatTime(time: Long): String {
+    val minutes = time / 1000 / 60
+    val seconds = time / 1000 % 60
+    val milliseconds = time % 1000
+    return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds)
 }
