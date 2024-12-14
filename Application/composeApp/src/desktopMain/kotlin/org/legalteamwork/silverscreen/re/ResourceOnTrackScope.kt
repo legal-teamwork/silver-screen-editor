@@ -6,5 +6,5 @@ import org.legalteamwork.silverscreen.rm.ResourceManager
 data class ResourceOnTrackScope(
     val commandManager: CommandManager,
     val resourceManager: ResourceManager,
-    val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack
+    val resourceOnTrack: ResourceOnTrack
 )

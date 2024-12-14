@@ -1,12 +1,10 @@
 package org.legalteamwork.silverscreen.save
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.Serializable
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.re.VideoEditor
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack
+import org.legalteamwork.silverscreen.re.ResourceOnTrack
 import org.legalteamwork.silverscreen.rm.resource.FolderResource
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 

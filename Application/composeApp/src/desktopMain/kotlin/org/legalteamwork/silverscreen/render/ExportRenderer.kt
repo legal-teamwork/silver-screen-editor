@@ -10,6 +10,7 @@ import org.bytedeco.opencv.opencv_core.Size
 import org.bytedeco.opencv.global.opencv_imgproc.*
 import org.bytedeco.opencv.opencv_core.Scalar
 import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
 import kotlin.math.max
@@ -62,7 +63,7 @@ class ExportRenderer {
         val fps = Project.get { fps }
         val width = Project.get { Resolution.available[resolution].width }
         val height = Project.get { Resolution.available[resolution].height }
-        val resources = VideoEditor.VideoTrack.resourcesOnTrack.sortedBy { it.position }
+        val resources = VideoTrack.resourcesOnTrack.sortedBy { it.position }
         logger.info { "export start; expected total frames: ${resources.lastOrNull()?.run { position + framesCount } ?: 0}" }
 
         val exportTime = measureTimeMillis {
