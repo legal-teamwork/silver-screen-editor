@@ -8,7 +8,8 @@ import org.legalteamwork.silverscreen.resources.Dimens
 
 class CutResourceOnTrackCommand(
     private val track: VideoTrack,
-    private val position: Int
+    private val position: Int,
+    private val index: Int
 ) : CommandUndoSupport {
     override val title: String = "Cut command"
     override val description: String = "Cut track with the $position position"
@@ -18,22 +19,20 @@ class CutResourceOnTrackCommand(
 
     override fun execute() {
         logger.info { "Cutting video resource" }
-        val index = VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
-        if (index != -1) {
-            val leftSize = position - VideoTrack.resourcesOnTrack[index].getLeftBorder()
-            val rightSize = VideoTrack.resourcesOnTrack[index].getRightBorder() - position + 1
-            if (leftSize >= Dimens.MIN_SIZE_OF_RESOURCE_ON_TRACK &&
-                rightSize >= Dimens.MIN_SIZE_OF_RESOURCE_ON_TRACK
-            ) {
-                track.resourcesOnTrack[index].framesCount = leftSize
-                leftResource = track.resourcesOnTrack[index]
-                rightResource= track.addResource(
-                    track.videoResources[index],
-                    position,
-                    rightSize,
-                    track.resourcesOnTrack[index].framesSkip + leftSize
-                )
-            }
+
+        val leftSize = position - VideoTrack.resourcesOnTrack[index].getLeftBorder()
+        val rightSize = VideoTrack.resourcesOnTrack[index].getRightBorder() - position + 1
+        if (leftSize >= Dimens.MIN_SIZE_OF_RESOURCE_ON_TRACK &&
+            rightSize >= Dimens.MIN_SIZE_OF_RESOURCE_ON_TRACK
+        ) {
+            track.resourcesOnTrack[index].framesCount = leftSize
+            leftResource = track.resourcesOnTrack[index]
+            rightResource = track.addResource(
+                track.videoResources[index],
+                position,
+                rightSize,
+                track.resourcesOnTrack[index].framesSkip + leftSize
+            )
         }
     }
 

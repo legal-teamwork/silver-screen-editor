@@ -66,7 +66,15 @@ fun main() {
     shortcutManager.addShortcut(Shortcut(Key.C, alt = true)) {
         if (VideoPanel.playbackManager.isPlaying.value)
             VideoPanel.playbackManager.pause()
-        commandManager.execute(CutResourceOnTrackCommand(VideoTrack, Slider.getPosition()))
+
+        val position = Slider.getPosition()
+        val index = VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
+        if (index != -1) {
+            commandManager.execute(CutResourceOnTrackCommand(VideoTrack, position, index))
+        }
+        else {
+            logger.warn { "Alt+C (cut) shortcut triggered, but there is nothing to cut!" }
+        }
         true
     }
 
