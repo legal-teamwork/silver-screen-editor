@@ -1,6 +1,8 @@
 package org.legalteamwork.silverscreen.rm.window.source
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.draganddrop.dragAndDropSource
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -11,6 +13,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropTransferAction
+import androidx.compose.ui.draganddrop.DragAndDropTransferData
+import androidx.compose.ui.draganddrop.DragAndDropTransferable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -33,6 +38,7 @@ import org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager
 import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.window.effects.EffectTransferable
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData
 import org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId
@@ -56,34 +62,50 @@ fun AppScope.SourcePreviewItem(
             .combinedClickable(
                 enabled = true,
                 onClickLabel = resource.title.value,
-                onLongClickLabel = resource.title.value,
-                role = null,
-                onLongClick = {
-                    val position = VideoTrack.getFreePosition()
-                    val addResourceCommand = AddResourceToTrackFabric.makeCommand(
-                        resource, VideoTrack, position
-                    )
-
-                    if (addResourceCommand != null)
-                        commandManager.execute(addResourceCommand)
+                onClick = {
+                    var activeDelegate by resourceManager.activeResource
+                    activeDelegate = resource
                 },
                 onDoubleClick = {
-                    ResourceManager.activeResource.component2().invoke(resource)
-                    resource.action()
-                },
-                onClick = {
-                    ResourceManager.activeResource.component2().invoke(resource)
+                    // Fast addition to the timeline
+                    val position = VideoTrack.getFreePosition()
+                    val addResourceCommand = AddResourceToTrackFabric
+                        .makeCommand(resource, VideoTrack, position)
+
+                    if (addResourceCommand != null) {
+                        commandManager.execute(addResourceCommand)
+                    }
                 },
             )
-            .onPointerEvent(PointerEventType.Press) { pointerEvent ->
+            .onPointerEvent(PointerEventType.Press) { pointerEvent -> // OnRightClick
                 if (pointerEvent.button == PointerButton.Secondary) {
-                    ResourceManager.activeResource.component2().invoke(resource)
+                    var activeDelegate by resourceManager.activeResource
+                    activeDelegate = resource
                     val pointerInputChange = pointerEvent.changes[0]
                     val offset = pointerInputChange.position
                     val contextWindowData = ContextWindowData(globalPosition + offset)
                     val contextWindow = ContextWindow(ContextWindowId.CONTEXT_MENU, contextWindowData)
                     onContextWindowOpen(contextWindow)
                 }
+            }
+            .dragAndDropSource(
+                drawDragDecoration = { }
+            ) {
+                detectDragGestures(
+                    onDragStart = { _ ->
+                        startTransfer(
+                            DragAndDropTransferData(
+                                transferable = DragAndDropTransferable(
+                                    ResourceTransferable(resource)
+                                ),
+                                supportedActions = listOf(
+                                    DragAndDropTransferAction.Move,
+                                )
+                            )
+                        )
+                    },
+                    onDrag = { _, _ -> }
+                )
             },
     ) {
         val activeModifier = if (ResourceManager.activeResource.value == resource) {
