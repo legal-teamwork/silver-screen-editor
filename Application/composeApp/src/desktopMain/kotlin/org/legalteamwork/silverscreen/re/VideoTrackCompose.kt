@@ -27,11 +27,13 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
+import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.rm.resource.Resource
 import org.legalteamwork.silverscreen.rm.window.effects.VideoEffect
 import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 import java.awt.datatransfer.DataFlavor
@@ -41,15 +43,47 @@ import kotlin.math.roundToInt
 
 private val logger = KotlinLogging.logger { }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AppScope.VideoTrackCompose(timelineLength: Dp) {
     //val resources = remember { resourcesOnTrack }
     logger.info { "Composing video resource" }
+
+    val dragAndDropTarget = remember {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val dataFlavor = DataFlavor(
+                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.resource.Resource",
+                    "Resource"
+                )
+                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+
+                if (transferData is Resource) {
+                    val position = VideoTrack.getFreePosition()
+                    val addResourceCommand = AddResourceToTrackFabric
+                        .makeCommand(transferData, VideoTrack, position)
+
+                    if (addResourceCommand != null) {
+                        commandManager.execute(addResourceCommand)
+                    }
+
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
+    }
+
     Box(
         modifier =
             Modifier
                 .width(timelineLength)
-                .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
+                .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR)
+                .dragAndDropTarget(
+                    shouldStartDragAndDrop = { true },
+                    target = dragAndDropTarget
+                ),
     ) {
         for (resource in resourcesOnTrack) {
             val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resource)
