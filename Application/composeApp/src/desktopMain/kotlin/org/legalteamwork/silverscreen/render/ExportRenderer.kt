@@ -38,7 +38,7 @@ private fun resizeImage(originalImage: Mat, targetWidth: Int, targetHeight: Int)
     if (newWidth == targetWidth && newHeight == targetHeight)
         return resizedImage
 
-    println("$originalWidth $originalHeight $targetWidth $targetHeight $newWidth $newHeight")
+    //println("$originalWidth $originalHeight $targetWidth $targetHeight $newWidth $newHeight")
     val borderedImage = Mat()
     copyMakeBorder(resizedImage, borderedImage,
         (targetHeight - newHeight) / 2, (targetHeight - newHeight) / 2,
