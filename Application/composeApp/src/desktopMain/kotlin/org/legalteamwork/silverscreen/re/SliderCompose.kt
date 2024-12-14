@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
 @Composable
@@ -33,7 +34,7 @@ fun SliderCompose(panelHeight: Dp) {
                     onDrag = { change, dragAmount ->
 //                            if (!VideoPanel.playbackManager.isPlaying.value) {
                         change.consume()
-                        val delta = (dragAmount.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                        val delta = (dragAmount.x * 1000 / DpPerSecond).toLong()
                         VideoPanel.playbackManager.seek(delta)
 //                            }
                     },

@@ -33,6 +33,7 @@ import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import kotlin.math.max
 
@@ -82,8 +83,8 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
     ) {
         val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
         val totalMaximumWidth = maxOf(maxWidthVideos, this@BoxWithConstraints.maxWidth)
-        val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
-        val minDistance = Dimens.FRAME_RATE * 0.75f * 5.dp
+        val distance = Project.fps * DpInFrame * 5.dp
+        val minDistance = Project.fps * 0.75f * 5.dp
         val minTotalBlocks = (totalMaximumWidth / minDistance).toInt() + 1
         val totalBlocks = max((totalMaximumWidth / distance).toInt() + 1, minTotalBlocks)
         val timelineLength = totalBlocks * distance
@@ -122,7 +123,7 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures { tapOffset ->
-                    val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
+                    val currentTimestamp = (tapOffset.x * 1000 / DpPerSecond).toLong()
                     Slider.updatePosition(currentTimestamp)
                     if (VideoPanel.playbackManager.isPlaying.value) {
                         VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)

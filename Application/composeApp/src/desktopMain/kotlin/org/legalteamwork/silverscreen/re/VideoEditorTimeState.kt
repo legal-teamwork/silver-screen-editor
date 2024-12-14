@@ -2,7 +2,6 @@ package org.legalteamwork.silverscreen.re
 
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
 import org.legalteamwork.silverscreen.save.Project
-import org.legalteamwork.silverscreen.save.Project
 
 /**
  * Состояние видео-эдитора в заданный момент времени
