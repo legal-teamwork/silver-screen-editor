@@ -1,6 +1,9 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -23,6 +26,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
@@ -115,7 +119,8 @@ private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
 
                 if (transferData is VideoEffect) {
                     val videoFilter = transferData.createFilter(resourceOnTrack)
-                    resourceOnTrack.addFilter(videoFilter)
+                    val command = AddFilterToResource(videoFilter, resourceOnTrack)
+                    commandManager.execute(command)
 
                     return true
                 } else {

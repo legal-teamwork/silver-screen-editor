@@ -57,4 +57,8 @@ class ResourceOnTrack(
     fun addFilter(videoFilter: VideoFilter) {
         filters.add(videoFilter)
     }
+
+    fun removeFilter(videoFilter: VideoFilter) {
+        filters.remove(videoFilter)
+    }
 }
