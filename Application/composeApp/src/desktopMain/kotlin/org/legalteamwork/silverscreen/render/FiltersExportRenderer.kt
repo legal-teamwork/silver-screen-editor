@@ -1,16 +1,15 @@
 package org.legalteamwork.silverscreen.render
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.bytedeco.ffmpeg.global.avcodec
 import org.bytedeco.ffmpeg.global.avutil
 import org.bytedeco.javacv.*
 import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
-import java.awt.image.BufferedImage
-
 
 class FiltersExportRenderer : ExportRenderer {
-    private val converter = Java2DFrameConverter()
+    private val logger = KotlinLogging.logger { }
 
     override fun export(filename: String) {
         FFmpegLogCallback.set()
@@ -22,72 +21,29 @@ class FiltersExportRenderer : ExportRenderer {
         val recorder = FFmpegFrameRecorder(filename, width, height)
         recorder.format = "mp4"
         recorder.frameRate = fps
-        recorder.videoBitrate = Project.get { bitrate * 1000 }
         recorder.videoCodec = avcodec.AV_CODEC_ID_H264
+        recorder.audioCodec = avcodec.AV_CODEC_ID_MP3
+        recorder.videoBitrate = Project.get { bitrate * 1000 }
+        recorder.audioBitrate = 128_000 // 128 kb/s
         recorder.pixelFormat = avutil.AV_PIX_FMT_YUV420P
-        VideoTrack.videoResources.firstOrNull()?.let {
-            val grabber = FFmpegFrameGrabber(it.resourcePath)
-            grabber.start()
-            recorder.audioCodec = grabber.audioCodec
-            recorder.audioBitrate = grabber.audioBitrate
-            recorder.audioChannels = grabber.audioChannels
-            recorder.sampleRate = grabber.sampleRate
-            grabber.stop()
-            grabber.close()
-        }
+        recorder.audioChannels = 1 // channels
+        recorder.sampleRate = 48000 // Hz
         recorder.start()
 
-        var frameNumber = 0
+        val context = RecordContext(fps, width, height, 0, recorder)
 
-        while(frameNumber <= VideoTrack.lengthInFrames) {
-            println("Trying $frameNumber/${VideoTrack.lengthInFrames}")
-            val frameStatus = VideoTrack.getFrameStatus(frameNumber)
+        while (context.frameNumber <= VideoTrack.lengthInFrames) {
+            val frameStatus = VideoTrack.getFrameStatus(context.frameNumber)
             val resourceOnTrack = frameStatus.resourceOnTrack
 
             if (resourceOnTrack == null) {
-                println("- empty")
-                val blankFrame = converter.convert(BufferedImage(width, height, BufferedImage.TYPE_INT_RGB))
-                recorder.record(blankFrame)
-                frameNumber++
+                context.recordBlank()
             } else {
-                println("- ${frameStatus.videoResource?.title}")
-                val frameGrabber = FFmpegFrameGrabber(frameStatus.videoResource!!.resourcePath)
-                frameGrabber.frameRate = fps
-                frameGrabber.start()
-                val frameFilter = FFmpegFrameFilter(
-                    "scale=width=$width:height=$height:force_original_aspect_ratio=decrease," + // Scale frame so it fits output file size
-                            "pad=width=$width:height=$height:x=(ow-iw)/2:y=(oh-ih)/2:color=black,"+
-                            "format=gray",// Add black border around
-                    frameGrabber.imageWidth,
-                    frameGrabber.imageHeight,
-                )
-                frameFilter.frameRate = fps
-                frameFilter.start()
-
-                while (true) {
-                    val currentFrameNumber = frameGrabber.frameNumber
-                    frameNumber = resourceOnTrack.position + currentFrameNumber
-
-                    if (frameNumber < resourceOnTrack.framesSkip) {
-                        println("-- Skip $frameNumber/$currentFrameNumber")
-                        continue
-                    } else if (resourceOnTrack.isPosInside(frameNumber)) {
-                        println("-- Got $frameNumber/$currentFrameNumber")
-                        val frame = frameGrabber.grabFrame() ?: throw RuntimeException()
-                        frameFilter.push(frame)
-                        recorder.record(frameFilter.pull())
-                    } else {
-                        println("-- End $frameNumber/$currentFrameNumber")
-                        break
-                    }
-                }
-
-                frameFilter.close()
-                frameGrabber.close()
+                context.recordResource(resourceOnTrack)
             }
         }
 
-        println("============ Completed ==============")
+        logger.info { "Completed export render" }
         recorder.close()
     }
 }
