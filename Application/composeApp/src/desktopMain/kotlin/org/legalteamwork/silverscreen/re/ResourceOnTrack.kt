@@ -40,7 +40,7 @@ class ResourceOnTrack(
     }
 
     fun isPosInside(otherPosition: Int): Boolean {
-        return getLeftBorder() <= otherPosition && otherPosition <= getRightBorder()
+        return getLeftBorder() < otherPosition && otherPosition < getRightBorder()
     }
 
     fun updatePosition(newPosition: Int) {
