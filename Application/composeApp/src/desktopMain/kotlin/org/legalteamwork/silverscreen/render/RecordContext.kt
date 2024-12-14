@@ -10,11 +10,7 @@ import java.awt.image.BufferedImage
 import java.io.Closeable
 
 class RecordContext(
-    val fps: Double,
-    val width: Int,
-    val height: Int,
-    var frameNumber: Int,
-    val recorder: FFmpegFrameRecorder
+    val fps: Double, val width: Int, val height: Int, var frameNumber: Int, val recorder: FFmpegFrameRecorder
 ) : Closeable {
     override fun close() {
         recorder.close()
@@ -28,20 +24,19 @@ class RecordContext(
     }
 
     fun recordResource(resourceOnTrack: ResourceOnTrack) {
-        val videoResource = resourceOnTrack.let { VideoTrack.videoResources[it.id] }
-        val frameGrabber = FFmpegFrameGrabber(videoResource.resourcePath)
-        frameGrabber.frameRate = fps
-        frameGrabber.start()
-
-        val frameFilter = FFmpegFrameFilter(
+        val frameGrabber = FFmpegFrameGrabber(VideoTrack.videoResources[resourceOnTrack.id].resourcePath)
+        val scaleFilter = FFmpegFrameFilter(
             "scale=width=$width:height=$height:force_original_aspect_ratio=decrease," +
-                    "pad=width=$width:height=$height:x=(ow-iw)/2:y=(oh-ih)/2:color=black," +
-                    "format=gray",
+                    "pad=width=$width:height=$height:x=(ow-iw)/2:y=(oh-ih)/2:color=black",
             frameGrabber.imageWidth,
             frameGrabber.imageHeight,
         )
-        frameFilter.frameRate = fps
-        frameFilter.start()
+        val resourceContext = RecordResourceContextBuilder(fps)
+            .setFrameGrabber(frameGrabber)
+            .addFilter(scaleFilter)
+            .addFilters(resourceOnTrack.filters.map { it.getFfmpegFilter(width, height) })
+            .build()
+
 
         while (true) {
             frameNumber = resourceOnTrack.position + frameGrabber.frameNumber
@@ -51,16 +46,20 @@ class RecordContext(
                 continue
             } else if (resourceOnTrack.isPosInside(frameNumber)) {
                 // Recording frame
-                val frame = frameGrabber.grabFrame() ?: throw RuntimeException()
-                frameFilter.push(frame)
-                recorder.record(frameFilter.pull())
+                var frame = resourceContext.frameGrabber.grabFrame() ?: throw RuntimeException()
+
+                for (ffmpegFrameFilter in resourceContext.filters) {
+                    ffmpegFrameFilter.push(frame)
+                    frame = ffmpegFrameFilter.pull()
+                }
+
+                recorder.record(frame)
             } else {
                 // Next frame after resource
                 break
             }
         }
 
-        frameFilter.close()
-        frameGrabber.close()
+        resourceContext.close()
     }
 }
