@@ -2,8 +2,8 @@ package org.legalteamwork.silverscreen.re
 
 import androidx.compose.runtime.*
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.serialization.*
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 
 /**
  * Класс видео дорожки.
@@ -22,17 +22,26 @@ object VideoTrack {
     fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
         logger.debug { "Adding video resource to timeline" }
 
-        val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames - 1)
+        val resourceOnTrack = ResourceOnTrack(
+            null,
+            videoResources.size,
+            position,
+            resource.numberOfFrames - 1,
+            framesSkip = 0,
+            filters = mutableStateListOf()
+        )
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
 
         return resourceOnTrack
     }
 
-    fun addResource(resource: VideoResource, position: Int, framesCount: Int, framesSkip: Int): ResourceOnTrack {
+    fun addResource(resource: VideoResource, position: Int, framesCount: Int, framesSkip: Int, filters: List<VideoFilter>): ResourceOnTrack {
         logger.debug { "Adding video resource to timeline" }
 
-        val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, framesCount, framesSkip)
+        val resourceOnTrack = ResourceOnTrack(
+            null, videoResources.size, position, framesCount, framesSkip, filters.toMutableStateList()
+        )
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
 

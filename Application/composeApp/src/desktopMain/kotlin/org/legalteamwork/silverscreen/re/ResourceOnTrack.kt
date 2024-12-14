@@ -25,7 +25,7 @@ class ResourceOnTrack(
     var position: Int,
     val framesCountDefault: Int,
     var framesSkip: Int = 0,
-    val filters: SnapshotStateList<VideoFilter> = mutableStateListOf()
+    val filters: SnapshotStateList<VideoFilter>
 ) {
     private val logger = KotlinLogging.logger { }
     var framesCount by mutableStateOf(framesCountDefault)
