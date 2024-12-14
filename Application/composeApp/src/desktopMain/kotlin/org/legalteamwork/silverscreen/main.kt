@@ -17,6 +17,7 @@ import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.ResourceManager
+import org.legalteamwork.silverscreen.rm.window.effects.EffectsManager
 import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.shortcut.Shortcut
@@ -43,7 +44,8 @@ fun main() {
     val commandManager = CommandManager()
     val resourceManager = ResourceManager
     val shortcutManager = ShortcutManager
-    val appScope = AppScope(commandManager, resourceManager, shortcutManager)
+    val effectsManager = EffectsManager()
+    val appScope = AppScope(commandManager, resourceManager, shortcutManager, effectsManager)
 
     shortcutManager.addShortcut(Shortcut(Key.Z, ctrl = true)) {
         commandManager.undo()
@@ -79,13 +81,13 @@ fun main() {
     }
 
 
-    onStart()
+//    onStart()
     application {
         val icon = painterResource("icon.ico")
         Window(
             state = WindowState(WindowPlacement.Maximized),
             onCloseRequest = {
-                onClose()
+//                onClose()
                 exitApplication()
             },
             title = Strings.TITLE,

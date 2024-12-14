@@ -108,7 +108,7 @@ private fun AppScope.TimelineTracks(
                 .height(panelHeight),
         verticalArrangement = Arrangement.Center
     ) {
-        VideoTrackCompose(Dimens.TIMELINE_TRACK_HEIGHT, timelineLength)
+        VideoTrackCompose(timelineLength)
     }
 }
 

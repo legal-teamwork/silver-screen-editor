@@ -130,8 +130,13 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
             timeState.videoResource?.let { videoResource ->
                 // Get drawing frame:
                 val videoResourceTimestamp = timeState.resourceOnTrackTimestamp
-                if (videoResource != onlineVideoRenderer.videoResource)
+                if (videoResource != onlineVideoRenderer.videoResource) {
                     onlineVideoRenderer.setVideoResource(videoResource)
+                }
+
+                if (timeState.filters != onlineVideoRenderer.filters) {
+                    onlineVideoRenderer.setVideoFilters(timeState.filters)
+                }
 
                 val bufferedImage = onlineVideoRenderer.grabBufferedVideoFrameByTimestamp(videoResourceTimestamp)
                 val imageBitmap = bufferedImage?.toComposeImageBitmap()

@@ -24,10 +24,7 @@ import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import org.legalteamwork.silverscreen.rm.ResourceManager.tabId
-import org.legalteamwork.silverscreen.rm.window.EffectsMainWindow
-import org.legalteamwork.silverscreen.rm.window.ErrorMainWindow
-import org.legalteamwork.silverscreen.rm.window.PresetsMainWindow
-import org.legalteamwork.silverscreen.rm.window.TemplatesMainWindow
+import org.legalteamwork.silverscreen.rm.window.effects.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 import java.awt.datatransfer.DataFlavor
 
@@ -121,9 +118,7 @@ private fun AppScope.MainWindow(windowWidth: Dp) {
         when (id) {
             Dimens.SOURCES_ID -> SourcesMainWindow()
             Dimens.EFFECTS_ID -> EffectsMainWindow()
-            Dimens.PRESETS_ID -> PresetsMainWindow()
-            Dimens.TEMPLATES_ID -> TemplatesMainWindow()
-            else -> ErrorMainWindow()
+            else -> throw RuntimeException()
         }
     }
 }

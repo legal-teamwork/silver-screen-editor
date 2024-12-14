@@ -1,12 +1,15 @@
 package org.legalteamwork.silverscreen.re
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.geometry.Offset
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 import kotlin.math.roundToInt
 
 /**
@@ -21,7 +24,8 @@ class ResourceOnTrack(
     val id: Int,
     var position: Int,
     val framesCountDefault: Int,
-    var framesSkip: Int = 0
+    var framesSkip: Int = 0,
+    val filters: SnapshotStateList<VideoFilter>
 ) {
     private val logger = KotlinLogging.logger { }
     var framesCount by mutableStateOf(framesCountDefault)
@@ -48,5 +52,13 @@ class ResourceOnTrack(
     fun updateOffset() {
         logger.info { "Updating offset of video block..." }
         localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
+    }
+
+    fun addFilter(videoFilter: VideoFilter) {
+        filters.add(videoFilter)
+    }
+
+    fun removeFilter(videoFilter: VideoFilter) {
+        filters.remove(videoFilter)
     }
 }

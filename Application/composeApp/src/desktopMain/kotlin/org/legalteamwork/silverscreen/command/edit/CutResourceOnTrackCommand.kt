@@ -31,7 +31,8 @@ class CutResourceOnTrackCommand(
                 track.videoResources[index],
                 position,
                 rightSize,
-                track.resourcesOnTrack[index].framesSkip + leftSize
+                track.resourcesOnTrack[index].framesSkip + leftSize,
+                leftResource?.filters?.toList() ?: emptyList()
             )
         }
     }
