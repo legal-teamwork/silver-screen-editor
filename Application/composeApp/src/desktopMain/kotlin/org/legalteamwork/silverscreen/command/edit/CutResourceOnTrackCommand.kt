@@ -11,7 +11,7 @@ class CutResourceOnTrackCommand(
     private val position: Int,
     private val index: Int
 ) : CommandUndoSupport {
-    override val title: String = "Cut command"
+    override val title: String = "Cut cmd"
     override val description: String = "Cut track with the $position position"
     private val logger = KotlinLogging.logger {}
     private var leftResource: ResourceOnTrack? = null
