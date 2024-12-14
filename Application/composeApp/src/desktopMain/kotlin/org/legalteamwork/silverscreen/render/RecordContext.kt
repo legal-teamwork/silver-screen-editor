@@ -37,14 +37,15 @@ class RecordContext(
             .addFilters(resourceOnTrack.filters.map { it.getFfmpegFilter(width, height) })
             .build()
 
+        while (frameGrabber.frameNumber < resourceOnTrack.framesSkip) {
+            println("-skip")
+            frameGrabber.grab()
+        }
 
         while (true) {
-            frameNumber = resourceOnTrack.position + frameGrabber.frameNumber
-
-            if (frameNumber < resourceOnTrack.position + resourceOnTrack.framesSkip) {
-                // Skipped resource frame
-                continue
-            } else if (resourceOnTrack.isPosInside(frameNumber)) {
+            frameNumber = resourceOnTrack.position + frameGrabber.frameNumber - resourceOnTrack.framesSkip
+            if (resourceOnTrack.isPosInside(frameNumber)) {
+                println("- record")
                 // Recording frame
                 var frame = resourceContext.frameGrabber.grabFrame() ?: throw RuntimeException()
 
@@ -55,6 +56,7 @@ class RecordContext(
 
                 recorder.record(frame)
             } else {
+                println("- break")
                 // Next frame after resource
                 break
             }
