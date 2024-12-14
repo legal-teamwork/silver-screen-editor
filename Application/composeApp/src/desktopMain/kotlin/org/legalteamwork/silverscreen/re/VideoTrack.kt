@@ -8,12 +8,13 @@ import org.legalteamwork.silverscreen.rm.resource.VideoResource
 /**
  * Класс видео дорожки.
  */
-@Serializable
 object VideoTrack {
     private val logger = KotlinLogging.logger { }
     val videoResources = mutableStateListOf<VideoResource>()
     val resourcesOnTrack = mutableStateListOf<ResourceOnTrack>()
     var highlightedResources = mutableListOf<Int>()
+    val lengthInFrames: Int
+        get() = resourcesOnTrack.maxOfOrNull { it.getRightBorder() } ?: 0
 
     fun getFreePosition(): Int =
         if (resourcesOnTrack.isEmpty()) { 0 } else { resourcesOnTrack.maxOf(ResourceOnTrack::getRightBorder) + 1 }
@@ -48,6 +49,17 @@ object VideoTrack {
         logger.info { "Updating video offsets" }
         for (i in 0..<resourcesOnTrack.size)
             resourcesOnTrack[i].updateOffset()
+    }
+
+    fun getFrameStatus(frameNumber: Int): FrameStatus {
+        val resourceOnTrack = resourcesOnTrack.find { it.isPosInside(frameNumber) }
+        val videoResource = resourceOnTrack?.let { videoResources[it.id] }
+
+        return FrameStatus(
+            frameNumber,
+            resourceOnTrack,
+            videoResource,
+        )
     }
 
 }
