@@ -22,7 +22,7 @@ object VideoTrack {
     fun addResource(resource: VideoResource, position: Int): ResourceOnTrack {
         logger.debug { "Adding video resource to timeline" }
 
-        val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames)
+        val resourceOnTrack = ResourceOnTrack(null, videoResources.size, position, resource.numberOfFrames - 1)
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
 
