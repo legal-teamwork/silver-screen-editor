@@ -10,7 +10,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.serializer
-import org.legalteamwork.silverscreen.rm.window.effects.VideoEffect
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = ResourceOnTrack::class)
@@ -26,7 +26,7 @@ class ResourceOnTrackSerializer : KSerializer<ResourceOnTrack> {
         encoder.encodeInt(value.position)
         encoder.encodeInt(value.framesCount)
         encoder.encodeInt(value.framesSkip)
-        SnapshotVideoEffectListSerializer.serialize(encoder, value.effects)
+        SnapshotVideoFilterListSerializer.serialize(encoder, value.filters)
     }
 
     override fun deserialize(decoder: Decoder): ResourceOnTrack {
@@ -35,24 +35,24 @@ class ResourceOnTrackSerializer : KSerializer<ResourceOnTrack> {
         val position = decoder.decodeInt()
         val framesCountDefault = decoder.decodeInt()
         val framesSkip = decoder.decodeInt()
-        val effects = SnapshotVideoEffectListSerializer.deserialize(decoder)
+        val filters = SnapshotVideoFilterListSerializer.deserialize(decoder)
 
-        return ResourceOnTrack(null, id, position, framesCountDefault, framesSkip, effects)
+        return ResourceOnTrack(null, id, position, framesCountDefault, framesSkip, filters)
     }
 
-    object SnapshotVideoEffectListSerializer : KSerializer<SnapshotStateList<VideoEffect>> {
-        private val delegateSerializer = serializer<List<VideoEffect>>()
+    object SnapshotVideoFilterListSerializer : KSerializer<SnapshotStateList<VideoFilter>> {
+        private val delegateSerializer = serializer<List<VideoFilter>>()
 
         @OptIn(ExperimentalSerializationApi::class)
         override val descriptor = SerialDescriptor(this.javaClass.name, delegateSerializer.descriptor)
 
-        override fun serialize(encoder: Encoder, value: SnapshotStateList<VideoEffect>) {
+        override fun serialize(encoder: Encoder, value: SnapshotStateList<VideoFilter>) {
             encoder.encodeSerializableValue(delegateSerializer, value.toList())
         }
 
-        override fun deserialize(decoder: Decoder): SnapshotStateList<VideoEffect> {
+        override fun deserialize(decoder: Decoder): SnapshotStateList<VideoFilter> {
             val value = decoder.decodeSerializableValue(delegateSerializer)
-            return mutableStateListOf<VideoEffect>().apply { addAll(value) }
+            return mutableStateListOf<VideoFilter>().apply { addAll(value) }
         }
     }
 }

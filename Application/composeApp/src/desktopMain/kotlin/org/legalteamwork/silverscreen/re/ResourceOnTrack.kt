@@ -9,7 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.legalteamwork.silverscreen.rm.window.effects.VideoEffect
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 import kotlin.math.roundToInt
 
 /**
@@ -25,7 +25,7 @@ class ResourceOnTrack(
     var position: Int,
     val framesCountDefault: Int,
     var framesSkip: Int = 0,
-    val effects: SnapshotStateList<VideoEffect> = mutableStateListOf()
+    val filters: SnapshotStateList<VideoFilter> = mutableStateListOf()
 ) {
     private val logger = KotlinLogging.logger { }
     var framesCount by mutableStateOf(framesCountDefault)
@@ -54,7 +54,7 @@ class ResourceOnTrack(
         localDragTargetInfo.component1().dragOffset = Offset(position * DpInFrame, 0f)
     }
 
-    fun addEffect(videoEffect: VideoEffect) {
-        effects.add(videoEffect)
+    fun addFilter(videoFilter: VideoFilter) {
+        filters.add(videoFilter)
     }
 }
