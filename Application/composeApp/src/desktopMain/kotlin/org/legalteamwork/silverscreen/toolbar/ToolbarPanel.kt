@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen.toolbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,7 +29,13 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
     }
 
     Row(
-        modifier = modifier.fillMaxWidth().background(EditingPanelTheme.EDITING_PANEL_BACKGROUND).padding(8.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                EditingPanelTheme.TOOLBOX_PANEL_BACKGROUND,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -36,9 +43,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
             onCutClick = {
                 if (VideoPanel.playbackManager.isPlaying.value)
                     VideoPanel.playbackManager.pause()
-                val cutResourceOnTrackCommand =
-                    CutResourceOnTrackCommand(VideoTrack, Slider.getPosition(), 0)
-                commandManager.execute(cutResourceOnTrackCommand)
+                val position = Slider.getPosition()
+                val index = VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
+                if (index != -1) {
+                    val cutResourceOnTrackCommand = CutResourceOnTrackCommand(VideoTrack, position, index)
+                    commandManager.execute(cutResourceOnTrackCommand)
+                }
             },
         )
 

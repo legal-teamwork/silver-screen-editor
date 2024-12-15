@@ -14,6 +14,7 @@ import org.legalteamwork.silverscreen.menu.MenuBarCompose
 import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.toolbar.ToolbarPanel
@@ -79,11 +80,12 @@ fun AppScope.App() {
         ) {
             Box(
                 Modifier.fillMaxSize().background(
-                    AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                    EditingPanelTheme.LONG_MARK_INTERVAL_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                 )
             ) {
-                Column {
+                Column (verticalArrangement = Arrangement.spacedBy(8.5.dp)) {
                     ToolbarPanel(Modifier.fillMaxWidth().height(48.dp))
+                    //Spacer(modifier = Modifier.height(2.dp)) // добавляем отступ 8dp
                     EditingPanel(height)
                 }
             }

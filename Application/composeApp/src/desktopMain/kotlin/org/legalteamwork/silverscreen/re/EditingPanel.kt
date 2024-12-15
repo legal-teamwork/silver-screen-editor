@@ -42,7 +42,7 @@ var DpInFrame by mutableStateOf(1f)
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun AppScope.EditingPanel(panelHeight: Dp) {
+fun AppScope.EditingPanel(panelHeight: Dp, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =

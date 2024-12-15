@@ -61,7 +61,7 @@ fun rightEditingTools(
             )
         )
 
-        Button(onClick = onZoomIn) {
+        IconButton(onClick = onZoomIn) {
             Image(
                 painter = painterResource("toolbar_buttons/plus.svg"),
                 contentDescription = "Zoom in"
