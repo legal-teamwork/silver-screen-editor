@@ -20,7 +20,9 @@ class ExportCommand(
 ) : Command {
     override val title: String = Strings.FILE_EXPORT_ITEM
     override val description: String = Strings.FILE_EXPORT_ITEM
-    private val exportStrategy: ExportRenderer = FiltersExportRenderer()
+    private val exportStrategy: (onProgressUpdate: (Int) -> Unit) -> ExportRenderer = { onProgressUpdate ->
+        SimpleExportRenderer(onProgressUpdate)
+    }
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {
