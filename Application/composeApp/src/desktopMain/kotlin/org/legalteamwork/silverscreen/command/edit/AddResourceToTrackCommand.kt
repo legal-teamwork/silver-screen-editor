@@ -11,7 +11,7 @@ class AddResourceToTrackCommand(
     private val track: VideoTrack,
     private val position: Int
 ) : CommandUndoSupport {
-    override val title: String = "Add resource to track"
+    override val title: String = "Add video block"
     override val description: String =
         "Add resource ${resource.title} to the timeline"
     private val logger = KotlinLogging.logger {}

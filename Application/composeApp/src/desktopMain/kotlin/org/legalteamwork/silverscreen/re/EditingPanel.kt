@@ -108,7 +108,7 @@ private fun AppScope.TimelineTracks(
                 .height(panelHeight),
         verticalArrangement = Arrangement.Center
     ) {
-        VideoTrackCompose(Dimens.TIMELINE_TRACK_HEIGHT, timelineLength)
+        VideoTrackCompose(timelineLength)
     }
 }
 
@@ -261,9 +261,12 @@ private fun AppScope.InstrumentsPanel() {
                 onClick = {
                     if (VideoPanel.playbackManager.isPlaying.value)
                         VideoPanel.playbackManager.pause()
-                    val cutResourceOnTrackCommand =
-                        CutResourceOnTrackCommand(VideoTrack, Slider.getPosition())
-                    commandManager.execute(cutResourceOnTrackCommand)
+
+                    val position = Slider.getPosition()
+                    val index = VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
+                    if (index != -1) {
+                        commandManager.execute(CutResourceOnTrackCommand(VideoTrack, position, index))
+                    }
                 },
                 colors = buttonColors,
             ) {

@@ -7,7 +7,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.legalteamwork.silverscreen.command.Command
 import org.legalteamwork.silverscreen.command.commandLog
+import org.legalteamwork.silverscreen.render.SimpleExportRenderer
 import org.legalteamwork.silverscreen.render.ExportRenderer
+import org.legalteamwork.silverscreen.render.FiltersExportRenderer
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 
@@ -18,6 +20,7 @@ class ExportCommand(
 ) : Command {
     override val title: String = Strings.FILE_EXPORT_ITEM
     override val description: String = Strings.FILE_EXPORT_ITEM
+    private val exportStrategy: ExportRenderer = FiltersExportRenderer()
     private val logger = KotlinLogging.logger {}
 
     override fun execute() {
@@ -27,7 +30,7 @@ class ExportCommand(
             val filenameSet = openFileDialog(null, "Export to video", listOf("mp4"), false)
 
             if (filenameSet.isNotEmpty()) {
-                val renderer = ExportRenderer { progress ->
+                val renderer = exportStrategy { progress ->
                     onProgressUpdate(progress)
                 }
                 renderer.export(filenameSet.first().toString())

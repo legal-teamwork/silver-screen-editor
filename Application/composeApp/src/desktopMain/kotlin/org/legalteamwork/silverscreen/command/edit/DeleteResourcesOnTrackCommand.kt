@@ -10,8 +10,8 @@ class DeleteResourcesOnTrackCommand(
     private val track: VideoTrack,
     private val highlightedResources: List<Int>
 ) : CommandUndoSupport {
-    override val title: String = "Delete command"
-    override val description: String = "Delete command"
+    override val title: String = "Delete cmd"
+    override val description: String = "Delete cmd"
     private val logger = KotlinLogging.logger {}
     private var deletedResources =
         mutableListOf<ResourceOnTrack>()
