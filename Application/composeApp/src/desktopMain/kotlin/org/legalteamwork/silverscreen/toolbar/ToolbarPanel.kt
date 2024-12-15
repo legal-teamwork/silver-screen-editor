@@ -18,6 +18,8 @@ import org.legalteamwork.silverscreen.re.Slider
 import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
+import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
@@ -27,6 +29,8 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
     val totalProjectDuration = remember(VideoEditor.getResourcesOnTrack()) {
         VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() }?.toLong() ?: 0L
     }
+
+    var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpInFrame) }
 
     Row(
         modifier = modifier
@@ -39,6 +43,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         leftEditingTools(
             onCutClick = {
                 if (VideoPanel.playbackManager.isPlaying.value)
@@ -50,6 +55,13 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                     commandManager.execute(cutResourceOnTrackCommand)
                 }
             },
+
+            onDeleteClick = {
+                val highlightedResources = VideoEditor.getHighlightedResources()
+                if (highlightedResources.isNotEmpty()) {
+                    commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
+                }
+            }
         )
 
         centerPlaybackControls(
@@ -80,25 +92,31 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
         rightEditingTools(
             onStepBackward = {
+                commandManager.undo()
                 // step backward logic here
             },
             onStepForward = {
+                commandManager.redo()
                 // step forward logic here
             },
             onZoomIn = {
-                org.legalteamwork.silverscreen.re.DpInFrame += 0.25f
-                if (org.legalteamwork.silverscreen.re.DpInFrame > 2.5f) {
-                    org.legalteamwork.silverscreen.re.DpInFrame = 2.5f
-                }
+                zoomLevel = (zoomLevel + 0.25f).coerceAtMost(2.5f) // Увеличиваем zoomLevel
+                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
             onZoomOut = {
-                org.legalteamwork.silverscreen.re.DpInFrame -= 0.25f
-                if (org.legalteamwork.silverscreen.re.DpInFrame < 0.75f) {
-                    org.legalteamwork.silverscreen.re.DpInFrame = 0.75f
-                }
+                zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.75f) // Уменьшаем zoomLevel
+                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
+
+            zoomLevel = zoomLevel,
+            onZoomLevelChange = { newZoom ->
+                zoomLevel = newZoom.coerceIn(0.75f, 2.5f)
+                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                VideoTrack.updateResourcesOnTrack()
+            },
+
             onSaveClick = {
                 // Placeholder for save functionality
             }

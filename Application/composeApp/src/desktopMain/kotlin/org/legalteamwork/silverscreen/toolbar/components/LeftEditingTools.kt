@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.icons.Icons
@@ -20,12 +21,13 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 fun leftEditingTools(
     modifier: Modifier = Modifier,
     onCutClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onVolumeChange: (Float) -> Unit = {} // Placeholder for volume change
 ) {
     var volume by remember { mutableStateOf(0.5f) }
 
     Row(
-        modifier = modifier,
+        modifier = Modifier.padding(start = 60.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -33,6 +35,13 @@ fun leftEditingTools(
             Image(
                 painter = painterResource("toolbar_buttons/content_cut.svg"),
                 contentDescription = "Cut"
+            )
+        }
+
+        IconButton(onClick = onDeleteClick) {
+            Image(
+                painter = painterResource("toolbar_buttons/trash.svg"),
+                contentDescription = "Delete"
             )
         }
         /** Слайдер регулировки громкости

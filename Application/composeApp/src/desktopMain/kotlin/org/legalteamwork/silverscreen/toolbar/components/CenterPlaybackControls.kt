@@ -3,6 +3,7 @@ package org.legalteamwork.silverscreen.toolbar.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.IconButton
@@ -35,7 +36,8 @@ fun centerPlaybackControls(
     onSeekToEndClick: () -> Unit,
 ) {
     Row(
-        modifier = modifier,
+        modifier = Modifier
+            .padding(start = 400.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

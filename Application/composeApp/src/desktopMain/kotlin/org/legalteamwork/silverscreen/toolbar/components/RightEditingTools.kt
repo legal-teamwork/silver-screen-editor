@@ -18,13 +18,16 @@ import org.legalteamwork.silverscreen.vp.VideoPanel
 @Composable
 fun rightEditingTools(
     modifier: Modifier = Modifier,
-    onStepBackward: () -> Unit = {}, // Placeholder for step backward
-    onStepForward: () -> Unit = {}, // Placeholder for step forward
+    onStepBackward: () -> Unit,
+    onStepForward: () -> Unit,
     onZoomIn: () -> Unit,
     onZoomOut: () -> Unit,
+    zoomLevel: Float,
+    onZoomLevelChange: (Float) -> Unit,
     onSaveClick: () -> Unit
 ) {
-    var zoomLevel by remember { mutableStateOf(1f) } // Placeholder zoom level
+    val zoomLevels = listOf(0.75f, 1.0f, 1.25f, 1.5f, 1.75f, 2.0f, 2.5f)
+    val currentZoomIndex = zoomLevels.indexOfFirst { it == zoomLevel }.coerceAtLeast(0)
 
     Row(
         modifier = modifier,
@@ -51,9 +54,10 @@ fun rightEditingTools(
             )
         }
 
-        Slider(
+        Slider (
             value = zoomLevel,
-            onValueChange = { zoomLevel = it }, // Placeholder, connect to actual zoom logic
+            onValueChange = onZoomLevelChange,
+            valueRange = 0.75f..2.5f,
             modifier = Modifier.width(100.dp), // Adjust width as needed
             colors = SliderDefaults.colors(
                 thumbColor = EditingPanelTheme.SLIDER_COLOR,
@@ -67,6 +71,8 @@ fun rightEditingTools(
                 contentDescription = "Zoom in"
             )
         }
+
+        Spacer(modifier = Modifier.width(4.dp))
 
         Button(
             onClick = onSaveClick,
