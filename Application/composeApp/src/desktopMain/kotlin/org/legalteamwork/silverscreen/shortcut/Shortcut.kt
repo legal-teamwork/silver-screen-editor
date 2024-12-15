@@ -75,6 +75,7 @@ data class Shortcut(
             Key.X to 'X',
             Key.Y to 'Y',
             Key.Z to 'Z',
+            Key.Delete to "Delete"
         )
     }
 }

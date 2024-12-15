@@ -4,8 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.delay
 import org.legalteamwork.silverscreen.re.Slider
 import kotlin.math.max
-import org.legalteamwork.silverscreen.resources.Dimens
-import org.legalteamwork.silverscreen.re.VideoEditor
 
 /**
  * Менеджер воспроизведения видео панели
@@ -81,23 +79,6 @@ class PlaybackManager {
         playStartFromTimestamp = position
         playStartTimestamp = currentTimeMillis
     }
-
-    fun seekToStart() {
-        playStartTimestamp = System.currentTimeMillis()
-        playStartFromTimestamp = 0
-        Slider.updatePosition(0)
-        isPlaying.component2().invoke(false)
-    }
-
-    fun seekToEnd() {
-        val resourcesOnTrack = VideoEditor.getResourcesOnTrack()
-        val maxTimestamp = resourcesOnTrack.maxOfOrNull { resourceOnTrack ->
-            resourceOnTrack.getRightBorder() * 1000L / Dimens.FRAME_RATE
-        } ?: 0L
-        currentTimestamp.value = maxTimestamp.toLong()
-    }
-
-
 
     /**
      * Асинхронный запуск бесконечного цикла, сдвигающий ползунок воспроизведения,

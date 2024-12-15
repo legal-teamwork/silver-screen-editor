@@ -2,6 +2,7 @@ package org.legalteamwork.silverscreen.re
 
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 
 /**
  * Состояние видео-эдитора в заданный момент времени
@@ -13,10 +14,10 @@ data class VideoEditorTimeState(val timestamp: Long) {
     /**
      * Находит ресурс, который находится в заданном моменте времени
      */
-    private val resourceOnTrack: VideoEditor.VideoTrack.ResourceOnTrack? = run {
+    private val resourceOnTrack: ResourceOnTrack? = run {
         val frame = timestamp * Dimens.FRAME_RATE / 1000
 
-        VideoEditor.VideoTrack.resourcesOnTrack.find {
+        VideoTrack.resourcesOnTrack.find {
             it.position <= frame && it.position + it.framesCount > frame
         }
     }
@@ -39,4 +40,6 @@ data class VideoEditorTimeState(val timestamp: Long) {
     val videoResource: VideoResource? = resourceOnTrack?.let {
         VideoEditor.getVideoResources()[it.id]
     }
+
+    val filters: List<VideoFilter> = resourceOnTrack?.filters?.toList() ?: emptyList()
 }

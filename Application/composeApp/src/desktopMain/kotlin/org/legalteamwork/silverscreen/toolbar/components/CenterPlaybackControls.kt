@@ -3,6 +3,7 @@ package org.legalteamwork.silverscreen.toolbar.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.IconButton
 import androidx.compose.material.Icon
@@ -18,12 +19,13 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.text.SimpleDateFormat
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.painterResource
+import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 import java.util.*
 
 @Composable
 fun centerPlaybackControls(
     modifier: Modifier = Modifier,
-    currentTime: Long,
+    currentTimestamp: Long,
     totalDuration: Long,
     onPlayPauseClick: () -> Unit,
     onRewindBackwardsClick: () -> Unit,
@@ -50,10 +52,18 @@ fun centerPlaybackControls(
             )
         }
         IconButton(onClick = onPlayPauseClick) {
-            Image(
-                painter = painterResource("toolbar_buttons/play_button.svg"),
-                contentDescription = "Play"
+            if (!playbackManager.isPlaying.value) {
+                Image(
+                    painter = painterResource("toolbar_buttons/play_button.svg"),
+                    contentDescription = "Play"
                 )
+            }
+            else {
+                Image(
+                    painter = painterResource("toolbar_buttons/pause_button.svg"),
+                    contentDescription = "Pause",
+                )
+            }
         }
         IconButton(onClick = onStopClick) {
             Image(
@@ -74,15 +84,17 @@ fun centerPlaybackControls(
             )
         }
         Text(
-            text = "${formatTime(currentTime)} / ${formatTime(totalDuration)}",
+            text = "${formatTime(currentTimestamp)} / ${formatTime(totalDuration)}",
             color = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR
         )
     }
 }
 
-fun formatTime(time: Long): String {
-    val minutes = time / 1000 / 60
-    val seconds = time / 1000 % 60
-    val milliseconds = time % 1000
-    return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds)
+private fun formatTime(elapsedTime: Long): String {
+    val hours = (elapsedTime / 3600000) % 60
+    val minutes = (elapsedTime / 60000) % 60
+    val seconds = (elapsedTime / 1000) % 60
+    val milliseconds = (elapsedTime % 1000) / 10
+
+    return String.format("%02d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds)
 }

@@ -1,137 +1,97 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.awtTransferable
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
+import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.resourcesOnTrack
-import org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.videoResources
+import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
+import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
-import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
+import org.legalteamwork.silverscreen.rm.resource.Resource
+import org.legalteamwork.silverscreen.rm.window.effects.VideoEffect
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
+import java.awt.datatransfer.DataFlavor
 import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.material.Text
-import androidx.compose.ui.layout.ContentScale
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
+private val logger = KotlinLogging.logger { }
 
-private val logger = KotlinLogging.logger {  }
-
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun AppScope.VideoTrackCompose(
-    trackHeight: Dp,
-    maxWidth: Dp,
-) {
-    val resources = remember { resourcesOnTrack }
+fun AppScope.VideoTrackCompose(timelineLength: Dp) {
+    //val resources = remember { resourcesOnTrack }
     logger.info { "Composing video resource" }
+
+    val dragAndDropTarget = remember {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val dataFlavor = DataFlavor(
+                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.resource.Resource",
+                    "Resource"
+                )
+                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+
+                if (transferData is Resource) {
+                    val position = VideoTrack.getFreePosition()
+                    val addResourceCommand = AddResourceToTrackFabric
+                        .makeCommand(transferData, VideoTrack, position)
+
+                    if (addResourceCommand != null) {
+                        commandManager.execute(addResourceCommand)
+                    }
+
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
+    }
+
     Box(
         modifier =
             Modifier
-                .fillMaxWidth()
-                .height(trackHeight)
-                .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR),
+                .width(timelineLength)
+                .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR)
+                .dragAndDropTarget(
+                    shouldStartDragAndDrop = { true },
+                    target = dragAndDropTarget
+                ),
     ) {
-        Box(
-            modifier =
-                Modifier.width(
-                    300.dp,
-                ).height(
-                    trackHeight - 8.dp,
-                ).padding(
-                    start = 4.dp,
-                ).align(
-                    Alignment.CenterStart,
-                ).background(color = EditingPanelTheme.TRACK_INFO_BACKGROUND_COLOR, RoundedCornerShape(8.dp)),
-        ) {
-            Column {
-                Text(
-                    text = String.format("▶ Video Channel"),
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.TopStart).padding(start = 7.dp, top = 7.dp),
-                    textAlign = TextAlign.Center,
-                    fontSize = 23.sp,
-                    color = EditingPanelTheme.TRACK_INFO_TEXT_COLOR,
-                )
-            }
-        }
-        Box(modifier = Modifier.width(maxWidth + 304.dp)) {
-            for (i in 0..<resources.size) {
-                val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resources[i])
-                resourceOnTrackScope.ResourceOnTrackCompose()
-            }
+        for (resource in resourcesOnTrack) {
+            val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resource)
+            resourceOnTrackScope.ResourceOnTrackCompose()
         }
     }
 }
 
-/*
-@Composable
-private fun VideoEditorMarkup(
-    maxWidth: Dp,
-    trackHeight: Dp,
-    zoom: Float,
-) {
-    val shortMarkInterval = 10f * DpInFrame
-    val longMarkInterval = 100f * DpInFrame
-    logger.info { "Markup timeline..." }
-
-    Box(modifier = Modifier.width(maxWidth).height(trackHeight)) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val width = size.width
-            val height = size.height
-
-            drawRect(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR, size = size)
-
-            for (i in 0 until (width / shortMarkInterval).toInt() + 1) {
-                val xPosition = i * shortMarkInterval - 1
-
-                drawLine(
-                    color = EditingPanelTheme.SHORT_MARK_INTERVAL_COLOR,
-                    start = Offset(xPosition, height * 0.25f),
-                    end = Offset(xPosition, height * 0.75f),
-                    strokeWidth = 1f,
-                )
-            }
-
-            for (i in 0 until (width / longMarkInterval).toInt() + 1) {
-                val xPosition = i * longMarkInterval - 1
-
-                drawLine(
-                    color = EditingPanelTheme.LONG_MARK_INTERVAL_COLOR,
-                    start = Offset(xPosition, height * 0.15f),
-                    end = Offset(xPosition, height * 0.85f),
-                    strokeWidth = 1f,
-                )
-            }
-        }
-    }
-}
-*/
 
 @Composable
 private fun <T> ResourceOnTrackScope.DragTarget(
@@ -146,7 +106,6 @@ private fun <T> ResourceOnTrackScope.DragTarget(
         modifier =
             modifier
                 .offset { IntOffset(currentState.dragOffset.x.roundToInt(), 0) }
-                .offset(x = Dimens.RESOURCES_HORIZONTAL_OFFSET_ON_TRACK)
                 .onGloballyPositioned {
                     currentPosition = it.localToWindow(Offset.Zero)
                 }
@@ -179,143 +138,136 @@ private fun <T> ResourceOnTrackScope.DragTarget(
     }
 }
 
-
-/*
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    val dragAndDropTarget = remember {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val dataFlavor = DataFlavor(
+                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.window.effects.VideoEffect",
+                    "VideoEffect"
+                )
+                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+
+                if (transferData is VideoEffect) {
+                    val videoFilter = transferData.createFilter(resourceOnTrack)
+                    val command = AddFilterToResource(videoFilter, resourceOnTrack)
+                    commandManager.execute(command)
+
+                    return true
+                } else {
+                    return false
+                }
+            }
+        }
+    }
 
     DragTarget(
-        modifier = Modifier.fillMaxHeight().width(size),
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(size)
+            .dragAndDropTarget(
+                shouldStartDragAndDrop = { true },
+                target = dragAndDropTarget
+            ),
         dataToDrop = "",
     ) {
-        BoxWithConstraints(
+        Column {
+            ResourceOnTrackMainLine(resourceOnTrack)
+
+            for (videoFilter in resourceOnTrack.filters) {
+                ResourceOnTrackFilterLine(videoFilter)
+            }
+        }
+    }
+}
+
+@Composable
+fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
+    val videoEffect = videoFilter.videoEffect
+    val offset = videoFilter.firstFrame * DpInFrame * 1.dp
+    val size = videoFilter.framesLength * DpInFrame * 1.dp
+
+    Box(Modifier.fillMaxWidth().height(Dimens.RESOURCE_ON_TRACK_EFFECT_PART_HEIGHT)) {
+        Row {
+            Box(Modifier.width(offset))
+            Box(
+                Modifier
+                    .width(size)
+                    .fillMaxHeight()
+                    .background(EditingPanelTheme.EFFECT_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(videoEffect.title)
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
+    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
+    val colorStops = arrayOf(
+        0.0f to droppableFileBackgroundColor,
+        0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
+        0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
+        0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
+        0.8f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5,
+        1f to droppableFileBackgroundColor
+    )
+
+    BoxWithConstraints(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(Dimens.RESOURCE_ON_TRACK_MAIN_PART_HEIGHT)
+                .background(
+                    Brush.horizontalGradient(colorStops = colorStops),
+                    RoundedCornerShape(5.dp)
+                )
+                .clickable(
+                    onClick = {
+                        if (VideoEditor.highlightResource(resourceOnTrack.id))
+                            droppableFileBackgroundColor =
+                                EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
+                        else
+                            droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1
+                    }
+                ),
+    ) {
+        val textHeight = min(20.dp, maxHeight)
+        val previewHeight = min(75.dp, maxHeight - textHeight)
+        val previewWidth = min(150.dp, minWidth)
+
+        Column(
             modifier =
                 Modifier
-                    .fillMaxHeight()
-                    .width(size)
-                    .background(color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
+                    .padding(vertical = 10.dp),
         ) {
-            Row() {
-                Box(modifier = Modifier.fillMaxHeight().width(12.dp))
-                {
-                    Text(text = "║", textAlign = TextAlign.Start, modifier = Modifier.align(Alignment.Center), color = EditingPanelTheme.RESOURCE_RESHAPE_AREA_COLOR)
-                }
-
-                Image(
-                    painter =
+            Text(
+                text = videoResources[resourceOnTrack.id].title.value,
+                modifier =
+                    Modifier
+                        .offset(x = 10.dp)
+                        .height(textHeight),
+                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
+            )
+            Image(
+                painter =
                     BitmapPainter(
-                        remember {
-                            File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
-                                .decodeToImageBitmap()
-                        },
+                        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+                            .decodeToImageBitmap()
                     ),
-                    contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier = Modifier.width(size - 24.dp)
-                )
-
-                Box(modifier = Modifier.fillMaxHeight().width(12.dp))
-                {
-                    Text(text = "║", textAlign = TextAlign.End, modifier = Modifier.align(Alignment.Center), color = EditingPanelTheme.RESOURCE_RESHAPE_AREA_COLOR)
-                }
-            }
-
+                contentDescription = videoResources[resourceOnTrack.id].title.value,
+                modifier =
+                    Modifier
+                        .width(previewWidth)
+                        .height(previewHeight),
+            )
         }
     }
 }
-
-
-
- */
-
-@OptIn(ExperimentalResourceApi::class)
-@Composable
-private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
-    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
-    val imageBitmap = remember {
-        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
-            .decodeToImageBitmap()
-    }
-
-    // Вычисляем ширину изображения и общее количество итераций
-    val imageWidthDp = imageBitmap.width.dp
-    val imageHeightDp = imageBitmap.height.dp - 5.dp
-    val totalWidth = size.value - 26.dp.value
-    val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
-    val remainingWidth = totalWidth % imageWidthDp.value
-
-    DragTarget(
-        modifier = Modifier.fillMaxHeight().width(size),
-        dataToDrop = "",
-    ) {
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(size)
-                .background(
-                    color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR,
-                    shape = RoundedCornerShape(10.dp)
-                ),
-        ) {
-            Row(modifier = Modifier.fillMaxHeight()) {
-
-                Box(modifier = Modifier.fillMaxHeight().width(13.dp)) {
-                    Text(
-                        text = "│",
-                        textAlign = TextAlign.Center,
-                        color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR,
-                        fontSize = 25.sp,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-
-                Column {
-                    Box(modifier = Modifier.height(2.dp))
-
-                    Row{
-                        for (i in 0 until numberOfFullImages) {
-                            Image(
-                                painter = BitmapPainter(imageBitmap),
-                                contentDescription = videoResources[resourceOnTrack.id].title.value,
-                                modifier = Modifier
-                                    .width(imageWidthDp)
-                                    .height(imageHeightDp),
-                                contentScale = ContentScale.Crop,
-                                alignment = Alignment.Center
-                            )
-                        }
-
-                        if (remainingWidth > 0) {
-                            Image(
-                                painter = BitmapPainter(imageBitmap),
-                                contentDescription = videoResources[resourceOnTrack.id].title.value,
-                                modifier = Modifier
-                                    .width(remainingWidth.dp)
-                                    .height(imageHeightDp),
-                                contentScale = ContentScale.Crop,
-                                alignment = Alignment.TopStart
-                            )
-                        }
-                    }
-                    Box(modifier = Modifier.height(2.dp))
-                }
-
-
-                Box(modifier = Modifier.fillMaxHeight().width(13.dp)) {
-                            Text(
-                                text = "│",
-                                textAlign = TextAlign.Center,
-                                color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR,
-                                fontSize = 25.sp,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                }
-            }
-        }
-    }
-}
-
-
-
 

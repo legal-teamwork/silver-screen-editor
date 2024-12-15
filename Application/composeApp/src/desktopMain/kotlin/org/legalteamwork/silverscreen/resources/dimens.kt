@@ -48,7 +48,9 @@ object Dimens {
     val AUDIO_TRACK_MAX_HEIGHT = 500.dp
     val AUDIO_TRACK_MIN_WIDTH = 30.dp
     val MIN_SIZE_OF_RESOURCE_ON_TRACK = 1
-    val RESOURCES_HORIZONTAL_OFFSET_ON_TRACK = 304.dp
+    val RESOURCE_ON_TRACK_MAIN_PART_HEIGHT = 75.dp
+    val RESOURCE_ON_TRACK_EFFECT_PART_HEIGHT = 25.dp
+    val TIMELINE_TRACK_HEIGHT = 200.dp
 
     //In SourceMenuButton.kt
     val IMAGE_WIDTH = 250.dp
@@ -65,7 +67,7 @@ object Dimens {
     //In App.kt
     val MARGIN_SIZE = 6.dp
     val DIVIDER_SIZE = 8.dp
-    val WINDOW_CORNER_RADIUS = 10.dp
+    val WINDOW_CORNER_RADIUS = 8.dp
 
     // In command/CommandWindowCompose.kt
     val COMMAND_WINDOW_MARGIN = 8.dp

@@ -15,9 +15,11 @@ import org.legalteamwork.silverscreen.toolbar.components.leftEditingTools
 import org.legalteamwork.silverscreen.toolbar.components.rightEditingTools
 import org.legalteamwork.silverscreen.re.Slider
 import org.legalteamwork.silverscreen.re.VideoEditor
+import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 
 @Composable
 fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
@@ -35,16 +37,16 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 if (VideoPanel.playbackManager.isPlaying.value)
                     VideoPanel.playbackManager.pause()
                 val cutResourceOnTrackCommand =
-                    CutResourceOnTrackCommand(VideoEditor.VideoTrack, Slider.getPosition())
+                    CutResourceOnTrackCommand(VideoTrack, Slider.getPosition(), 0)
                 commandManager.execute(cutResourceOnTrackCommand)
             },
         )
 
         centerPlaybackControls(
-            currentTime = Slider.getPosition().toLong(),
+            currentTimestamp = playbackManager.currentTimestamp.value,
             totalDuration = (totalProjectDuration * 1000 / Dimens.FRAME_RATE).toLong(),
             onPlayPauseClick = {
-                if (VideoPanel.playbackManager.isPlaying.value) VideoPanel.playbackManager.pause() else VideoPanel.playbackManager.play()
+                playbackManager.playOrPause()
             },
             onRewindBackwardsClick = {
                 VideoPanel.playbackManager.seek(-10_000)
@@ -56,12 +58,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 VideoPanel.playbackManager.stop()
             },
             onSeekToStartClick = {
-                VideoPanel.playbackManager.seekToStart()
+                //VideoPanel.playbackManager.seekToStart()
                 VideoPanel.playbackManager.pause()
 
             },
             onSeekToEndClick = {
-                VideoPanel.playbackManager.seekToEnd()
+                //VideoPanel.playbackManager.seekToEnd()
                 VideoPanel.playbackManager.pause()
             },
         )
@@ -78,14 +80,14 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 if (org.legalteamwork.silverscreen.re.DpInFrame > 2.5f) {
                     org.legalteamwork.silverscreen.re.DpInFrame = 2.5f
                 }
-                VideoEditor.VideoTrack.updateResourcesOnTrack()
+                VideoTrack.updateResourcesOnTrack()
             },
             onZoomOut = {
                 org.legalteamwork.silverscreen.re.DpInFrame -= 0.25f
                 if (org.legalteamwork.silverscreen.re.DpInFrame < 0.75f) {
                     org.legalteamwork.silverscreen.re.DpInFrame = 0.75f
                 }
-                VideoEditor.VideoTrack.updateResourcesOnTrack()
+                VideoTrack.updateResourcesOnTrack()
             },
             onSaveClick = {
                 // Placeholder for save functionality

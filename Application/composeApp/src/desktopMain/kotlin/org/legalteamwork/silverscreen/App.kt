@@ -6,9 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.command.CommandWindowCompose
 import org.legalteamwork.silverscreen.menu.MenuBarCompose
@@ -16,8 +15,8 @@ import org.legalteamwork.silverscreen.re.EditingPanel
 import org.legalteamwork.silverscreen.resources.AppTheme
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.rm.ResourceManagerCompose
-import org.legalteamwork.silverscreen.toolbar.ToolbarPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel
+import org.legalteamwork.silverscreen.toolbar.ToolbarPanel
 import org.legalteamwork.silverscreen.windows.block.column
 import org.legalteamwork.silverscreen.windows.block.row
 import org.legalteamwork.silverscreen.windows.block.terminal
@@ -37,7 +36,7 @@ fun AppScope.App() {
             ) {
                 Box(
                     Modifier.fillMaxSize().background(
-                        AppTheme.RESOURCE_MANAGER_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                     )
                 ) {
                     ResourceManagerCompose()
@@ -65,7 +64,7 @@ fun AppScope.App() {
             ) {
                 Box(
                     Modifier.fillMaxSize().background(
-                        AppTheme.RESOURCE_MANAGER_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
+                        AppTheme.VIDEO_PANEL_BACKGROUND_COLOR, RoundedCornerShape(Dimens.WINDOW_CORNER_RADIUS)
                     )
                 ) {
                     CommandWindowCompose()
