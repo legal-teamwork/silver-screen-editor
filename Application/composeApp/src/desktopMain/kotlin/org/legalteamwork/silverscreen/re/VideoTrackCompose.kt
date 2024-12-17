@@ -339,39 +339,65 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
-    val previewHeight = 75.dp
+    val resourceHeight = 90.dp
+    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
     val imageBitmap = remember {
         File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
             .decodeToImageBitmap()
     }
+    
+    val imageWidth = imageBitmap.width.dp
+    val imageHeight = imageBitmap.height.dp
 
-    Box(
+    val scaleFactor = resourceHeight.value / imageHeight.value
+
+    val imageWidthDp = (imageWidth * scaleFactor)
+
+    val totalWidth = size.value
+    val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
+    val remainingWidth = totalWidth % imageWidthDp.value
+
+    BoxWithConstraints(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(previewHeight)
-            .border(1.dp, Color.White, RoundedCornerShape(5.dp)) // Белая рамка
-            .clip(RoundedCornerShape(5.dp)) // Скруглённые углы
+            .height(resourceHeight)
+            .width(size)
+            .background(
+                color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1,
+                shape = RoundedCornerShape(5.dp)
+            )
+            .border(3.dp, Color.White, RoundedCornerShape(5.dp)),
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val imageWidth = 150.dp // Ширина одной картинки
-            val count = (LocalDensity.current.run { (1000.dp) } / imageWidth).toInt() + 1
-
-            // Повторяем изображение для заполнения ширины
-            for (i in 0 until count) {
+        Row(modifier = Modifier.fillMaxHeight()) {
+            for (i in 0 until numberOfFullImages) {
                 Image(
                     painter = BitmapPainter(imageBitmap),
-                    contentDescription = null,
+                    contentDescription = videoResources[resourceOnTrack.id].title.value,
                     modifier = Modifier
-                        .width(imageWidth)
-                        .height(previewHeight),
-                    contentScale = ContentScale.Crop
+                        .width(imageWidthDp)
+                        .height(resourceHeight),
+                    contentScale = ContentScale.FillHeight,
+                    alignment = Alignment.TopStart
+                )
+            }
+
+            if (remainingWidth > 0) {
+                Image(
+                    painter = BitmapPainter(imageBitmap),
+                    contentDescription = videoResources[resourceOnTrack.id].title.value,
+                    modifier = Modifier
+                        .width(remainingWidth.dp)
+                        .height(resourceHeight),
+                    contentScale = ContentScale.FillHeight,
+                    alignment = Alignment.TopStart
                 )
             }
         }
     }
 }
+
+
+
+
 
 
 
