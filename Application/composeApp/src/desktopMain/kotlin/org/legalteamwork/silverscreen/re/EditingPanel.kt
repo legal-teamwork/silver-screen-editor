@@ -33,20 +33,16 @@ import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.EditingPanelTheme
-import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import kotlin.math.max
 
 // Количество Dp в кадре.
 @Suppress("ktlint:standard:property-naming")
-var DpPerSecond by mutableStateOf(30f)
-var DpInFrame: Float
-    get() = (DpPerSecond / Project.fps).toFloat()
-    set(value) { DpPerSecond = (value * Project.fps).toFloat() }
+var DpInFrame by mutableStateOf(1f)
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun AppScope.EditingPanel(panelHeight: Dp) {
+fun AppScope.EditingPanel(panelHeight: Dp, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.5.dp),
         modifier =
@@ -55,7 +51,6 @@ fun AppScope.EditingPanel(panelHeight: Dp) {
                     color = EditingPanelTheme.EDITING_PANEL_BACKGROUND,
                 ),
     ) {
-        InstrumentsPanel()
         TimelinesPanel(panelHeight)
     }
 }
@@ -83,8 +78,8 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
     ) {
         val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
         val totalMaximumWidth = maxOf(maxWidthVideos, this@BoxWithConstraints.maxWidth)
-        val distance = Project.fps * DpInFrame * 5.dp
-        val minDistance = Project.fps * 0.75f * 5.dp
+        val distance = Dimens.FRAME_RATE * DpInFrame * 5.dp
+        val minDistance = Dimens.FRAME_RATE * 0.75f * 5.dp
         val minTotalBlocks = (totalMaximumWidth / minDistance).toInt() + 1
         val totalBlocks = max((totalMaximumWidth / distance).toInt() + 1, minTotalBlocks)
         val timelineLength = totalBlocks * distance
@@ -123,7 +118,7 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures { tapOffset ->
-                    val currentTimestamp = (tapOffset.x * 1000 / DpPerSecond).toLong()
+                    val currentTimestamp = (tapOffset.x * 1000 / (Dimens.FRAME_RATE * DpInFrame)).toLong()
                     Slider.updatePosition(currentTimestamp)
                     if (VideoPanel.playbackManager.isPlaying.value) {
                         VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
@@ -176,136 +171,6 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-/**
- * Панель с инструментами.
- */
-@Composable
-private fun AppScope.InstrumentsPanel() {
-    BoxWithConstraints(
-        modifier =
-            Modifier
-                .background(
-                    color = EditingPanelTheme.TOOL_PANEL_COLOR,
-                    shape = RoundedCornerShape(8.dp),
-                )
-                .fillMaxHeight()
-                .width(80.dp)
-                .padding(3.5.dp),
-    ) {
-        val buttonColors =
-            ButtonDefaults.buttonColors(
-                backgroundColor = EditingPanelTheme.TOOL_BUTTONS_BACKGROUND_COLOR,
-                contentColor = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR,
-                disabledBackgroundColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_BACKGROUND_COLOR,
-                disabledContentColor = EditingPanelTheme.TOOL_BUTTONS_DISABLED_CONTENT_COLOR,
-            )
-
-        Column {
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(50.dp)
-                        .padding(0.dp),
-                onClick = {
-                    DpInFrame += 0.25f
-                    if (DpInFrame > 2.5f) {
-                        DpInFrame = 2.5f
-                    }
-                    VideoTrack.updateResourcesOnTrack()
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("+"),
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
-            }
-
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(55.dp)
-                        .padding(top = 5.dp),
-                onClick = {
-                    DpInFrame -= 0.25f
-                    if (DpInFrame < 0.75f) {
-                        DpInFrame = 0.75f
-                    }
-                    VideoTrack.updateResourcesOnTrack()
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("-"),
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
-            }
-
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(55.dp)
-                        .padding(top = 5.dp),
-                onClick = {
-                    if (VideoPanel.playbackManager.isPlaying.value)
-                        VideoPanel.playbackManager.pause()
-
-                    val position = Slider.getPosition()
-                    val index = VideoTrack.resourcesOnTrack.indexOfFirst{ it.isPosInside(position) }
-                    if (index != -1) {
-                        commandManager.execute(CutResourceOnTrackCommand(VideoTrack, position, index))
-                    }
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("cut"),
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
-            }
-
-            Button(
-                modifier =
-                    Modifier
-                        .width(80.dp)
-                        .height(55.dp)
-                        .padding(top = 5.dp),
-                onClick = {
-                    val highlightedResources = VideoEditor.getHighlightedResources()
-                    if (highlightedResources.size > 0) {
-                        commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
-                    }
-                },
-                colors = buttonColors,
-            ) {
-                Text(
-                    text = String.format("del"),
-                    modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .wrapContentSize(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                )
             }
         }
     }

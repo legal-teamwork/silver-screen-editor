@@ -49,12 +49,37 @@ object ResourceManager {
     // Logger
     private val logger = KotlinLogging.logger {}
 
-    // Tabs:
+    // Текущий выбранный тип ресурса для отображения
+    val currentResourceType = mutableStateOf(ResourceType.ALL)
+
+    /**
+     * Структура кнопки ресурс-менеджера
+     * @param id уникальный идентификатор кнопки
+     * @param iconPath путь к SVG иконке
+     * @param resourceType тип ресурса для отображения
+     */
+    data class ResourceButton(
+        val id: Int,
+        val iconPath: String,
+        val resourceType: ResourceType
+    )
+
+    // Кнопки ресурс-менеджера
+    val resourceButtons = listOf(
+        ResourceButton(1, "resource-manager-buttons/project.svg", ResourceType.ALL),
+        //ResourceButton(2, "resource-manager-buttons/video.svg", ResourceType.VIDEO),
+        //ResourceButton(3, "resource-manager-buttons/music.svg", ResourceType.AUDIO),
+        //ResourceButton(4, "resource-manager-buttons/image.svg", ResourceType.IMAGE),
+        //ResourceButton(5, "resource-manager-buttons/text.svg", ResourceType.TEXT),
+        ResourceButton(6, "resource-manager-buttons/effects.svg", ResourceType.EFFECTS)
+    )
+
+    /** Tabs:
     val tabId = mutableStateOf(Dimens.INIT_ID)
     val tabs = listOf(
         MenuButton(Dimens.SOURCES_ID, Strings.SOURCES),
         MenuButton(Dimens.EFFECTS_ID, Strings.EFFECTS),
-    )
+    ) */
 
     // Folder management:
     val rootFolder: FolderResource = FolderResource.createRoot()
@@ -67,6 +92,17 @@ object ResourceManager {
     fun toggleViewMode() {
         isListView.value = !isListView.value
     }
+
+
+    /**
+     * Устанавливает текущий тип ресурса для отображения
+     * @param type тип ресурса из перечисления [ResourceType]
+     */
+    fun setResourceType(type: ResourceType) {
+        currentResourceType.value = type
+        logger.info { "Changed resource type to: $type" }
+    }
+
 
     /**
      * Триггерит вызов окна с выбором ресурса с последующей обработкой и созранением в [currentFolder]
@@ -127,5 +163,17 @@ object ResourceManager {
         return path.reversed().joinToString("/", prefix = "/", postfix = "/") { it.title.value }
     }
 
+}
+
+/**
+ * Перечисление, определяющее типы ресурсов для отображения в менеджере
+ */
+enum class ResourceType {
+    ALL,        // Все файлы
+    VIDEO,      // Только видео файлы
+    AUDIO,      // Только аудио файлы
+    IMAGE,      // Только изображения
+    TEXT,       // Только текстовые вставки
+    EFFECTS     // Только эффекты
 }
 

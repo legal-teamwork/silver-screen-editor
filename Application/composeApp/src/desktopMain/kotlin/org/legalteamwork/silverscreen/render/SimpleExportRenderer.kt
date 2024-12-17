@@ -13,6 +13,10 @@ import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
+import java.awt.Graphics2D
+import java.awt.Image
+import java.awt.image.BufferedImage
+import java.nio.ByteBuffer
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.system.measureTimeMillis

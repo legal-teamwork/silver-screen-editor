@@ -46,71 +46,6 @@ object VideoPanel {
         ) {
             VideoPreview(playbackManager)
 
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(50.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Button(
-                    onClick = {
-                        playbackManager.seek(-10_000)
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
-                ) {
-                    Image(
-                        painter = painterResource("buttons/rewind_backwards_button.svg"),
-                        contentDescription = "Перемотка назад",
-                        modifier = Modifier.size(70.dp),
-                    )
-                }
-
-                Button(
-                    onClick = {
-                        playbackManager.playOrPause()
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
-                ) {
-                    if (playbackManager.isPlaying.value) {
-                        Image(
-                            painter = painterResource("buttons/pause_button.svg"),
-                            contentDescription = "Пауза",
-                            modifier = Modifier.size(70.dp),
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource("buttons/play_button.svg"),
-                            contentDescription = "Запуск",
-                            modifier = Modifier.size(70.dp),
-                        )
-                    }
-                }
-
-                Button(
-                    onClick = {
-                        playbackManager.stop()
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
-                ) {
-                    Image(
-                        painter = painterResource("buttons/stop_button.svg"),
-                        contentDescription = "Стоп",
-                        modifier = Modifier.size(70.dp),
-                    )
-                }
-
-                Button(
-                    onClick = {
-                        playbackManager.seek(10_000)
-                    },
-                    modifier = Modifier.padding(end = 20.dp),
-                ) {
-                    Image(
-                        painter = painterResource("buttons/rewind_forward_button.svg"),
-                        contentDescription = "Перемотка вперед",
-                        modifier = Modifier.size(70.dp),
-                    )
-                }
-            }
         }
     }
 }
@@ -163,8 +98,6 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
             }
         }
     }
-
-    BasicText(text = formatTime(currentTimestamp), modifier = Modifier.align(Alignment.Start))
 }
 
 private fun formatTime(elapsedTime: Long): String {

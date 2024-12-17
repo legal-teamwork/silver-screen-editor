@@ -1,0 +1,84 @@
+package org.legalteamwork.silverscreen.toolbar.components;
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.Image
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
+import org.legalteamwork.silverscreen.re.Slider
+import org.legalteamwork.silverscreen.resources.EditingPanelTheme
+import org.legalteamwork.silverscreen.vp.VideoPanel
+
+@Composable
+fun rightEditingTools(
+    modifier: Modifier = Modifier,
+    onStepBackward: () -> Unit,
+    onStepForward: () -> Unit,
+    onZoomIn: () -> Unit,
+    onZoomOut: () -> Unit,
+    zoomLevel: Float,
+    onZoomLevelChange: (Float) -> Unit,
+    onSaveClick: () -> Unit
+) {
+    val zoomLevels = listOf(0.75f, 1.0f, 1.25f, 1.5f, 1.75f, 2.0f, 2.5f)
+    val currentZoomIndex = zoomLevels.indexOfFirst { it == zoomLevel }.coerceAtLeast(0)
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = onStepBackward) {
+            Image(
+                painter = painterResource("toolbar_buttons/arrow_back.svg"),
+                contentDescription = "Step backward",
+            )
+        }
+        IconButton(onClick = onStepForward) {
+            Image(
+                painter = painterResource("toolbar_buttons/arrow_forward.svg"),
+                contentDescription = "Step forward",
+            )
+        }
+
+        IconButton(onClick = onZoomOut) {
+            Image(
+                painter = painterResource("toolbar_buttons/minus.svg"),
+                contentDescription = "Zoom out",
+            )
+        }
+
+        Slider (
+            value = zoomLevel,
+            onValueChange = onZoomLevelChange,
+            valueRange = 0.75f..2.5f,
+            modifier = Modifier.width(100.dp), // Adjust width as needed
+            colors = SliderDefaults.colors(
+                thumbColor = EditingPanelTheme.SLIDER_COLOR,
+                activeTrackColor = EditingPanelTheme.SLIDER_COLOR
+            )
+        )
+
+        IconButton(onClick = onZoomIn) {
+            Image(
+                painter = painterResource("toolbar_buttons/plus.svg"),
+                contentDescription = "Zoom in"
+            )
+        }
+
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Button(
+            onClick = onSaveClick,
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue)
+        ) {
+            Text("Save", color = Color.White)
+        }
+    }
+}
