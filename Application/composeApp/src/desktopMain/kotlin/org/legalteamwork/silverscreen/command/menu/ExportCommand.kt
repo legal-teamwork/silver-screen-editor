@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import org.legalteamwork.silverscreen.command.Command
 import org.legalteamwork.silverscreen.command.commandLog
 import org.legalteamwork.silverscreen.render.ExportRenderer
+import org.legalteamwork.silverscreen.render.SimpleExportRenderer
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.rm.openFileDialog
 

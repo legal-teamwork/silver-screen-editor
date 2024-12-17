@@ -24,8 +24,6 @@ import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import org.legalteamwork.silverscreen.rm.window.effects.EffectsMainWindow
-import org.legalteamwork.silverscreen.rm.ResourceManager.tabId
-import org.legalteamwork.silverscreen.rm.window.effects.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
 import java.awt.datatransfer.DataFlavor
 
