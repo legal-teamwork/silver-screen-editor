@@ -26,7 +26,7 @@ object VideoTrack {
             null,
             videoResources.size,
             position,
-            resource.numberOfFrames - 1,
+            resource.framesInProjectFPS - 1,
             framesSkip = 0,
             filters = mutableStateListOf()
         )
