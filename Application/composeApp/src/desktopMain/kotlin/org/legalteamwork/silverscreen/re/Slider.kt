@@ -12,13 +12,12 @@ object Slider {
     private var markerPosition by mutableStateOf(0)
     private var scrollOffset by mutableStateOf(0)
 
-    fun getPosition() = markerPosition
+    fun getPosition() = (markerPosition / DpInFrame).toInt()
     fun getOffset() = scrollOffset
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
+        markerPosition = (currentTimestamp * DpPerSecond / 1000).toInt()
     }
-
     /**
      * Устанавливает горизонтальное смещение от прокрутки.
      */

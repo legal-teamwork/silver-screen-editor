@@ -42,6 +42,9 @@ object Project : SaveManager<ProjectData>(ProjectData::class) {
         value = ProjectData()
     }
 
+    val fps
+        get() = get{fps}
+
     fun reset() {
         value = ProjectData()
         value!!.restore()

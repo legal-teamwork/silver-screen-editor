@@ -2,12 +2,15 @@ package org.legalteamwork.silverscreen.menu
 
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.unit.dp
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.command.menu.*
+import org.legalteamwork.silverscreen.render.ExportProgressDialog
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.EditorSettings
 import org.legalteamwork.silverscreen.shortcut.Shortcut
@@ -30,6 +33,11 @@ val logger = KotlinLogging.logger {}
  */
 @Composable
 fun AppScope.MenuBarCompose() {
+    val isExporting = remember { mutableStateOf(false) }
+    val progress = remember { mutableStateOf(0) }
+
+    ExportProgressDialog(isExporting, progress)
+
     MenuBar {
         Menu(Strings.FILE_MENU_TAG, mnemonic = Key.F) {
             MenuItem(text = Strings.FILE_NEW_ITEM, shortcut = Shortcut(Key.N, ctrl = true)) {
@@ -50,7 +58,15 @@ fun AppScope.MenuBarCompose() {
             MenuItem(
                 text = Strings.FILE_EXPORT_ITEM, shortcut = Shortcut(Key.R, ctrl = true, shift = true)
             ) {
-                commandManager.execute(ExportCommand())
+                val exportCommand = ExportCommand(
+                    onStartExport = {
+                        isExporting.value = true
+                        progress.value = 0
+                    },
+                    onProgressUpdate = { newProgress -> progress.value = newProgress },
+                    onFinishExport = { isExporting.value = false }
+                )
+                commandManager.execute(exportCommand)
             }
 
             Divider(color = menuItemBorder, thickness = 1.dp)
