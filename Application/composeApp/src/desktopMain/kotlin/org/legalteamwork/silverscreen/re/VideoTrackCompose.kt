@@ -1,9 +1,6 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -16,11 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -206,68 +207,179 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
     }
 }
 
+/*
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ResourceOnTrackScope.ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
+    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
+    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    val imageBitmap = remember {
+        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+            .decodeToImageBitmap()
+    }
+
+    val imageWidthDp = imageBitmap.width.dp
+    //val imageHeightDp = imageBitmap.height.dp
+    val totalWidth = size.value
+    val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
+    val remainingWidth = totalWidth % imageWidthDp.value
+
+    DragTarget(
+        modifier = Modifier.fillMaxHeight().width(size),
+        dataToDrop = "",
+    ) {
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(size)
+                .background(
+                    color = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1,
+                    shape = RoundedCornerShape(5.dp)
+                ),
+        ) {
+            Row(modifier = Modifier.fillMaxHeight()) {
+                for (i in 0 until numberOfFullImages) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier = Modifier
+                            .width(imageWidthDp)
+                            .fillMaxHeight(),
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center
+                    )
+                }
+
+                if (remainingWidth > 0) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier = Modifier
+                            .width(remainingWidth.dp)
+                            .fillMaxHeight(),
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.TopStart
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+ */
+
+
+/*
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
-    val colorStops = arrayOf(
-        0.0f to droppableFileBackgroundColor,
-        0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
-        0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
-        0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
-        0.8f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5,
-        1f to droppableFileBackgroundColor
-    )
 
     BoxWithConstraints(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(Dimens.RESOURCE_ON_TRACK_MAIN_PART_HEIGHT)
-                .background(
-                    Brush.horizontalGradient(colorStops = colorStops),
-                    RoundedCornerShape(5.dp)
-                )
-                .clickable(
-                    onClick = {
-                        if (VideoEditor.highlightResource(resourceOnTrack.id))
-                            droppableFileBackgroundColor =
-                                EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
-                        else
-                            droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1
-                    }
-                ),
-    ) {
-        val textHeight = min(20.dp, maxHeight)
-        val previewHeight = min(75.dp, maxHeight - textHeight)
-        val previewWidth = min(150.dp, minWidth)
+        Modifier
+            .fillMaxWidth()
+            .height(Dimens.RESOURCE_ON_TRACK_MAIN_PART_HEIGHT)
+            .background(
+                color = Color.Blue,
+                RoundedCornerShape(5.dp)
+            )
+            .clickable(
+                onClick = {
+                    if (VideoEditor.highlightResource(resourceOnTrack.id))
+                        droppableFileBackgroundColor =
+                            EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
+                    else
+                        droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1
+                }
+            )
+    ){
+                val textHeight = 20.dp
+                val previewHeight = 75.dp
+                val previewWidth = 150.dp
 
-        Column(
-            modifier =
-                Modifier
-                    .padding(vertical = 10.dp),
+                Column(
+                    modifier =
+                    Modifier
+                        .padding(vertical = 10.dp),
+                ) {
+                    Text(
+                        text = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
+                        Modifier
+                            .offset(x = 10.dp)
+                            .height(textHeight),
+                        color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
+                    )
+                    Image(
+                        painter =
+                        BitmapPainter(
+                            File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+                                .decodeToImageBitmap()
+                        ),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
+                        Modifier
+                            .width(previewWidth)
+                            .height(previewHeight),
+                    )
+
+                }
+            }
+}
+
+
+
+
+ */
+
+
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
+    val previewHeight = 75.dp
+    val imageBitmap = remember {
+        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+            .decodeToImageBitmap()
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(previewHeight)
+            .border(1.dp, Color.White, RoundedCornerShape(5.dp)) // Белая рамка
+            .clip(RoundedCornerShape(5.dp)) // Скруглённые углы
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                text = videoResources[resourceOnTrack.id].title.value,
-                modifier =
-                    Modifier
-                        .offset(x = 10.dp)
-                        .height(textHeight),
-                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-            )
-            Image(
-                painter =
-                    BitmapPainter(
-                        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
-                            .decodeToImageBitmap()
-                    ),
-                contentDescription = videoResources[resourceOnTrack.id].title.value,
-                modifier =
-                    Modifier
-                        .width(previewWidth)
+            val imageWidth = 150.dp // Ширина одной картинки
+            val count = (LocalDensity.current.run { (1000.dp) } / imageWidth).toInt() + 1
+
+            // Повторяем изображение для заполнения ширины
+            for (i in 0 until count) {
+                Image(
+                    painter = BitmapPainter(imageBitmap),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(imageWidth)
                         .height(previewHeight),
-            )
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 

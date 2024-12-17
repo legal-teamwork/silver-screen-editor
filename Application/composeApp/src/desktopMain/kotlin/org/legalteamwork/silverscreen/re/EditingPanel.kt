@@ -105,7 +105,7 @@ private fun AppScope.TimelineTracks(
         modifier =
             Modifier
                 .padding(top = 55.dp)
-                .height(panelHeight),
+                .height(panelHeight / 3),
         verticalArrangement = Arrangement.Center
     ) {
         VideoTrackCompose(timelineLength)
