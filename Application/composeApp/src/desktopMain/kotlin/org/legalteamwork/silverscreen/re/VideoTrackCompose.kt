@@ -1,9 +1,6 @@
 package org.legalteamwork.silverscreen.re
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -17,9 +14,10 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.*
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -46,34 +44,37 @@ private val logger = KotlinLogging.logger { }
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AppScope.VideoTrackCompose(timelineLength: Dp) {
-    //val resources = remember { resourcesOnTrack }
+    // val resources = remember { resourcesOnTrack }
     logger.info { "Composing video resource" }
 
-    val dragAndDropTarget = remember {
-        object : DragAndDropTarget {
-            override fun onDrop(event: DragAndDropEvent): Boolean {
-                val dataFlavor = DataFlavor(
-                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.resource.Resource",
-                    "Resource"
-                )
-                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+    val dragAndDropTarget =
+        remember {
+            object : DragAndDropTarget {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
+                    val dataFlavor =
+                        DataFlavor(
+                            DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.resource.Resource",
+                            "Resource",
+                        )
+                    val transferData = event.awtTransferable.getTransferData(dataFlavor)
 
-                if (transferData is Resource) {
-                    val position = VideoTrack.getFreePosition()
-                    val addResourceCommand = AddResourceToTrackFabric
-                        .makeCommand(transferData, VideoTrack, position)
+                    if (transferData is Resource) {
+                        val position = VideoTrack.getFreePosition()
+                        val addResourceCommand =
+                            AddResourceToTrackFabric
+                                .makeCommand(transferData, VideoTrack, position)
 
-                    if (addResourceCommand != null) {
-                        commandManager.execute(addResourceCommand)
+                        if (addResourceCommand != null) {
+                            commandManager.execute(addResourceCommand)
+                        }
+
+                        return true
+                    } else {
+                        return false
                     }
-
-                    return true
-                } else {
-                    return false
                 }
             }
         }
-    }
 
     Box(
         modifier =
@@ -82,7 +83,7 @@ fun AppScope.VideoTrackCompose(timelineLength: Dp) {
                 .background(color = EditingPanelTheme.VIDEO_TRACK_BACKGROUND_COLOR)
                 .dragAndDropTarget(
                     shouldStartDragAndDrop = { true },
-                    target = dragAndDropTarget
+                    target = dragAndDropTarget,
                 ),
     ) {
         for (resource in resourcesOnTrack) {
@@ -92,12 +93,11 @@ fun AppScope.VideoTrackCompose(timelineLength: Dp) {
     }
 }
 
-
 @Composable
 private fun <T> ResourceOnTrackScope.DragTarget(
     modifier: Modifier,
     dataToDrop: T,
-    content: @Composable (() -> Unit)
+    content: @Composable (() -> Unit),
 ) {
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
     val currentState = resourceOnTrack.localDragTargetInfo.component1()
@@ -142,36 +142,39 @@ private fun <T> ResourceOnTrackScope.DragTarget(
 @Composable
 private fun ResourceOnTrackScope.ResourceOnTrackCompose() {
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
-    val dragAndDropTarget = remember {
-        object : DragAndDropTarget {
-            override fun onDrop(event: DragAndDropEvent): Boolean {
-                val dataFlavor = DataFlavor(
-                    DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.window.effects.VideoEffect",
-                    "VideoEffect"
-                )
-                val transferData = event.awtTransferable.getTransferData(dataFlavor)
+    val dragAndDropTarget =
+        remember {
+            object : DragAndDropTarget {
+                override fun onDrop(event: DragAndDropEvent): Boolean {
+                    val dataFlavor =
+                        DataFlavor(
+                            DataFlavor.javaSerializedObjectMimeType + ";class=org.legalteamwork.silverscreen.rm.window.effects.VideoEffect",
+                            "VideoEffect",
+                        )
+                    val transferData = event.awtTransferable.getTransferData(dataFlavor)
 
-                if (transferData is VideoEffect) {
-                    val videoFilter = transferData.createFilter(resourceOnTrack)
-                    val command = AddFilterToResource(videoFilter, resourceOnTrack)
-                    commandManager.execute(command)
+                    if (transferData is VideoEffect) {
+                        val videoFilter = transferData.createFilter(resourceOnTrack)
+                        val command = AddFilterToResource(videoFilter, resourceOnTrack)
+                        commandManager.execute(command)
 
-                    return true
-                } else {
-                    return false
+                        return true
+                    } else {
+                        return false
+                    }
                 }
             }
         }
-    }
 
     DragTarget(
-        modifier = Modifier
-            .fillMaxHeight()
-            .width(size)
-            .dragAndDropTarget(
-                shouldStartDragAndDrop = { true },
-                target = dragAndDropTarget
-            ),
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .width(size)
+                .dragAndDropTarget(
+                    shouldStartDragAndDrop = { true },
+                    target = dragAndDropTarget,
+                ),
         dataToDrop = "",
     ) {
         Column {
@@ -198,7 +201,7 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
                     .width(size)
                     .fillMaxHeight()
                     .background(EditingPanelTheme.EFFECT_BACKGROUND_COLOR, RoundedCornerShape(5.dp)),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Text(videoEffect.title)
             }
@@ -209,65 +212,62 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
-    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1)
-    val colorStops = arrayOf(
-        0.0f to droppableFileBackgroundColor,
-        0.2f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_2,
-        0.4f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_3,
-        0.6f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_4,
-        0.8f to EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_5,
-        1f to droppableFileBackgroundColor
-    )
+    val resourceHeight = 90.dp
+    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    val imageBitmap =
+        remember {
+            File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
+                .decodeToImageBitmap()
+        }
+
+    val imageWidth = imageBitmap.width.dp
+    val imageHeight = imageBitmap.height.dp
+
+    val scaleFactor = resourceHeight.value / imageHeight.value
+
+    val imageWidthDp = (imageWidth * scaleFactor)
+
+    val totalWidth = size.value
+    val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
+    val remainingWidth = totalWidth % imageWidthDp.value
 
     BoxWithConstraints(
         modifier =
             Modifier
-                .fillMaxWidth()
-                .height(Dimens.RESOURCE_ON_TRACK_MAIN_PART_HEIGHT)
+                .height(resourceHeight)
+                .width(size)
                 .background(
-                    Brush.horizontalGradient(colorStops = colorStops),
-                    RoundedCornerShape(5.dp)
+                    color = EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
+                    shape = RoundedCornerShape(5.dp),
                 )
-                .clickable(
-                    onClick = {
-                        if (VideoEditor.highlightResource(resourceOnTrack.id))
-                            droppableFileBackgroundColor =
-                                EditingPanelTheme.HIGHLIGHTED_DROPPABLE_FILE_BACKGROUND_COLOR
-                        else
-                            droppableFileBackgroundColor = EditingPanelTheme.DROPPABLE_FILE_BACKGROUND_COLOR_1
-                    }
-                ),
+                .border(3.dp, Color.White, RoundedCornerShape(5.dp)),
     ) {
-        val textHeight = min(20.dp, maxHeight)
-        val previewHeight = min(75.dp, maxHeight - textHeight)
-        val previewWidth = min(150.dp, minWidth)
+        Row(modifier = Modifier.fillMaxHeight()) {
+            for (i in 0 until numberOfFullImages) {
+                Image(
+                    painter = BitmapPainter(imageBitmap),
+                    contentDescription = videoResources[resourceOnTrack.id].title.value,
+                    modifier =
+                        Modifier
+                            .width(imageWidthDp)
+                            .height(resourceHeight),
+                    contentScale = ContentScale.FillHeight,
+                    alignment = Alignment.TopStart,
+                )
+            }
 
-        Column(
-            modifier =
-                Modifier
-                    .padding(vertical = 10.dp),
-        ) {
-            Text(
-                text = videoResources[resourceOnTrack.id].title.value,
-                modifier =
-                    Modifier
-                        .offset(x = 10.dp)
-                        .height(textHeight),
-                color = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR,
-            )
-            Image(
-                painter =
-                    BitmapPainter(
-                        File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
-                            .decodeToImageBitmap()
-                    ),
-                contentDescription = videoResources[resourceOnTrack.id].title.value,
-                modifier =
-                    Modifier
-                        .width(previewWidth)
-                        .height(previewHeight),
-            )
+            if (remainingWidth > 0) {
+                Image(
+                    painter = BitmapPainter(imageBitmap),
+                    contentDescription = videoResources[resourceOnTrack.id].title.value,
+                    modifier =
+                        Modifier
+                            .width(remainingWidth.dp)
+                            .height(resourceHeight),
+                    contentScale = ContentScale.FillHeight,
+                    alignment = Alignment.TopStart,
+                )
+            }
         }
     }
 }
-
