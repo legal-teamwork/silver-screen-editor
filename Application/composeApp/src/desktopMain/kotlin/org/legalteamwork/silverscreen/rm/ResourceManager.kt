@@ -54,8 +54,6 @@ object ResourceManager {
     val tabs = listOf(
         MenuButton(Dimens.SOURCES_ID, Strings.SOURCES),
         MenuButton(Dimens.EFFECTS_ID, Strings.EFFECTS),
-        MenuButton(Dimens.PRESETS_ID, Strings.PRESETS),
-        MenuButton(Dimens.TEMPLATES_ID, Strings.TEMPLATES),
     )
 
     // Folder management:

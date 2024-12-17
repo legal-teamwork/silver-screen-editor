@@ -5,6 +5,7 @@ import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.Frame
 import org.bytedeco.javacv.Java2DFrameConverter
 import org.legalteamwork.silverscreen.rm.resource.VideoResource
+import org.legalteamwork.silverscreen.rm.window.effects.VideoFilter
 import java.awt.image.BufferedImage
 import java.io.Closeable
 
@@ -19,6 +20,8 @@ class OnlineVideoRenderer : Closeable {
      */
     var videoResource: VideoResource? = null
         private set
+
+    var filters: List<VideoFilter> = emptyList()
 
     /**
      * Логгер
@@ -55,6 +58,11 @@ class OnlineVideoRenderer : Closeable {
         frameGrabber = FFmpegFrameGrabber(resource.resourcePath).apply {
             format = "mp4"
         }.also(FFmpegFrameGrabber::start)
+    }
+
+    fun setVideoFilters(filters: List<VideoFilter>) {
+        logger.debug { "Setting filters: ${filters.joinToString(",") { it.videoEffect.title }}" }
+        this.filters = filters
     }
 
     /**
@@ -121,7 +129,7 @@ class OnlineVideoRenderer : Closeable {
             }
 
             logger.debug { "Grabbing frame $frameNumber" }
-            cachedPreviousFrame = frameGrabber.grabImage()
+            cachedPreviousFrame = Companion.grabWithFilters(frameGrabber, filters)
             cachedPreviousFrame
         } else if (frameGrabber.frameNumber == frameNumber + 1) {
             if (cachedPreviousFrame != null) {
@@ -132,14 +140,14 @@ class OnlineVideoRenderer : Closeable {
                 logger.debug { "Moving backwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
 
                 frameGrabber.frameNumber = frameNumber
-                cachedPreviousFrame = frameGrabber.grabImage()
+                cachedPreviousFrame = Companion.grabWithFilters(frameGrabber, filters)
                 cachedPreviousFrame
             }
         } else {
             logger.debug { "Moving backwards over frame numbers: ${frameGrabber.frameNumber} -> $frameNumber" }
 
             frameGrabber.frameNumber = frameNumber
-            cachedPreviousFrame = frameGrabber.grabImage()
+            cachedPreviousFrame = Companion.grabWithFilters(frameGrabber, filters)
             cachedPreviousFrame
         }
     }
@@ -232,6 +240,19 @@ class OnlineVideoRenderer : Closeable {
             graphics.dispose()
 
             return scaledBufferedImage
+        }
+
+        private fun grabWithFilters(frameGrabber: FFmpegFrameGrabber, filters: List<VideoFilter>): Frame {
+            var grabbedImage = frameGrabber.grabImage()
+            val ffmpegFilters = filters.map { it.getFfmpegFilter(frameGrabber.imageWidth, frameGrabber.imageHeight) }
+            for (ffmpegFilter in ffmpegFilters) {
+                ffmpegFilter.start()
+                ffmpegFilter.push(grabbedImage)
+                grabbedImage = ffmpegFilter.pull()
+                ffmpegFilter.close()
+            }
+
+            return grabbedImage
         }
     }
 
