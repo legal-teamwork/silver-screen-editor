@@ -13,6 +13,7 @@ import java.awt.Image
 import java.awt.image.BufferedImage
 import java.nio.ByteBuffer
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 private val logger = KotlinLogging.logger {}
 
@@ -56,7 +57,7 @@ known issues:
 подобным образом и генерировать тишину/склеивать получившееся
 но пока что сойдет
  */
-class SimpleExportRenderer : ExportRenderer {
+class SimpleExportRenderer(private val onProgressUpdate: (Int) -> Unit) : ExportRenderer {
     override fun export(filename: String) {
         val fps = Project.get { fps }
         val width = Project.get { Resolution.available[resolution].width }
@@ -94,6 +95,8 @@ class SimpleExportRenderer : ExportRenderer {
 
         val converter = Java2DFrameConverter()
         var lastFrame = 0
+        val resourcesAmount = resources.size
+        var resourceCounter = 1
         resources.forEach { resource ->
             val blankFrames = max(0, resource.position - lastFrame)
 
@@ -140,9 +143,13 @@ class SimpleExportRenderer : ExportRenderer {
             frameGrabber.close()
             logger.info { "export: $blankFrames padded frames, $frames actual frames" }
             lastFrame += frames
+            val percentage = ((resourceCounter.toDouble() / resourcesAmount) * 100).roundToInt()
+            onProgressUpdate(percentage)
+            resourceCounter += 1
         }
         logger.info { "export done" }
         recorder.stop()
         recorder.close()
+        onProgressUpdate(100)
     }
 }
