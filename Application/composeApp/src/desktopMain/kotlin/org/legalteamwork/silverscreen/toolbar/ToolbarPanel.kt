@@ -21,14 +21,12 @@ import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.re.getHighlightedResources
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 
 @Composable
 fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
-    val totalProjectDuration = remember(VideoEditor.getResourcesOnTrack()) {
-        VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() }?.toLong() ?: 0L
-    }
 
     var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpInFrame) }
 
@@ -66,7 +64,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
         centerPlaybackControls(
             currentTimestamp = playbackManager.currentTimestamp.value,
-            totalDuration = (totalProjectDuration * 1000 / Dimens.FRAME_RATE).toLong(),
+            totalDuration = playbackManager.getTotalDuration(),
             onPlayPauseClick = {
                 playbackManager.playOrPause()
             },
@@ -80,14 +78,11 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 VideoPanel.playbackManager.stop()
             },
             onSeekToStartClick = {
-                //VideoPanel.playbackManager.seekToStart()
-                VideoPanel.playbackManager.pause()
-
+                VideoPanel.playbackManager.seekToStart()
             },
             onSeekToEndClick = {
-                //VideoPanel.playbackManager.seekToEnd()
-                VideoPanel.playbackManager.pause()
-            },
+                VideoPanel.playbackManager.seekToEnd()
+            }
         )
 
         rightEditingTools(
