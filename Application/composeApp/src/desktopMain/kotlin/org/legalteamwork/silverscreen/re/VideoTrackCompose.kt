@@ -213,6 +213,7 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     val resourceHeight = 90.dp
+    var droppableFileBackgroundColor by mutableStateOf(EditingPanelTheme.RESOURCE_COLOR_DEFAULT)
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
     val imageBitmap =
         remember {
@@ -236,9 +237,18 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
             .height(resourceHeight)
             .width(size)
             .background(
-                color = EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
+                color = droppableFileBackgroundColor,
                 RoundedCornerShape(5.dp),
             )
+            .clickable(
+                onClick = {
+                    if (VideoEditor.highlightResource(resourceOnTrack.id))
+                        droppableFileBackgroundColor =
+                            EditingPanelTheme.RESOURCE_COLOR_CLICKED
+                    else
+                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_DEFAULT
+                }
+            ),
     ) {
         Column {
             Box(
