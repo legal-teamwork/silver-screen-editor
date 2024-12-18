@@ -209,7 +209,7 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     logger.debug {
@@ -241,6 +241,9 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     BoxWithConstraints(
         modifier =
             Modifier
+                .onClick { // TODO: visual highlighting
+                    VideoEditor.highlightResource(resourceOnTrack.id)
+                }
                 .height(resourceHeight)
                 .width(size)
                 .background(

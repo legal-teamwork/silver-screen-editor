@@ -4,7 +4,6 @@ import org.legalteamwork.silverscreen.re.VideoTrack.highlightedResources
 
 
 fun VideoEditor.highlightResource(id: Int) : Boolean {
-    println(highlightedResources)
     if (highlightedResources.contains(id)) {
         highlightedResources.remove(id)
         return false
@@ -13,6 +12,10 @@ fun VideoEditor.highlightResource(id: Int) : Boolean {
         highlightedResources.add(id)
         return true
     }
+}
+
+fun VideoEditor.resetHighlighting() {
+    highlightedResources.clear()
 }
 
 fun VideoEditor.getHighlightedResources() = highlightedResources

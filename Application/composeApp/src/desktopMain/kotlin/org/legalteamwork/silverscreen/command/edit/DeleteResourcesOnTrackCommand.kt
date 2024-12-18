@@ -13,26 +13,42 @@ class DeleteResourcesOnTrackCommand(
     override val title: String = "Delete cmd"
     override val description: String = "Delete cmd"
     private val logger = KotlinLogging.logger {}
-    private var deletedResources =
-        mutableListOf<ResourceOnTrack>()
+
+    // Позиция и размер удаленных ресурсов
+    private var deletedResourcesInfo =
+        mutableListOf<DeletedResourceInfo>()
+
     init {
         for (id in highlightedResources)
-            deletedResources.add(track.resourcesOnTrack.find { it.id == id }!!)
+            deletedResourcesInfo.add(
+                DeletedResourceInfo(
+                    id,
+                    track.resourcesOnTrack[id].position,
+                    track.resourcesOnTrack[id].framesCount
+                ))
     }
 
     override fun execute() {
         logger.info { "Deleting highlighted resources" }
 
-        for (resource in deletedResources)
-            track.removeResource(resource)
-        track.highlightedResources.clear()
+        for (info in deletedResourcesInfo) {
+            track.resourcesOnTrack[info.id].position = -1
+            track.resourcesOnTrack[info.id].framesCount = 0
+        }
     }
 
     override fun undo() {
         logger.info { "UNDO: Deleting highlighted resources" }
 
-        for (resource in deletedResources)
-            track.resourcesOnTrack.add(resource)
-        track.highlightedResources = highlightedResources.toMutableList()
+        for (info in deletedResourcesInfo) {
+            track.resourcesOnTrack[info.id].position = info.position
+            track.resourcesOnTrack[info.id].framesCount = info.framesCount
+        }
     }
+
+    data class DeletedResourceInfo(
+        val id: Int,
+        val position: Int,
+        val framesCount: Int
+    )
 }

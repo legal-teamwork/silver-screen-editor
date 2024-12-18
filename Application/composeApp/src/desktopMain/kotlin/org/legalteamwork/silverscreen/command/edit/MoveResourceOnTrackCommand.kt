@@ -23,21 +23,19 @@ class MoveResourceOnTrackCommand(
         var fl = false
         for (resource in track.resourcesOnTrack.sortedBy { it.position }) {
             if (resource.id == resourceOnTrack.id) {
-                changes.add(Pair(resourceOnTrack.id, leftBorder))
-                fl = true
                 continue
             }
-            if (fl) {
-                if (resource.getLeftBorder() in leftBorder..rightBorder) {
-                    changes.add(Pair(resource.id, rightBorder + 1))
-                    rightBorder += resource.framesCount
-                }
-            } else if (leftBorder in resource.getLeftBorder()..resource.getRightBorder()) {
+
+            if (leftBorder in resource.getLeftBorder() + 1..resource.getRightBorder()) {
                 leftBorder = resource.getRightBorder() + 1
                 rightBorder = leftBorder + resourceOnTrack.framesCount - 1
-                fl = true
+            }
+            else if (resource.getLeftBorder() in leftBorder..rightBorder) {
+                changes.add(Pair(resource.id, rightBorder + 1))
+                rightBorder += resource.framesCount
             }
         }
+        changes.add(Pair(resourceOnTrack.id, leftBorder))
 
         return changes
     }
