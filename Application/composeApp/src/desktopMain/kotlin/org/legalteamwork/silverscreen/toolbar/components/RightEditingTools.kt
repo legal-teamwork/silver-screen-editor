@@ -26,7 +26,7 @@ fun rightEditingTools(
     onZoomLevelChange: (Float) -> Unit,
     onSaveClick: () -> Unit
 ) {
-    val zoomLevels = listOf(0.75f, 1.0f, 1.25f, 1.5f, 1.75f, 2.0f, 2.5f)
+    val zoomLevels = listOf(22.5f, 30f, 37.5f, 45f, 52.5f, 60f, 90f)
     val currentZoomIndex = zoomLevels.indexOfFirst { it == zoomLevel }.coerceAtLeast(0)
 
     Row(
@@ -57,7 +57,7 @@ fun rightEditingTools(
         Slider (
             value = zoomLevel,
             onValueChange = onZoomLevelChange,
-            valueRange = 0.75f..2.5f,
+            valueRange = 22.5f..90f,
             modifier = Modifier.width(100.dp), // Adjust width as needed
             colors = SliderDefaults.colors(
                 thumbColor = EditingPanelTheme.SLIDER_COLOR,

@@ -17,7 +17,7 @@ object Slider {
     fun getOffset() = scrollOffset
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Project.fps * DpInFrame / 1000).toInt()
+        markerPosition = (currentTimestamp * DpPerSecond / 1000).toInt()
     }
     /**
      * Устанавливает горизонтальное смещение от прокрутки.

@@ -34,7 +34,7 @@ fun SliderCompose(panelHeight: Dp) {
                     onDrag = { change, dragAmount ->
 //                            if (!VideoPanel.playbackManager.isPlaying.value) {
                         change.consume()
-                        val delta = (dragAmount.x * 1000 / (Project.fps * DpInFrame)).toLong()
+                        val delta = (dragAmount.x * 1000 / DpPerSecond).toLong()
                         VideoPanel.playbackManager.seek(delta)
 //                            }
                     },

@@ -28,7 +28,7 @@ import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 @Composable
 fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
-    var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpInFrame) }
+    var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpPerSecond) }
 
     Row(
         modifier = modifier
@@ -95,20 +95,20 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 // step forward logic here
             },
             onZoomIn = {
-                zoomLevel = (zoomLevel + 0.25f).coerceAtMost(2.5f) // Увеличиваем zoomLevel
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = (zoomLevel + 7.5f).coerceAtMost(75f) // Увеличиваем zoomLevel
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
             onZoomOut = {
-                zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.75f) // Уменьшаем zoomLevel
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = (zoomLevel - 7.5f).coerceAtLeast(22.5f) // Уменьшаем zoomLevel
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
 
             zoomLevel = zoomLevel,
             onZoomLevelChange = { newZoom ->
-                zoomLevel = newZoom.coerceIn(0.75f, 2.5f)
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = newZoom.coerceIn(22.5f, 75f)
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
 
