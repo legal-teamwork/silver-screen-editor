@@ -35,12 +35,10 @@ fun AppScope.ResourceManagerCompose() {
             shape = RoundedCornerShape(8.dp),
         ).fillMaxSize()
     ) {
-        val adaptiveMenuWidth = max(min(maxWidth * 0.3f, Dimens.MENU_MAX_WIDTH), Dimens.MENU_MIN_WIDTH)
-        val adaptiveMainWindowWidth = maxWidth - adaptiveMenuWidth
 
         Row {
             ResourceManagerMenu()
-            MainWindow(adaptiveMainWindowWidth)
+            MainWindow(Modifier.weight(1f))
         }
     }
 }
@@ -100,10 +98,10 @@ private fun AppScope.ResourceIconButton(button: ResourceManager.ResourceButton) 
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
-private fun AppScope.MainWindow(windowWidth: Dp) {
+private fun AppScope.MainWindow(modifier: Modifier) {
     val id by remember { ResourceManager.currentResourceType }
 
-    Box(modifier = Modifier.width(windowWidth).fillMaxHeight().dragAndDropTarget(shouldStartDragAndDrop = { event ->
+    Box(modifier = Modifier.fillMaxHeight().dragAndDropTarget(shouldStartDragAndDrop = { event ->
         event.awtTransferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)
     }, target = remember { MainWindowDragAndDropTarget(resourceManager, commandManager) })) {
         when (id) {
