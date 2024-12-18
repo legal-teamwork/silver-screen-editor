@@ -1,6 +1,8 @@
 package org.legalteamwork.silverscreen.rm.window.effects
 
 import org.bytedeco.javacv.FFmpegFrameFilter
+import org.bytedeco.opencv.opencv_core.Mat
+import org.bytedeco.opencv.global.opencv_imgproc.*
 
 class GrayscaleFilter(
     override val videoEffect: VideoEffect,
@@ -10,4 +12,10 @@ class GrayscaleFilter(
     override fun getFfmpegFilter(width: Int, height: Int): FFmpegFrameFilter = FFmpegFrameFilter(
         "format=gray", width, height
     )
+
+    override fun apply(image: Mat): Mat {
+        val dest = Mat()
+        cvtColor(image, dest, COLOR_BGR2GRAY)
+        return dest
+    }
 }
