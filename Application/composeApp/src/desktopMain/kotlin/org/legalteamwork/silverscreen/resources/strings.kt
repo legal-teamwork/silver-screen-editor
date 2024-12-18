@@ -39,6 +39,6 @@ object Strings {
     const val CLOSE = "Close"
 
     // In CommandWindowCompose.kt
-    const val COMMAND_WINDOW_HEADER = "Commands Log"
+    const val COMMAND_WINDOW_HEADER = "History"
     const val EXTRA_ITEM_TITLE = "Undo possible"
 }

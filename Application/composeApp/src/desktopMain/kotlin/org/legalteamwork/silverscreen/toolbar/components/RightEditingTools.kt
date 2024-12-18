@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,7 +25,7 @@ fun rightEditingTools(
     onZoomOut: () -> Unit,
     zoomLevel: Float,
     onZoomLevelChange: (Float) -> Unit,
-    onSaveClick: () -> Unit
+    onRenderClick: () -> Unit
 ) {
     val zoomLevels = listOf(22.5f, 30f, 37.5f, 45f, 52.5f, 60f, 75f)
     val currentZoomIndex = zoomLevels.indexOfFirst { it == zoomLevel }.coerceAtLeast(0)
@@ -34,18 +35,6 @@ fun rightEditingTools(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onStepBackward) {
-            Image(
-                painter = painterResource("toolbar_buttons/arrow_back.svg"),
-                contentDescription = "Step backward",
-            )
-        }
-        IconButton(onClick = onStepForward) {
-            Image(
-                painter = painterResource("toolbar_buttons/arrow_forward.svg"),
-                contentDescription = "Step forward",
-            )
-        }
 
         IconButton(onClick = onZoomOut) {
             Image(
@@ -72,13 +61,28 @@ fun rightEditingTools(
             )
         }
 
-        Spacer(modifier = Modifier.width(4.dp))
-
         Button(
-            onClick = onSaveClick,
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Blue)
+            onClick = onRenderClick,
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF272C40)),
+            shape = RoundedCornerShape(10.dp)
         ) {
-            Text("Save", color = Color.White)
+            Text("Render", color = Color.White)
         }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        IconButton(onClick = onStepBackward) {
+            Image(
+                painter = painterResource("toolbar_buttons/arrow_back.svg"),
+                contentDescription = "Step backward",
+            )
+        }
+        IconButton(onClick = onStepForward) {
+            Image(
+                painter = painterResource("toolbar_buttons/arrow_forward.svg"),
+                contentDescription = "Step forward",
+            )
+        }
+
     }
 }
