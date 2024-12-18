@@ -212,6 +212,13 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
+    logger.debug {
+        """
+        Resource visualization:
+        - Frames: ${resourceOnTrack.framesCount}
+        - Visual width: ${resourceOnTrack.framesCount * DpInFrame * 1.dp}
+        """
+    }
     val resourceHeight = 90.dp
     val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
     val imageBitmap =

@@ -37,7 +37,14 @@ object VideoTrack {
     }
 
     fun addResource(resource: VideoResource, position: Int, framesCount: Int, framesSkip: Int, filters: List<VideoFilter>): ResourceOnTrack {
-        logger.debug { "Adding video resource to timeline" }
+        logger.debug {
+            """
+        Adding video resource to timeline:
+        - Original frames: ${resource.framesInProjectFPS}
+        - Position: $position
+        - DpInFrame: $DpInFrame
+        """
+        }
 
         val resourceOnTrack = ResourceOnTrack(
             null, videoResources.size, position, framesCount, framesSkip, filters.toMutableStateList()
