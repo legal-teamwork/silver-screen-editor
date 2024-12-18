@@ -241,10 +241,10 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     BoxWithConstraints(
         modifier =
             Modifier
+                .height(resourceHeight)
                 .onClick { // TODO: visual highlighting
                     VideoEditor.highlightResource(resourceOnTrack.id)
                 }
-                .height(resourceHeight)
                 .width(size)
                 .background(
                     color = EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
