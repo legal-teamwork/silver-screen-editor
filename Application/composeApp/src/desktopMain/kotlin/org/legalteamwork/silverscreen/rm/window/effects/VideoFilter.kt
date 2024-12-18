@@ -1,9 +1,11 @@
 package org.legalteamwork.silverscreen.rm.window.effects
 
+import kotlinx.serialization.Serializable
 import org.bytedeco.javacv.FFmpegFrameFilter
 import org.bytedeco.opencv.opencv_core.Mat
 
-interface VideoFilter {
+@Serializable
+sealed interface VideoFilter {
     val videoEffect: VideoEffect
     val firstFrame: Int
     val framesLength: Int
