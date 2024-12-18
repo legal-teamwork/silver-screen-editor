@@ -117,7 +117,7 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures { tapOffset ->
-                    val currentTimestamp = (tapOffset.x * 1000 / DpInFrame).toLong()
+                    val currentTimestamp = (tapOffset.x * 1000 / DpPerSecond).toLong()
                     Slider.updatePosition(currentTimestamp)
                     if (VideoPanel.playbackManager.isPlaying.value) {
                         VideoPanel.playbackManager.seekToExactPositionWhilePlaying(currentTimestamp)
