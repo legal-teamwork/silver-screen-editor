@@ -18,16 +18,14 @@ import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.re.*
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 
 @Composable
 fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
-    val totalProjectDuration = remember(VideoEditor.getResourcesOnTrack()) {
-        VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() }?.toLong() ?: 0L
-    }
 
-    var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpInFrame) }
+    var zoomLevel by remember { mutableStateOf(org.legalteamwork.silverscreen.re.DpPerSecond) }
 
     Row(
         modifier = modifier
@@ -64,7 +62,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
         centerPlaybackControls(
             currentTimestamp = playbackManager.currentTimestamp.value,
-            totalDuration = (totalProjectDuration * 1000 / Dimens.FRAME_RATE).toLong(),
+            totalDuration = playbackManager.getTotalDuration(),
             onPlayPauseClick = {
                 playbackManager.playOrPause()
             },
@@ -78,14 +76,11 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 VideoPanel.playbackManager.stop()
             },
             onSeekToStartClick = {
-                //VideoPanel.playbackManager.seekToStart()
-                VideoPanel.playbackManager.pause()
-
+                VideoPanel.playbackManager.seekToStart()
             },
             onSeekToEndClick = {
-                //VideoPanel.playbackManager.seekToEnd()
-                VideoPanel.playbackManager.pause()
-            },
+                VideoPanel.playbackManager.seekToEnd()
+            }
         )
 
         rightEditingTools(
@@ -98,24 +93,24 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 // step forward logic here
             },
             onZoomIn = {
-                zoomLevel = (zoomLevel + 0.25f).coerceAtMost(2.5f) // Увеличиваем zoomLevel
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = (zoomLevel + 7.5f).coerceAtMost(75f) // Увеличиваем zoomLevel
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
             onZoomOut = {
-                zoomLevel = (zoomLevel - 0.25f).coerceAtLeast(0.75f) // Уменьшаем zoomLevel
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = (zoomLevel - 7.5f).coerceAtLeast(22.5f) // Уменьшаем zoomLevel
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
 
             zoomLevel = zoomLevel,
             onZoomLevelChange = { newZoom ->
-                zoomLevel = newZoom.coerceIn(0.75f, 2.5f)
-                org.legalteamwork.silverscreen.re.DpInFrame = zoomLevel
+                zoomLevel = newZoom.coerceIn(22.5f, 75f)
+                org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
                 VideoTrack.updateResourcesOnTrack()
             },
 
-            onSaveClick = {
+            onRenderClick = {
                 // Placeholder for save functionality
             }
         )

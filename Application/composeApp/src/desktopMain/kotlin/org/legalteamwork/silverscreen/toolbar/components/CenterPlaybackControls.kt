@@ -86,7 +86,7 @@ fun centerPlaybackControls(
             )
         }
         Text(
-            text = "${formatTime(currentTimestamp)} / ${formatTime(totalDuration)}",
+            text = " ${formatTime(currentTimestamp)} / ${formatTime(totalDuration)} ",
             color = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR
         )
     }

@@ -13,12 +13,7 @@ import org.legalteamwork.silverscreen.re.VideoEditor
 import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
-import java.awt.Graphics2D
-import java.awt.Image
-import java.awt.image.BufferedImage
-import java.nio.ByteBuffer
 import kotlin.math.max
-import kotlin.math.roundToInt
 import kotlin.system.measureTimeMillis
 
 private val logger = KotlinLogging.logger {}
@@ -63,13 +58,14 @@ known issues:
 подобным образом и генерировать тишину/склеивать получившееся
 но пока что сойдет
  */
-class SimpleExportRenderer(private val onProgressUpdate: (Int) -> Unit) : ExportRenderer {
+class SimpleExportRenderer(private val onProgressUpdate: (Int, Int) -> Unit) : ExportRenderer {
     override fun export(filename: String) {
         val fps = Project.get { fps }
         val width = Project.get { Resolution.available[resolution].width }
         val height = Project.get { Resolution.available[resolution].height }
         val resources = VideoTrack.resourcesOnTrack.sortedBy { it.position }
-        logger.info { "export start; expected total frames: ${resources.lastOrNull()?.run { position + framesCount } ?: 0}" }
+        val length = resources.lastOrNull()?.run { position + framesCount } ?: 0
+        logger.info { "export start; expected total frames: $length" }
 
         val exportTime = measureTimeMillis {
             val recorder = FFmpegFrameRecorder(filename, width, height)
@@ -83,12 +79,13 @@ class SimpleExportRenderer(private val onProgressUpdate: (Int) -> Unit) : Export
             val converter = OpenCVFrameConverter.ToMat()
             val blankFrame = converter.convert(Mat(width, height, CV_8UC3, Scalar(0.0, 0.0, 0.0, 0.0)))
             var lastFrame = 0
-            val resourcesAmount = resources.size
-            var resourceCounter = 1
             resources.forEach { resource ->
                 val blankFrames = max(0, resource.position - lastFrame)
 
-                repeat(blankFrames) { recorder.record(blankFrame) }
+                repeat(blankFrames) {
+                    recorder.record(blankFrame)
+                    onProgressUpdate(lastFrame + it, length)
+                }
                 lastFrame = resource.position
 
                 val videoResource = VideoEditor.getVideoResources()[resource.id]
@@ -106,7 +103,10 @@ class SimpleExportRenderer(private val onProgressUpdate: (Int) -> Unit) : Export
                         try {
                             repeat(nextFrame - lastSourceFrame - 1) { frameGrabber.grabImage() }
                             val frame = frameGrabber.grabImage()
-                            val image = converter.convert(frame)
+                            var image = converter.convert(frame)
+                            resource.filters.forEach { filter ->
+                                image = filter.apply(image)
+                            }
                             val resizedImage = resizeImage(image, width, height)
                             val resizedFrame = converter.convert(resizedImage)
                             cachedFrame = resizedFrame
@@ -116,18 +116,15 @@ class SimpleExportRenderer(private val onProgressUpdate: (Int) -> Unit) : Export
                     }
                     recorder.record(cachedFrame)
                     logger.info { "processing frame took ${System.currentTimeMillis() - start} ms" }
+                    onProgressUpdate(lastFrame + frameNo - resource.framesSkip, length)
                 }
                 frameGrabber.stop()
                 frameGrabber.close()
                 logger.info { "export: $blankFrames padded frames, ${resource.framesCount} actual frames" }
                 lastFrame += resource.framesCount
-                val percentage = ((resourceCounter.toDouble() / resourcesAmount) * 100).roundToInt()
-                onProgressUpdate(percentage)
-                resourceCounter += 1
             }
             recorder.stop()
             recorder.close()
-            onProgressUpdate(100)
         }
 
         logger.info { "export done; took $exportTime ms" }

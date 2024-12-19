@@ -14,12 +14,12 @@ import org.legalteamwork.silverscreen.rm.openFileDialog
 
 class ExportCommand(
     private val onStartExport: () -> Unit,
-    private val onProgressUpdate: (Int) -> Unit,
+    private val onProgressUpdate: (Int, Int) -> Unit,
     private val onFinishExport: () -> Unit
 ) : Command {
     override val title: String = Strings.FILE_EXPORT_ITEM
     override val description: String = Strings.FILE_EXPORT_ITEM
-    private val exportStrategy: (onProgressUpdate: (Int) -> Unit) -> ExportRenderer = { onProgressUpdate ->
+    private val exportStrategy: (onProgressUpdate: (Int, Int) -> Unit) -> ExportRenderer = { onProgressUpdate ->
         SimpleExportRenderer(onProgressUpdate)
     }
     private val logger = KotlinLogging.logger {}
@@ -27,12 +27,12 @@ class ExportCommand(
     override fun execute() {
         logger.commandLog(Strings.FILE_EXPORT_ITEM)
         GlobalScope.launch {
-            onStartExport()
             val filenameSet = openFileDialog(null, "Export to video", listOf("mp4"), false)
+            onStartExport()
 
             if (filenameSet.isNotEmpty()) {
-                val renderer = exportStrategy { progress ->
-                    onProgressUpdate(progress)
+                val renderer = exportStrategy { completed, total ->
+                    onProgressUpdate(completed, total)
                 }
                 renderer.export(filenameSet.first().toString())
             }

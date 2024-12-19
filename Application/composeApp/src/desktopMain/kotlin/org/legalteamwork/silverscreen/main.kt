@@ -81,13 +81,13 @@ fun main() {
     }
 
 
-//    onStart()
+    onStart()
     application {
         val icon = painterResource("icon.ico")
         Window(
             state = WindowState(WindowPlacement.Maximized),
             onCloseRequest = {
-//                onClose()
+                onClose()
                 exitApplication()
             },
             title = Strings.TITLE,

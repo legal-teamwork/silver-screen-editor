@@ -34,7 +34,7 @@ val logger = KotlinLogging.logger {}
 @Composable
 fun AppScope.MenuBarCompose() {
     val isExporting = remember { mutableStateOf(false) }
-    val progress = remember { mutableStateOf(0) }
+    val progress = remember { mutableStateOf(0.0f) }
 
     ExportProgressDialog(isExporting, progress)
 
@@ -61,9 +61,9 @@ fun AppScope.MenuBarCompose() {
                 val exportCommand = ExportCommand(
                     onStartExport = {
                         isExporting.value = true
-                        progress.value = 0
+                        progress.value = 0f
                     },
-                    onProgressUpdate = { newProgress -> progress.value = newProgress },
+                    onProgressUpdate = { completed, total -> progress.value = completed.toFloat() * 100 / total },
                     onFinishExport = { isExporting.value = false }
                 )
                 commandManager.execute(exportCommand)

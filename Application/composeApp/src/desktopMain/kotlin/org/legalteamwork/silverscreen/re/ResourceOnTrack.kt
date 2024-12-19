@@ -18,18 +18,19 @@ import kotlin.math.roundToInt
  * @param[framesSkip] cколько кадров пропустить сначала.
  * @property[framesCount] актуальный размер ресурса в кадрах (меняется при Cut)
  */
-@Serializable(with = ResourceOnTrackSerializer::class)
+@Serializable//(with = ResourceOnTrackSerializer::class)
 class ResourceOnTrack(
     @Transient val track: VideoTrack? = null,
     val id: Int,
     var position: Int,
     val framesCountDefault: Int,
     var framesSkip: Int = 0,
-    val filters: SnapshotStateList<VideoFilter>
+    @Serializable(with = ResourceOnTrackSerializer.SnapshotVideoFilterListSerializer::class)
+    val filters: SnapshotStateList<VideoFilter> = mutableStateListOf()
 ) {
-    private val logger = KotlinLogging.logger { }
+    @Transient private val logger = KotlinLogging.logger { }
     var framesCount by mutableStateOf(framesCountDefault)
-    val localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
+    @Transient val localDragTargetInfo = mutableStateOf(DragTargetInfo(position))
 
     fun getRightBorder(): Int {
         return position + framesCount - 1

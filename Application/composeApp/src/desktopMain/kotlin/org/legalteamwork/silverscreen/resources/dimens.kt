@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.sp
 
 object Dimens {
     // App.kt
-    const val RESOURCE_WINDOW_WEIGHT = 45f
+    const val RESOURCE_WINDOW_WEIGHT = 25f
     val RESOURCE_WINDOW_MIN_WIDTH = 400.dp
     val RESOURCE_WINDOW_MIN_HEIGHT = 400.dp
     val RESOURCE_WINDOW_MAX_WIDTH = 800.dp
@@ -38,7 +38,7 @@ object Dimens {
     const val PRESETS_ID = 3
     const val TEMPLATES_ID = 4
     val MENU_MIN_WIDTH = 150.dp
-    val MENU_MAX_WIDTH = 275.dp
+    val MENU_MAX_WIDTH = 200.dp
     val MENU_BUTTON_HEIGHT = 35.dp
 
     //In EditingPanel.kt

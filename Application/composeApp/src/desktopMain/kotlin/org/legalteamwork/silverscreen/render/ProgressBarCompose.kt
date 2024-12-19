@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import kotlin.math.roundToInt
 
 @Composable
-fun ExportProgressDialog(isExporting: MutableState<Boolean>, progress: MutableState<Int>) {
+fun ExportProgressDialog(isExporting: MutableState<Boolean>, progress: MutableState<Float>) {
     if (isExporting.value) {
         AlertDialog(
             onDismissRequest = { },
@@ -24,7 +25,7 @@ fun ExportProgressDialog(isExporting: MutableState<Boolean>, progress: MutableSt
                 ) {
                     LinearProgressIndicator(progress = progress.value / 100f)
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text("${progress.value} %")
+                    Text("${progress.value.roundToInt()} %")
                 }
             }
         )
