@@ -16,6 +16,10 @@ fun VideoEditor.highlightResource(id: Int) : Boolean {
     }
 }
 
+fun VideoEditor.resetHighlighting() {
+    highlightedResources.clear()
+}
+
 fun VideoEditor.getHighlightedResources() = highlightedResources
 
 

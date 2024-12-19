@@ -17,15 +17,6 @@ class DeleteResourcesOnTrackCommand(
     private var deletedResources =
         mutableListOf<ResourceOnTrack>()
 
-    /*
-    init {
-        for (id in highlightedResources)
-            deletedResources.add(track.resourcesOnTrack.find { it.id == id }!!)
-        println(highlightedResources)
-    }
-
-     */
-
     init {
         // Собираем удаленные ресурсы
         for (id in highlightedResources) {
@@ -43,16 +34,24 @@ class DeleteResourcesOnTrackCommand(
     override fun execute() {
         logger.info { "Deleting highlighted resources" }
 
-        for (resource in deletedResources)
-            track.removeResource(resource)
-        track.highlightedResources.clear()
+        for (info in deletedResourcesInfo) {
+            track.resourcesOnTrack[info.id].position = -1
+            track.resourcesOnTrack[info.id].framesCount = 0
+        }
     }
 
     override fun undo() {
         logger.info { "UNDO: Deleting highlighted resources" }
 
-        for (resource in deletedResources)
-            track.resourcesOnTrack.add(resource)
-        track.highlightedResources = highlightedResources.toMutableList()
+        for (info in deletedResourcesInfo) {
+            track.resourcesOnTrack[info.id].position = info.position
+            track.resourcesOnTrack[info.id].framesCount = info.framesCount
+        }
     }
+
+    data class DeletedResourceInfo(
+        val id: Int,
+        val position: Int,
+        val framesCount: Int
+    )
 }
