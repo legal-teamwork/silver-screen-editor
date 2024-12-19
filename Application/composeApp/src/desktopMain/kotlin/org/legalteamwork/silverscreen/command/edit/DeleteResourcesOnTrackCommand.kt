@@ -6,6 +6,7 @@ import org.legalteamwork.silverscreen.command.CommandUndoSupport
 import org.legalteamwork.silverscreen.re.ResourceOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack
 
+
 class DeleteResourcesOnTrackCommand(
     private val track: VideoTrack,
     private val highlightedResources: List<Int>
@@ -13,20 +14,22 @@ class DeleteResourcesOnTrackCommand(
     override val title: String = "Delete cmd"
     override val description: String = "Delete cmd"
     private val logger = KotlinLogging.logger {}
-
-    // Позиция и размер удаленных ресурсов
-    private var deletedResourcesInfo =
-        mutableListOf<DeletedResourceInfo>()
+    private var deletedResources =
+        mutableListOf<ResourceOnTrack>()
 
     init {
-        for (id in highlightedResources)
-            deletedResourcesInfo.add(
-                DeletedResourceInfo(
-                    id,
-                    track.resourcesOnTrack[id].position,
-                    track.resourcesOnTrack[id].framesCount
-                ))
-    }
+        // Собираем удаленные ресурсы
+        for (id in highlightedResources) {
+            val resource = track.resourcesOnTrack.find { it.id == id }
+            if (resource != null) {
+                deletedResources.add(resource)
+            }
+        }
+        val newHighlightedResourcesList: MutableList<Int> = highlightedResources.toMutableList()
+        newHighlightedResourcesList.clear()
+
+        println(newHighlightedResourcesList)
+        }
 
     override fun execute() {
         logger.info { "Deleting highlighted resources" }
