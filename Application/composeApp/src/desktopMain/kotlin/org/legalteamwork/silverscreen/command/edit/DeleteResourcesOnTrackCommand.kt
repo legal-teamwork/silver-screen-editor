@@ -14,22 +14,20 @@ class DeleteResourcesOnTrackCommand(
     override val title: String = "Delete cmd"
     override val description: String = "Delete cmd"
     private val logger = KotlinLogging.logger {}
-    private var deletedResources =
-        mutableListOf<ResourceOnTrack>()
+
+    // Позиция и размер удаленных ресурсов
+    private var deletedResourcesInfo =
+        mutableListOf<DeletedResourceInfo>()
 
     init {
-        // Собираем удаленные ресурсы
-        for (id in highlightedResources) {
-            val resource = track.resourcesOnTrack.find { it.id == id }
-            if (resource != null) {
-                deletedResources.add(resource)
-            }
-        }
-        val newHighlightedResourcesList: MutableList<Int> = highlightedResources.toMutableList()
-        newHighlightedResourcesList.clear()
-
-        println(newHighlightedResourcesList)
-        }
+        for (id in highlightedResources)
+            deletedResourcesInfo.add(
+                DeletedResourceInfo(
+                    id,
+                    track.resourcesOnTrack[id].position,
+                    track.resourcesOnTrack[id].framesCount
+                ))
+    }
 
     override fun execute() {
         logger.info { "Deleting highlighted resources" }
