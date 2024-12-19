@@ -86,9 +86,14 @@ fun AppScope.VideoTrackCompose(timelineLength: Dp) {
                     target = dragAndDropTarget,
                 ),
     ) {
-        for (resource in resourcesOnTrack) {
-            val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resource)
-            resourceOnTrackScope.ResourceOnTrackCompose()
+        if (resourcesOnTrack.isNotEmpty()) {
+            for (resource in resourcesOnTrack) {
+                val resourceOnTrackScope = ResourceOnTrackScope(commandManager, resourceManager, resource)
+                resourceOnTrackScope.ResourceOnTrackCompose()
+            }
+        }
+        else{
+            Box(modifier = Modifier.fillMaxSize())
         }
     }
 }
