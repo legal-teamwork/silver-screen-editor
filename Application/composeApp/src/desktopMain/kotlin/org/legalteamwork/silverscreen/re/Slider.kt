@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.save.Project
 
 /**
  * Класс-объект ползунка.
@@ -16,7 +17,7 @@ object Slider {
     fun getOffset() = scrollOffset
 
     fun updatePosition(currentTimestamp: Long) {
-        markerPosition = (currentTimestamp * Dimens.FRAME_RATE * DpInFrame / 1000).toInt()
+        markerPosition = (currentTimestamp * DpPerSecond / 1000).toInt()
     }
     /**
      * Устанавливает горизонтальное смещение от прокрутки.

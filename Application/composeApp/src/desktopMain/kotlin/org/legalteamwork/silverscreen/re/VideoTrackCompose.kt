@@ -26,6 +26,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
 import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
@@ -93,6 +94,8 @@ fun AppScope.VideoTrackCompose(timelineLength: Dp) {
     }
 }
 
+
+
 @Composable
 private fun <T> ResourceOnTrackScope.DragTarget(
     modifier: Modifier,
@@ -137,6 +140,7 @@ private fun <T> ResourceOnTrackScope.DragTarget(
         content()
     }
 }
+
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -213,7 +217,8 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     val resourceHeight = 90.dp
-    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    var droppableFileBackgroundColor by remember { mutableStateOf(EditingPanelTheme.RESOURCE_COLOR_DEFAULT) }
+    val size by remember { mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp) }
     val imageBitmap =
         remember {
             File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
@@ -223,51 +228,85 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     val imageWidth = imageBitmap.width.dp
     val imageHeight = imageBitmap.height.dp
 
-    val scaleFactor = resourceHeight.value / imageHeight.value
-
-    val imageWidthDp = (imageWidth * scaleFactor)
+    val scaleFactor = (resourceHeight - 6.dp).value / imageHeight.value
+    val imageWidthDp = imageWidth * scaleFactor
 
     val totalWidth = size.value
     val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
-    val remainingWidth = totalWidth % imageWidthDp.value
+    val remainingWidth = (totalWidth - (numberOfFullImages * imageWidthDp.value)).dp - 6.dp
 
     BoxWithConstraints(
         modifier =
-            Modifier
-                .height(resourceHeight)
-                .width(size)
-                .background(
-                    color = EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .border(3.dp, Color.White, RoundedCornerShape(5.dp)),
+        Modifier
+            .height(resourceHeight)
+            .width(size)
+            .background(
+                color = droppableFileBackgroundColor,
+                RoundedCornerShape(5.dp),
+            )
+            .clickable(
+                onClick = {
+                    if (VideoEditor.highlightResource(resourceOnTrack.id)) {
+                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_CLICKED
+                    } else {
+                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_DEFAULT
+                    }
+                }
+            ),
     ) {
-        Row(modifier = Modifier.fillMaxHeight()) {
-            for (i in 0 until numberOfFullImages) {
-                Image(
-                    painter = BitmapPainter(imageBitmap),
-                    contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier =
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(3.dp)
+            )
+
+            Row(modifier = Modifier.fillMaxHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(3.dp)
+                )
+
+                for (i in 0 until numberOfFullImages) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
                         Modifier
                             .width(imageWidthDp)
-                            .height(resourceHeight),
-                    contentScale = ContentScale.FillHeight,
-                    alignment = Alignment.TopStart,
-                )
+                            .height(resourceHeight - 6.dp),
+                        contentScale = ContentScale.FillHeight,
+                        alignment = Alignment.TopStart,
+                    )
+                }
+
+                if (remainingWidth > 0.dp) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
+                        Modifier
+                            .width(remainingWidth)
+                            .height(resourceHeight - 6.dp),
+                        contentScale = ContentScale.FillHeight,
+                        alignment = Alignment.TopStart,
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(3.dp)
+                    )
+                }
             }
 
-            if (remainingWidth > 0) {
-                Image(
-                    painter = BitmapPainter(imageBitmap),
-                    contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier =
-                        Modifier
-                            .width(remainingWidth.dp)
-                            .height(resourceHeight),
-                    contentScale = ContentScale.FillHeight,
-                    alignment = Alignment.TopStart,
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(3.dp)
+            )
         }
     }
 }
+
