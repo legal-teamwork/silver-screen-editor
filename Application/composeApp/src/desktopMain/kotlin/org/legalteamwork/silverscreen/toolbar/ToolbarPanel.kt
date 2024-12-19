@@ -14,12 +14,9 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.toolbar.components.centerPlaybackControls
 import org.legalteamwork.silverscreen.toolbar.components.leftEditingTools
 import org.legalteamwork.silverscreen.toolbar.components.rightEditingTools
-import org.legalteamwork.silverscreen.re.Slider
-import org.legalteamwork.silverscreen.re.VideoEditor
-import org.legalteamwork.silverscreen.re.VideoTrack
 import org.legalteamwork.silverscreen.command.edit.CutResourceOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
-import org.legalteamwork.silverscreen.re.getHighlightedResources
+import org.legalteamwork.silverscreen.re.*
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.vp.VideoPanel
 import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
@@ -60,6 +57,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 val highlightedResources = VideoEditor.getHighlightedResources()
                 if (highlightedResources.isNotEmpty()) {
                     commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
+                    VideoEditor.resetHighlighting()
                 }
             }
         )
