@@ -19,21 +19,29 @@ class DeleteResourcesOnTrackCommand(
         mutableListOf<DeletedResourceInfo>()
 
     init {
-        for (id in highlightedResources)
-            deletedResourcesInfo.add(
-                DeletedResourceInfo(
-                    id,
-                    track.resourcesOnTrack[id].position,
-                    track.resourcesOnTrack[id].framesCount
-                ))
+        for (id in highlightedResources) {
+            val index = track.resourcesOnTrack.indexOfFirst { it.id == id }
+            if (index != -1) {
+                deletedResourcesInfo.add(
+                    DeletedResourceInfo(
+                        id,
+                        track.resourcesOnTrack[index].position,
+                        track.resourcesOnTrack[index].framesCount
+                    )
+                )
+            }
+        }
     }
 
     override fun execute() {
         logger.info { "Deleting highlighted resources" }
 
         for (info in deletedResourcesInfo) {
-            track.resourcesOnTrack[info.id].position = -1
-            track.resourcesOnTrack[info.id].framesCount = 0
+            val index = track.resourcesOnTrack.indexOfFirst { it.id == info.id }
+            if (index != -1) {
+                track.resourcesOnTrack[index].position = -1
+                track.resourcesOnTrack[index].framesCount = 0
+            }
         }
     }
 
@@ -41,8 +49,11 @@ class DeleteResourcesOnTrackCommand(
         logger.info { "UNDO: Deleting highlighted resources" }
 
         for (info in deletedResourcesInfo) {
-            track.resourcesOnTrack[info.id].position = info.position
-            track.resourcesOnTrack[info.id].framesCount = info.framesCount
+            val index = track.resourcesOnTrack.indexOfFirst { it.id == info.id }
+            if (index != -1) {
+                track.resourcesOnTrack[index].position = info.position
+                track.resourcesOnTrack[index].framesCount = info.framesCount
+            }
         }
     }
 
