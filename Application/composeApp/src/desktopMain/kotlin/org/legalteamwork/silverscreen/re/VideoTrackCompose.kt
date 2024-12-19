@@ -14,7 +14,6 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -24,9 +23,12 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.CommandUndoSupport
 import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
 import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
+import org.legalteamwork.silverscreen.re.VideoTrack.highlightedResources
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
@@ -214,12 +216,14 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
     }
 }
 
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     val resourceHeight = 90.dp
     var droppableFileBackgroundColor by remember { mutableStateOf(EditingPanelTheme.RESOURCE_COLOR_DEFAULT) }
-    val size by remember { mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp) }
+    var droppableFileTextColor by remember { mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT) }
+    val size by remember { mutableStateOf(resourceOnTrack.framesCount * DpPerSecond * 1.dp) }
     val imageBitmap =
         remember {
             File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
@@ -227,11 +231,11 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
         }
     val imageWidth = imageBitmap.width.dp
     val imageHeight = imageBitmap.height.dp
-    val scaleFactor = (resourceHeight - 6.dp).value / imageHeight.value
+    val scaleFactor = (resourceHeight - 26.dp).value / imageHeight.value
     val imageWidthDp = imageWidth * scaleFactor
     val totalWidth = size.value
     val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
-    val remainingWidth = (totalWidth - (numberOfFullImages * imageWidthDp.value)).dp - 6.dp
+    val remainingWidth = (totalWidth.dp - (numberOfFullImages * imageWidthDp))
     BoxWithConstraints(
         modifier =
         Modifier
@@ -245,8 +249,10 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
                 onClick = {
                     if (VideoEditor.highlightResource(resourceOnTrack.id)) {
                         droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_CLICKED
+                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_CLICKED
                     } else {
                         droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_DEFAULT
+                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT
                     }
                 }
             ),
@@ -255,14 +261,20 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(3.dp)
+                    .height(1.dp)
             )
-            Row(modifier = Modifier.fillMaxHeight()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(3.dp)
+            Box{
+                Text(
+                    text = videoResources[resourceOnTrack.id].title.value,
+                    modifier =
+                    Modifier
+                        .offset(x = 8.dp, y = 3.dp)
+                        .height(25.dp),
+                    color = droppableFileTextColor,
+                    fontSize = 13.sp
                 )
+            }
+            Row(modifier = Modifier.fillMaxHeight()) {
                 for (i in 0 until numberOfFullImages) {
                     Image(
                         painter = BitmapPainter(imageBitmap),
@@ -270,7 +282,7 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
                         modifier =
                         Modifier
                             .width(imageWidthDp)
-                            .height(resourceHeight - 6.dp),
+                            .height(resourceHeight - 16.dp),
                         contentScale = ContentScale.FillHeight,
                         alignment = Alignment.TopStart,
                     )
@@ -282,22 +294,12 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
                         modifier =
                         Modifier
                             .width(remainingWidth)
-                            .height(resourceHeight - 6.dp),
+                            .height(resourceHeight - 16.dp),
                         contentScale = ContentScale.FillHeight,
                         alignment = Alignment.TopStart,
                     )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(3.dp)
-                    )
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(3.dp)
-            )
         }
     }
 }
