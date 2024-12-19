@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.resources.Dimens
+import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.vp.VideoPanel
 
@@ -46,7 +47,7 @@ fun SliderCompose(panelHeight: Dp) {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(circleSize)
-                .background(color = Color.White, RoundedCornerShape(50))
+                .background(color = EditingPanelTheme.SLIDER_COLOR, RoundedCornerShape(50))
         )
         // Внутренний слайдер, остающийся визуально неизменным
         Box(
@@ -54,7 +55,7 @@ fun SliderCompose(panelHeight: Dp) {
                 .align(Alignment.Center)
                 .width(sliderWidth)
                 .height(panelHeight)
-                .background(color = Color.White, RoundedCornerShape(3.dp))
+                .background(color = EditingPanelTheme.SLIDER_COLOR, RoundedCornerShape(3.dp))
         )
     }
 }

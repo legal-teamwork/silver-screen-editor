@@ -268,10 +268,10 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
                     text = videoResources[resourceOnTrack.id].title.value,
                     modifier =
                     Modifier
-                        .offset(x = 8.dp, y = 3.dp)
+                        .offset(x = 8.dp, y = 2.dp)
                         .height(25.dp),
                     color = droppableFileTextColor,
-                    fontSize = 13.sp
+                    fontSize = 14.sp
                 )
             }
             Row(modifier = Modifier.fillMaxHeight()) {
