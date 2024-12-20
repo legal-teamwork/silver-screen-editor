@@ -53,6 +53,7 @@ object VideoTrack {
         )
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
+        highlightedResources.add(false)
 
         return resourceOnTrack
     }
