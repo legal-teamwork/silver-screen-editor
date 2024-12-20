@@ -57,8 +57,12 @@ fun main() {
     }
     shortcutManager.addShortcut(Shortcut(Key.Delete)) {
         val highlightedResources = VideoEditor.getHighlightedResources()
-        if (highlightedResources.size > 0) {
-            commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
+        if (highlightedResources.any {it}) {
+            val listOfHighlightedResources = mutableListOf<Int>()
+            for (id in 0..<highlightedResources.size)
+                if (highlightedResources[id])
+                    listOfHighlightedResources.add(id)
+            commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, listOfHighlightedResources))
         }
         else {
             logger.warn { "Del shortcut triggered, but there is nothing highlighted!" }
