@@ -22,7 +22,7 @@
 - GUI: Jetbrains Compose for Desktop
 - Backend: Kotlin
 
-- Video Processing: JavaCV (OpenCV)
+- Video Processing: JavaCV (FFmpeg, OpenCV)
 - Сериализация: kotlinx.serialization
 - Логирование: kotlin-logging, logback
 
