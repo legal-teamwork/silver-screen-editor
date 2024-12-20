@@ -14,7 +14,6 @@ import androidx.compose.ui.draganddrop.DragAndDropEvent
 import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.awtTransferable
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -24,9 +23,12 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.legalteamwork.silverscreen.AppScope
+import org.legalteamwork.silverscreen.command.CommandUndoSupport
 import org.legalteamwork.silverscreen.command.edit.AddFilterToResource
 import org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric
+import org.legalteamwork.silverscreen.command.edit.DeleteResourcesOnTrackCommand
 import org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand
+import org.legalteamwork.silverscreen.re.VideoTrack.highlightedResources
 import org.legalteamwork.silverscreen.re.VideoTrack.resourcesOnTrack
 import org.legalteamwork.silverscreen.re.VideoTrack.videoResources
 import org.legalteamwork.silverscreen.resources.Dimens
@@ -214,74 +216,89 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class, ExperimentalFoundationApi::class)
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
-    logger.debug {
-        """
-        Resource visualization:
-        - Frames: ${resourceOnTrack.framesCount}
-        - Visual width: ${resourceOnTrack.framesCount * DpInFrame * 1.dp}
-        """
-    }
     val resourceHeight = 90.dp
-    val size by mutableStateOf(resourceOnTrack.framesCount * DpInFrame * 1.dp)
+    var droppableFileBackgroundColor by remember { mutableStateOf(EditingPanelTheme.RESOURCE_COLOR_DEFAULT) }
+    var droppableFileTextColor by remember { mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT) }
+    val size by remember { mutableStateOf(resourceOnTrack.framesCount * DpPerSecond * 1.dp) }
     val imageBitmap =
         remember {
             File(videoResources[resourceOnTrack.id].previewPath).inputStream().readAllBytes()
                 .decodeToImageBitmap()
         }
-
     val imageWidth = imageBitmap.width.dp
     val imageHeight = imageBitmap.height.dp
-
-    val scaleFactor = resourceHeight.value / imageHeight.value
-
-    val imageWidthDp = (imageWidth * scaleFactor)
-
+    val scaleFactor = (resourceHeight - 26.dp).value / imageHeight.value
+    val imageWidthDp = imageWidth * scaleFactor
     val totalWidth = size.value
     val numberOfFullImages = (totalWidth / imageWidthDp.value).toInt()
-    val remainingWidth = totalWidth % imageWidthDp.value
-
+    val remainingWidth = (totalWidth.dp - (numberOfFullImages * imageWidthDp))
     BoxWithConstraints(
         modifier =
-            Modifier
-                .onClick { // TODO: visual highlighting
-                    VideoEditor.highlightResource(resourceOnTrack.id)
+        Modifier
+            .height(resourceHeight)
+            .width(size)
+            .background(
+                color = droppableFileBackgroundColor,
+                RoundedCornerShape(5.dp),
+            )
+            .clickable(
+                onClick = {
+                    if (VideoEditor.highlightResource(resourceOnTrack.id)) {
+                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_CLICKED
+                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_CLICKED
+                    } else {
+                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_DEFAULT
+                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT
+                    }
                 }
-                .height(resourceHeight)
-                .width(size)
-                .background(
-                    color = EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
-                    shape = RoundedCornerShape(5.dp),
-                )
-                .border(3.dp, Color.White, RoundedCornerShape(5.dp)),
+            ),
     ) {
-        Row(modifier = Modifier.fillMaxHeight()) {
-            for (i in 0 until numberOfFullImages) {
-                Image(
-                    painter = BitmapPainter(imageBitmap),
-                    contentDescription = videoResources[resourceOnTrack.id].title.value,
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
+            Box{
+                Text(
+                    text = videoResources[resourceOnTrack.id].title.value,
                     modifier =
-                        Modifier
-                            .width(imageWidthDp)
-                            .height(resourceHeight),
-                    contentScale = ContentScale.FillHeight,
-                    alignment = Alignment.TopStart,
+                    Modifier
+                        .offset(x = 8.dp, y = 2.dp)
+                        .height(25.dp),
+                    color = droppableFileTextColor,
+                    fontSize = 14.sp
                 )
             }
-
-            if (remainingWidth > 0) {
-                Image(
-                    painter = BitmapPainter(imageBitmap),
-                    contentDescription = videoResources[resourceOnTrack.id].title.value,
-                    modifier =
+            Row(modifier = Modifier.fillMaxHeight()) {
+                for (i in 0 until numberOfFullImages) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
                         Modifier
-                            .width(remainingWidth.dp)
-                            .height(resourceHeight),
-                    contentScale = ContentScale.FillHeight,
-                    alignment = Alignment.TopStart,
-                )
+                            .width(imageWidthDp)
+                            .height(resourceHeight - 16.dp),
+                        contentScale = ContentScale.FillHeight,
+                        alignment = Alignment.TopStart,
+                    )
+                }
+                if (remainingWidth > 0.dp) {
+                    Image(
+                        painter = BitmapPainter(imageBitmap),
+                        contentDescription = videoResources[resourceOnTrack.id].title.value,
+                        modifier =
+                        Modifier
+                            .width(remainingWidth)
+                            .height(resourceHeight - 16.dp),
+                        contentScale = ContentScale.FillHeight,
+                        alignment = Alignment.TopStart,
+                    )
+                }
             }
         }
     }
