@@ -51,13 +51,7 @@
 
 4. Выбрать SilverScreenEditor > Tasks > compose desktop > runDistributable
 
-5. Соберется исполнительный файл в папке `composeApp\build\compose\binaries\main\app\org.legalteamwork.silverscreen`, который автоматически запустится
-
-## Структура проекта
-- Application: главный модуль приложения, содержит конфигурацию сборки и основной код приложения.
-- composeApp: модуль Compose Multiplatform, содержит UI и логику приложения.
-- src/desktopMain: код, специфичный для десктопной версии приложения.
-- src/commonMain: общий код для всех платформ.
+5. Соберется исполнительный файл в папке `composeApp\build\compose\binaries\main\app\org.legalteamwork.silverscreen`, который автоматически запустится.
 
 ## Контакты для связи
 Если у вас есть вопросы или предложения, пожалуйста, свяжитесь с нами через [GitHub Issues](https://github.com/legal-teamwork/silver-screen-editor/issues)
