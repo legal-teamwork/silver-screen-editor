@@ -64,7 +64,7 @@ fun centerPlaybackControls(
             else {
                 Image(
                     painter = painterResource("toolbar_buttons/pause_button.svg"),
-                    modifier = Modifier.size(25.dp),
+                    modifier = Modifier.size(19.dp),
                     contentDescription = "Pause",
                 )
             }
@@ -72,7 +72,7 @@ fun centerPlaybackControls(
         IconButton(onClick = onStopClick) {
             Image(
                 painter = painterResource("toolbar_buttons/stop_button.svg"),
-                modifier = Modifier.size(22.dp),
+                modifier = Modifier.size(25.dp),
                 contentDescription = "Stop"
             )
         }
