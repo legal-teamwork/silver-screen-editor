@@ -57,7 +57,16 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                     commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
                     VideoEditor.resetHighlighting()
                 }
-            }
+            },
+
+            onStepBackward = {
+                commandManager.undo()
+                // step backward logic here
+            },
+            onStepForward = {
+                commandManager.redo()
+                // step forward logic here
+            },
         )
 
         centerPlaybackControls(
@@ -84,14 +93,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
         )
 
         rightEditingTools(
-            onStepBackward = {
-                commandManager.undo()
-                // step backward logic here
-            },
-            onStepForward = {
-                commandManager.redo()
-                // step forward logic here
-            },
+
             onZoomIn = {
                 zoomLevel = (zoomLevel + 7.5f).coerceAtMost(75f) // Увеличиваем zoomLevel
                 org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel

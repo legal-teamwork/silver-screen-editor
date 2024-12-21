@@ -29,6 +29,7 @@ class DeleteResourcesOnTrackCommand(
                         track.resourcesOnTrack[index].framesCount
                     )
                 )
+
             }
         }
     }
@@ -53,6 +54,7 @@ class DeleteResourcesOnTrackCommand(
             if (index != -1) {
                 track.resourcesOnTrack[index].position = info.position
                 track.resourcesOnTrack[index].framesCount = info.framesCount
+
             }
         }
     }

@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
@@ -19,8 +21,6 @@ import org.legalteamwork.silverscreen.vp.VideoPanel
 @Composable
 fun rightEditingTools(
     modifier: Modifier = Modifier,
-    onStepBackward: () -> Unit,
-    onStepForward: () -> Unit,
     onZoomIn: () -> Unit,
     onZoomOut: () -> Unit,
     zoomLevel: Float,
@@ -38,7 +38,8 @@ fun rightEditingTools(
 
         IconButton(onClick = onZoomOut) {
             Image(
-                painter = painterResource("toolbar_buttons/minus.svg"),
+                painter = painterResource("toolbar_buttons/zoom_down_button.svg"),
+                modifier = Modifier.size(15.dp),
                 contentDescription = "Zoom out",
             )
         }
@@ -47,16 +48,17 @@ fun rightEditingTools(
             value = zoomLevel,
             onValueChange = onZoomLevelChange,
             valueRange = 22.5f..75f,
-            modifier = Modifier.width(100.dp), // Adjust width as needed
+            modifier = Modifier.width(100.dp),
             colors = SliderDefaults.colors(
-                thumbColor = EditingPanelTheme.SLIDER_COLOR,
-                activeTrackColor = EditingPanelTheme.SLIDER_COLOR
+                thumbColor = EditingPanelTheme.ZOOM_SLIDER_COLOR,
+                activeTrackColor = EditingPanelTheme.ZOOM_SLIDER_COLOR
             )
         )
 
         IconButton(onClick = onZoomIn) {
             Image(
-                painter = painterResource("toolbar_buttons/plus.svg"),
+                painter = painterResource("toolbar_buttons/zoom_up_button.svg"),
+                modifier = Modifier.size(15.dp),
                 contentDescription = "Zoom in"
             )
         }
@@ -69,20 +71,6 @@ fun rightEditingTools(
             Text("Render", color = Color.White)
         }
 
-        Spacer(modifier = Modifier.width(8.dp))
-
-        IconButton(onClick = onStepBackward) {
-            Image(
-                painter = painterResource("toolbar_buttons/arrow_back.svg"),
-                contentDescription = "Step backward",
-            )
-        }
-        IconButton(onClick = onStepForward) {
-            Image(
-                painter = painterResource("toolbar_buttons/arrow_forward.svg"),
-                contentDescription = "Step forward",
-            )
-        }
-
+        //Spacer(modifier = Modifier.width(8.dp))
     }
 }

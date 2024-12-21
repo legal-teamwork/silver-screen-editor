@@ -1,10 +1,8 @@
 package org.legalteamwork.silverscreen.toolbar.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.IconButton
 import androidx.compose.material.Icon
@@ -44,12 +42,14 @@ fun centerPlaybackControls(
         IconButton(onClick = onSeekToStartClick) {
             Image(
                 painter = painterResource("toolbar_buttons/left_start.svg"),
+                modifier = Modifier.size(25.dp),
                 contentDescription = "Seek to start"
             )
         }
         IconButton(onClick = onRewindBackwardsClick) {
             Image(
                 painter = painterResource("toolbar_buttons/rewind_backwards_button.svg"),
+                modifier = Modifier.size(25.dp),
                 contentDescription = "Rewind backwards"
             )
         }
@@ -57,12 +57,14 @@ fun centerPlaybackControls(
             if (!playbackManager.isPlaying.value) {
                 Image(
                     painter = painterResource("toolbar_buttons/play_button.svg"),
+                    modifier = Modifier.size(25.dp),
                     contentDescription = "Play"
                 )
             }
             else {
                 Image(
                     painter = painterResource("toolbar_buttons/pause_button.svg"),
+                    modifier = Modifier.size(25.dp),
                     contentDescription = "Pause",
                 )
             }
@@ -70,18 +72,21 @@ fun centerPlaybackControls(
         IconButton(onClick = onStopClick) {
             Image(
                 painter = painterResource("toolbar_buttons/stop_button.svg"),
+                modifier = Modifier.size(22.dp),
                 contentDescription = "Stop"
             )
         }
         IconButton(onClick = onRewindForwardClick) {
             Image(
                 painter = painterResource("toolbar_buttons/rewind_forward_button.svg"),
+                modifier = Modifier.size(25.dp),
                 contentDescription = "Rewind forward"
             )
         }
         IconButton(onClick = onSeekToEndClick) {
             Image(
                 painter = painterResource("toolbar_buttons/right_end.svg"),
+                modifier = Modifier.size(25.dp),
                 contentDescription = "Seek to end"
             )
         }

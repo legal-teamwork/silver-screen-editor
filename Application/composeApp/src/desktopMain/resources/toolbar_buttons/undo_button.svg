@@ -5,7 +5,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   id="4b792e3e-bf23-11ef-ba38-0242ac110008"
+   id="3e82474a-bf25-11ef-87c3-0242ac110007"
    version="1.1"
    width="4.79990551181pt"
    viewBox="0 0 4.79990551181 4.79990551181"
@@ -29,8 +29,8 @@
      id="g6">
     <path
        id="path4"
-       d="M 0.7199,0.7201 L 4.08,0.7201 4.08,4.0798 0.7199,4.0798 0.7199,0.7201 Z"
-       style="stroke-linejoin:round;stroke:#e6e6e6;stroke-linecap:round;stroke-miterlimit:10.433;stroke-width:0.2401;fill:none;" />
+       d="M 0.7198,2.2747 L 2.2652,0.72 2.2652,1.6127 C 3.2888,1.6728 3.9037,2.0036 4.0798,4.0799 3.4649,3.0001 2.837,2.8879 2.2652,2.9003 L 2.2652,3.8294 0.7198,2.2747 Z"
+       style="stroke-linejoin:round;stroke:#e6e6e6;stroke-linecap:square;stroke-miterlimit:10.433;stroke-width:0.2398;fill:none;" />
   </g>
   <g
      id="g8" />
