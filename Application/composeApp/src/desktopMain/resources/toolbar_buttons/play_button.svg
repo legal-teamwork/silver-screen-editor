@@ -1,3 +1,39 @@
-<svg width="31" height="34" viewBox="0 0 31 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M2 32.5V2L29.5 17L2 32.5Z" fill="black" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="f08ea986-bf22-11ef-89ad-0242ac110003"
+   version="1.1"
+   width="4.79990551181pt"
+   viewBox="0 0 4.79990551181 4.79990551181"
+   height="4.79990551181pt">
+  <metadata
+     id="metadata17">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs15" />
+  <g
+     id="g2" />
+  <g
+     id="g6">
+    <path
+       id="path4"
+       d="M 1.56,0.7201 L 3.2401,2.3628 1.56,4.0798 1.56,0.7201 Z"
+       style="stroke-linejoin:round;stroke:#e6e6e6;stroke-linecap:round;stroke-miterlimit:10.433;stroke-width:0.2401;fill:none;" />
+  </g>
+  <g
+     id="g8" />
+  <g
+     id="g10" />
 </svg>

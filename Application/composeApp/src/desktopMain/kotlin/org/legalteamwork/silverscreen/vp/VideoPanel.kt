@@ -20,6 +20,8 @@ import org.legalteamwork.silverscreen.render.OnlineVideoRenderer
 import org.legalteamwork.silverscreen.re.VideoEditorTimeState
 import kotlin.math.min
 import io.github.oshai.kotlinlogging.KotlinLogging
+import jdk.javadoc.internal.doclets.formats.html.markup.Text
+import org.legalteamwork.silverscreen.resources.AppTheme
 
 private val logger = KotlinLogging.logger {}
 
@@ -60,7 +62,7 @@ private fun ColumnScope.VideoPreview(playbackManager: PlaybackManager) {
         // Draw canvas
         Canvas(Modifier.fillMaxSize()) {
             val drawScope = this
-            drawRect(Color.Black)
+            drawRect(color = AppTheme.VIDEO_PANEL_VIDEO_COLOR)
 
             timeState.videoResource?.let { videoResource ->
                 // Get drawing frame:

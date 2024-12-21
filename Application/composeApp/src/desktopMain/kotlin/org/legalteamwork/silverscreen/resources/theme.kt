@@ -11,16 +11,25 @@ object AppTheme {
 
     // Влияет вообще на все вертикальные разделители
     val VERTICAL_DIVIDER_COLOR = Color.Black
-    val VIDEO_PANEL_BACKGROUND_COLOR = Color(0xFF232528)
+    val VIDEO_PANEL_BACKGROUND_COLOR = Color(0xFF21282D)
+    val VIDEO_PANEL_VIDEO_COLOR = Color(0xFF21282D)
+
+    val COMMAND_WINDOW_BACKGROUND = Color(0xFF21282D)
     val VIDEO_EDITOR_BACKGROUND_COLOR = Color(0xFF232528)
+
+    val RENDER_BACKGROUND_COLOR = Color(0xFF1A1A1A)
+    val RENDER_BORDER_COLOR = Color(0xFFAAAAAA)
+    val RENDER_ACTIVE_COLOR = Color(0xFF55E5C5)
+    val RENDER_BAR_MAIN_COLOR = Color(0xFF333333)
+    val RENDER_TEXT_COLOR = Color(0xFFFFFFFF)
 }
 
 object ResourceManagerTheme {
     val MENU_FONT_FAMILY = FontFamily.Default
-    val RESOURCE_MANAGER_BACKGROUND_COLOR = Color(0xFF232528)
+    val RESOURCE_MANAGER_BACKGROUND_COLOR = Color(0xFF0D1014)
 
     // val MENU_COLOR = Color(0xFF3A3A3A)
-    val MENU_COLOR = Color(0xFF232528)
+    val MENU_COLOR = Color(0xFF21282D)
 
     // val MENU_BUTTONS_BACKGROUND_COLOR = Color(0xFF3A3A3A)
     val MENU_BUTTONS_BACKGROUND_COLOR = Color(0xFF232528)
@@ -56,11 +65,15 @@ object EditingPanelTheme {
     //val TOOL_PANEL_COLOR = Color(0xFF232528)
     val TOOLBOX_PANEL_BACKGROUND = Color(0xFF0D1014)
     val TOOL_BUTTONS_BACKGROUND_COLOR = Color(0xFF1A1A1A)
-    val TOOL_BUTTONS_CONTENT_COLOR = Color(0xFFFFFFFF)
+    val TOOL_BUTTONS_CONTENT_COLOR = Color(0xFFDFDFDF)
     val TOOL_BUTTONS_DISABLED_BACKGROUND_COLOR = Color(0xFF222222)
     val TOOL_BUTTONS_DISABLED_CONTENT_COLOR = Color.White
     val TRACKS_PANEL_BACKGROUND_COLOR = Color(0xFF1E2529)
     val SLIDER_COLOR = Color(0xFFFF6600)
+
+    val ZOOM_SLIDER_COLOR = Color(0xFF666666)
+    val ZOOM_SLIDER_COLOR_THUMB = Color(0xFF000000)
+    val ZOOM_SLIDER_COLOR_BORDER = Color(0xFF55E5C5)
 }
 
 object MainWindowTheme {
@@ -122,8 +135,8 @@ object MoveToWindowTheme {
 object CommandWindowTheme {
     val TEXT_COLOR = Color.White
 
-    val COMMANDS_ICON_MAJOR_COLOR = Color.Green
-    val COMMANDS_ICON_MINOR_COLOR = Color.Red
+    val COMMANDS_ICON_MAJOR_COLOR = Color(0xFF21282D)
+    val COMMANDS_ICON_MINOR_COLOR = Color(0xFF55E5C5)
 }
 
 object EffectsTabTheme {

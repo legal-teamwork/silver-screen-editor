@@ -1,4 +1,35 @@
-<svg width="25" height="31" viewBox="0 0 25 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="1" y="1" width="7.25" height="29" fill="black" stroke="white" stroke-width="2" stroke-linejoin="round"/>
-<rect x="16.75" y="1" width="7.25" height="29" fill="black" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="1.2004"
+   height="3.5998001"
+   id="svg7"
+   viewBox="0 0 1.2004 3.5998001"
+   sodipodi:docname="aa7e81581907fb787e06da31982e996a.cdr"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     id="namedview9"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0" />
+  <g
+     id="Layer1000"
+     transform="translate(-1.79975,-0.60005)">
+    <path
+       d="M 2.8801,4.0798 V 0.7201"
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.2401;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="path2" />
+    <path
+       d="M 1.9198,4.0798 V 0.7201"
+       style="fill:none;stroke:#e6e6e6;stroke-width:0.2401;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none"
+       id="path4" />
+  </g>
 </svg>

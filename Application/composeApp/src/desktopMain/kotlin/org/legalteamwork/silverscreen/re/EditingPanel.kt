@@ -48,7 +48,7 @@ fun AppScope.EditingPanel(panelHeight: Dp, modifier: Modifier = Modifier) {
             Modifier
                 .background(
                     color = EditingPanelTheme.EDITING_PANEL_BACKGROUND,
-                ),
+                )
     ) {
         TimelinesPanel(panelHeight)
     }
@@ -72,7 +72,7 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
                     color = EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR,
                     shape = RoundedCornerShape(8.dp),
                 )
-                .fillMaxSize()
+                .fillMaxWidth()
                 .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
     ) {
         val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
@@ -103,7 +103,7 @@ private fun AppScope.TimelineTracks(
         modifier =
             Modifier
                 .padding(top = 55.dp)
-                .height(120.dp),
+                .height(115.dp),
         verticalArrangement = Arrangement.Center
     ) {
         VideoTrackCompose(timelineLength)
@@ -133,21 +133,12 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
                     Column {
                         Box(modifier = Modifier.width(distance).height(25.dp)) {
                             Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                            if (i * 5 < 60) {
                                 Text(
-                                    text = String.format("%ds", i * 5),
+                                    text = String.format("%dm %02ds", (i * 5) / 60, (i * 5) % 60),
                                     fontSize = 15.sp,
                                     color = Color.White,
                                     modifier = Modifier.padding(start = 8.dp),
                                 )
-                            } else {
-                                Text(
-                                    text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
-                                    fontSize = 15.sp,
-                                    color = Color.White,
-                                    modifier = Modifier.padding(start = 8.dp),
-                                )
-                            }
                         }
                         Box(modifier = Modifier.width(distance).height(20.dp)) {
                             Row {
