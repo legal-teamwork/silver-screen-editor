@@ -12,6 +12,7 @@ object AppTheme {
     // Влияет вообще на все вертикальные разделители
     val VERTICAL_DIVIDER_COLOR = Color.Black
     val VIDEO_PANEL_BACKGROUND_COLOR = Color(0xFF232528)
+    val COMMAND_WINDOW_BACKGROUND = Color(0xFF21282D)
     val VIDEO_EDITOR_BACKGROUND_COLOR = Color(0xFF232528)
 }
 
@@ -126,8 +127,8 @@ object MoveToWindowTheme {
 object CommandWindowTheme {
     val TEXT_COLOR = Color.White
 
-    val COMMANDS_ICON_MAJOR_COLOR = Color.Green
-    val COMMANDS_ICON_MINOR_COLOR = Color.Red
+    val COMMANDS_ICON_MAJOR_COLOR = Color(0xFF21282D)
+    val COMMANDS_ICON_MINOR_COLOR = Color(0xFF55E5C5)
 }
 
 object EffectsTabTheme {
