@@ -53,8 +53,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
 
             onDeleteClick = {
                 val highlightedResources = VideoEditor.getHighlightedResources()
-                if (highlightedResources.isNotEmpty()) {
-                    commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, highlightedResources))
+                if (highlightedResources.any {it}) {
+                    val listOfHighlightedResources = mutableListOf<Int>()
+                    for (id in 0..<highlightedResources.size)
+                        if (highlightedResources[id])
+                            listOfHighlightedResources.add(id)
+                    commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, listOfHighlightedResources))
                     VideoEditor.resetHighlighting()
                 }
             }

@@ -12,7 +12,8 @@ object VideoTrack {
     private val logger = KotlinLogging.logger { }
     val videoResources = mutableStateListOf<VideoResource>()
     val resourcesOnTrack = mutableStateListOf<ResourceOnTrack>()
-    var highlightedResources = mutableListOf<Int>()
+    var highlightedResources = mutableStateListOf<Boolean>()
+
     val lengthInFrames: Int
         get() = resourcesOnTrack.maxOfOrNull { it.getRightBorder() } ?: 0
 
@@ -32,6 +33,7 @@ object VideoTrack {
         )
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
+        highlightedResources.add(false)
 
         return resourceOnTrack
     }
@@ -51,6 +53,7 @@ object VideoTrack {
         )
         resourcesOnTrack.add(resourceOnTrack)
         videoResources.add(resource)
+        highlightedResources.add(false)
 
         return resourceOnTrack
     }

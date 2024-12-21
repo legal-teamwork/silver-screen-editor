@@ -221,8 +221,7 @@ fun ResourceOnTrackFilterLine(videoFilter: VideoFilter) {
 @Composable
 private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
     val resourceHeight = 90.dp
-    var droppableFileBackgroundColor by remember { mutableStateOf(EditingPanelTheme.RESOURCE_COLOR_DEFAULT) }
-    var droppableFileTextColor by remember { mutableStateOf(EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT) }
+
     val size by remember { mutableStateOf(resourceOnTrack.framesCount * DpPerSecond * 1.dp) }
     val imageBitmap =
         remember {
@@ -242,18 +241,12 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
             .height(resourceHeight)
             .width(size)
             .background(
-                color = droppableFileBackgroundColor,
+                color = if (highlightedResources[resourceOnTrack.id]) EditingPanelTheme.RESOURCE_COLOR_CLICKED else EditingPanelTheme.RESOURCE_COLOR_DEFAULT,
                 RoundedCornerShape(5.dp),
             )
             .clickable(
                 onClick = {
-                    if (VideoEditor.highlightResource(resourceOnTrack.id)) {
-                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_CLICKED
-                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_CLICKED
-                    } else {
-                        droppableFileBackgroundColor = EditingPanelTheme.RESOURCE_COLOR_DEFAULT
-                        droppableFileTextColor = EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT
-                    }
+                    VideoEditor.highlightResource(resourceOnTrack.id)
                 }
             ),
     ) {
@@ -270,7 +263,7 @@ private fun ResourceOnTrackMainLine(resourceOnTrack: ResourceOnTrack) {
                     Modifier
                         .offset(x = 8.dp, y = 2.dp)
                         .height(25.dp),
-                    color = droppableFileTextColor,
+                    color = if (highlightedResources[resourceOnTrack.id]) EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_CLICKED else EditingPanelTheme.DROPPABLE_FILE_TEXT_COLOR_DEFAULT,
                     fontSize = 14.sp
                 )
             }
