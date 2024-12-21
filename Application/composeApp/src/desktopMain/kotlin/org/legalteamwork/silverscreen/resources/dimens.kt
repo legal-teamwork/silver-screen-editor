@@ -21,15 +21,15 @@ object Dimens {
     const val COMMANDS_WINDOW_WEIGHT = 10f
     val COMMANDS_WINDOW_MIN_WIDTH = 150.dp
     val COMMANDS_WINDOW_MIN_HEIGHT = 400.dp
-    val COMMANDS_WINDOW_MAX_WIDTH = 300.dp
+    val COMMANDS_WINDOW_MAX_WIDTH = 340.dp
     val COMMANDS_WINDOW_MAX_HEIGHT = Dp.Infinity
 
-    const val UPPER_WINDOW_WEIGHT = 70f
-    const val TIMELINE_WINDOW_WEIGHT = 30f
+    const val UPPER_WINDOW_WEIGHT = 80f
+    const val TIMELINE_WINDOW_WEIGHT = 20f
     val TIMELINE_WINDOW_MIN_WIDTH = 0.dp
-    val TIMELINE_WINDOW_MIN_HEIGHT = 200.dp
+    val TIMELINE_WINDOW_MIN_HEIGHT = 270.dp
     val TIMELINE_WINDOW_MAX_WIDTH = Dp.Infinity
-    val TIMELINE_WINDOW_MAX_HEIGHT = Dp.Infinity
+    val TIMELINE_WINDOW_MAX_HEIGHT = 440.dp
 
     //In ResourceManager.kt
     const val INIT_ID = 1

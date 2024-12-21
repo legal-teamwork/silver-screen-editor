@@ -48,7 +48,7 @@ fun AppScope.EditingPanel(panelHeight: Dp, modifier: Modifier = Modifier) {
             Modifier
                 .background(
                     color = EditingPanelTheme.EDITING_PANEL_BACKGROUND,
-                ),
+                )
     ) {
         TimelinesPanel(panelHeight)
     }
@@ -72,7 +72,7 @@ private fun AppScope.TimelinesPanel(panelHeight: Dp) {
                     color = EditingPanelTheme.TRACKS_PANEL_BACKGROUND_COLOR,
                     shape = RoundedCornerShape(8.dp),
                 )
-                .fillMaxSize()
+                .fillMaxWidth()
                 .clipToBounds(), // <-- Нужно чтобы слайдер не заезжал на панель инструментов
     ) {
         val maxWidthVideos = (VideoEditor.getResourcesOnTrack().maxOfOrNull { it.getRightBorder() })?.dp ?: 0.dp
