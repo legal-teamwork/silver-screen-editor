@@ -28,6 +28,7 @@ object VideoEditor {
         VideoTrack.resourcesOnTrack.addAll(savedResourcesOnTrack)
         VideoTrack.videoResources.clear()
         VideoTrack.videoResources.addAll(savedVideoResource)
+        VideoTrack.highlightedResources.clear()
         VideoTrack.highlightedResources.addAll(BooleanArray(VideoTrack.resourcesOnTrack.size).toList())
         logger.info { "Restoring video resources finished" }
     }
