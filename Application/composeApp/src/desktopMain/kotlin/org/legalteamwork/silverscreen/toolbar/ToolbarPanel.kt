@@ -112,9 +112,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 VideoTrack.updateResourcesOnTrack()
             },
 
+            /*
             onRenderClick = {
                 // Placeholder for save functionality
             }
+
+             */
         )
     }
 }

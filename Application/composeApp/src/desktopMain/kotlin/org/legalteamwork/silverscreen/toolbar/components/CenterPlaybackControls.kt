@@ -18,6 +18,7 @@ import org.legalteamwork.silverscreen.resources.EditingPanelTheme
 import java.text.SimpleDateFormat
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.sp
 import org.legalteamwork.silverscreen.vp.VideoPanel.playbackManager
 import java.util.*
 
@@ -91,17 +92,18 @@ fun centerPlaybackControls(
             )
         }
         Text(
-            text = " ${formatTime(currentTimestamp)} / ${formatTime(totalDuration)} ",
-            color = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR
+            text = " ${formatTime(currentTimestamp)} | ${formatTime(totalDuration)} ",
+            color = EditingPanelTheme.TOOL_BUTTONS_CONTENT_COLOR,
+            fontSize = 15.sp,
         )
     }
 }
 
 private fun formatTime(elapsedTime: Long): String {
-    val hours = (elapsedTime / 3600000) % 60
+    //val hours = (elapsedTime / 3600000) % 60
     val minutes = (elapsedTime / 60000) % 60
     val seconds = (elapsedTime / 1000) % 60
     val milliseconds = (elapsedTime % 1000) / 10
 
-    return String.format("%02d:%02d:%02d.%02d", hours, minutes, seconds, milliseconds)
+    return String.format("%02d:%02d.%02d", minutes, seconds, milliseconds)
 }

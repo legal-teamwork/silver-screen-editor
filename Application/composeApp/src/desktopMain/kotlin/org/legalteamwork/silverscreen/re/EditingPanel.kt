@@ -133,21 +133,12 @@ private fun TimelineMarks(totalBlocks: Int, distance: Dp) {
                     Column {
                         Box(modifier = Modifier.width(distance).height(25.dp)) {
                             Box(modifier = Modifier.width(2.dp).height(25.dp).background(Color.White))
-                            if (i * 5 < 60) {
                                 Text(
-                                    text = String.format("%ds", i * 5),
+                                    text = String.format("%dm %02ds", (i * 5) / 60, (i * 5) % 60),
                                     fontSize = 15.sp,
                                     color = Color.White,
                                     modifier = Modifier.padding(start = 8.dp),
                                 )
-                            } else {
-                                Text(
-                                    text = String.format("%dm %ds", (i * 5) / 60, (i * 5) % 60),
-                                    fontSize = 15.sp,
-                                    color = Color.White,
-                                    modifier = Modifier.padding(start = 8.dp),
-                                )
-                            }
                         }
                         Box(modifier = Modifier.width(distance).height(20.dp)) {
                             Row {
