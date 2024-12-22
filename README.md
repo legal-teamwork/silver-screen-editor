@@ -1,6 +1,7 @@
 # Silver Screen Editor - десктопный видеоредактор с современным UI на Jetbrains Compose
 
-![image](https://github.com/user-attachments/assets/538d5a72-cd71-4d72-af62-70366cff84b0)
+![logo](https://github.com/user-attachments/assets/e3e090c5-280a-4f30-bea4-056c86277127)
+![image](https://github.com/user-attachments/assets/e3e090c5-280a-4f30-bea4-056c86277127)
 
 ## Статус сборки, версия
 
