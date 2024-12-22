@@ -31,7 +31,7 @@ object Strings {
     const val FILE_AUTO_SAVE_ITEM_OFF = "Enable auto save"
 
     // In ProjectSettings.kt
-    const val BITRATE = "Bit Rate (kbps)"
+    const val BITRATE = "BitRate"
     const val FPS = "FPS"
     const val RESOLUTION = "Resolution"
     const val SAVE_AND_CLOSE = "Save"

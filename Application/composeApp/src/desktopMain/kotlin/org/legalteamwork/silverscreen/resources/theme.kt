@@ -11,7 +11,7 @@ object AppTheme {
 
     // Влияет вообще на все вертикальные разделители
     val VERTICAL_DIVIDER_COLOR = Color.Black
-    val VIDEO_PANEL_BACKGROUND_COLOR = Color(0xFF21282D)
+    val VIDEO_PANEL_BACKGROUND_COLOR = Color(0xFF1E2529)
     val VIDEO_PANEL_VIDEO_COLOR = Color(0xFF21282D)
 
     val COMMAND_WINDOW_BACKGROUND = Color(0xFF21282D)
@@ -22,6 +22,11 @@ object AppTheme {
     val RENDER_ACTIVE_COLOR = Color(0xFF55E5C5)
     val RENDER_BAR_MAIN_COLOR = Color(0xFF333333)
     val RENDER_TEXT_COLOR = Color(0xFFFFFFFF)
+
+    val SETTINGS_BACKGROUND_COLOR = Color(0xFF1A1A1A)
+    val SETTINGS_ACTIVE_COLOR = Color(0xFF55E5C5)
+    val SETTINGS_MAIN_COLOR = Color(0xFF1E2529)
+    val SETTINGS_TEXT_COLOR = Color(0xFFFFFFFF)
 }
 
 object ResourceManagerTheme {
