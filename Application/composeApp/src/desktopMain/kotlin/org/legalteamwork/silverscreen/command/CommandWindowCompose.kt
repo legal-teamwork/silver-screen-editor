@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.CommandWindowTheme
 import org.legalteamwork.silverscreen.resources.Dimens
@@ -85,8 +86,8 @@ fun AppScope.CommandWindowCompose() {
     Column(Modifier.fillMaxSize().padding(Dimens.COMMAND_WINDOW_MARGIN)) {
         Text(
             text = Strings.COMMAND_WINDOW_HEADER,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().padding(15.dp),
+            //textAlign = TextAlign.Center,
             fontSize = Dimens.HEADER_TEXT_SIZE,
             color = CommandWindowTheme.TEXT_COLOR
         )
@@ -108,7 +109,7 @@ fun AppScope.CommandWindowCompose() {
                         Box(
                             Modifier
                                 .size(Dimens.COMMANDS_ICON_SIZE * 0.8f)
-                                .background(CommandWindowTheme.COMMANDS_ICON_MAJOR_COLOR, CircleShape)
+                                .background(CommandWindowTheme.COMMANDS_ICON_MINOR_COLOR, CircleShape)
                                 .align(Alignment.Center)
                         )
                     }
@@ -135,8 +136,8 @@ fun AppScope.CommandWindowCompose() {
                             Modifier
                                 .size(Dimens.COMMANDS_ICON_SIZE * 0.8f)
                                 .background(
-                                    if (index < commandManager.pointer.value) CommandWindowTheme.COMMANDS_ICON_MAJOR_COLOR
-                                    else CommandWindowTheme.COMMANDS_ICON_MINOR_COLOR,
+                                    if (index < commandManager.pointer.value) CommandWindowTheme.COMMANDS_ICON_MINOR_COLOR
+                                    else CommandWindowTheme.COMMANDS_ICON_MAJOR_COLOR,
                                     CircleShape
                                 )
                                 .align(Alignment.Center)

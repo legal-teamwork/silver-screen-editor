@@ -229,7 +229,7 @@ private fun AppScope.SourcesPreviews(
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ListViewItem(resource: Resource) {
-    Spacer(modifier = Modifier.padding(start = 5.dp, end = 5.dp).height(1.dp).fillMaxWidth().background(color = Color(0xFFFFFFFF)))
+    Spacer(modifier = Modifier.padding(start = 5.dp, end = 5.dp).height(1.dp).fillMaxWidth().background(color = Color(0xBBFFFFFF)))
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -247,7 +247,7 @@ private fun ListViewItem(resource: Resource) {
                 contentDescription = resource.title.value,
                 modifier = Modifier.size(70.dp),
                 contentScale = ContentScale.Fit,
-                colorFilter = ColorFilter.tint(Color(0xCCFFFFFF))
+                colorFilter = ColorFilter.tint(Color(0xFFFFFFFF))
             )
         } else {
             Image(
