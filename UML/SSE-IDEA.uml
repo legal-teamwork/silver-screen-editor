@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/WDAGUtilityAccount/Desktop/silver-screen-editor/silver-screen-editor/Application/composeApp/src/desktopMain/kotlin/org/legalteamwork/silverscreen/main.kt</OriginalElement>
+  <nodes>
+    <node x="2806.5" y="2867.5">org.legalteamwork.silverscreen.command.menu.ImportCommand</node>
+    <node x="-61.5" y="3758.0">org.legalteamwork.silverscreen.PlaybackManager.Companion</node>
+    <node x="2622.5" y="5400.5">org.legalteamwork.silverscreen.save.Resolution.Companion</node>
+    <node x="1321.5" y="5055.5">org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.LocalDateSerializer</node>
+    <node x="1965.5" y="6768.5">org.legalteamwork.silverscreen.rm.SaveManager</node>
+    <node x="2267.0" y="3571.5">org.legalteamwork.silverscreen.rm.resource.VideoResource</node>
+    <node x="2757.0" y="-236.0">org.legalteamwork.silverscreen.rm.resource.ResourceProperty</node>
+    <node x="4153.0" y="5935.0">org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrackSerializer</node>
+    <node x="323.0" y="3618.5">org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack</node>
+    <node x="4629.0" y="7748.5">org.legalteamwork.silverscreen.resources.ResourceActionsContextWindowTheme</node>
+    <node x="1846.5" y="2032.0">org.legalteamwork.silverscreen.rm.ResourceManager</node>
+    <node x="5094.0" y="7355.5">org.legalteamwork.silverscreen.command.menu.SaveAsCommand</node>
+    <node x="4113.5" y="7344.5">org.legalteamwork.silverscreen.resources.MainWindowTheme</node>
+    <node x="-193.5" y="6744.0">org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand</node>
+    <node x="3441.0" y="4947.5">org.legalteamwork.silverscreen.save.SaveManager</node>
+    <node x="1018.5" y="40.5">org.legalteamwork.silverscreen.command.Command</node>
+    <node x="2239.0" y="16.0">org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer</node>
+    <node x="2222.0" y="2868.0">org.legalteamwork.silverscreen.rm.resource.ResourceFrame</node>
+    <node x="5510.5" y="7760.5">org.legalteamwork.silverscreen.resources.ResourceContextWindowPatternTheme</node>
+    <node x="123.5" y="5923.5">org.legalteamwork.silverscreen.re.ResourceOnTrackScope</node>
+    <node x="643.0" y="4459.5">org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack</node>
+    <node x="252.0" y="2128.0">org.legalteamwork.silverscreen.command.CommandManagerTest</node>
+    <node x="-708.5" y="6608.5">org.legalteamwork.silverscreen.shortcut.ShortcutManager</node>
+    <node x="1933.0" y="1460.5">org.legalteamwork.silverscreen.rm.resource.FolderResource.Companion</node>
+    <node x="1851.5" y="4398.5">org.legalteamwork.silverscreen.render.OnlineVideoRenderer</node>
+    <node x="-141.5" y="2771.5">org.legalteamwork.silverscreen.PlaybackManager</node>
+    <node x="2620.5" y="7900.5">org.legalteamwork.silverscreen.menu.MenuScope</node>
+    <node x="4068.0" y="2700.5">org.legalteamwork.silverscreen.resources.EditingPanelTheme</node>
+    <node x="3952.5" y="4496.0">org.legalteamwork.silverscreen.rm.serializers.MutableStateBooleanSerializer</node>
+    <node x="1020.5" y="6255.5">org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand</node>
+    <node x="-167.0" y="1448.0">org.legalteamwork.silverscreen.vp.VideoPanel</node>
+    <node x="3541.5" y="6255.0">org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.LocalDateSerializer</node>
+    <node x="3643.0" y="5339.0">org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack</node>
+    <node x="1421.5" y="5924.0">org.legalteamwork.silverscreen.rm.Project</node>
+    <node x="1095.0" y="4508.0">org.legalteamwork.silverscreen.rm.MainWindowDragAndDropTarget</node>
+    <node x="5212.5" y="4447.5">org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData</node>
+    <node x="1683.5" y="2759.5">org.legalteamwork.silverscreen.rm.resource.FolderResource</node>
+    <node x="4856.0" y="4483.5">org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId</node>
+    <node x="3057.0" y="5304.5">org.legalteamwork.silverscreen.resources.SourcesMenuButtonTheme</node>
+    <node x="4635.5" y="1478.0">org.legalteamwork.silverscreen.resources.Strings</node>
+    <node x="4524.0" y="7355.5">org.legalteamwork.silverscreen.command.menu.SaveCommand</node>
+    <node x="1132.5" y="6780.5">org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric</node>
+    <node x="5145.5" y="7747.5">org.legalteamwork.silverscreen.command.menu.NewCommand</node>
+    <node x="5887.5" y="7332.5">org.legalteamwork.silverscreen.resources.AppTheme</node>
+    <node x="2409.0" y="6183.5">org.legalteamwork.silverscreen.save.ProjectData</node>
+    <node x="2453.5" y="7080.5">org.legalteamwork.silverscreen.resources.NewFolderWindowTheme</node>
+    <node x="5325.5" y="7308.5">org.legalteamwork.silverscreen.resources.ResourceManagerTheme</node>
+    <node x="217.0" y="896.5">org.legalteamwork.silverscreen.resources.Dimens</node>
+    <node x="971.0" y="500.5">org.legalteamwork.silverscreen.command.CommandUndoSupport</node>
+    <node x="-103.5" y="6243.5">org.legalteamwork.silverscreen.re.VideoEditorTimeState</node>
+    <node x="934.0" y="5351.5">org.legalteamwork.silverscreen.re.VideoEditor</node>
+    <node x="2493.0" y="1896.0">org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer</node>
+    <node x="5263.0" y="7887.5">org.legalteamwork.silverscreen.command.menu.ProjectSettingsOpenCommand</node>
+    <node x="3174.0" y="4459.0">org.legalteamwork.silverscreen.re.AudioEditor</node>
+    <node x="5719.0" y="7876.5">org.legalteamwork.silverscreen.resources.ResourcePropertiesContextWindowTheme</node>
+    <node x="803.5" y="1387.5">org.legalteamwork.silverscreen.command.CommandManager</node>
+    <node x="564.0" y="6243.5">org.legalteamwork.silverscreen.command.edit.ResourceChange</node>
+    <node x="1404.0" y="1435.5">org.legalteamwork.silverscreen.command.resource.AddResourceCommand</node>
+    <node x="4052.5" y="5068.0">org.legalteamwork.silverscreen.save.EditorSettingsData</node>
+    <node x="3785.5" y="7296.0">org.legalteamwork.silverscreen.ps.ProjectSettingsWindow</node>
+    <node x="3374.5" y="2807.0">org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.DragTargetInfo</node>
+    <node x="-784.5" y="6099.5">org.legalteamwork.silverscreen.shortcut.Shortcut</node>
+    <node x="-801.5" y="6798.0">org.legalteamwork.silverscreen.shortcut.Shortcut.Companion</node>
+    <node x="333.0" y="2855.5">org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrackSerializer</node>
+    <node x="694.5" y="2807.5">org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.DragTargetInfo</node>
+    <node x="2618.5" y="28.0">org.legalteamwork.silverscreen.rm.resource.ResourceProperties</node>
+    <node x="2758.5" y="7736.5">org.legalteamwork.silverscreen.MainKt</node>
+    <node x="2662.0" y="7367.5">org.legalteamwork.silverscreen.render.ExportRenderer</node>
+    <node x="-58.5" y="2115.5">org.legalteamwork.silverscreen.re.Slider</node>
+    <node x="5123.5" y="5376.0">org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow</node>
+    <node x="3495.5" y="6732.5">org.legalteamwork.silverscreen.save.Project</node>
+    <node x="2207.5" y="1436.0">org.legalteamwork.silverscreen.rm.MenuButton</node>
+    <node x="4977.0" y="7887.5">org.legalteamwork.silverscreen.command.menu.ExportCommand</node>
+    <node x="1403.5" y="3715.5">org.legalteamwork.silverscreen.command.resource.RemoveResourceCommand</node>
+    <node x="1893.0" y="5400.5">org.legalteamwork.silverscreen.render.OnlineVideoRenderer.Companion</node>
+    <node x="852.0" y="3715.5">org.legalteamwork.silverscreen.command.resource.MoveResourceCommand</node>
+    <node x="3682.0" y="7127.5">org.legalteamwork.silverscreen.command.menu.OpenCommand</node>
+    <node x="2701.5" y="4484.0">org.legalteamwork.silverscreen.save.Resolution</node>
+    <node x="4494.0" y="7876.5">org.legalteamwork.silverscreen.resources.MoveToWindowTheme</node>
+    <node x="4008.0" y="6298.0">org.legalteamwork.silverscreen.save.EditorSettings</node>
+    <node x="6052.5" y="7748.0">org.legalteamwork.silverscreen.JVMPlatform</node>
+    <node x="2524.5" y="2880.5">org.legalteamwork.silverscreen.rm.resource.VideoResource.BuildException</node>
+    <node x="2027.5" y="440.0">org.legalteamwork.silverscreen.rm.resource.Resource</node>
+    <node x="-273.0" y="7344.0">org.legalteamwork.silverscreen.AppScope</node>
+    <node x="3430.0" y="7344.5">org.legalteamwork.silverscreen.resources.SourcePreviewItemTheme</node>
+    <node x="4623.0" y="6767.5">org.legalteamwork.silverscreen.command.menu.AutosaveEnableOrDisableCommand</node>
+    <node x="3547.0" y="3605.5">org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveAsCommand" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="-47.0" y="-56.5" />
+      <point x="5141.0" y="7332.0" />
+      <point x="5148.0" y="7332.0" />
+      <point x="5148.0" y="6952.0" />
+      <point x="3408.0" y="6952.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.DragTargetInfo" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="INNER_CLASS">
+      <point x="-66.75" y="105.0" />
+      <point x="3441.25" y="3052.0" />
+      <point x="3388.0" y="3052.0" />
+      <point x="3388.0" y="4372.0" />
+      <point x="3108.0" y="4372.0" />
+      <point x="3108.0" y="4912.0" />
+      <point x="3748.0" y="4912.0" />
+      <point x="3748.0" y="5312.0" />
+      <point x="3745.5" y="5312.0" />
+      <point x="-102.5" y="-93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" target="org.legalteamwork.silverscreen.save.Resolution.Companion" relationship="DEPENDENCY">
+      <point x="0.0" y="-116.0" />
+      <point x="3928.0" y="6932.0" />
+      <point x="2788.0" y="6932.0" />
+      <point x="2788.0" y="6132.0" />
+      <point x="2748.0" y="6132.0" />
+      <point x="2748.0" y="5492.0" />
+      <point x="2728.0" y="5492.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="REALIZATION">
+      <point x="-140.3125" y="-152.5" />
+      <point x="1767.6875" y="2712.0" />
+      <point x="1448.0" y="2712.0" />
+      <point x="1448.0" y="1672.0" />
+      <point x="1388.0" y="1672.0" />
+      <point x="1388.0" y="832.0" />
+      <point x="2148.0" y="832.0" />
+      <point x="1.4210854715202004E-14" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.Project" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="-113.25" y="-68.0" />
+      <point x="1534.75" y="5892.0" />
+      <point x="1448.0" y="5892.0" />
+      <point x="1448.0" y="5692.0" />
+      <point x="1148.0" y="5692.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.ExportRenderer" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.5" />
+      <point x="2748.0" y="7052.0" />
+      <point x="908.0" y="7052.0" />
+      <point x="908.0" y="6152.0" />
+      <point x="748.0" y="6152.0" />
+      <point x="748.0" y="5412.0" />
+      <point x="708.0" y="5412.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.ResourceOnTrackScope" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="TO_ONE">
+      <point x="-122.25" y="-68.5" />
+      <point x="245.75" y="5892.0" />
+      <point x="188.0" y="5892.0" />
+      <point x="188.0" y="5632.0" />
+      <point x="228.0" y="5632.0" />
+      <point x="228.0" y="1872.0" />
+      <point x="988.0" y="1872.0" />
+      <point x="0.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.Project" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="-113.25" y="-68.0" />
+      <point x="1534.75" y="5892.0" />
+      <point x="1448.0" y="5892.0" />
+      <point x="1448.0" y="5712.0" />
+      <point x="828.0" y="5712.0" />
+      <point x="828.0" y="5412.0" />
+      <point x="708.0" y="5412.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.ExportRenderer" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.5" />
+      <point x="2748.0" y="7052.0" />
+      <point x="1948.0" y="7052.0" />
+      <point x="1948.0" y="5652.0" />
+      <point x="1148.0" y="5652.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.CommandManager" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="TO_MANY">
+      <point x="92.25" y="-104.5" />
+      <point x="1080.25" y="1352.0" />
+      <point x="1088.0" y="1352.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrackSerializer" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="INNER_CLASS">
+      <point x="103.33333333333337" y="56.5" />
+      <point x="591.3333333333335" y="3572.0" />
+      <point x="708.0" y="3572.0" />
+      <point x="708.0" y="4352.0" />
+      <point x="868.0" y="4352.0" />
+      <point x="868.0" y="4432.0" />
+      <point x="1001.75" y="4432.0" />
+      <point x="153.75" y="-92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrackSerializer" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="CREATE">
+      <point x="0.0" y="56.5" />
+      <point x="488.0" y="3592.0" />
+      <point x="508.0" y="3592.0" />
+      <point x="0.0" y="-153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="7592.0" />
+      <point x="3328.0" y="7592.0" />
+      <point x="3328.0" y="7072.0" />
+      <point x="3408.0" y="7072.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperties" relationship="CREATE">
+      <point x="196.4375" y="-152.5" />
+      <point x="2104.4375" y="2732.0" />
+      <point x="2108.0" y="2732.0" />
+      <point x="2108.0" y="2412.0" />
+      <point x="2948.0" y="2412.0" />
+      <point x="2948.0" y="152.0" />
+      <point x="2872.75" y="152.0" />
+      <point x="84.75" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.RemoveResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="122.25" y="-56.5" />
+      <point x="1770.25" y="3692.0" />
+      <point x="1468.0" y="3692.0" />
+      <point x="1468.0" y="3512.0" />
+      <point x="2048.0" y="3512.0" />
+      <point x="2048.0" y="3092.0" />
+      <point x="2057.6666666666665" y="3092.0" />
+      <point x="149.66666666666669" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.AppScope" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-32.0" y="7312.0" />
+      <point x="-212.0" y="7312.0" />
+      <point x="-212.0" y="7292.0" />
+      <point x="-252.0" y="7292.0" />
+      <point x="-252.0" y="1872.0" />
+      <point x="988.0" y="1872.0" />
+      <point x="0.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="TO_ONE">
+      <point x="122.0" y="-56.5" />
+      <point x="1770.0" y="1372.0" />
+      <point x="1768.0" y="1372.0" />
+      <point x="1768.0" y="812.0" />
+      <point x="2099.8" y="812.0" />
+      <point x="-48.19999999999999" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource.Companion" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="CREATE">
+      <point x="0.0" y="31.5" />
+      <point x="2048.0" y="1712.0" />
+      <point x="1568.0" y="1712.0" />
+      <point x="1568.0" y="2612.0" />
+      <point x="1936.0625" y="2612.0" />
+      <point x="28.0625" y="-152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.Project" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_MANY">
+      <point x="113.25" y="-68.0" />
+      <point x="1761.25" y="5892.0" />
+      <point x="1768.0" y="5892.0" />
+      <point x="1768.0" y="5532.0" />
+      <point x="548.0" y="5532.0" />
+      <point x="548.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.DragTargetInfo" relationship="CREATE">
+      <point x="-80.5" y="-166.5" />
+      <point x="3627.5" y="3572.0" />
+      <point x="3568.0" y="3572.0" />
+      <point x="3568.0" y="3052.0" />
+      <point x="3574.75" y="3052.0" />
+      <point x="66.75" y="105.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_MANY">
+      <point x="-170.83333333333337" y="-93.0" />
+      <point x="3677.166666666667" y="5312.0" />
+      <point x="3668.0" y="5312.0" />
+      <point x="3668.0" y="4932.0" />
+      <point x="2348.0" y="4932.0" />
+      <point x="2348.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrackSerializer" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="INNER_CLASS">
+      <point x="-103.33333333333337" y="-57.0" />
+      <point x="4204.666666666667" y="5892.0" />
+      <point x="4208.0" y="5892.0" />
+      <point x="4208.0" y="5552.0" />
+      <point x="3848.0" y="5552.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ExportCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.5" />
+      <point x="5068.0" y="7592.0" />
+      <point x="5308.0" y="7592.0" />
+      <point x="5308.0" y="7272.0" />
+      <point x="5628.0" y="7272.0" />
+      <point x="5628.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" relationship="DEPENDENCY">
+      <point x="0.0" y="-93.0" />
+      <point x="3388.0" y="4432.0" />
+      <point x="3528.0" y="4432.0" />
+      <point x="3528.0" y="4412.0" />
+      <point x="3573.833333333333" y="4412.0" />
+      <point x="-134.16666666666666" y="166.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer" target="org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer" relationship="DEPENDENCY">
+      <point x="-195.0" y="-0.0" />
+      <point x="2248.0" y="1952.0" />
+      <point x="2248.0" y="2252.0" />
+      <point x="2590.5" y="2252.0" />
+      <point x="-97.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" target="org.legalteamwork.silverscreen.re.AudioEditor" relationship="INNER_CLASS">
+      <point x="-34.166666666666686" y="-93.0" />
+      <point x="3813.833333333333" y="4892.0" />
+      <point x="3281.0" y="4892.0" />
+      <point x="-107.0" y="93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="DEPENDENCY">
+      <point x="0.0" y="-93.0" />
+      <point x="3388.0" y="4432.0" />
+      <point x="3528.0" y="4432.0" />
+      <point x="3528.0" y="3552.0" />
+      <point x="3668.0" y="3552.0" />
+      <point x="3668.0" y="1412.0" />
+      <point x="2428.0" y="1412.0" />
+      <point x="2428.0" y="652.0" />
+      <point x="2244.4" y="652.0" />
+      <point x="96.40000000000003" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.render.ExportRenderer" relationship="CREATE">
+      <point x="-34.75" y="-55.5" />
+      <point x="2793.25" y="7712.0" />
+      <point x="-32.0" y="7712.0" />
+      <point x="-32.0" y="7672.0" />
+      <point x="2748.0" y="7672.0" />
+      <point x="0.0" y="44.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="TO_ONE">
+      <point x="74.0" y="153.5" />
+      <point x="582.0" y="4332.0" />
+      <point x="899.25" y="4332.0" />
+      <point x="51.25" y="-92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.SaveManager" target="org.legalteamwork.silverscreen.rm.Project" relationship="CREATE">
+      <point x="-41.25" y="-43.5" />
+      <point x="2006.75" y="6732.0" />
+      <point x="1648.0" y="6732.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.ResourceOnTrackScope" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_ONE">
+      <point x="-122.25" y="-68.5" />
+      <point x="245.75" y="5892.0" />
+      <point x="188.0" y="5892.0" />
+      <point x="188.0" y="5632.0" />
+      <point x="468.0" y="5632.0" />
+      <point x="468.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="CREATE">
+      <point x="72.6" y="140.0" />
+      <point x="2100.6" y="2392.0" />
+      <point x="2748.0" y="2392.0" />
+      <point x="2748.0" y="3532.0" />
+      <point x="2672.1666666666665" y="3532.0" />
+      <point x="184.16666666666666" y="-200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.DragTargetInfo" relationship="CREATE">
+      <point x="123.33333333333334" y="-153.5" />
+      <point x="631.3333333333333" y="3592.0" />
+      <point x="768.0" y="3592.0" />
+      <point x="768.0" y="3052.0" />
+      <point x="761.25" y="3052.0" />
+      <point x="-66.75" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="TO_MANY">
+      <point x="107.0" y="93.0" />
+      <point x="3495.0" y="4852.0" />
+      <point x="3828.0" y="4852.0" />
+      <point x="3828.0" y="5312.0" />
+      <point x="3882.166666666667" y="5312.0" />
+      <point x="34.16666666666666" y="-93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="DEPENDENCY">
+      <point x="-142.66666666666669" y="-80.5" />
+      <point x="1005.3333333333333" y="5312.0" />
+      <point x="1008.0" y="5312.0" />
+      <point x="1008.0" y="4732.0" />
+      <point x="2388.0" y="4732.0" />
+      <point x="2388.0" y="4452.0" />
+      <point x="2508.0" y="4452.0" />
+      <point x="2508.0" y="4012.0" />
+      <point x="2653.75" y="4012.0" />
+      <point x="165.75" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.LocalDateSerializer" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="INNER_CLASS">
+      <point x="-73.25" y="-56.5" />
+      <point x="1394.75" y="5032.0" />
+      <point x="1001.75" y="5032.0" />
+      <point x="153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.MoveResourceCommand" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="REALIZATION">
+      <point x="-118.0" y="-56.5" />
+      <point x="970.0" y="3692.0" />
+      <point x="988.0" y="3692.0" />
+      <point x="988.0" y="2732.0" />
+      <point x="748.0" y="2732.0" />
+      <point x="748.0" y="852.0" />
+      <point x="-332.0" y="852.0" />
+      <point x="-332.0" y="612.0" />
+      <point x="1010.0" y="612.0" />
+      <point x="-78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.ExportRenderer" target="org.legalteamwork.silverscreen.save.Resolution.Companion" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.5" />
+      <point x="2748.0" y="5492.0" />
+      <point x="2728.0" y="5492.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="7692.0" />
+      <point x="4548.0" y="7692.0" />
+      <point x="4548.0" y="7552.0" />
+      <point x="3928.0" y="7552.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.PlaybackManager" target="org.legalteamwork.silverscreen.re.Slider" relationship="DEPENDENCY">
+      <point x="74.75" y="-140.5" />
+      <point x="82.75" y="2732.0" />
+      <point x="48.0" y="2732.0" />
+      <point x="0.0" y="56.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ExportCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="60.66666666666667" y="-44.5" />
+      <point x="5128.666666666667" y="7612.0" />
+      <point x="5748.0" y="7612.0" />
+      <point x="5748.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.vp.VideoPanel" target="org.legalteamwork.silverscreen.PlaybackManager" relationship="CREATE">
+      <point x="-67.5" y="44.0" />
+      <point x="-99.5" y="1852.0" />
+      <point x="-92.0" y="1852.0" />
+      <point x="-92.0" y="2732.0" />
+      <point x="-66.75" y="2732.0" />
+      <point x="-74.75" y="-140.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow" target="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowData" relationship="TO_ONE">
+      <point x="0.0" y="-56.0" />
+      <point x="5328.0" y="4692.0" />
+      <point x="5368.0" y="4692.0" />
+      <point x="0.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.EditorSettings" target="org.legalteamwork.silverscreen.save.EditorSettingsData" relationship="CREATE">
+      <point x="40.0" y="-14.0" />
+      <point x="4128.0" y="5912.0" />
+      <point x="4208.0" y="5912.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrackSerializer" relationship="DEPENDENCY">
+      <point x="-123.33333333333337" y="-153.5" />
+      <point x="-103.33333333333334" y="56.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.MainWindowDragAndDropTarget" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="CREATE">
+      <point x="126.5" y="-44.0" />
+      <point x="1474.5" y="4472.0" />
+      <point x="1468.0" y="4472.0" />
+      <point x="1468.0" y="4252.0" />
+      <point x="2432.75" y="4252.0" />
+      <point x="-55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_MANY">
+      <point x="-79.5" y="-128.5" />
+      <point x="2488.5" y="6152.0" />
+      <point x="2308.0" y="6152.0" />
+      <point x="2308.0" y="5672.0" />
+      <point x="588.0" y="5672.0" />
+      <point x="588.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.Resource" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="DEPENDENCY">
+      <point x="-120.5" y="-0.0" />
+      <point x="1868.0" y="532.0" />
+      <point x="1868.0" y="792.0" />
+      <point x="2051.6" y="792.0" />
+      <point x="-96.4" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.NewCommand" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="-41.25" y="-44.5" />
+      <point x="5186.75" y="7712.0" />
+      <point x="4548.0" y="7712.0" />
+      <point x="4548.0" y="7572.0" />
+      <point x="3408.0" y="7572.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" relationship="CREATE">
+      <point x="-117.75" y="-31.5" />
+      <point x="1250.25" y="6752.0" />
+      <point x="1248.0" y="6752.0" />
+      <point x="0.0" y="56.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.RemoveResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="TO_ONE">
+      <point x="122.25" y="-56.5" />
+      <point x="1770.25" y="3692.0" />
+      <point x="1468.0" y="3692.0" />
+      <point x="1468.0" y="3452.0" />
+      <point x="1268.0" y="3452.0" />
+      <point x="1268.0" y="2892.0" />
+      <point x="1248.0" y="2892.0" />
+      <point x="1248.0" y="1852.0" />
+      <point x="1228.0" y="1852.0" />
+      <point x="1228.0" y="1372.0" />
+      <point x="1768.0" y="1372.0" />
+      <point x="1768.0" y="812.0" />
+      <point x="2099.8" y="812.0" />
+      <point x="-48.19999999999999" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="117.75" y="-31.5" />
+      <point x="1485.75" y="6752.0" />
+      <point x="2108.0" y="6752.0" />
+      <point x="2108.0" y="6432.0" />
+      <point x="948.0" y="6432.0" />
+      <point x="948.0" y="5792.0" />
+      <point x="788.0" y="5792.0" />
+      <point x="788.0" y="5412.0" />
+      <point x="708.0" y="5412.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="-181.5" y="-0.0" />
+      <point x="1628.0" y="2172.0" />
+      <point x="1628.0" y="2532.0" />
+      <point x="1882.8000000000002" y="2532.0" />
+      <point x="-145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperty" relationship="CREATE">
+      <point x="196.4375" y="-152.5" />
+      <point x="2104.4375" y="2732.0" />
+      <point x="2108.0" y="2732.0" />
+      <point x="2108.0" y="2412.0" />
+      <point x="2988.0" y="2412.0" />
+      <point x="2988.0" y="-68.0" />
+      <point x="2983.5" y="-68.0" />
+      <point x="75.5" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="79.5" y="-128.5" />
+      <point x="2647.5" y="6152.0" />
+      <point x="2828.0" y="6152.0" />
+      <point x="2828.0" y="6132.0" />
+      <point x="2948.0" y="6132.0" />
+      <point x="2948.0" y="4872.0" />
+      <point x="3028.0" y="4872.0" />
+      <point x="3028.0" y="3832.0" />
+      <point x="3308.0" y="3832.0" />
+      <point x="3308.0" y="2812.0" />
+      <point x="2788.0" y="2812.0" />
+      <point x="2788.0" y="2332.0" />
+      <point x="2173.2" y="2332.0" />
+      <point x="145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId" target="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId" relationship="TO_ONE">
+      <point x="-152.0" y="-0.0" />
+      <point x="4668.0" y="4552.0" />
+      <point x="4668.0" y="4812.0" />
+      <point x="4932.0" y="4812.0" />
+      <point x="-76.0" y="68.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.ResourceProperties" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperty" relationship="TO_MANY">
+      <point x="0.0" y="-44.0" />
+      <point x="2788.0" y="-8.0" />
+      <point x="2832.5" y="-8.0" />
+      <point x="-75.5" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="CREATE">
+      <point x="-34.75" y="-55.5" />
+      <point x="2793.25" y="7712.0" />
+      <point x="-32.0" y="7712.0" />
+      <point x="-32.0" y="7692.0" />
+      <point x="-292.0" y="7692.0" />
+      <point x="-292.0" y="2072.0" />
+      <point x="308.0" y="2072.0" />
+      <point x="308.0" y="1632.0" />
+      <point x="865.0" y="1632.0" />
+      <point x="-123.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Project" target="org.legalteamwork.silverscreen.save.EditorSettings" relationship="DEPENDENCY">
+      <point x="54.375" y="-79.5" />
+      <point x="3622.375" y="6712.0" />
+      <point x="4088.0" y="6712.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.MoveResourceCommand" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="118.0" y="-56.5" />
+      <point x="1206.0" y="3692.0" />
+      <point x="1068.0" y="3692.0" />
+      <point x="1068.0" y="3672.0" />
+      <point x="1028.0" y="3672.0" />
+      <point x="1028.0" y="2752.0" />
+      <point x="1148.0" y="2752.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindow" target="org.legalteamwork.silverscreen.rm.window.source.ctxwindow.ContextWindowId" relationship="TO_ONE">
+      <point x="0.0" y="-56.0" />
+      <point x="5328.0" y="4692.0" />
+      <point x="5084.0" y="4692.0" />
+      <point x="76.0" y="68.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.LocalDateSerializer" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.DragTargetInfo" relationship="CREATE">
+      <point x="73.25" y="-56.5" />
+      <point x="1541.25" y="4752.0" />
+      <point x="1068.0" y="4752.0" />
+      <point x="1068.0" y="4272.0" />
+      <point x="788.0" y="4272.0" />
+      <point x="788.0" y="3592.0" />
+      <point x="768.0" y="3592.0" />
+      <point x="768.0" y="3052.0" />
+      <point x="761.25" y="3052.0" />
+      <point x="-66.75" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ImportCommand" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="-134.33333333333331" y="-44.5" />
+      <point x="2873.6666666666665" y="2832.0" />
+      <point x="2868.0" y="2832.0" />
+      <point x="2868.0" y="2672.0" />
+      <point x="1148.0" y="2672.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.resource.FolderResource.Companion" relationship="DEPENDENCY">
+      <point x="136.125" y="-140.0" />
+      <point x="2164.125" y="2012.0" />
+      <point x="2168.0" y="2012.0" />
+      <point x="2168.0" y="1552.0" />
+      <point x="2124.6666666666665" y="1552.0" />
+      <point x="76.66666666666666" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.shortcut.Shortcut.Companion" target="org.legalteamwork.silverscreen.shortcut.Shortcut" relationship="INNER_CLASS">
+      <point x="0.0" y="-14.0" />
+      <point x="-732.0" y="6592.0" />
+      <point x="-552.0" y="6592.0" />
+      <point x="0.0" y="212.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ProjectSettingsOpenCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="-72.5" y="-44.5" />
+      <point x="5335.5" y="7692.0" />
+      <point x="5068.0" y="7692.0" />
+      <point x="5068.0" y="6972.0" />
+      <point x="5588.0" y="6972.0" />
+      <point x="5588.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.OpenCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="-43.0" y="-44.5" />
+      <point x="3725.0" y="7092.0" />
+      <point x="2908.0" y="7092.0" />
+      <point x="2908.0" y="4852.0" />
+      <point x="2988.0" y="4852.0" />
+      <point x="2988.0" y="3812.0" />
+      <point x="3268.0" y="3812.0" />
+      <point x="3268.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.resources.Dimens" relationship="DEPENDENCY">
+      <point x="136.125" y="-140.0" />
+      <point x="2164.125" y="2012.0" />
+      <point x="2168.0" y="2012.0" />
+      <point x="2168.0" y="1832.0" />
+      <point x="348.0" y="1832.0" />
+      <point x="0.0" y="235.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.save.EditorSettings" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="7592.0" />
+      <point x="4088.0" y="7592.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.ResourceChange" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="82.0" y="-68.5" />
+      <point x="810.0" y="6212.0" />
+      <point x="808.0" y="6212.0" />
+      <point x="808.0" y="6172.0" />
+      <point x="1148.0" y="6172.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.NewCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="41.25" y="-44.5" />
+      <point x="5269.25" y="7672.0" />
+      <point x="5828.0" y="7672.0" />
+      <point x="5828.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.AutosaveEnableOrDisableCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="82.5" y="-44.5" />
+      <point x="4870.5" y="6732.0" />
+      <point x="5548.0" y="6732.0" />
+      <point x="5548.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Project" target="org.legalteamwork.silverscreen.save.SaveManager" relationship="GENERALIZATION">
+      <point x="18.125" y="-79.5" />
+      <point x="3586.125" y="6692.0" />
+      <point x="3868.0" y="6692.0" />
+      <point x="3868.0" y="5572.0" />
+      <point x="3619.333333333333" y="5572.0" />
+      <point x="71.33333333333334" y="164.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="36.83333333333334" y="-200.5" />
+      <point x="2524.8333333333335" y="3532.0" />
+      <point x="2528.0" y="3532.0" />
+      <point x="2528.0" y="3012.0" />
+      <point x="2708.0" y="3012.0" />
+      <point x="2708.0" y="2812.0" />
+      <point x="2788.0" y="2812.0" />
+      <point x="2788.0" y="2332.0" />
+      <point x="2173.2" y="2332.0" />
+      <point x="145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="CREATE">
+      <point x="-221.0" y="-0.0" />
+      <point x="2008.0" y="3772.0" />
+      <point x="2008.0" y="4232.0" />
+      <point x="2322.25" y="4232.0" />
+      <point x="-165.75" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditorTimeState" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="-65.75" y="-68.5" />
+      <point x="-37.75" y="5872.0" />
+      <point x="428.0" y="5872.0" />
+      <point x="428.0" y="5592.0" />
+      <point x="628.0" y="5592.0" />
+      <point x="628.0" y="5412.0" />
+      <point x="708.0" y="5412.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.MainWindowDragAndDropTarget" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="-126.5" y="-44.0" />
+      <point x="1221.5" y="4472.0" />
+      <point x="1348.0" y="4472.0" />
+      <point x="1348.0" y="4452.0" />
+      <point x="1388.0" y="4452.0" />
+      <point x="1388.0" y="3652.0" />
+      <point x="1148.0" y="3652.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.Slider" target="org.legalteamwork.silverscreen.resources.Dimens" relationship="DEPENDENCY">
+      <point x="0.0" y="-56.5" />
+      <point x="48.0" y="2092.0" />
+      <point x="28.0" y="2092.0" />
+      <point x="28.0" y="1812.0" />
+      <point x="348.0" y="1812.0" />
+      <point x="0.0" y="235.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="INNER_CLASS">
+      <point x="148.0" y="153.5" />
+      <point x="656.0" y="4352.0" />
+      <point x="868.0" y="4352.0" />
+      <point x="868.0" y="4432.0" />
+      <point x="1001.75" y="4432.0" />
+      <point x="153.75" y="-92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.AppScope" target="org.legalteamwork.silverscreen.shortcut.ShortcutManager" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-32.0" y="7312.0" />
+      <point x="-212.0" y="7312.0" />
+      <point x="-212.0" y="7292.0" />
+      <point x="-413.75" y="7292.0" />
+      <point x="98.25" y="43.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource.BuildException" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="INNER_CLASS">
+      <point x="41.75" y="31.5" />
+      <point x="2649.75" y="3532.0" />
+      <point x="2598.5" y="3532.0" />
+      <point x="110.5" y="-200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="REALIZATION">
+      <point x="-110.5" y="-200.5" />
+      <point x="2377.5" y="3372.0" />
+      <point x="1388.0" y="3372.0" />
+      <point x="1388.0" y="2592.0" />
+      <point x="1368.0" y="2592.0" />
+      <point x="1368.0" y="1672.0" />
+      <point x="1348.0" y="1672.0" />
+      <point x="1348.0" y="832.0" />
+      <point x="2148.0" y="832.0" />
+      <point x="1.4210854715202004E-14" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="DEPENDENCY">
+      <point x="117.75" y="-31.5" />
+      <point x="1485.75" y="6752.0" />
+      <point x="2108.0" y="6752.0" />
+      <point x="2108.0" y="5592.0" />
+      <point x="1688.0" y="5592.0" />
+      <point x="1688.0" y="5412.0" />
+      <point x="1668.0" y="5412.0" />
+      <point x="1668.0" y="4292.0" />
+      <point x="1948.0" y="4292.0" />
+      <point x="1948.0" y="3392.0" />
+      <point x="1348.0" y="3392.0" />
+      <point x="1348.0" y="2652.0" />
+      <point x="1328.0" y="2652.0" />
+      <point x="1328.0" y="1672.0" />
+      <point x="1308.0" y="1672.0" />
+      <point x="1308.0" y="1412.0" />
+      <point x="2428.0" y="1412.0" />
+      <point x="2428.0" y="652.0" />
+      <point x="2244.4" y="652.0" />
+      <point x="96.40000000000003" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.PlaybackManager.Companion" target="org.legalteamwork.silverscreen.PlaybackManager" relationship="INNER_CLASS">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="140.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="REALIZATION">
+      <point x="-181.125" y="-68.0" />
+      <point x="-133.125" y="6712.0" />
+      <point x="-172.0" y="6712.0" />
+      <point x="-172.0" y="1852.0" />
+      <point x="-332.0" y="1852.0" />
+      <point x="-332.0" y="612.0" />
+      <point x="1010.0" y="612.0" />
+      <point x="-78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_ONE">
+      <point x="-60.375" y="-68.0" />
+      <point x="-12.375" y="6712.0" />
+      <point x="-12.0" y="6712.0" />
+      <point x="-12.0" y="6412.0" />
+      <point x="-132.0" y="6412.0" />
+      <point x="-132.0" y="5612.0" />
+      <point x="348.0" y="5612.0" />
+      <point x="348.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperty" relationship="CREATE">
+      <point x="-36.833333333333314" y="-200.5" />
+      <point x="2451.1666666666665" y="3532.0" />
+      <point x="2448.0" y="3532.0" />
+      <point x="2448.0" y="2992.0" />
+      <point x="2148.0" y="2992.0" />
+      <point x="2148.0" y="2432.0" />
+      <point x="3028.0" y="2432.0" />
+      <point x="3028.0" y="52.0" />
+      <point x="2988.0" y="52.0" />
+      <point x="2988.0" y="-68.0" />
+      <point x="2983.5" y="-68.0" />
+      <point x="75.5" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.MenuButton" relationship="TO_MANY">
+      <point x="45.375" y="-140.0" />
+      <point x="2073.375" y="1812.0" />
+      <point x="2358.25" y="1812.0" />
+      <point x="50.25" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="-122.0" y="56.5" />
+      <point x="1526.0" y="1572.0" />
+      <point x="1528.0" y="1572.0" />
+      <point x="1528.0" y="2012.0" />
+      <point x="1408.0" y="2012.0" />
+      <point x="1408.0" y="2552.0" />
+      <point x="1708.0" y="2552.0" />
+      <point x="1708.0" y="2732.0" />
+      <point x="1711.5625" y="2732.0" />
+      <point x="-196.4375" y="-152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.NewCommand" target="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" relationship="DEPENDENCY">
+      <point x="-41.25" y="-44.5" />
+      <point x="5186.75" y="7712.0" />
+      <point x="4548.0" y="7712.0" />
+      <point x="4548.0" y="7552.0" />
+      <point x="3928.0" y="7552.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrackSerializer" relationship="DEPENDENCY">
+      <point x="80.49999999999997" y="166.5" />
+      <point x="3788.5" y="4472.0" />
+      <point x="4328.0" y="4472.0" />
+      <point x="4328.0" y="5052.0" />
+      <point x="4388.0" y="5052.0" />
+      <point x="4388.0" y="5912.0" />
+      <point x="4308.0" y="5912.0" />
+      <point x="0.0" y="-57.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveAsCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="-47.0" y="-56.5" />
+      <point x="5141.0" y="7332.0" />
+      <point x="5148.0" y="7332.0" />
+      <point x="5148.0" y="6992.0" />
+      <point x="5668.0" y="6992.0" />
+      <point x="5668.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.Project" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_MANY">
+      <point x="113.25" y="-68.0" />
+      <point x="1761.25" y="5892.0" />
+      <point x="1768.0" y="5892.0" />
+      <point x="1768.0" y="5532.0" />
+      <point x="1848.0" y="5532.0" />
+      <point x="1848.0" y="4752.0" />
+      <point x="1828.0" y="4752.0" />
+      <point x="1828.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="DEPENDENCY">
+      <point x="0.0" y="-56.0" />
+      <point x="2688.0" y="1412.0" />
+      <point x="2428.0" y="1412.0" />
+      <point x="2428.0" y="652.0" />
+      <point x="2244.4" y="652.0" />
+      <point x="96.40000000000003" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.DragTargetInfo" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="INNER_CLASS">
+      <point x="66.75" y="104.5" />
+      <point x="894.75" y="3692.0" />
+      <point x="828.0" y="3692.0" />
+      <point x="828.0" y="4352.0" />
+      <point x="868.0" y="4352.0" />
+      <point x="868.0" y="4432.0" />
+      <point x="1001.75" y="4432.0" />
+      <point x="153.75" y="-92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.LocalDateSerializer" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.DragTargetInfo" relationship="CREATE">
+      <point x="-73.25" y="-57.0" />
+      <point x="3614.75" y="6212.0" />
+      <point x="3028.0" y="6212.0" />
+      <point x="3028.0" y="5292.0" />
+      <point x="3148.0" y="5292.0" />
+      <point x="3148.0" y="4412.0" />
+      <point x="3428.0" y="4412.0" />
+      <point x="3428.0" y="3572.0" />
+      <point x="3568.0" y="3572.0" />
+      <point x="3568.0" y="3052.0" />
+      <point x="3574.75" y="3052.0" />
+      <point x="66.75" y="105.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.SaveManager" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="-71.33333333333334" y="164.5" />
+      <point x="3476.666666666667" y="6292.0" />
+      <point x="3468.0" y="6292.0" />
+      <point x="3468.0" y="6672.0" />
+      <point x="3549.875" y="6672.0" />
+      <point x="-18.125" y="-79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.AppScope" relationship="CREATE">
+      <point x="-34.75" y="-55.5" />
+      <point x="2793.25" y="7712.0" />
+      <point x="-32.0" y="7712.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.ResourceFrame" relationship="CREATE">
+      <point x="-36.833333333333314" y="-200.5" />
+      <point x="2451.1666666666665" y="3532.0" />
+      <point x="2448.0" y="3532.0" />
+      <point x="2448.0" y="2992.0" />
+      <point x="2348.0" y="2992.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="-224.5" y="-76.25" />
+      <point x="1408.0" y="2835.75" />
+      <point x="1408.0" y="3352.0" />
+      <point x="1908.0" y="3352.0" />
+      <point x="0.0" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="DEPENDENCY">
+      <point x="0.0" y="-93.0" />
+      <point x="3388.0" y="4432.0" />
+      <point x="3528.0" y="4432.0" />
+      <point x="3528.0" y="4392.0" />
+      <point x="2508.0" y="4392.0" />
+      <point x="2508.0" y="4012.0" />
+      <point x="2653.75" y="4012.0" />
+      <point x="165.75" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.ResourceChange" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="82.0" y="-68.5" />
+      <point x="810.0" y="6212.0" />
+      <point x="808.0" y="6212.0" />
+      <point x="808.0" y="6192.0" />
+      <point x="668.0" y="6192.0" />
+      <point x="668.0" y="5412.0" />
+      <point x="708.0" y="5412.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.LocalDateSerializer" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="INNER_CLASS">
+      <point x="73.25" y="-57.0" />
+      <point x="3761.25" y="5892.0" />
+      <point x="4208.0" y="5892.0" />
+      <point x="4208.0" y="5552.0" />
+      <point x="3848.0" y="5552.0" />
+      <point x="0.0" y="93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.RemoveResourceCommand" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="REALIZATION">
+      <point x="-122.25" y="-56.5" />
+      <point x="1525.75" y="3432.0" />
+      <point x="1188.0" y="3432.0" />
+      <point x="1188.0" y="852.0" />
+      <point x="-332.0" y="852.0" />
+      <point x="-332.0" y="612.0" />
+      <point x="1010.0" y="612.0" />
+      <point x="-78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" relationship="CREATE">
+      <point x="-45.375" y="-140.0" />
+      <point x="1982.625" y="2012.0" />
+      <point x="1988.0" y="2012.0" />
+      <point x="1988.0" y="1812.0" />
+      <point x="1768.0" y="1812.0" />
+      <point x="1768.0" y="1572.0" />
+      <point x="1770.0" y="1572.0" />
+      <point x="122.0" y="56.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ImportCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="134.33333333333331" y="-44.5" />
+      <point x="3142.3333333333335" y="2792.0" />
+      <point x="3228.0" y="2792.0" />
+      <point x="3228.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_MANY">
+      <point x="-79.5" y="-128.5" />
+      <point x="2488.5" y="6152.0" />
+      <point x="2308.0" y="6152.0" />
+      <point x="2308.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.serializers.SnapshotResourceListSerializer" relationship="DEPENDENCY">
+      <point x="140.3125" y="-152.5" />
+      <point x="2048.3125" y="2732.0" />
+      <point x="2068.0" y="2732.0" />
+      <point x="2068.0" y="2372.0" />
+      <point x="2785.5" y="2372.0" />
+      <point x="97.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.SaveManager" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="DEPENDENCY">
+      <point x="41.25" y="-43.5" />
+      <point x="2089.25" y="6732.0" />
+      <point x="2348.0" y="6732.0" />
+      <point x="2348.0" y="6112.0" />
+      <point x="2468.0" y="6112.0" />
+      <point x="2468.0" y="4452.0" />
+      <point x="2508.0" y="4452.0" />
+      <point x="2508.0" y="4012.0" />
+      <point x="2653.75" y="4012.0" />
+      <point x="165.75" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="42.0" y="-56.5" />
+      <point x="4650.0" y="7332.0" />
+      <point x="4608.0" y="7332.0" />
+      <point x="4608.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.CommandManagerTest" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="CREATE">
+      <point x="0.0" y="-44.0" />
+      <point x="368.0" y="2072.0" />
+      <point x="308.0" y="2072.0" />
+      <point x="308.0" y="1632.0" />
+      <point x="865.0" y="1632.0" />
+      <point x="-123.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer" relationship="DEPENDENCY">
+      <point x="36.83333333333334" y="-200.5" />
+      <point x="2524.8333333333335" y="3532.0" />
+      <point x="2528.0" y="3532.0" />
+      <point x="2528.0" y="3012.0" />
+      <point x="2508.0" y="3012.0" />
+      <point x="2508.0" y="2472.0" />
+      <point x="3108.0" y="2472.0" />
+      <point x="3108.0" y="372.0" />
+      <point x="2908.0" y="372.0" />
+      <point x="2908.0" y="172.0" />
+      <point x="2492.5" y="172.0" />
+      <point x="84.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="CREATE">
+      <point x="-224.5" y="76.25" />
+      <point x="1428.0" y="2988.25" />
+      <point x="1428.0" y="3332.0" />
+      <point x="1758.3333333333335" y="3332.0" />
+      <point x="-149.66666666666669" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.command.edit.ResourceChange" relationship="TO_MANY">
+      <point x="-60.375" y="-68.0" />
+      <point x="-12.375" y="6712.0" />
+      <point x="-12.0" y="6712.0" />
+      <point x="-12.0" y="6412.0" />
+      <point x="646.0" y="6412.0" />
+      <point x="-82.0" y="68.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="-42.0" y="-56.5" />
+      <point x="4566.0" y="7332.0" />
+      <point x="4568.0" y="7332.0" />
+      <point x="4568.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.SaveManager" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="41.25" y="-43.5" />
+      <point x="2089.25" y="6732.0" />
+      <point x="2348.0" y="6732.0" />
+      <point x="2348.0" y="6452.0" />
+      <point x="2028.0" y="6452.0" />
+      <point x="2028.0" y="5652.0" />
+      <point x="1148.0" y="5652.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="TO_MANY">
+      <point x="0.0" y="-80.5" />
+      <point x="1148.0" y="5292.0" />
+      <point x="948.0" y="5292.0" />
+      <point x="948.0" y="4672.0" />
+      <point x="796.75" y="4672.0" />
+      <point x="-51.25" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ProjectSettingsOpenCommand" target="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" relationship="DEPENDENCY">
+      <point x="-72.5" y="-44.5" />
+      <point x="5335.5" y="7692.0" />
+      <point x="5068.0" y="7692.0" />
+      <point x="5068.0" y="7612.0" />
+      <point x="4548.0" y="7612.0" />
+      <point x="4548.0" y="7552.0" />
+      <point x="3928.0" y="7552.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.shortcut.ShortcutManager" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="7592.0" />
+      <point x="-612.0" y="7592.0" />
+      <point x="-612.0" y="7392.0" />
+      <point x="-610.25" y="7392.0" />
+      <point x="-98.25" y="43.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="0.0" y="140.0" />
+      <point x="2028.0" y="2552.0" />
+      <point x="1708.0" y="2552.0" />
+      <point x="1708.0" y="2732.0" />
+      <point x="1711.5625" y="2732.0" />
+      <point x="-196.4375" y="-152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="-184.16666666666663" y="-200.5" />
+      <point x="2303.8333333333335" y="3532.0" />
+      <point x="2048.0" y="3532.0" />
+      <point x="2048.0" y="3092.0" />
+      <point x="2057.6666666666665" y="3092.0" />
+      <point x="149.66666666666669" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" target="org.legalteamwork.silverscreen.resources.EditingPanelTheme" relationship="DEPENDENCY">
+      <point x="170.83333333333334" y="-93.0" />
+      <point x="4018.833333333333" y="5012.0" />
+      <point x="4448.0" y="5012.0" />
+      <point x="4448.0" y="3572.0" />
+      <point x="4268.0" y="3572.0" />
+      <point x="0.0" y="211.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="-79.5" y="-128.5" />
+      <point x="2488.5" y="6152.0" />
+      <point x="2308.0" y="6152.0" />
+      <point x="2308.0" y="5672.0" />
+      <point x="1728.0" y="5672.0" />
+      <point x="1728.0" y="5412.0" />
+      <point x="1708.0" y="5412.0" />
+      <point x="1708.0" y="4332.0" />
+      <point x="1988.0" y="4332.0" />
+      <point x="1988.0" y="3532.0" />
+      <point x="2048.0" y="3532.0" />
+      <point x="2048.0" y="3092.0" />
+      <point x="2057.6666666666665" y="3092.0" />
+      <point x="149.66666666666669" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_MANY">
+      <point x="-51.25" y="-92.5" />
+      <point x="796.75" y="4432.0" />
+      <point x="788.0" y="4432.0" />
+      <point x="788.0" y="4412.0" />
+      <point x="368.0" y="4412.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" relationship="TO_MANY">
+      <point x="-170.83333333333337" y="-93.0" />
+      <point x="3677.166666666667" y="5312.0" />
+      <point x="3668.0" y="5312.0" />
+      <point x="3668.0" y="4532.0" />
+      <point x="3681.166666666667" y="4532.0" />
+      <point x="-26.833333333333343" y="166.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.AppScope" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-32.0" y="7312.0" />
+      <point x="-212.0" y="7312.0" />
+      <point x="-212.0" y="2752.0" />
+      <point x="1148.0" y="2752.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.OnlineVideoRenderer.Companion" target="org.legalteamwork.silverscreen.render.OnlineVideoRenderer" relationship="INNER_CLASS">
+      <point x="0.0" y="-31.5" />
+      <point x="0.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="DEPENDENCY">
+      <point x="136.125" y="-140.0" />
+      <point x="2164.125" y="2012.0" />
+      <point x="2168.0" y="2012.0" />
+      <point x="2168.0" y="1632.0" />
+      <point x="1111.0" y="1632.0" />
+      <point x="123.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.EditorSettingsData" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateBooleanSerializer" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.0" />
+      <point x="4208.0" y="5032.0" />
+      <point x="4215.75" y="5032.0" />
+      <point x="87.75" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.command.edit.ResourceChange" relationship="CREATE">
+      <point x="60.375" y="-68.0" />
+      <point x="108.375" y="6432.0" />
+      <point x="810.0" y="6432.0" />
+      <point x="82.0" y="68.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.ResourceOnTrackScope" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="DEPENDENCY">
+      <point x="122.25" y="-68.5" />
+      <point x="490.25" y="5892.0" />
+      <point x="588.0" y="5892.0" />
+      <point x="588.0" y="5792.0" />
+      <point x="708.0" y="5792.0" />
+      <point x="708.0" y="4672.0" />
+      <point x="694.25" y="4672.0" />
+      <point x="-153.75" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.ExportRenderer" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="0.0" y="-44.5" />
+      <point x="2748.0" y="7012.0" />
+      <point x="3408.0" y="7012.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="DEPENDENCY">
+      <point x="-142.66666666666669" y="-80.5" />
+      <point x="1005.3333333333333" y="5312.0" />
+      <point x="1008.0" y="5312.0" />
+      <point x="1008.0" y="4732.0" />
+      <point x="628.0" y="4732.0" />
+      <point x="628.0" y="4512.0" />
+      <point x="434.0" y="4512.0" />
+      <point x="-74.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" relationship="CREATE">
+      <point x="102.5" y="-93.0" />
+      <point x="3950.5" y="4992.0" />
+      <point x="4368.0" y="4992.0" />
+      <point x="4368.0" y="3972.0" />
+      <point x="3842.166666666667" y="3972.0" />
+      <point x="134.16666666666663" y="166.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="TO_ONE">
+      <point x="0.0" y="-56.5" />
+      <point x="1248.0" y="6232.0" />
+      <point x="968.0" y="6232.0" />
+      <point x="968.0" y="5552.0" />
+      <point x="908.0" y="5552.0" />
+      <point x="908.0" y="5292.0" />
+      <point x="948.0" y="5292.0" />
+      <point x="948.0" y="4672.0" />
+      <point x="796.75" y="4672.0" />
+      <point x="-51.25" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ExportCommand" target="org.legalteamwork.silverscreen.render.ExportRenderer" relationship="CREATE">
+      <point x="-60.666666666666686" y="-44.5" />
+      <point x="5007.333333333333" y="7632.0" />
+      <point x="2748.0" y="7632.0" />
+      <point x="0.0" y="44.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditorTimeState" target="org.legalteamwork.silverscreen.resources.Dimens" relationship="DEPENDENCY">
+      <point x="-65.75" y="-68.5" />
+      <point x="-37.75" y="5872.0" />
+      <point x="428.0" y="5872.0" />
+      <point x="428.0" y="5592.0" />
+      <point x="188.0" y="5592.0" />
+      <point x="188.0" y="1852.0" />
+      <point x="348.0" y="1852.0" />
+      <point x="0.0" y="235.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.ResourceOnTrackScope" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="-122.25" y="-68.5" />
+      <point x="245.75" y="5892.0" />
+      <point x="188.0" y="5892.0" />
+      <point x="188.0" y="5632.0" />
+      <point x="268.0" y="5632.0" />
+      <point x="268.0" y="2752.0" />
+      <point x="1148.0" y="2752.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.Resource" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="DEPENDENCY">
+      <point x="48.20000000000002" y="92.0" />
+      <point x="2196.2" y="1392.0" />
+      <point x="2188.0" y="1392.0" />
+      <point x="2188.0" y="1732.0" />
+      <point x="1608.0" y="1732.0" />
+      <point x="1608.0" y="2592.0" />
+      <point x="1992.1875" y="2592.0" />
+      <point x="84.1875" y="-152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Resolution" target="org.legalteamwork.silverscreen.save.Resolution" relationship="TO_MANY">
+      <point x="-106.5" y="34.0" />
+      <point x="2548.0" y="4586.0" />
+      <point x="2548.0" y="4772.0" />
+      <point x="2737.0" y="4772.0" />
+      <point x="-71.0" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.VideoResource.BuildException" relationship="CREATE">
+      <point x="-36.833333333333314" y="-200.5" />
+      <point x="2451.1666666666665" y="3532.0" />
+      <point x="2448.0" y="3532.0" />
+      <point x="2448.0" y="2992.0" />
+      <point x="2566.25" y="2992.0" />
+      <point x="-41.75" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="INNER_CLASS">
+      <point x="51.25" y="92.5" />
+      <point x="899.25" y="5272.0" />
+      <point x="1290.6666666666665" y="5272.0" />
+      <point x="142.66666666666669" y="-80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="CREATE">
+      <point x="-153.75" y="-92.5" />
+      <point x="694.25" y="4392.0" />
+      <point x="508.0" y="4392.0" />
+      <point x="0.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="-122.0" y="56.5" />
+      <point x="1526.0" y="1572.0" />
+      <point x="1528.0" y="1572.0" />
+      <point x="1528.0" y="2012.0" />
+      <point x="1891.875" y="2012.0" />
+      <point x="-136.125" y="-140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="INNER_CLASS">
+      <point x="-80.5" y="166.5" />
+      <point x="3627.5" y="4532.0" />
+      <point x="3628.0" y="4532.0" />
+      <point x="3628.0" y="4912.0" />
+      <point x="3748.0" y="4912.0" />
+      <point x="3748.0" y="5312.0" />
+      <point x="3745.5" y="5312.0" />
+      <point x="-102.5" y="-93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.rm.resource.FolderResource.Companion" relationship="DEPENDENCY">
+      <point x="79.5" y="-128.5" />
+      <point x="2647.5" y="6152.0" />
+      <point x="2828.0" y="6152.0" />
+      <point x="2828.0" y="6132.0" />
+      <point x="2988.0" y="6132.0" />
+      <point x="2988.0" y="4912.0" />
+      <point x="3068.0" y="4912.0" />
+      <point x="3068.0" y="3852.0" />
+      <point x="3348.0" y="3852.0" />
+      <point x="3348.0" y="1772.0" />
+      <point x="2168.0" y="1772.0" />
+      <point x="2168.0" y="1552.0" />
+      <point x="2124.6666666666665" y="1552.0" />
+      <point x="76.66666666666666" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.shortcut.ShortcutManager" target="org.legalteamwork.silverscreen.shortcut.Shortcut" relationship="TO_MANY">
+      <point x="0.0" y="-43.5" />
+      <point x="-512.0" y="6572.0" />
+      <point x="-397.0" y="6572.0" />
+      <point x="155.0" y="212.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.NewCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="-41.25" y="-44.5" />
+      <point x="5186.75" y="7712.0" />
+      <point x="4548.0" y="7712.0" />
+      <point x="4548.0" y="7572.0" />
+      <point x="5788.0" y="7572.0" />
+      <point x="5788.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Project" target="org.legalteamwork.silverscreen.save.ProjectData" relationship="CREATE">
+      <point x="-54.375" y="-79.5" />
+      <point x="3513.625" y="6712.0" />
+      <point x="3508.0" y="6712.0" />
+      <point x="3508.0" y="6692.0" />
+      <point x="2568.0" y="6692.0" />
+      <point x="0.0" y="128.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="DEPENDENCY">
+      <point x="117.75" y="-31.5" />
+      <point x="1485.75" y="6752.0" />
+      <point x="2108.0" y="6752.0" />
+      <point x="2108.0" y="6432.0" />
+      <point x="2068.0" y="6432.0" />
+      <point x="2068.0" y="5632.0" />
+      <point x="1648.0" y="5632.0" />
+      <point x="1648.0" y="5032.0" />
+      <point x="1628.0" y="5032.0" />
+      <point x="1628.0" y="4272.0" />
+      <point x="1908.0" y="4272.0" />
+      <point x="1908.0" y="3412.0" />
+      <point x="1308.0" y="3412.0" />
+      <point x="1308.0" y="2892.0" />
+      <point x="1288.0" y="2892.0" />
+      <point x="1288.0" y="1812.0" />
+      <point x="1268.0" y="1812.0" />
+      <point x="1268.0" y="1352.0" />
+      <point x="1166.0" y="1352.0" />
+      <point x="78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.VideoResource" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperties" relationship="CREATE">
+      <point x="-36.833333333333314" y="-200.5" />
+      <point x="2451.1666666666665" y="3532.0" />
+      <point x="2448.0" y="3532.0" />
+      <point x="2448.0" y="2992.0" />
+      <point x="2188.0" y="2992.0" />
+      <point x="2188.0" y="2452.0" />
+      <point x="3068.0" y="2452.0" />
+      <point x="3068.0" y="572.0" />
+      <point x="2948.0" y="572.0" />
+      <point x="2948.0" y="152.0" />
+      <point x="2872.75" y="152.0" />
+      <point x="84.75" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.EditorSettings" target="org.legalteamwork.silverscreen.save.SaveManager" relationship="GENERALIZATION">
+      <point x="-40.0" y="-14.0" />
+      <point x="4048.0" y="6272.0" />
+      <point x="3868.0" y="6272.0" />
+      <point x="3868.0" y="5572.0" />
+      <point x="3619.333333333333" y="5572.0" />
+      <point x="71.33333333333334" y="164.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Project" target="org.legalteamwork.silverscreen.save.SaveManager" relationship="CREATE">
+      <point x="-54.375" y="-79.5" />
+      <point x="3513.625" y="6712.0" />
+      <point x="3508.0" y="6712.0" />
+      <point x="3508.0" y="6232.0" />
+      <point x="3548.0" y="6232.0" />
+      <point x="0.0" y="164.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_ONE">
+      <point x="0.0" y="-56.5" />
+      <point x="1248.0" y="6232.0" />
+      <point x="968.0" y="6232.0" />
+      <point x="968.0" y="5552.0" />
+      <point x="508.0" y="5552.0" />
+      <point x="508.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditorTimeState" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_ONE">
+      <point x="65.75" y="-68.5" />
+      <point x="93.75" y="5852.0" />
+      <point x="468.0" y="5852.0" />
+      <point x="468.0" y="5572.0" />
+      <point x="1768.0" y="5572.0" />
+      <point x="1768.0" y="4752.0" />
+      <point x="1748.0" y="4752.0" />
+      <point x="1748.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.CommandManager" target="org.legalteamwork.silverscreen.command.Command" relationship="DEPENDENCY">
+      <point x="-92.25" y="-104.5" />
+      <point x="895.75" y="872.0" />
+      <point x="948.0" y="872.0" />
+      <point x="948.0" y="472.0" />
+      <point x="1041.6666666666667" y="472.0" />
+      <point x="-46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ImportCommand" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="TO_ONE">
+      <point x="-134.33333333333331" y="-44.5" />
+      <point x="2873.6666666666665" y="2832.0" />
+      <point x="2868.0" y="2832.0" />
+      <point x="2868.0" y="2492.0" />
+      <point x="3148.0" y="2492.0" />
+      <point x="3148.0" y="1872.0" />
+      <point x="988.0" y="1872.0" />
+      <point x="0.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.serializers.MutableStateBooleanSerializer" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateBooleanSerializer" relationship="DEPENDENCY">
+      <point x="-175.5" y="-0.0" />
+      <point x="3728.0" y="4552.0" />
+      <point x="3728.0" y="4832.0" />
+      <point x="4040.25" y="4832.0" />
+      <point x="-87.75" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="181.125" y="-68.0" />
+      <point x="229.125" y="6452.0" />
+      <point x="1908.0" y="6452.0" />
+      <point x="1908.0" y="5652.0" />
+      <point x="1148.0" y="5652.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditorTimeState" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="-65.75" y="-68.5" />
+      <point x="-37.75" y="5872.0" />
+      <point x="428.0" y="5872.0" />
+      <point x="428.0" y="5772.0" />
+      <point x="1148.0" y="5772.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.save.Resolution.Companion" relationship="DEPENDENCY">
+      <point x="79.5" y="-128.5" />
+      <point x="2647.5" y="6152.0" />
+      <point x="2828.0" y="6152.0" />
+      <point x="2828.0" y="5512.0" />
+      <point x="2748.0" y="5512.0" />
+      <point x="2748.0" y="5492.0" />
+      <point x="2728.0" y="5492.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.MainWindowDragAndDropTarget" target="org.legalteamwork.silverscreen.command.CommandManager" relationship="TO_ONE">
+      <point x="-126.5" y="-44.0" />
+      <point x="1221.5" y="4472.0" />
+      <point x="1348.0" y="4472.0" />
+      <point x="1348.0" y="3672.0" />
+      <point x="1108.0" y="3672.0" />
+      <point x="1108.0" y="1872.0" />
+      <point x="988.0" y="1872.0" />
+      <point x="0.0" y="104.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.OpenCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="43.0" y="-44.5" />
+      <point x="3811.0" y="7092.0" />
+      <point x="3808.0" y="7092.0" />
+      <point x="3808.0" y="7072.0" />
+      <point x="4488.0" y="7072.0" />
+      <point x="4488.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditorTimeState" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_ONE">
+      <point x="65.75" y="-68.5" />
+      <point x="93.75" y="5852.0" />
+      <point x="468.0" y="5852.0" />
+      <point x="468.0" y="5572.0" />
+      <point x="388.0" y="5572.0" />
+      <point x="388.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.ResourceChange" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack.ResourceOnTrack" relationship="TO_ONE">
+      <point x="-82.0" y="-68.5" />
+      <point x="646.0" y="5692.0" />
+      <point x="428.0" y="5692.0" />
+      <point x="428.0" y="4532.0" />
+      <point x="368.0" y="4532.0" />
+      <point x="368.0" y="3952.0" />
+      <point x="360.0" y="3952.0" />
+      <point x="-148.0" y="153.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="4832.0" />
+      <point x="2948.0" y="4832.0" />
+      <point x="2948.0" y="3792.0" />
+      <point x="3228.0" y="3792.0" />
+      <point x="3228.0" y="2812.0" />
+      <point x="2788.0" y="2812.0" />
+      <point x="2788.0" y="2332.0" />
+      <point x="2173.2" y="2332.0" />
+      <point x="145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="REALIZATION">
+      <point x="-122.0" y="-56.5" />
+      <point x="1526.0" y="852.0" />
+      <point x="-332.0" y="852.0" />
+      <point x="-332.0" y="612.0" />
+      <point x="1010.0" y="612.0" />
+      <point x="-78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack" relationship="TO_ONE">
+      <point x="26.833333333333314" y="166.5" />
+      <point x="3734.833333333333" y="4532.0" />
+      <point x="3708.0" y="4532.0" />
+      <point x="3708.0" y="4852.0" />
+      <point x="3828.0" y="4852.0" />
+      <point x="3828.0" y="5312.0" />
+      <point x="3882.166666666667" y="5312.0" />
+      <point x="34.16666666666666" y="-93.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.AutosaveEnableOrDisableCommand" target="org.legalteamwork.silverscreen.save.EditorSettings" relationship="DEPENDENCY">
+      <point x="-82.5" y="-44.5" />
+      <point x="4705.5" y="6732.0" />
+      <point x="4708.0" y="6732.0" />
+      <point x="4708.0" y="6692.0" />
+      <point x="4088.0" y="6692.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.Slider" target="org.legalteamwork.silverscreen.vp.VideoPanel" relationship="DEPENDENCY">
+      <point x="0.0" y="-56.5" />
+      <point x="48.0" y="2092.0" />
+      <point x="28.0" y="2092.0" />
+      <point x="28.0" y="1572.0" />
+      <point x="35.5" y="1572.0" />
+      <point x="67.5" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer" relationship="DEPENDENCY">
+      <point x="140.3125" y="-152.5" />
+      <point x="2048.3125" y="2732.0" />
+      <point x="2068.0" y="2732.0" />
+      <point x="2068.0" y="2372.0" />
+      <point x="2908.0" y="2372.0" />
+      <point x="2908.0" y="172.0" />
+      <point x="2492.5" y="172.0" />
+      <point x="84.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.MenuButton" relationship="CREATE">
+      <point x="-45.375" y="-140.0" />
+      <point x="1982.625" y="2012.0" />
+      <point x="1988.0" y="2012.0" />
+      <point x="1988.0" y="1752.0" />
+      <point x="2257.75" y="1752.0" />
+      <point x="-50.25" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="34.75" y="-55.5" />
+      <point x="2862.75" y="7712.0" />
+      <point x="2868.0" y="7712.0" />
+      <point x="2868.0" y="7592.0" />
+      <point x="4508.0" y="7592.0" />
+      <point x="4508.0" y="7332.0" />
+      <point x="4528.0" y="7332.0" />
+      <point x="4528.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.SaveManager" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="41.25" y="-43.5" />
+      <point x="2089.25" y="6732.0" />
+      <point x="2348.0" y="6732.0" />
+      <point x="2348.0" y="6452.0" />
+      <point x="2388.0" y="6452.0" />
+      <point x="2388.0" y="6132.0" />
+      <point x="2508.0" y="6132.0" />
+      <point x="2508.0" y="4472.0" />
+      <point x="2788.0" y="4472.0" />
+      <point x="2788.0" y="2332.0" />
+      <point x="2173.2" y="2332.0" />
+      <point x="145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.EditorSettings" target="org.legalteamwork.silverscreen.save.SaveManager" relationship="CREATE">
+      <point x="40.0" y="-14.0" />
+      <point x="4128.0" y="5872.0" />
+      <point x="3548.0" y="5872.0" />
+      <point x="0.0" y="164.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Resolution.Companion" target="org.legalteamwork.silverscreen.save.Resolution" relationship="INNER_CLASS">
+      <point x="0.0" y="-31.5" />
+      <point x="2728.0" y="4812.0" />
+      <point x="2879.0" y="4812.0" />
+      <point x="71.0" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.Resource" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer" relationship="DEPENDENCY">
+      <point x="0.0" y="-92.0" />
+      <point x="2148.0" y="412.0" />
+      <point x="2908.0" y="412.0" />
+      <point x="2908.0" y="172.0" />
+      <point x="2492.5" y="172.0" />
+      <point x="84.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="117.75" y="-31.5" />
+      <point x="1485.75" y="6752.0" />
+      <point x="2108.0" y="6752.0" />
+      <point x="2108.0" y="6432.0" />
+      <point x="1988.0" y="6432.0" />
+      <point x="1988.0" y="5652.0" />
+      <point x="1148.0" y="5652.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ProjectSettingsOpenCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="72.5" y="-44.5" />
+      <point x="5480.5" y="7732.0" />
+      <point x="5868.0" y="7732.0" />
+      <point x="5868.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.AutosaveEnableOrDisableCommand" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="-82.5" y="-44.5" />
+      <point x="4705.5" y="6732.0" />
+      <point x="4708.0" y="6732.0" />
+      <point x="4708.0" y="6672.0" />
+      <point x="5108.0" y="6672.0" />
+      <point x="5108.0" y="5352.0" />
+      <point x="5188.0" y="5352.0" />
+      <point x="5188.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource.Companion" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="INNER_CLASS">
+      <point x="-76.66666666666666" y="31.5" />
+      <point x="1971.3333333333335" y="1692.0" />
+      <point x="1528.0" y="1692.0" />
+      <point x="1528.0" y="2652.0" />
+      <point x="1879.9375" y="2652.0" />
+      <point x="-28.0625" y="-152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="136.125" y="-140.0" />
+      <point x="2164.125" y="2012.0" />
+      <point x="2168.0" y="2012.0" />
+      <point x="2168.0" y="1852.0" />
+      <point x="4688.0" y="1852.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_ONE">
+      <point x="0.0" y="-56.5" />
+      <point x="1248.0" y="6232.0" />
+      <point x="968.0" y="6232.0" />
+      <point x="968.0" y="5552.0" />
+      <point x="1808.0" y="5552.0" />
+      <point x="1808.0" y="4752.0" />
+      <point x="1788.0" y="4752.0" />
+      <point x="1788.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="151.66666666666669" y="-56.5" />
+      <point x="1399.6666666666665" y="5652.0" />
+      <point x="1148.0" y="5652.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackFabric" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="DEPENDENCY">
+      <point x="117.75" y="-31.5" />
+      <point x="1485.75" y="6752.0" />
+      <point x="2108.0" y="6752.0" />
+      <point x="2108.0" y="6432.0" />
+      <point x="2308.0" y="6432.0" />
+      <point x="2308.0" y="6092.0" />
+      <point x="2428.0" y="6092.0" />
+      <point x="2428.0" y="4452.0" />
+      <point x="2508.0" y="4452.0" />
+      <point x="2508.0" y="4012.0" />
+      <point x="2653.75" y="4012.0" />
+      <point x="165.75" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveCommand" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="-42.0" y="-56.5" />
+      <point x="4566.0" y="7332.0" />
+      <point x="4568.0" y="7332.0" />
+      <point x="4568.0" y="6972.0" />
+      <point x="3408.0" y="6972.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.ProjectData" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="79.5" y="-128.5" />
+      <point x="2647.5" y="6152.0" />
+      <point x="2828.0" y="6152.0" />
+      <point x="2828.0" y="5612.0" />
+      <point x="1148.0" y="5612.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="0.0" y="-116.0" />
+      <point x="3928.0" y="6992.0" />
+      <point x="3408.0" y="6992.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.render.OnlineVideoRenderer" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_ONE">
+      <point x="0.0" y="-153.5" />
+      <point x="2068.0" y="4372.0" />
+      <point x="2468.0" y="4372.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.Resource" target="org.legalteamwork.silverscreen.rm.resource.ResourceProperties" relationship="DEPENDENCY">
+      <point x="0.0" y="-92.0" />
+      <point x="2148.0" y="372.0" />
+      <point x="2703.25" y="372.0" />
+      <point x="-84.75" y="44.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="TO_MANY">
+      <point x="-84.1875" y="-152.5" />
+      <point x="1823.8125" y="2692.0" />
+      <point x="1488.0" y="2692.0" />
+      <point x="1488.0" y="1672.0" />
+      <point x="1908.0" y="1672.0" />
+      <point x="1908.0" y="1372.0" />
+      <point x="1768.0" y="1372.0" />
+      <point x="1768.0" y="812.0" />
+      <point x="2099.8" y="812.0" />
+      <point x="-48.19999999999999" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrackSerializer" target="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" relationship="CREATE">
+      <point x="103.33333333333334" y="-57.0" />
+      <point x="4411.333333333333" y="5912.0" />
+      <point x="4428.0" y="5912.0" />
+      <point x="4428.0" y="4992.0" />
+      <point x="4408.0" y="4992.0" />
+      <point x="4408.0" y="4532.0" />
+      <point x="4368.0" y="4532.0" />
+      <point x="4368.0" y="3972.0" />
+      <point x="3842.166666666667" y="3972.0" />
+      <point x="134.16666666666663" y="166.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.AudioEditor.AudioTrack.ResourceOnTrack" target="org.legalteamwork.silverscreen.resources.EditingPanelTheme" relationship="DEPENDENCY">
+      <point x="80.5" y="-166.5" />
+      <point x="3788.5" y="3572.0" />
+      <point x="4268.0" y="3572.0" />
+      <point x="0.0" y="211.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.OpenCommand" target="org.legalteamwork.silverscreen.save.Project" relationship="DEPENDENCY">
+      <point x="43.0" y="-44.5" />
+      <point x="3811.0" y="7092.0" />
+      <point x="3808.0" y="7092.0" />
+      <point x="3808.0" y="7032.0" />
+      <point x="3408.0" y="7032.0" />
+      <point x="3408.0" y="6912.0" />
+      <point x="3568.0" y="6912.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.SaveAsCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="47.0" y="-56.5" />
+      <point x="5235.0" y="7292.0" />
+      <point x="5708.0" y="7292.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" target="org.legalteamwork.silverscreen.rm.resource.VideoResource" relationship="TO_MANY">
+      <point x="-51.25" y="-92.5" />
+      <point x="796.75" y="4432.0" />
+      <point x="788.0" y="4432.0" />
+      <point x="788.0" y="4312.0" />
+      <point x="2468.0" y="4312.0" />
+      <point x="2468.0" y="4032.0" />
+      <point x="2543.25" y="4032.0" />
+      <point x="55.25" y="200.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.re.ResourceOnTrackScope" target="org.legalteamwork.silverscreen.re.VideoEditor" relationship="DEPENDENCY">
+      <point x="122.25" y="-68.5" />
+      <point x="490.25" y="5892.0" />
+      <point x="588.0" y="5892.0" />
+      <point x="588.0" y="5812.0" />
+      <point x="1148.0" y="5812.0" />
+      <point x="0.0" y="80.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.MainKt" target="org.legalteamwork.silverscreen.shortcut.Shortcut" relationship="CREATE">
+      <point x="-34.75" y="-55.5" />
+      <point x="2793.25" y="7712.0" />
+      <point x="-32.0" y="7712.0" />
+      <point x="-32.0" y="7692.0" />
+      <point x="-832.0" y="7692.0" />
+      <point x="-832.0" y="6572.0" />
+      <point x="-707.0" y="6572.0" />
+      <point x="-155.0" y="212.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.AddResourceToTrackCommand" target="org.legalteamwork.silverscreen.command.CommandUndoSupport" relationship="REALIZATION">
+      <point x="-151.66666666666669" y="-56.5" />
+      <point x="1096.3333333333333" y="5832.0" />
+      <point x="308.0" y="5832.0" />
+      <point x="308.0" y="2732.0" />
+      <point x="508.0" y="2732.0" />
+      <point x="508.0" y="852.0" />
+      <point x="-332.0" y="852.0" />
+      <point x="-332.0" y="612.0" />
+      <point x="1010.0" y="612.0" />
+      <point x="-78.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.CommandUndoSupport" target="org.legalteamwork.silverscreen.command.Command" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.MoveResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="TO_ONE">
+      <point x="118.0" y="-56.5" />
+      <point x="1206.0" y="3692.0" />
+      <point x="1068.0" y="3692.0" />
+      <point x="1068.0" y="1852.0" />
+      <point x="788.0" y="1852.0" />
+      <point x="788.0" y="1372.0" />
+      <point x="1768.0" y="1372.0" />
+      <point x="1768.0" y="812.0" />
+      <point x="2099.8" y="812.0" />
+      <point x="-48.19999999999999" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.resource.FolderResource" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="DEPENDENCY">
+      <point x="140.3125" y="-152.5" />
+      <point x="2048.3125" y="2732.0" />
+      <point x="2068.0" y="2732.0" />
+      <point x="2068.0" y="2352.0" />
+      <point x="2788.0" y="2352.0" />
+      <point x="2788.0" y="2332.0" />
+      <point x="2173.2" y="2332.0" />
+      <point x="145.2" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.RemoveResourceCommand" target="org.legalteamwork.silverscreen.rm.ResourceManager" relationship="TO_ONE">
+      <point x="122.25" y="-56.5" />
+      <point x="1770.25" y="3692.0" />
+      <point x="1468.0" y="3692.0" />
+      <point x="1468.0" y="3452.0" />
+      <point x="1228.0" y="3452.0" />
+      <point x="1228.0" y="2752.0" />
+      <point x="1148.0" y="2752.0" />
+      <point x="1148.0" y="2572.0" />
+      <point x="1955.4" y="2572.0" />
+      <point x="-72.60000000000001" y="140.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.save.Resolution" target="org.legalteamwork.silverscreen.save.Resolution" relationship="CREATE">
+      <point x="-106.5" y="-34.0" />
+      <point x="2528.0" y="4518.0" />
+      <point x="2528.0" y="4792.0" />
+      <point x="2808.0" y="4792.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.ps.ProjectSettingsWindow" target="org.legalteamwork.silverscreen.resources.Strings" relationship="DEPENDENCY">
+      <point x="0.0" y="-116.0" />
+      <point x="3928.0" y="6932.0" />
+      <point x="4968.0" y="6932.0" />
+      <point x="4968.0" y="6652.0" />
+      <point x="4648.0" y="6652.0" />
+      <point x="4648.0" y="2152.0" />
+      <point x="4688.0" y="2152.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer" target="org.legalteamwork.silverscreen.rm.serializers.MutableStateStringSerializer" relationship="DEPENDENCY">
+      <point x="-169.0" y="-0.0" />
+      <point x="2028.0" y="72.0" />
+      <point x="2028.0" y="332.0" />
+      <point x="2323.5" y="332.0" />
+      <point x="-84.5" y="56.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.edit.MoveResourceOnTrackCommand" target="org.legalteamwork.silverscreen.re.VideoEditor.VideoTrack" relationship="TO_ONE">
+      <point x="-60.375" y="-68.0" />
+      <point x="-12.375" y="6712.0" />
+      <point x="-12.0" y="6712.0" />
+      <point x="-12.0" y="6412.0" />
+      <point x="988.0" y="6412.0" />
+      <point x="988.0" y="5732.0" />
+      <point x="868.0" y="5732.0" />
+      <point x="868.0" y="5292.0" />
+      <point x="948.0" y="5292.0" />
+      <point x="948.0" y="4672.0" />
+      <point x="796.75" y="4672.0" />
+      <point x="-51.25" y="92.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.ResourceManager" target="org.legalteamwork.silverscreen.rm.resource.Resource" relationship="DEPENDENCY">
+      <point x="136.125" y="-140.0" />
+      <point x="2164.125" y="2012.0" />
+      <point x="2168.0" y="2012.0" />
+      <point x="2168.0" y="1632.0" />
+      <point x="2428.0" y="1632.0" />
+      <point x="2428.0" y="652.0" />
+      <point x="2244.4" y="652.0" />
+      <point x="96.40000000000003" y="92.0" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.resource.MoveResourceCommand" target="org.legalteamwork.silverscreen.rm.resource.FolderResource" relationship="TO_ONE">
+      <point x="118.0" y="-56.5" />
+      <point x="1206.0" y="3692.0" />
+      <point x="1068.0" y="3692.0" />
+      <point x="1068.0" y="3472.0" />
+      <point x="2048.0" y="3472.0" />
+      <point x="2048.0" y="3092.0" />
+      <point x="2057.6666666666665" y="3092.0" />
+      <point x="149.66666666666669" y="152.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.rm.MainWindowDragAndDropTarget" target="org.legalteamwork.silverscreen.command.resource.AddResourceCommand" relationship="CREATE">
+      <point x="126.5" y="-44.0" />
+      <point x="1474.5" y="4472.0" />
+      <point x="1468.0" y="4472.0" />
+      <point x="1468.0" y="4252.0" />
+      <point x="748.0" y="4252.0" />
+      <point x="748.0" y="3032.0" />
+      <point x="668.0" y="3032.0" />
+      <point x="668.0" y="1652.0" />
+      <point x="1768.0" y="1652.0" />
+      <point x="1768.0" y="1572.0" />
+      <point x="1770.0" y="1572.0" />
+      <point x="122.0" y="56.5" />
+    </edge>
+    <edge source="org.legalteamwork.silverscreen.command.menu.ImportCommand" target="org.legalteamwork.silverscreen.command.Command" relationship="REALIZATION">
+      <point x="0.0" y="-44.5" />
+      <point x="3008.0" y="2512.0" />
+      <point x="3188.0" y="2512.0" />
+      <point x="3188.0" y="572.0" />
+      <point x="5708.0" y="572.0" />
+      <point x="5708.0" y="352.0" />
+      <point x="1134.333333333333" y="352.0" />
+      <point x="46.33333333333333" y="31.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.5531635966780248" showDependencies="true" x="1512.8511278195467" y="494.3445172932318" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
