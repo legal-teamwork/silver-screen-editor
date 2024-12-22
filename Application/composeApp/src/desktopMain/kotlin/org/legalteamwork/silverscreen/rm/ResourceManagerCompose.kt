@@ -1,30 +1,30 @@
 package org.legalteamwork.silverscreen.rm
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.awtTransferable
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.*
 import org.legalteamwork.silverscreen.AppScope
 import org.legalteamwork.silverscreen.resources.Dimens
 import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import org.legalteamwork.silverscreen.rm.window.effects.EffectsMainWindow
 import org.legalteamwork.silverscreen.rm.window.source.SourcesMainWindow
+import org.legalteamwork.silverscreen.windows.block.column
 import java.awt.datatransfer.DataFlavor
 
 @Composable
@@ -35,8 +35,7 @@ fun AppScope.ResourceManagerCompose() {
             shape = RoundedCornerShape(8.dp),
         ).fillMaxSize()
     ) {
-
-        Row {
+        Row{
             ResourceManagerMenu()
             MainWindow(Modifier.weight(1f))
         }
@@ -50,9 +49,15 @@ fun AppScope.ResourceManagerCompose() {
 private fun AppScope.ResourceManagerMenu() {
     Box(
         modifier = Modifier
-            .background(color = ResourceManagerTheme.MENU_COLOR, shape = RoundedCornerShape(8.dp))
+            .background(color = ResourceManagerTheme.MENU_COLOR, RoundedCornerShape(
+                topStart = 8.dp,
+                topEnd = 0.dp,
+                bottomStart = 8.dp,
+                bottomEnd = 0.dp
+            ))
             .fillMaxHeight()
-    ) {
+            .width(110.dp)
+    ){
         ResourceButtonList()
     }
 }
@@ -62,14 +67,21 @@ private fun AppScope.ResourceManagerMenu() {
  */
 @Composable
 private fun AppScope.ResourceButtonList() {
-    Column(
-        modifier = Modifier.padding(vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        ResourceManager.resourceButtons.forEach { button ->
-            ResourceIconButton(button)
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
+    ){
+        Column(
+            modifier = Modifier.padding(vertical = 15.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ResourceManager.resourceButtons.forEach { button ->
+                ResourceIconButton(button)
+            }
         }
     }
+
 }
 
 /**
@@ -79,18 +91,50 @@ private fun AppScope.ResourceButtonList() {
 @Composable
 private fun AppScope.ResourceIconButton(button: ResourceManager.ResourceButton) {
     val currentType by remember { ResourceManager.currentResourceType }
+    val buttonColor = ResourceManagerTheme.MENU_BUTTONS_BACKGROUND_COLOR
+    val clickedContentColor = ResourceManagerTheme.MENU_BUTTONS_CLICKED_CONTENT_COLOR
+    val defaultContentColor = ResourceManagerTheme.MENU_BUTTONS_CONTENT_COLOR
 
-    IconButton(
-        onClick = { ResourceManager.setResourceType(button.resourceType) },
-        modifier = Modifier.size(64.dp) // Размер кнопки
+    val isActive = currentType == button.resourceType
+
+    Button(
+        onClick = {
+            ResourceManager.setResourceType(button.resourceType)
+        },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = buttonColor,
+            contentColor = if (isActive) clickedContentColor else defaultContentColor
+        ),
+        modifier = Modifier
+            .size(80.dp)
+            .border(0.dp, Color.Transparent),
+        elevation = ButtonDefaults.elevation(0.dp),
+        interactionSource = remember { MutableInteractionSource() },
     ) {
-        Image(
-            painter = painterResource(button.iconPath),
-            contentDescription = button.resourceType.name,
-            modifier = Modifier.size(48.dp) // Размер иконки
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                painter = painterResource(button.iconPath),
+                contentDescription = button.resourceType.name,
+                modifier = Modifier.size(40.dp),
+                colorFilter = if (isActive) ColorFilter.tint(clickedContentColor) else null
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = button.name,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                color = if (isActive) clickedContentColor else defaultContentColor
+            )
+        }
     }
 }
+
+
+
+
 
 /**
  * Отображенрие основного окна, которое содержит превью ресурсов,

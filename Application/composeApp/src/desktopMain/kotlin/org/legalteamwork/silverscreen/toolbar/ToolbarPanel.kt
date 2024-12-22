@@ -32,7 +32,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .background(
                 EditingPanelTheme.TOOLBOX_PANEL_BACKGROUND,
-                shape = RoundedCornerShape(8.dp)
+                RoundedCornerShape(
+                    topStart = 8.dp,
+                    topEnd = 8.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
             )
             .padding(6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,

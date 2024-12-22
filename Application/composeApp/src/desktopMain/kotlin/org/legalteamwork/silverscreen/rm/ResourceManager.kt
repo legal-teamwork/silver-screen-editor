@@ -61,17 +61,18 @@ object ResourceManager {
     data class ResourceButton(
         val id: Int,
         val iconPath: String,
-        val resourceType: ResourceType
+        val resourceType: ResourceType,
+        val name: String
     )
 
     // Кнопки ресурс-менеджера
     val resourceButtons = listOf(
-        ResourceButton(1, "resource-manager-buttons/project.svg", ResourceType.ALL),
+        ResourceButton(1, "resource-manager-buttons/media_big_button.svg", ResourceType.ALL, "Media"),
         //ResourceButton(2, "resource-manager-buttons/video.svg", ResourceType.VIDEO),
         //ResourceButton(3, "resource-manager-buttons/music.svg", ResourceType.AUDIO),
         //ResourceButton(4, "resource-manager-buttons/image.svg", ResourceType.IMAGE),
         //ResourceButton(5, "resource-manager-buttons/text.svg", ResourceType.TEXT),
-        ResourceButton(6, "resource-manager-buttons/effects.svg", ResourceType.EFFECTS)
+        ResourceButton(6, "resource-manager-buttons/effects_big_button.svg", ResourceType.EFFECTS, "Effects")
     )
 
     /** Tabs:
