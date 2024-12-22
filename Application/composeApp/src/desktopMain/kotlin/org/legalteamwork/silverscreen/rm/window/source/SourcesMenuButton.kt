@@ -22,6 +22,9 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.unit.Density
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -53,22 +56,21 @@ fun AppScope.SourcesMainWindow() {
         Column {
             NavWindow(onContextWindowOpen, onContextWindowClose)
             Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = SourcesMenuButtonTheme.DIVIDER_COLOR)
-            PathWindow()
-            Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = SourcesMenuButtonTheme.DIVIDER_COLOR)
+            //PathWindow()
+            //Divider(Modifier.fillMaxWidth(), thickness = 1.dp, color = SourcesMenuButtonTheme.DIVIDER_COLOR)
 
             Box(modifier = Modifier.fillMaxSize()) {
                 if (isListView.value) {
                     // Режим списка
                     LazyColumn {
+                        item {
+                            ListAddButton()
+                        }
                         items(
                             items = ResourceManager.currentFolder.value.resources.toList(),
                             key = Resource::hashCode
                         ) { resource ->
                             ListViewItem(resource)
-                        }
-
-                        item {
-                            ListAddButton()
                         }
                     }
                 } else {
@@ -108,18 +110,18 @@ fun NavWindow(
         Row(
             modifier = Modifier.fillMaxSize().padding(5.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.End
         ) {
             Box(
                 modifier = Modifier
                     .wrapContentSize()
-                    .border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
+                    //.border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
                     .clickable {
                         ResourceManager.onFolderUp()
                     }
             ) {
                 Image(
-                    painter = painterResource(Res.drawable.up),
+                    painter = androidx.compose.ui.res.painterResource("svg/up_folder_button.svg"),
                     contentDescription = "Up",
                     modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp)
                 )
@@ -128,7 +130,7 @@ fun NavWindow(
             Box(
                 modifier = Modifier
                     .wrapContentSize()
-                    .border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
+                    //.border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
                     .clickable {
                         val contextWindowId = ContextWindowId.NEW_FOLDER
                         val contextWindowData = ContextWindowData(Offset.Zero)
@@ -137,12 +139,13 @@ fun NavWindow(
                     }
             ) {
                 Image(
-                    painter = painterResource(Res.drawable.add_folder),
+                    painter = androidx.compose.ui.res.painterResource("svg/add_folder_button.svg"),
                     contentDescription = "Add folder",
-                    modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp)
+                    modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp),
                 )
             }
 
+            /*
             // Кнопка переключения режима
             Button(
                 onClick = {
@@ -150,7 +153,46 @@ fun NavWindow(
                     toggleViewMode()
                 },
             ) {
-                Text(if (isListView.value) "Switch to Icons" else "Switch to List")
+                if (isListView.value){
+                    Image(
+                        painter = androidx.compose.ui.res.painterResource("svg/img_list_button.svg"),
+                        contentDescription = "Add folder",
+                        modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp),
+                    )
+                }
+                else{
+                    Image(
+                        painter = androidx.compose.ui.res.painterResource("svg/tbl_list_button.svg"),
+                        contentDescription = "Add folder",
+                        modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp),
+                    )
+                }
+
+                //Text(if (isListView.value) "Switch to Icons" else "Switch to List")
+            }
+
+             */
+
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    //.size(Dimens.NAV_ICON_SIZE)
+                    //.border(1.dp, SourcesMenuButtonTheme.BUTTON_OUTLINE_COLOR, RoundedCornerShape(5.dp))
+                    .clickable {
+                        logger.info { "View mode button clicked" }
+                        toggleViewMode()
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = if (isListView.value) {
+                        androidx.compose.ui.res.painterResource("svg/img_list_button.svg")
+                    } else {
+                        androidx.compose.ui.res.painterResource("svg/tbl_list_button.svg")
+                    },
+                    contentDescription = "Switch mode",
+                    modifier = Modifier.size(Dimens.NAV_ICON_SIZE).padding(5.dp)
+                )
             }
         }
     }
@@ -162,7 +204,16 @@ private fun AppScope.SourcesPreviews(
     onContextWindowClose: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Dimens.COLUMN_MIN_WIDTH)) {
+        Spacer(modifier = Modifier.height(50.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = Dimens.COLUMN_MIN_WIDTH),
+            modifier = Modifier.padding(top=10.dp).fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(5.dp)) {
+            item {
+                SourceAddButton()
+            }
+
             items(
                 items = ResourceManager.currentFolder.value.resources.toList(),
                 key = Resource::hashCode
@@ -171,10 +222,6 @@ private fun AppScope.SourcesPreviews(
                     resource = resource, onContextWindowOpen, onContextWindowClose
                 )
             }
-
-            item {
-                SourceAddButton()
-            }
         }
     }
 }
@@ -182,11 +229,12 @@ private fun AppScope.SourcesPreviews(
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ListViewItem(resource: Resource) {
+    Spacer(modifier = Modifier.padding(start = 5.dp, end = 5.dp).height(1.dp).fillMaxWidth().background(color = Color(0xBBFFFFFF)))
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .border(0.5.dp, SourcesMenuButtonTheme.LIST_VIEW_RESOURCES_OUTLINE_COLOR)
+            //.border(0.5.dp, SourcesMenuButtonTheme.LIST_VIEW_RESOURCES_OUTLINE_COLOR)
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -197,8 +245,9 @@ private fun ListViewItem(resource: Resource) {
             Image(
                 painter = File(resource.previewPath).inputStream().readAllBytes().decodeToSvgPainter(Density(1f)),
                 contentDescription = resource.title.value,
-                modifier = Modifier.size(40.dp),
-                contentScale = ContentScale.Fit
+                modifier = Modifier.size(70.dp),
+                contentScale = ContentScale.Fit,
+                colorFilter = ColorFilter.tint(Color(0xFFFFFFFF))
             )
         } else {
             Image(
@@ -207,16 +256,19 @@ private fun ListViewItem(resource: Resource) {
                 }),
                 contentDescription = resource.title.value,
                 modifier = Modifier
-                    .size(40.dp),
-                contentScale = ContentScale.Fit
+                    .size(70.dp)
+                    .clip(shape = RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Fit,
+                //colorFilter = ColorFilter.tint(Color(0xCCFFFFFF))
             )
         }
 
+        val rememberedTitle by remember { resource.title }
         // Название файла
         Text(
-            text = resource.title.value,
+            text = rememberedTitle,
             modifier = Modifier.weight(1f).padding(horizontal = 8.dp),
-            color = SourcesMenuButtonTheme.PATH_WINDOW_TEXT_COLOR,
+            color = Color(0xFFFFFFFF),
         )
 
         // Можно добавить дополнительную информацию
@@ -233,8 +285,8 @@ private fun AppScope.ListAddButton() {
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .border(0.5.dp, SourcesMenuButtonTheme.LIST_ADD_BUTTON_OUTLINE_COLOR)
-            .padding(8.dp)
+            //.border(0.5.dp, SourcesMenuButtonTheme.LIST_ADD_BUTTON_OUTLINE_COLOR)
+            .padding(start = 25.dp)
             .clickable(
                 onClickLabel = "Add resource",
                 role = Role.Button,
@@ -242,16 +294,18 @@ private fun AppScope.ListAddButton() {
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Spacer(modifier = Modifier.width(10.dp))
         Image(
-            painter = androidx.compose.ui.res.painterResource("svg/add-resource.svg"),
+            painter = androidx.compose.ui.res.painterResource("svg/plus_big_button.svg"),
             contentDescription = "Add resource button",
-            modifier = Modifier.size(40.dp),
+            modifier = Modifier.size(20.dp),
             contentScale = ContentScale.Fit
         )
+        Spacer(modifier = Modifier.width(5.dp))
         Text(
             text = "Add New Resource",
             color = SourcesMenuButtonTheme.LIST_VIEW_ADD_BUTTON_TEXT_COLOR,
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier.padding(start = 25.dp)
         )
     }
 }

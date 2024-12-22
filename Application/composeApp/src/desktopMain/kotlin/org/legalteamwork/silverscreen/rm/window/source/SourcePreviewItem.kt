@@ -16,7 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropTransferAction
 import androidx.compose.ui.draganddrop.DragAndDropTransferData
 import androidx.compose.ui.draganddrop.DragAndDropTransferable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.PointerButton
@@ -26,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -56,6 +60,7 @@ fun AppScope.SourcePreviewItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .background(color = Color.Transparent, shape = RoundedCornerShape(8.dp))
             .onGloballyPositioned { layoutCoordinates ->
                 globalPosition = layoutCoordinates.positionInParent()
             }
@@ -130,7 +135,8 @@ fun AppScope.SourcePreviewItem(
                     contentDescription = rememberedTitle,
                     modifier = Modifier.size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT),
                     contentScale = ContentScale.Fit,
-                    alignment = Alignment.TopCenter
+                    alignment = Alignment.TopCenter,
+                    //colorFilter = ColorFilter.tint(Color(0xCCFFFFFF))
                 )
             } else {
                 Image(
@@ -138,7 +144,7 @@ fun AppScope.SourcePreviewItem(
                         File(resource.previewPath).inputStream().readAllBytes().decodeToImageBitmap()
                     }),
                     contentDescription = rememberedTitle,
-                    modifier = Modifier.size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT),
+                    modifier = Modifier.size(Dimens.IMAGE_WIDTH, Dimens.IMAGE_HEIGHT).clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.FillBounds,
                     alignment = Alignment.TopCenter
                 )
@@ -148,12 +154,13 @@ fun AppScope.SourcePreviewItem(
                 value = rememberedTitle,
                 onValueChange = { rememberedTitle = it },
                 modifier = Modifier
-                    .padding(top = 5.dp) // outer padding
-                    .wrapContentSize(align = Alignment.BottomCenter)
-                    .border(1.dp, SolidColor(SourcePreviewItemTheme.RESOURCE_NAME_OUTLINE_COLOR), RoundedCornerShape(2.dp))
-                    .padding(5.dp),
+                    .padding(top = 3.dp)
+                    .fillMaxWidth(),
+                    //.wrapContentSize(align = Alignment.BottomCenter)
+                    //.border(1.dp, SolidColor(SourcePreviewItemTheme.RESOURCE_NAME_OUTLINE_COLOR), RoundedCornerShape(2.dp))
+                    //.padding(5.dp),
                 singleLine = true,
-                textStyle = TextStyle(color = SourcePreviewItemTheme.RESOURCE_TEXT_COLOR),
+                textStyle = TextStyle(color = SourcePreviewItemTheme.RESOURCE_TEXT_COLOR, textAlign = TextAlign.Left),
                 cursorBrush = SolidColor(SourcePreviewItemTheme.RESOURCE_CURSOR_BRUSH),
             )
         }

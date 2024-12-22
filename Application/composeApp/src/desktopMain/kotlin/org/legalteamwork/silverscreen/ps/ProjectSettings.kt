@@ -1,18 +1,21 @@
 package org.legalteamwork.silverscreen.ps
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import io.github.oshai.kotlinlogging.KotlinLogging
 import androidx.compose.ui.unit.*
+import org.legalteamwork.silverscreen.resources.AppTheme
+import org.legalteamwork.silverscreen.resources.ResourceManagerTheme
 import org.legalteamwork.silverscreen.resources.Strings
 import org.legalteamwork.silverscreen.save.Project
 import org.legalteamwork.silverscreen.save.Resolution
@@ -142,49 +145,86 @@ object ProjectSettingsWindow {
 
     @Composable
     fun compose() {
-        Surface(color = Color.DarkGray) {
+        Surface(
+            color = AppTheme.SETTINGS_BACKGROUND_COLOR,
+            //border = BorderStroke(2.dp, AppTheme.SETTINGS_BORDER_COLOR),
+            //shape = RoundedCornerShape(8.dp),
+            ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp)
+                    .padding(20.dp),
+                contentAlignment = Alignment.Center
+                    //.border(2.dp, AppTheme.RENDER_BORDER_COLOR, shape = RoundedCornerShape(8.dp))
             ) {
                 Column {
                     Column(
-                        modifier = Modifier.weight(1.0f).verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                        modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        InputField(
-                            title = Strings.BITRATE,
-                            targetVar = mBitrate,
-                            fromString = String::toIntOrNull,
-                        )
-                        InputFieldWithOptions(
-                            title = Strings.FPS,
-                            targetVar = mFPS,
-                            fromString = String::toDoubleOrNull,
-                            options = fpsOptions
-                        )
-                        InputFieldWithOptions(
-                            title = Strings.RESOLUTION,
-                            targetVar = mResolution,
-                            enabled = false,
-                            options = (0..<Resolution.available.size).toList(),
-                            toString = { Resolution.available[it] }
-                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text(text = Strings.BITRATE, color = AppTheme.SETTINGS_TEXT_COLOR, fontSize = 15.sp, modifier = Modifier.padding(start = 24.dp))
+
+                            InputField(
+                                title = "",
+                                targetVar = mBitrate,
+                                fromString = String::toIntOrNull,
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text(text = Strings.FPS, color = AppTheme.SETTINGS_TEXT_COLOR, fontSize = 15.sp, modifier = Modifier.padding(start = 46.dp))
+
+                            InputFieldWithOptions(
+                                title = "",
+                                targetVar = mFPS,
+                                fromString = String::toDoubleOrNull,
+                                options = fpsOptions
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text(text = Strings.RESOLUTION, color = AppTheme.SETTINGS_TEXT_COLOR, fontSize = 15.sp)
+
+                            InputFieldWithOptions(
+                                title = "",
+                                targetVar = mResolution,
+                                enabled = false,
+                                options = (0..<Resolution.available.size).toList(),
+                                toString = { Resolution.available[it] }
+                            )
+                        }
                     }
+
+                    val buttonColor = AppTheme.SETTINGS_MAIN_COLOR
+                    val contentColor = AppTheme.SETTINGS_ACTIVE_COLOR
 
                     Row {
                         Button(
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = buttonColor,
+                                contentColor = contentColor
+                            ),
                             modifier = Modifier.padding(10.dp).weight(1.0f),
                             onClick = { apply(); close() }
                         ) { Text(Strings.SAVE_AND_CLOSE) }
 
                         Button(
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = buttonColor,
+                                contentColor = contentColor
+                            ),
                             modifier = Modifier.padding(10.dp).weight(1.0f),
                             onClick = { apply() }
                         ) { Text(Strings.APPLY) }
 
                         Button(
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = buttonColor,
+                                contentColor = contentColor
+                            ),
                             modifier = Modifier.padding(10.dp).weight(1.0f),
                             onClick = { close() }
                         ) { Text(Strings.CLOSE) }

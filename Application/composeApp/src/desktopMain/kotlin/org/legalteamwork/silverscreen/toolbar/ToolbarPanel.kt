@@ -32,7 +32,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .background(
                 EditingPanelTheme.TOOLBOX_PANEL_BACKGROUND,
-                shape = RoundedCornerShape(8.dp)
+                RoundedCornerShape(
+                    topStart = 8.dp,
+                    topEnd = 8.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
             )
             .padding(6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -61,7 +66,16 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                     commandManager.execute(DeleteResourcesOnTrackCommand(VideoTrack, listOfHighlightedResources))
                     VideoEditor.resetHighlighting()
                 }
-            }
+            },
+
+            onStepBackward = {
+                commandManager.undo()
+                // step backward logic here
+            },
+            onStepForward = {
+                commandManager.redo()
+                // step forward logic here
+            },
         )
 
         centerPlaybackControls(
@@ -88,14 +102,7 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
         )
 
         rightEditingTools(
-            onStepBackward = {
-                commandManager.undo()
-                // step backward logic here
-            },
-            onStepForward = {
-                commandManager.redo()
-                // step forward logic here
-            },
+
             onZoomIn = {
                 zoomLevel = (zoomLevel + 7.5f).coerceAtMost(75f) // Увеличиваем zoomLevel
                 org.legalteamwork.silverscreen.re.DpPerSecond = zoomLevel
@@ -114,9 +121,12 @@ fun AppScope.ToolbarPanel(modifier: Modifier = Modifier) {
                 VideoTrack.updateResourcesOnTrack()
             },
 
+            /*
             onRenderClick = {
                 // Placeholder for save functionality
             }
+
+             */
         )
     }
 }

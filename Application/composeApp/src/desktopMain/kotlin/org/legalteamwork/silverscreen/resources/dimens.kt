@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.sp
 object Dimens {
     // App.kt
     const val RESOURCE_WINDOW_WEIGHT = 25f
-    val RESOURCE_WINDOW_MIN_WIDTH = 400.dp
+    val RESOURCE_WINDOW_MIN_WIDTH = 570.dp
     val RESOURCE_WINDOW_MIN_HEIGHT = 400.dp
     val RESOURCE_WINDOW_MAX_WIDTH = 800.dp
     val RESOURCE_WINDOW_MAX_HEIGHT = Dp.Infinity
@@ -21,15 +21,15 @@ object Dimens {
     const val COMMANDS_WINDOW_WEIGHT = 10f
     val COMMANDS_WINDOW_MIN_WIDTH = 150.dp
     val COMMANDS_WINDOW_MIN_HEIGHT = 400.dp
-    val COMMANDS_WINDOW_MAX_WIDTH = 300.dp
+    val COMMANDS_WINDOW_MAX_WIDTH = 340.dp
     val COMMANDS_WINDOW_MAX_HEIGHT = Dp.Infinity
 
     const val UPPER_WINDOW_WEIGHT = 70f
     const val TIMELINE_WINDOW_WEIGHT = 30f
     val TIMELINE_WINDOW_MIN_WIDTH = 0.dp
-    val TIMELINE_WINDOW_MIN_HEIGHT = 200.dp
+    val TIMELINE_WINDOW_MIN_HEIGHT = 270.dp
     val TIMELINE_WINDOW_MAX_WIDTH = Dp.Infinity
-    val TIMELINE_WINDOW_MAX_HEIGHT = Dp.Infinity
+    val TIMELINE_WINDOW_MAX_HEIGHT = 440.dp
 
     //In ResourceManager.kt
     const val INIT_ID = 1
@@ -53,11 +53,11 @@ object Dimens {
     val TIMELINE_TRACK_HEIGHT = 200.dp
 
     //In SourceMenuButton.kt
-    val IMAGE_WIDTH = 250.dp
+    val IMAGE_WIDTH = 200.dp
     val IMAGE_HEIGHT = 140.dp
-    val CELL_PADDING = 5.dp
+    val CELL_PADDING = 10.dp
     val COLUMN_MIN_WIDTH = IMAGE_WIDTH + CELL_PADDING * 2
-    val NAV_ICON_SIZE = 40.dp
+    val NAV_ICON_SIZE = 30.dp
     val NAV_MENU_HEIGHT = 50.dp
 
     //In CopyToWindow/MoveToWindow/NewFolderWindow.kt
@@ -72,7 +72,7 @@ object Dimens {
     // In command/CommandWindowCompose.kt
     val COMMAND_WINDOW_MARGIN = 8.dp
     val HEADER_TEXT_SIZE = 24.sp
-    val COMMANDS_ICON_SIZE = 5.dp
+    val COMMANDS_ICON_SIZE = 8.dp
     val COMMANDS_ICON_START_OFFSET = 15.dp
     val COMMANDS_ICON_END_OFFSET = 15.dp
 }
